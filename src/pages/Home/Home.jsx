@@ -9,6 +9,7 @@ const Home = () => {
   useEffect(()=>{
     if(!user) navigate("/login")
   },[ user ])
+  
   return (
     <div>Home</div>
   )

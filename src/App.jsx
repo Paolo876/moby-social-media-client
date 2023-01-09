@@ -17,10 +17,10 @@ function App() {
     authorizeToken()
   }, [])
 
-  // useEffect(()=>{
-  //   if(!user) navigate("/login")
-  // },[ user ])
-  
+  useEffect(()=>{
+    if(!user) navigate("/login")
+  },[ user ])
+
   if(!isAuthReady) return <LoadingSpinner message="Loading Data..."/>
   if(isAuthReady) return (
     <div className="App">
