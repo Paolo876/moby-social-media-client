@@ -11,11 +11,16 @@ import Home from './pages/Home/Home';
 
 function App() {
   const { user, isAuthReady, authorizeToken } = useAuthRedux();
+
   const navigate = useNavigate();
   useEffect(() => {
     authorizeToken()
   }, [])
 
+  useEffect(()=>{
+    if(!user) navigate("/login")
+  },[ user ])
+  
   if(!isAuthReady) return <LoadingSpinner message="Loading Data..."/>
   if(isAuthReady) return (
     <div className="App">
