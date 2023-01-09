@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import useAuthRedux from "./hooks/useAuthRedux";
 //components
 import Navbar from './components/Navbar';
@@ -12,14 +12,9 @@ import Home from './pages/Home/Home';
 function App() {
   const { user, isAuthReady, authorizeToken } = useAuthRedux();
 
-  const navigate = useNavigate();
   useEffect(() => {
     authorizeToken()
   }, [])
-
-  // useEffect(()=>{
-  //   if(!user) navigate("/login")
-  // },[ user ])
 
   if(!isAuthReady) return <LoadingSpinner message="Loading Data..."/>
   if(isAuthReady) return (
