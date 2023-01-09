@@ -15,9 +15,6 @@ function App() {
   useEffect(() => {
     authorizeToken()
   }, [])
-  useEffect(() => {
-    if(!user) navigate("/login")
-  }, [user]);
 
   if(!isAuthReady) return <LoadingSpinner message="Loading Data..."/>
   if(isAuthReady) return (
