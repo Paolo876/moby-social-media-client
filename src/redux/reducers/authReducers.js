@@ -1,7 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const variables = import.meta.env;
 
 
 /** authorizeToken
@@ -9,7 +8,7 @@ const variables = import.meta.env;
  */
 export const authorizeToken = createAsyncThunk( 'auth/authorizeToken', async ( payload, { rejectWithValue }) => {
     try {
-        const res = await axios.get(`${variables.VITE_DOMAIN_URL}/api/auth/authorize`, {
+        const res = await axios.get(`${process.env.REACT_APP_DOMAIN_URL}/api/auth/authorize`, {
             headers: { 'Content-Type': 'application/json' },
             withCredentials: true,
         });
@@ -26,7 +25,7 @@ export const authorizeToken = createAsyncThunk( 'auth/authorizeToken', async ( p
  */
 export const login = createAsyncThunk( 'auth/login', async ( payload, { rejectWithValue }) => {
     try {
-        const res = await axios.post(`${variables.VITE_DOMAIN_URL}/api/auth/login`, payload , {
+        const res = await axios.post(`${process.env.REACT_APP_DOMAIN_URL}/api/auth/login`, payload , {
             headers: { 'Content-Type': 'application/json' },
             withCredentials: true,
         });
@@ -43,7 +42,7 @@ export const login = createAsyncThunk( 'auth/login', async ( payload, { rejectWi
  */
 export const signup = createAsyncThunk( 'auth/signup', async ( payload, { rejectWithValue }) => {
     try {
-        const res = await axios.post(`${variables.VITE_DOMAIN_URL}/api/auth/signup`, payload , {
+        const res = await axios.post(`${process.env.REACT_APP_DOMAIN_URL}/api/auth/signup`, payload , {
             headers: { 'Content-Type': 'application/json' },
             withCredentials: true,
         });
@@ -59,7 +58,7 @@ export const signup = createAsyncThunk( 'auth/signup', async ( payload, { reject
  */
 export const logout = createAsyncThunk( 'auth/logout', async ( payload, { rejectWithValue }) => {
     try {
-        const res = await axios.get(`${variables.VITE_DOMAIN_URL}/api/auth/logout` , {
+        const res = await axios.get(`${process.env.REACT_APP_DOMAIN_URL}/api/auth/logout` , {
             headers: { 'Content-Type': 'application/json' },
             withCredentials: true,
         });
