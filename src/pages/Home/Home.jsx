@@ -3,12 +3,12 @@ import useAuthRedux from '../../hooks/useAuthRedux';
 import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
-  const { user } = useAuthRedux();
-  const navigate = useNavigate();
+  // const { user } = useAuthRedux();
+  // const navigate = useNavigate();
 
-  useEffect(()=>{
-    if(!user) navigate("/login")
-  },[ user ])
+  // useEffect(()=>{
+  //   if(!user) navigate("/login")
+  // },[ user ])
   
   return (
     <div>Home</div>
