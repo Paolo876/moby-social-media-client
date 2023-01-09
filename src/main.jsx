@@ -6,10 +6,10 @@ import { theme } from "./materialTheme";
 import { ThemeProvider } from '@mui/material';
 import { Provider } from 'react-redux';
 import store from "./redux/store";
-import "./index.scss"
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
+import './index.scss';
+
+ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
       <ThemeProvider theme={theme}>
@@ -19,4 +19,4 @@ root.render(
       </ThemeProvider>
     </BrowserRouter>
   </React.StrictMode>
-);
+)

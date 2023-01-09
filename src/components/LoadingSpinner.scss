@@ -1,0 +1,137 @@
+.loading-spinner-container {
+	margin: 0;
+	min-height: 100vh;
+	background-color: rgba(0,0,0,0.45);
+	display: grid;
+	place-items: center;
+
+    .spinner {
+        // --animation-duration: 5000ms;
+        position: relative;
+        width: 75px;
+        height: 75px;
+        transform: rotate(45deg);
+        .message {
+            position: absolute;
+            bottom: -.5em;
+            left: .5em;
+            transform: rotate(-45deg);
+            text-align: center;
+            width: 200%;
+            font-family: "Quicksand";
+            color: rgba(255, 255, 255, 0.5);
+            letter-spacing: .05em;
+            font-weight: 300;
+        }
+        .spinner-item {
+            // --item-size: calc(75px / 2.5);
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border: 4px solid #237b72b6;
+        }
+    
+        .spinner-item:nth-child(1) {
+            // --clr-spinner: var(--clr1);
+            top: 0;
+            left: 0;
+            animation: spinner3A 5000ms linear infinite;
+    
+            @keyframes spinner3A {
+                0%,
+                8.33%,
+                16.66%,
+                100% {
+                    transform: translate(0%, 0%);
+                }
+    
+                24.99%,
+                33.32%,
+                41.65% {
+                    transform: translate(100%, 0%);
+                }
+    
+                49.98%,
+                58.31%,
+                66.64% {
+                    transform: translate(100%, 100%);
+                }
+    
+                74.97%,
+                83.30%,
+                91.63% {
+                    transform: translate(0%, 100%);
+                }
+            }
+        }
+    
+        .spinner-item:nth-child(2) {
+            // --clr-spinner: var(--clr3);
+            top: 0;
+            left: 30px;
+            animation: spinner3B 5000ms linear infinite;
+    
+            @keyframes spinner3B {
+                0%,
+                8.33%,
+                91.63%,
+                100% {
+                    transform: translate(0%, 0%);
+                }
+    
+                16.66%,
+                24.99%,
+                33.32% {
+                    transform: translate(0%, 100%);
+                }
+    
+                41.65%,
+                49.98%,
+                58.31% {
+                    transform: translate(-100%, 100%);
+                }
+    
+                66.64%,
+                74.97%,
+                83.30% {
+                    transform: translate(-100%, 0%);
+                }
+            }
+        }
+    
+        .spinner-item:nth-child(3) {
+            // --clr-spinner: var(--clr5);
+            top: 30px;
+            left: 30px;
+            animation: spinner3C 5000ms linear infinite;
+    
+            @keyframes spinner3C {
+                0%,
+                83.30%,
+                91.63%,
+                100% {
+                    transform: translate(0, 0);
+                }
+    
+                8.33%,
+                16.66%,
+                24.99% {
+                    transform: translate(-100%, 0);
+                }
+    
+                33.32%,
+                41.65%,
+                49.98% {
+                    transform: translate(-100%, -100%);
+                }
+    
+                58.31%,
+                66.64%,
+                74.97% {
+                    transform: translate(0, -100%);
+                }
+            }
+        }
+    }
+    
+}
