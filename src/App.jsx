@@ -13,9 +13,9 @@ function App() {
   const { user, isAuthReady, authorizeToken } = useAuthRedux();
 
   const navigate = useNavigate();
-  // useEffect(() => {
-  //   authorizeToken()
-  // }, [])
+  useEffect(() => {
+    authorizeToken()
+  }, [])
 
   useEffect(()=>{
     if(!user) navigate("/login")
