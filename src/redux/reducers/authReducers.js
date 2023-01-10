@@ -2,7 +2,6 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 
-
 /** authorizeToken
  *  @desc Runs on page init, authorizes the http-cookie token saved on browser if exists.
  */
