@@ -22,8 +22,8 @@ function App() {
       <Navbar/>
       <Routes>
         <Route element={ user ? <Home/> : <Navigate replace to="/login"/>} path="/" />
-        <Route element={user ? <Navigate replace to="/"/> : <Login/>} path="/login" />
-        <Route element={user ? <Navigate replace to="/"/> : <Signup/>} path="/signup" />
+        <Route element={ user ? <Navigate replace to="/"/> : <Login/>} path="/login" />
+        <Route element={ user ? <Navigate replace to="/"/> : <Signup/>} path="/signup" />
 
       </Routes>
     </div>

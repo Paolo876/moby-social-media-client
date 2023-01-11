@@ -1,7 +1,10 @@
+import AuthorizedPageContainer from "../../components/AuthorizedPageContainer"
 const Home = () => {
 
   return (
-    <div>Home</div>
+    <AuthorizedPageContainer>
+      <div>Home</div>
+    </AuthorizedPageContainer>
   )
 }
 
