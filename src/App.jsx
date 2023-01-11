@@ -8,6 +8,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import LoadingSpinner from './components/LoadingSpinner';
 import Home from './pages/Home/Home';
+import ProfileSetup from './pages/ProfileSetup/ProfileSetup';
 
 function App() {
   const { user, isAuthReady, authorizeToken } = useAuthRedux();
@@ -21,7 +22,10 @@ function App() {
     <div className="App">
       <Navbar/>
       <Routes>
-        <Route element={ user ? <Home/> : <Navigate replace to="/login"/>} path="/" />
+        <Route element={ user ? <Home/> : <Navigate replace to="/login"/>} path="/"/>
+        <Route element={ user ? <ProfileSetup/> : <Navigate replace to="/login"/>} path="/profile-setup"/>
+
+        {/* auth routes */}
         <Route element={ user ? <Navigate replace to="/"/> : <Login/>} path="/login" />
         <Route element={ user ? <Navigate replace to="/"/> : <Signup/>} path="/signup" />
 
