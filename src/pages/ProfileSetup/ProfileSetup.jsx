@@ -4,9 +4,12 @@ import { Container, Typography, Paper, Button, TextField, Alert, FormControl, In
 import { Formik, Form } from "formik";
 import * as Yup from 'yup';
 import MyTextField from '../../components/MyTextField';
+import UploadImageForm from '../../components/UploadImageForm';
 
 const ProfileSetup = () => {
   const [ showDate, setShowDate ] = useState(false);
+  const [ image, setImage ] = useState(null);
+
   const initialValues = {
     firstName: "",
     lastName: "",
@@ -63,6 +66,11 @@ const ProfileSetup = () => {
                 variant="standard" 
                 sx={{my:1, minWidth: "320px"}}
                 error="Last Name is Required."
+              />
+              <UploadImageForm
+                setImage={setImage} 
+                image={image} 
+                title="Upload a Profile Picture"
               />
             </Form>
           </Formik>
