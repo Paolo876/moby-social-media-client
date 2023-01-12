@@ -70,8 +70,9 @@ const ProfileSetup = () => {
               <UploadImageForm
                 setImage={setImage} 
                 image={image} 
-                title="Upload a Profile Picture"
+                title="Profile Picture"
               />
+              <Button variant="contained" size="large" sx={{mt: 4}}>Submit</Button>
             </Form>
           </Formik>
         </Paper>
