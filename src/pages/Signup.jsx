@@ -41,7 +41,6 @@ export default function Signup() {
                         label={<p><AccountCircleIcon style={{verticalAlign:"middle"}} sx={{mr: 1}}/>Username</p>} 
                         variant="outlined" 
                         sx={{my:1, minWidth: "320px"}}
-                        required
                     />
                     <MyTextField 
                         id="password" 
@@ -51,7 +50,6 @@ export default function Signup() {
                         variant="outlined" 
                         sx={{my:1, minWidth: "320px"}}
                         autoComplete="off"
-                        required
                     />
                     <MyTextField 
                         id="passwordConfirm" 
@@ -61,7 +59,6 @@ export default function Signup() {
                         variant="outlined" 
                         sx={{my:1, minWidth: "320px"}}
                         autoComplete="off"
-                        required
                     />
                     {error && <Alert severity="error">{error}</Alert>}
                     {!isLoading && <Button variant="contained" type="submit" size="large" sx={{ mt: 5 }}>Sign up</Button>}

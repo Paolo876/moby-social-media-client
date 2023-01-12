@@ -12,7 +12,11 @@ const AuthorizedPageContainer = ({ children }) => {
   //check if user's profile is setup
   useEffect(() => {
     if(user){
-        if(!user.UserData) navigate("/profile-setup")
+        if(!user.UserData) {
+          navigate("/profile-setup")
+        } else {
+          navigate("/")
+        }
     } else {
         navigate("/login")
     }
