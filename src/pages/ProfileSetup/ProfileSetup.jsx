@@ -14,7 +14,7 @@ const ProfileSetup = () => {
     firstName: "",
     lastName: "",
     birthday: "",
-    image: null,
+    // image: null,
   }
   const validationSchema = Yup.object().shape({
     firstName: Yup.string().min(1).max(15).required(),
