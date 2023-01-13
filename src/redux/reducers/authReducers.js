@@ -52,6 +52,29 @@ export const signup = createAsyncThunk( 'auth/signup', async ( payload, { reject
 })
 
 
+/** profileSetup
+ *  @desc   setup new user's profile
+ *  @params payload { firstName, lastName, birthday, image }
+ */
+export const profileSetup = createAsyncThunk( 'auth/profileSetup', async ( payload, { rejectWithValue }) => {
+    try {
+        const res = await axios.post(`${process.env.REACT_APP_DOMAIN_URL}/api/auth/profile-setup`, payload , {
+            headers: { 
+                'Content-Type': 'application/json',
+                'accept': 'application/json',
+                'Accept-Language': 'en-US,en;q=0.8',
+                'Content-Type': `multipart/form-data;`,
+            
+            },
+            withCredentials: true,
+        });
+        return res.data;
+    } catch (err){
+        return rejectWithValue(err.response.data)
+    }
+})
+
+
 /** logout
  *  @desc logout a user, clears http cookie, resets auth state to inital values
  */

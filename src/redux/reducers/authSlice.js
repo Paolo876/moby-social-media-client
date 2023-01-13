@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { authorizeToken, login, logout, signup } from "./authReducers";
+import { authorizeToken, login, logout, signup, profileSetup } from "./authReducers";
 import { authInitialState } from "../initialState";
 
 const authSlice = createSlice({
@@ -49,6 +49,20 @@ const authSlice = createSlice({
             state.error = null;
         },
         [signup.rejected]: ( state , { payload }) => {
+            state.isLoading = false;
+            state.error = payload.message;
+        },
+        //profileSetup
+        [profileSetup.pending.type]: ( state ) => {
+            state.isLoading = true;
+            state.error = null;
+        },
+        [profileSetup.fulfilled.type]: ( state, { payload }) => {
+            state.isLoading = false;
+            state.user = payload;
+            state.error = null;
+        },
+        [profileSetup.rejected]: ( state , { payload }) => {
             state.isLoading = false;
             state.error = payload.message;
         },

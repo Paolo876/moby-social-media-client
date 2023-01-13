@@ -13,7 +13,6 @@ const UploadImageForm = ({ image, setImage, title }) => {
   const [ imageData, setImageData ] = useState(null);
 //   const [ imageFile, setImageFile ] = useState(null);
   const [ showModal, setShowModal ] = useState(false);
-
   const onChangePicture = e => {
     if (e.target.files[0]) {
       setShowModal(true)

@@ -8,7 +8,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import LoadingSpinner from './components/LoadingSpinner';
 import Home from './pages/Home/Home';
-import ProfileSetup from './pages/ProfileSetup/ProfileSetup';
+import ProfileSetup from './pages/ProfileSetup';
 import Profile from './pages/Profile/Profile';
 
 function App() {

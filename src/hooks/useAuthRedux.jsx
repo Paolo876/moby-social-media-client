@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { authActions } from '../redux/reducers/authSlice';
-import { authorizeToken, login, logout, signup } from '../redux/reducers/authReducers';
+import { authorizeToken, login, logout, signup, profileSetup } from '../redux/reducers/authReducers';
 
 export default function useAuthRedux() {
     const dispatch = useDispatch();
@@ -13,6 +13,7 @@ export default function useAuthRedux() {
         //   setError: () => dispatch(userActions.setError()),
           login: data => dispatch(login(data)),
           signup: data => dispatch(signup(data)),
+          profileSetup: data => dispatch(profileSetup(data)),
         //   updateProfile: data => dispatch(updateProfile(data)),
           logout: () => dispatch(logout()),
           authorizeToken: () => dispatch(authorizeToken()),

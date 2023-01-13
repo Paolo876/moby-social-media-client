@@ -18,7 +18,7 @@ const ImageCropModal = ({ openModal, handleClose, setImage, imageData, setImageD
   const editor = useRef(null);
   const [ scale, setScale ] = useState(1);
   const [ rotate, setRotate ] = useState(0);
-
+  const [ position, setPosition ] = useState({x: .5, y: .5})
 
   const handleClick = () => {
     if (editor) {
@@ -49,7 +49,6 @@ const ImageCropModal = ({ openModal, handleClose, setImage, imageData, setImageD
             rotate={rotate}
           />
         </Stack>
-
         <Stack direction="column" alignItems="center" justifyContent="center" spacing={1.5} my={2}>
           <InputSlider icon={<CropIcon sx={{mr: 1}} color="secondary"/>} min={1} max={3} value={scale} setValue={setScale} step={.1}/>
           <InputSlider icon={<RotateLeftIcon sx={{mr: 1}} color="secondary"/>} min={-180} max={180} value={rotate} setValue={setRotate} step={10}/>
