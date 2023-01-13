@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Paper, Typography, Button, Stack, ButtonBase } from "@mui/material"
 import { styled } from '@mui/material/styles';
 import defaultAvatar from "../assets/default-profile.png";
@@ -16,7 +16,7 @@ const UploadImageForm = ({ image, setImage, title }) => {
 
   const onChangePicture = e => {
     if (e.target.files[0]) {
-    //   setImageFile(URL.createObjectURL(e.target.files[0]))
+      setShowModal(true)
       setImage(e.target.files[0]);
       const reader = new FileReader();
       reader.addEventListener("load", () => setImageData(reader.result));
@@ -34,7 +34,7 @@ const UploadImageForm = ({ image, setImage, title }) => {
 
             <Stack direction="row" alignItems="center" justifyContent="center" spacing={6} my={3}>
                 <ButtonBase sx={{borderRadius: "50%"}}>
-                    <img src={imageData ? imageData : defaultAvatar} style={{maxHeight: "100px", maxWidth: "100px", borderRadius: "50%"}}/>
+                    <img src={imageData ? imageData : defaultAvatar} style={{height: "100px", width: "100px", borderRadius: "50%"}}/>
                 </ButtonBase>
                 <Stack spacing={1}>
                     {imageData && <>

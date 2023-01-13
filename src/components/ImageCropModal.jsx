@@ -1,7 +1,9 @@
 import React, { useState, useRef } from 'react'
 import { Modal, Box, Typography, Paper } from '@mui/material'
 import AvatarEditor from 'react-avatar-editor'
-
+import InputSlider from './InputSlider';
+import CropIcon from '@mui/icons-material/Crop';
+import RotateLeftIcon from '@mui/icons-material/RotateLeft';
 const style = {
   position: 'absolute',
   top: '50%',
@@ -14,6 +16,8 @@ const style = {
 
 const ImageCropModal = ({ openModal, handleClose, setImage, imageData, setImageData }) => {
   const editor = useRef(null);
+  const [ scale, setScale ] = useState(1);
+  const [ rotate, setRotate ] = useState(0);
   return (
     <Modal
         open={openModal}
@@ -24,16 +28,21 @@ const ImageCropModal = ({ openModal, handleClose, setImage, imageData, setImageD
         <Paper sx={style}>
         <AvatarEditor
           ref={editor}
-          image="http://example.com/initialimage.jpg"
+          image={imageData}
           width={250}
           height={250}
           border={50}
           borderRadius={125}
-          color={[0, 0, 0, .75]} // RGBA
-          backgroundColor="black"
-          scale={1.2}
-          rotate={0}
+          color={[0, 0, 0, .85]} // RGBA
+          backgroundColor="rgb(0,0,0)"
+          scale={scale}
+          rotate={rotate}
+          
         />
+        <Box>
+          <InputSlider icon={<CropIcon/>} min={1} max={3} value={scale} setValue={setScale} step={.1}/>
+          <InputSlider icon={<RotateLeftIcon/>} min={-180} max={180} value={rotate} setValue={setRotate} step={10}/>
+        </Box>
         <button onClick={() => {
           if (editor) {
             // This returns a HTMLCanvasElement, it can be made into a data URL or a blob,
