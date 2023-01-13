@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react'
-import { Modal, Box, Typography, Paper } from '@mui/material'
+import { Modal, Stack, Button, Paper } from '@mui/material'
 import AvatarEditor from 'react-avatar-editor'
 import InputSlider from './InputSlider';
 import CropIcon from '@mui/icons-material/Crop';
@@ -14,10 +14,19 @@ const style = {
   p: 4,
 };
 
-const ImageCropModal = ({ openModal, handleClose, setImage, imageData, setImageData }) => {
+const ImageCropModal = ({ openModal, handleClose, setImage, imageData, setImageData, setShowModal, image }) => {
   const editor = useRef(null);
   const [ scale, setScale ] = useState(1);
   const [ rotate, setRotate ] = useState(0);
+
+
+  const handleClick = () => {
+    if (editor) {
+      const canvasScaled = editor.current.getImageScaledToCanvas().toDataURL()
+      setImage(canvasScaled)
+      setShowModal(false)
+    }
+  }
   return (
     <Modal
         open={openModal}
@@ -26,34 +35,29 @@ const ImageCropModal = ({ openModal, handleClose, setImage, imageData, setImageD
         aria-describedby="modal-modal-description"
     >
         <Paper sx={style}>
-        <AvatarEditor
-          ref={editor}
-          image={imageData}
-          width={250}
-          height={250}
-          border={50}
-          borderRadius={125}
-          color={[0, 0, 0, .85]} // RGBA
-          backgroundColor="rgb(0,0,0)"
-          scale={scale}
-          rotate={rotate}
-          
-        />
-        <Box>
-          <InputSlider icon={<CropIcon/>} min={1} max={3} value={scale} setValue={setScale} step={.1}/>
-          <InputSlider icon={<RotateLeftIcon/>} min={-180} max={180} value={rotate} setValue={setRotate} step={10}/>
-        </Box>
-        <button onClick={() => {
-          if (editor) {
-            // This returns a HTMLCanvasElement, it can be made into a data URL or a blob,
-            // drawn on another canvas, or added to the DOM.
-            const canvas = editor.current.getImage()
+        <Stack alignItems="center" justifyContent="center" >
+          <AvatarEditor
+            ref={editor}
+            image={imageData}
+            width={250}
+            height={250}
+            border={20}
+            borderRadius={125}
+            color={[0, 0, 0, .9]} // RGBA
+            backgroundColor="rgb(0,0,0)"
+            scale={scale}
+            rotate={rotate}
+          />
+        </Stack>
 
-            // If you want the image resized to the canvas size (also a HTMLCanvasElement)
-            const canvasScaled = editor.current.getImageScaledToCanvas()
-          }
-        }} type="button">Save</button>
-        </Paper>
+        <Stack direction="column" alignItems="center" justifyContent="center" spacing={1.5} my={2}>
+          <InputSlider icon={<CropIcon sx={{mr: 1}} color="secondary"/>} min={1} max={3} value={scale} setValue={setScale} step={.1}/>
+          <InputSlider icon={<RotateLeftIcon sx={{mr: 1}} color="secondary"/>} min={-180} max={180} value={rotate} setValue={setRotate} step={10}/>
+        </Stack>
+        <Stack mt={3}>
+          <Button variant="outlined" onClick={handleClick} type="button">Save changes</Button>
+        </Stack>
+      </Paper>
     </Modal>
   )
   }

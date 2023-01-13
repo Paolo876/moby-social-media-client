@@ -17,9 +17,11 @@ const UploadImageForm = ({ image, setImage, title }) => {
   const onChangePicture = e => {
     if (e.target.files[0]) {
       setShowModal(true)
-      setImage(e.target.files[0]);
       const reader = new FileReader();
-      reader.addEventListener("load", () => setImageData(reader.result));
+      reader.addEventListener("load", () => {
+        setImageData(reader.result)
+        setImage(reader.result)
+      });
       reader.readAsDataURL(e.target.files[0]);
       }
   };
@@ -34,10 +36,10 @@ const UploadImageForm = ({ image, setImage, title }) => {
 
             <Stack direction="row" alignItems="center" justifyContent="center" spacing={6} my={3}>
                 <ButtonBase sx={{borderRadius: "50%"}}>
-                    <img src={imageData ? imageData : defaultAvatar} style={{height: "100px", width: "100px", borderRadius: "50%"}}/>
+                    <img src={image ? image : defaultAvatar} style={{height: "100px", width: "100px", borderRadius: "50%"}}/>
                 </ButtonBase>
                 <Stack spacing={1}>
-                    {imageData && <>
+                    {image && <>
                         <Button variant="outlined" size="small" type="button" sx={{minWidth: "initial", textAlign: "left"}} color="secondary" onClick={() => setShowModal(true)}><CropIcon fontSize="small" sx={{mr: 1}}/> edit</Button>
                         <Button variant="outlined" size="small" type="button" sx={{minWidth: "initial", textAlign: "left"}} color="warning" onClick={() => handleDelete()}><DeleteIcon fontSize="small" sx={{mr: 1}}/> delete</Button>
                     </>}
@@ -48,7 +50,7 @@ const UploadImageForm = ({ image, setImage, title }) => {
                 </Stack>
             </Stack>
         </Paper>
-        <ImageCropModal openModal={showModal} handleClose={() => setShowModal(false)} image={image} setImage={setImage} imageData={imageData} setImageData={setImageData}/>
+        <ImageCropModal openModal={showModal} image={image} setImage={setImage} imageData={imageData} setImageData={setImageData} setShowModal={setShowModal}/>
     </>
     
   )

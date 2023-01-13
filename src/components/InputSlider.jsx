@@ -49,7 +49,7 @@ export default function InputSlider({ value, setValue, label, icon, min, max, st
             onChange={handleInputChange}
             onBlur={handleBlur}
             inputProps={{
-              step: 10,
+              step,
               min,
               max,
               type: 'number',
