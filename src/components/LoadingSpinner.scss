@@ -4,7 +4,9 @@
 	background-color: rgba(0,0,0,0.45);
 	display: grid;
 	place-items: center;
-
+    // &.modal {
+    //     background-color: rgba(0,0,0,0.4);
+    // }
     .spinner {
         // --animation-duration: 5000ms;
         position: relative;

@@ -1,9 +1,22 @@
 import React from 'react'
 import "./LoadingSpinner.scss"
-
-const LoadingSpinner = ({message}) => {
+import { Modal } from '@mui/material'
+const LoadingSpinner = ({message, isModal=false}) => {
   return (
-    <div className='loading-spinner-container'>
+    <>
+      {isModal ? 
+      <Modal open={true} hideBackdrop>
+          <div className='loading-spinner-container modal'>
+            <div className="spinner">
+                <div className="spinner-item"></div>
+                <div className="spinner-item"></div>
+                <div className="spinner-item"></div>
+                <div className="message">{message}</div>
+            </div>
+        </div>
+      </Modal>
+      :
+      <div className='loading-spinner-container'>
         <div className="spinner">
             <div className="spinner-item"></div>
             <div className="spinner-item"></div>
@@ -11,6 +24,9 @@ const LoadingSpinner = ({message}) => {
             <div className="message">{message}</div>
         </div>
     </div>
+      }
+    </>
+
 
   )
 }

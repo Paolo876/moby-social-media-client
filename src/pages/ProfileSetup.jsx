@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import useAuthRedux from '../hooks/useAuthRedux';
 import AuthorizedPageContainer from '../components/AuthorizedPageContainer';
-import { Container, Typography, Paper, Button } from '@mui/material';
+import { Container, Typography, Paper, Button, Alert } from '@mui/material';
 import { Formik, Form } from "formik";
 import * as Yup from 'yup';
 import MyTextField from '../components/MyTextField';
 import UploadImageForm from '../components/UploadImageForm';
 import useImagekit from '../hooks/useImagekit';
 import axios from 'axios';
-
+import LoadingSpinner from "../components/LoadingSpinner"
 const initialValues = {
   firstName: "",
   lastName: "",
@@ -22,7 +22,7 @@ const validationSchema = Yup.object().shape({
 
 const ProfileSetup = () => {
   const { isLoading, error, profileSetup, user: { username,id } } = useAuthRedux();
-  const { getAuthenticationEndpoint } = useImagekit();
+  const { getAuthenticationEndpoint, uploadImage, isLoading: isImagekitLoading, error: imagekitError } = useImagekit();
   const [ showDate, setShowDate ] = useState(false);
   const [ image, setImage ] = useState(null);
   const [ authenticationEndpoint, setAuthenticationEndpoint ] = useState(null);
@@ -34,28 +34,36 @@ const ProfileSetup = () => {
 
   const handleSubmit = async (data) => {
     if(image){
-
-      const res = await axios.post("https://upload.imagekit.io/api/v1/files/upload", {
+      const res = await uploadImage({
         file: image,
-        publicKey: process.env.REACT_APP_IMAGEKIT_PUBLIC_KEY,
-        signature: authenticationEndpoint.signature,
-        expire: authenticationEndpoint.expire,
-        token: authenticationEndpoint.token,
+        authenticationEndpoint,
         fileName: `profile_${id}`,
         folder: "/moby/profile-images/"
-      }, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-    })
+      })
+    //   const res = await axios.post("https://upload.imagekit.io/api/v1/files/upload", {
+    //     file: image,
+    //     publicKey: process.env.REACT_APP_IMAGEKIT_PUBLIC_KEY,
+    //     signature: authenticationEndpoint.signature,
+    //     expire: authenticationEndpoint.expire,
+    //     token: authenticationEndpoint.token,
+    //     fileName: `profile_${id}`,
+    //     folder: "/moby/profile-images/"
+    //   }, {
+    //     headers: { 'Content-Type': 'multipart/form-data' },
+    // })
       console.log(res)
 
     } else {
       profileSetup({...data, image})
     }
   }
+
   return (
     <AuthorizedPageContainer>
+      {isImagekitLoading && <LoadingSpinner isModal={true} message="Loading Data..."/>}
       <Container>
         <Paper sx={{py: 5, px: {xs: 2, md:8}, width: "fit-content", mx: "auto"}} elevation={4}>
+          {imagekitError && <Alert severity="error">{imagekitError}</Alert>}
           <Typography variant="h4" fontWeight={700} mb={3} align="center">Account created successfully!</Typography>
           <Typography variant="body1" mb={5} fontWeight={400} letterSpacing={1} align="center" lineHeight={1.4}>Welcome to Moby, <strong>{username}</strong>! <br/>Before we get started, let's setup your profile.</Typography>
           <Formik  

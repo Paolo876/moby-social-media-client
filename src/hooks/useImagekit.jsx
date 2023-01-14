@@ -27,7 +27,7 @@ const useImagekit = () => {
 
  /*  @desc       upload image
   *  @access     Private
-  *  @return     <Object>{ signature, token, expire }
+  *  @return     <Object>
   */
   const uploadImage = async ({ authenticationEndpoint, file, fileName, folder, useUniqueFileName=true }) => {
     setIsLoading(true)
@@ -48,8 +48,11 @@ const useImagekit = () => {
         return res.data
     } catch(err) {
         setIsLoading(false)
-        setError(err.message)
-        console.log(err)
+        if(err.response.status === 400){
+            setError("An Error occurred, please refresh the page and try again.")
+        } else {
+            setError(err.message)
+        }
     }
   }
 
