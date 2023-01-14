@@ -4,7 +4,6 @@ import AvatarEditor from 'react-avatar-editor'
 import InputSlider from './InputSlider';
 import CropIcon from '@mui/icons-material/Crop';
 import RotateLeftIcon from '@mui/icons-material/RotateLeft';
-import urltoFile from '../utils/deocodeBase64Image';
 
 const style = {
   position: 'absolute',
@@ -16,16 +15,14 @@ const style = {
   p: 4,
 };
 
-const ImageCropModal = ({ openModal, handleClose, setImage, imageData, setImageData, setShowModal, image }) => {
+const ImageCropModal = ({ openModal, handleClose, setImage, imageData, setShowModal }) => {
   const editor = useRef(null);
   const [ scale, setScale ] = useState(1);
   const [ rotate, setRotate ] = useState(0);
-  const [ position, setPosition ] = useState({x: .5, y: .5})
 
   const handleClick = () => {
     if (editor) {
       const canvasScaled = editor.current.getImageScaledToCanvas().toDataURL()
-      // const canvasScaled = editor.current.getImageScaledToCanvas().toDataURL()
       setImage(canvasScaled)
       setShowModal(false)
     }
@@ -51,6 +48,7 @@ const ImageCropModal = ({ openModal, handleClose, setImage, imageData, setImageD
             scale={scale}
             rotate={rotate}
             crossOrigin="use-credentials"
+            disableHiDPIScaling={true}
           />
         </Stack>
         <Stack direction="column" alignItems="center" justifyContent="center" spacing={1.5} my={2}>

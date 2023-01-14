@@ -6,8 +6,6 @@ import { Formik, Form } from "formik";
 import * as Yup from 'yup';
 import MyTextField from '../components/MyTextField';
 import UploadImageForm from '../components/UploadImageForm';
-import decodeBase64Image from '../utils/deocodeBase64Image';
-import FormData from 'form-data'
 // import { IKImage, IKContext, IKUpload } from 'imagekitio-react'
 import axios from 'axios';
 
