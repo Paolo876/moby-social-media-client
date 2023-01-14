@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import useAuthRedux from '../hooks/useAuthRedux';
 import AuthorizedPageContainer from '../components/AuthorizedPageContainer';
-import { Container, Typography, Paper, Button, Alert } from '@mui/material';
+import { Container, Typography, Paper, Button, Alert, CircularProgress } from '@mui/material';
 import { Formik, Form } from "formik";
 import * as Yup from 'yup';
 import MyTextField from '../components/MyTextField';
@@ -102,7 +102,10 @@ const ProfileSetup = () => {
                 image={image} 
                 title="Profile Picture"
               />
-              <Button variant="contained" size="large" sx={{mt: 4}} type="submit">Submit</Button>
+              {!isLoading && <Button variant="contained" size="large" sx={{mt: 4}} type="submit">Update profile</Button>}
+              {isLoading && <Button variant="contained" type="submit" size="large" sx={{ mt: 5 }} disabled>
+                Update profile<CircularProgress color="secondary" size={16} thickness={6} sx={{ml: 2}}/>
+              </Button>}    
             </Form>
           </Formik>
         </Paper>
