@@ -25,12 +25,12 @@ const ProfileSetup = () => {
   const { getAuthenticationEndpoint, uploadImage, isLoading: isImagekitLoading, error: imagekitError } = useImagekit();
   const [ showDate, setShowDate ] = useState(false);
   const [ image, setImage ] = useState(null);
+  const [ loadingMessage, setLoadingMessage ] = useState("Loading Data...")
   const [ authenticationEndpoint, setAuthenticationEndpoint ] = useState(null);
 
   useEffect(() => {
     getAuthenticationEndpoint().then(res => setAuthenticationEndpoint(res))
   }, [])
-
 
   const handleSubmit = async (data) => {
     if(image){
@@ -41,10 +41,11 @@ const ProfileSetup = () => {
         fileName: `profile_${id}`,
         folder: "/moby/profile-images/"
       })
-      const { fileId, name, url, thumbnail } = res;
-      
-      profileSetup({...data, image: { fileId, name, url, thumbnail }})
-
+      if(!imagekitError){
+        const { fileId, name, url, thumbnail } = res;
+        const imageData = JSON.stringify({fileId, name, url, thumbnail})
+        profileSetup({...data, image: imageData})
+      }
     } else {
       profileSetup({...data, image})
     }
@@ -52,7 +53,8 @@ const ProfileSetup = () => {
 
   return (
     <AuthorizedPageContainer>
-      {isImagekitLoading && <LoadingSpinner isModal={true} message="Loading Data..."/>}
+      {isImagekitLoading && <LoadingSpinner isModal={true} message="Uploading Image..."/>}
+      {isLoading && <LoadingSpinner isModal={true} message="Updating Profile..."/>}
       <Container>
         <Paper sx={{py: 5, px: {xs: 2, md:8}, width: "fit-content", mx: "auto"}} elevation={4}>
           {imagekitError && <Alert severity="error">{imagekitError}</Alert>}

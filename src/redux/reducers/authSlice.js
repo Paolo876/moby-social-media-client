@@ -58,8 +58,9 @@ const authSlice = createSlice({
             state.error = null;
         },
         [profileSetup.fulfilled.type]: ( state, { payload }) => {
+            const user = state.user;
             state.isLoading = false;
-            state.user = payload;
+            state.user = {...user, UserData: payload };
             state.error = null;
         },
         [profileSetup.rejected]: ( state , { payload }) => {

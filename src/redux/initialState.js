@@ -6,6 +6,5 @@ export const authInitialState = {
     isAuthReady: false,
     isLoading: true,    //set to true to prevent render before auth data is fetched.
     error: null,
-    userData: null,
 };
 

@@ -58,17 +58,10 @@ export const signup = createAsyncThunk( 'auth/signup', async ( payload, { reject
  */
 export const profileSetup = createAsyncThunk( 'auth/profileSetup', async ( payload, { rejectWithValue }) => {
     try {
-        // fetch(`${process.env.REACT_APP_DOMAIN_URL}/api/auth/profile-setup`, { method: "POST",credentials: 'include',headers: {
-        //     'Content-Type': 'application/json', 'Access-Control-Allow-Origin':'*'
-        //     // 'Content-Type': 'application/x-www-form-urlencoded',
-        //   }, body: JSON.stringify(payload)})
-        //     .then((response) => response.json())
-        //     .then((data) => console.log(data));
         const res = await axios.post(`${process.env.REACT_APP_DOMAIN_URL}/api/auth/profile-setup`, payload , {
             headers: {'Content-Type':'application/json'},
             withCredentials: true,
         });
-        console.log(res.data)
         return res.data;
     } catch (err){
         return rejectWithValue(err.response.data)
