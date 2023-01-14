@@ -49,7 +49,7 @@ const UploadImageForm = ({ image, setImage, title }) => {
                 </Stack>
             </Stack>
         </Paper>
-        <ImageCropModal openModal={showModal} image={image} setImage={setImage} imageData={imageData} setImageData={setImageData} setShowModal={setShowModal}/>
+        <ImageCropModal openModal={showModal} image={image} handleClose={() => setShowModal(false)} setImage={setImage} imageData={imageData} setImageData={setImageData} setShowModal={setShowModal}/>
     </>
     
   )

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import useAuthRedux from '../hooks/useAuthRedux';
 import AuthorizedPageContainer from '../components/AuthorizedPageContainer';
 import { Container, Typography, Paper, Button } from '@mui/material';
@@ -8,38 +8,46 @@ import MyTextField from '../components/MyTextField';
 import UploadImageForm from '../components/UploadImageForm';
 import decodeBase64Image from '../utils/deocodeBase64Image';
 import FormData from 'form-data'
+// import { IKImage, IKContext, IKUpload } from 'imagekitio-react'
+import axios from 'axios';
 
 const ProfileSetup = () => {
   const { isLoading, error, profileSetup, user: { username,id } } = useAuthRedux();
   const [ showDate, setShowDate ] = useState(false);
   const [ image, setImage ] = useState(null);
-
+  const [ authenticationEndpoint, setAuthenticationEndpoint ] = useState(null);
+  useEffect(() => {
+    axios.get(`${process.env.REACT_APP_DOMAIN_URL}/api/imagekit/`, {
+      headers: { 'Content-Type': 'application/json' },
+      withCredentials: true,
+    }).then(res => setAuthenticationEndpoint(res.data))
+  }, [])
   const initialValues = {
     firstName: "",
     lastName: "",
     birthday: "",
-    // image: null,
   }
   const validationSchema = Yup.object().shape({
     firstName: Yup.string().min(1).max(15).required(),
     lastName: Yup.string().min(1).max(20).required(),
     birthday: Yup.date()
   })
-  const handleSubmit = (data) => {
+  const handleSubmit = async (data) => {
     if(image){
-      // fetch(image)
-      // .then(res => res.blob())
-      // .then(blob => {
-      //   const file = new File([blob], "File name",{ type: "image/png" })
-      //   profileSetup({...data, image: file})
-      // })
-      const imageData = decodeBase64Image(image, `profile_image_${id}`)
-      let formData = new FormData();
-      formData.append('file', imageData, imageData.name)
-      profileSetup(formData)
-      // formData.append(data)
-      // profileSetup(formData)
-      // profileSetup({...data, image: decodeBase64Image(image, `profile_image_${id}`)})
+
+      const res = await axios.post("https://upload.imagekit.io/api/v1/files/upload", {
+        file: image,
+        publicKey: process.env.REACT_APP_IMAGEKIT_PUBLIC_KEY,
+        signature: authenticationEndpoint.signature,
+        expire: authenticationEndpoint.expire,
+        token: authenticationEndpoint.token,
+        fileName: `profile_${id}`,
+        folder: "/moby/profile-images/"
+      }, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+    })
+      console.log(res)
+
     } else {
       profileSetup({...data, image})
     }
