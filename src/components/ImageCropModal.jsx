@@ -22,7 +22,7 @@ const ImageCropModal = ({ openModal, handleClose, setImage, imageData, setShowMo
 
   const handleClick = () => {
     if (editor) {
-      const canvasScaled = editor.current.getImageScaledToCanvas().toDataURL()
+      const canvasScaled = editor.current.getImageScaledToCanvas().toDataURL("image/jpeg")
       setImage(canvasScaled)
       setShowModal(false)
     }

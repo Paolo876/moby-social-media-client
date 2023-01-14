@@ -6,30 +6,32 @@ import { Formik, Form } from "formik";
 import * as Yup from 'yup';
 import MyTextField from '../components/MyTextField';
 import UploadImageForm from '../components/UploadImageForm';
-// import { IKImage, IKContext, IKUpload } from 'imagekitio-react'
+import useImagekit from '../hooks/useImagekit';
 import axios from 'axios';
+
+const initialValues = {
+  firstName: "",
+  lastName: "",
+  birthday: "",
+}
+const validationSchema = Yup.object().shape({
+  firstName: Yup.string().min(1).max(15).required(),
+  lastName: Yup.string().min(1).max(20).required(),
+  birthday: Yup.date()
+})
 
 const ProfileSetup = () => {
   const { isLoading, error, profileSetup, user: { username,id } } = useAuthRedux();
+  const { getAuthenticationEndpoint } = useImagekit();
   const [ showDate, setShowDate ] = useState(false);
   const [ image, setImage ] = useState(null);
   const [ authenticationEndpoint, setAuthenticationEndpoint ] = useState(null);
+
   useEffect(() => {
-    axios.get(`${process.env.REACT_APP_DOMAIN_URL}/api/imagekit/`, {
-      headers: { 'Content-Type': 'application/json' },
-      withCredentials: true,
-    }).then(res => setAuthenticationEndpoint(res.data))
+    getAuthenticationEndpoint().then(res => setAuthenticationEndpoint(res))
   }, [])
-  const initialValues = {
-    firstName: "",
-    lastName: "",
-    birthday: "",
-  }
-  const validationSchema = Yup.object().shape({
-    firstName: Yup.string().min(1).max(15).required(),
-    lastName: Yup.string().min(1).max(20).required(),
-    birthday: Yup.date()
-  })
+
+
   const handleSubmit = async (data) => {
     if(image){
 
