@@ -34,24 +34,16 @@ const ProfileSetup = () => {
 
   const handleSubmit = async (data) => {
     if(image){
+      //upload to imagekit
       const res = await uploadImage({
         file: image,
         authenticationEndpoint,
         fileName: `profile_${id}`,
         folder: "/moby/profile-images/"
       })
-    //   const res = await axios.post("https://upload.imagekit.io/api/v1/files/upload", {
-    //     file: image,
-    //     publicKey: process.env.REACT_APP_IMAGEKIT_PUBLIC_KEY,
-    //     signature: authenticationEndpoint.signature,
-    //     expire: authenticationEndpoint.expire,
-    //     token: authenticationEndpoint.token,
-    //     fileName: `profile_${id}`,
-    //     folder: "/moby/profile-images/"
-    //   }, {
-    //     headers: { 'Content-Type': 'multipart/form-data' },
-    // })
-      console.log(res)
+      const { fileId, name, url, thumbnail } = res;
+      
+      profileSetup({...data, image: { fileId, name, url, thumbnail }})
 
     } else {
       profileSetup({...data, image})

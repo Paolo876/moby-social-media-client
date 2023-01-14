@@ -30,7 +30,6 @@ const ImageCropModal = ({ openModal, handleClose, setImage, imageData, setShowMo
   return (
     <Modal
         open={openModal}
-        onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
     >
@@ -39,10 +38,10 @@ const ImageCropModal = ({ openModal, handleClose, setImage, imageData, setShowMo
           <AvatarEditor
             ref={editor}
             image={imageData}
-            width={250}
-            height={250}
+            width={200}
+            height={200}
             border={20}
-            borderRadius={125}
+            borderRadius={100}
             color={[0, 0, 0, .9]} // RGBA
             backgroundColor="rgb(0,0,0)"
             scale={scale}
