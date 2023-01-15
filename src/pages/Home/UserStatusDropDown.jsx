@@ -36,7 +36,18 @@ export default function UserStatusDropDown() {
           ref={anchorRef}
           sx={{width: "100%", display: "flex", alignItems: "center", flexDirection: "row"}}
         >
-        <Typography letterSpacing={.2} fontWeight={500} fontSize={15} minWidth={120} textAlign="left" color="secondary">{userStatus}</Typography><ArrowDropDownIcon />
+        <Typography 
+          letterSpacing={.2} 
+          fontWeight={500} 
+          fontSize={15} 
+          minWidth={120} 
+          textAlign="left" 
+          color="secondary" 
+          textTransform="none"
+        >
+          {userStatus}
+        </Typography>
+        <ArrowDropDownIcon />
       </Button>
       <Popper
         sx={{

@@ -14,8 +14,6 @@ const AuthorizedPageContainer = ({ children }) => {
     if(user){
         if(!user.UserData) {
           navigate("/profile-setup")
-        } else {
-          navigate("/")
         }
     } else {
         navigate("/login")
