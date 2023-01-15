@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import useAuthRedux from '../hooks/useAuthRedux';
 import { styled, alpha } from '@mui/material/styles';
-import { AppBar, Box, Toolbar, IconButton, InputBase, Badge, MenuItem, Menu, Container } from '@mui/material';
+import { AppBar, Box, Toolbar, IconButton, InputBase, Badge, MenuItem, Menu, Container, Avatar } from '@mui/material';
 import LoadingSpinner from './LoadingSpinner';
-import { IKImage } from 'imagekitio-react';
+import Image from './Image';
 //media
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
@@ -157,15 +157,11 @@ const Navbar = () => {
             color="inherit"
           >
             {image ?  
-              <IKImage 
+              <Image 
                 src={image.url} 
-                urlEndpoint={process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT}
-                transformation={[{
-                  height: 28,
-                  width: 28,
-                }]} 
+                transformation={[{ height: 25, width: 25 }]} 
                 style={{borderRadius: "50%"}}
-                />
+              />
               :
               <AccountCircle />}
           </IconButton>
@@ -225,15 +221,14 @@ const Navbar = () => {
                   color="inherit"
                 >
                   {image ?  
-                    <IKImage 
+                    <Image 
                       src={image.url} 
-                      urlEndpoint={process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT}
                       transformation={[{
-                        height: 28,
-                        width: 28,
+                        height: 25,
+                        width: 25,
                       }]} 
                       style={{borderRadius: "50%"}}
-                      />
+                    />
                     :
                     <AccountCircle />}
                 </IconButton>
