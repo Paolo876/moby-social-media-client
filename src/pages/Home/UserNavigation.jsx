@@ -1,15 +1,19 @@
 import React from 'react'
-import { Grid, Paper, ButtonBase, Typography, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Stack } from "@mui/material"
+import { Paper, Typography, List, ListItem, ListItemButton, ListItemIcon, Stack, Divider } from "@mui/material"
 import Image from '../../components/Image';
 import useAuthRedux from '../../hooks/useAuthRedux';
 import defaultAvatar from "../../assets/default-profile.png"
 import UserStatusDropDown from './UserStatusDropDown';
+import FriendsList from './FriendsList';
+
 const UserNavigation = () => {
   const { user } = useAuthRedux();
+
   let image;
   if(user && user.UserData) image = JSON.parse(user.UserData.image);
+
   return (
-    <Paper variant="outlined" sx={{m:.5, p: 1, height: "100%"}}>
+    <Paper variant="outlined" sx={{m:.5, p: 1, height: "100%" }}>
         <List>
             <ListItem disablePadding>
                 <ListItemButton sx={{pl: 3}} onClick={() => console.log("/profile")}>
@@ -36,6 +40,10 @@ const UserNavigation = () => {
                 <ListItemButton disableRipple={true} disableTouchRipple={true}  sx={{pl: 3}}>
                     <UserStatusDropDown/> 
                 </ListItemButton>
+            </ListItem>
+            <Divider/>
+            <ListItem disablePadding   sx={{pl: 3, mt: 2}}>
+                <FriendsList/>
             </ListItem>
         </List>
     </Paper>
