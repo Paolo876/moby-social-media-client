@@ -4,7 +4,7 @@ import useAuthRedux from '../hooks/useAuthRedux';
 import { styled, alpha } from '@mui/material/styles';
 import { AppBar, Box, Toolbar, IconButton, InputBase, Badge, MenuItem, Menu, Container } from '@mui/material';
 import LoadingSpinner from './LoadingSpinner';
-
+import { IKImage } from 'imagekitio-react';
 //media
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
@@ -59,7 +59,10 @@ const Navbar = () => {
     const { logout, isLoading, user } = useAuthRedux();
     const [anchorEl, setAnchorEl] = useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
-  
+    
+    let image;
+    if(user && user.UserData) image = JSON.parse(user.UserData.image);
+
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   
@@ -153,9 +156,20 @@ const Navbar = () => {
             aria-haspopup="true"
             color="inherit"
           >
-            <AccountCircle />
+            {image ?  
+              <IKImage 
+                src={image.url} 
+                urlEndpoint={process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT}
+                transformation={[{
+                  height: 28,
+                  width: 28,
+                }]} 
+                style={{borderRadius: "50%"}}
+                />
+              :
+              <AccountCircle />}
           </IconButton>
-          <p>Profile</p>
+          <p>{user.UserData.firstName} {user.UserData.lastName}</p>
         </MenuItem>
       </Menu>
     );
@@ -210,7 +224,18 @@ const Navbar = () => {
                   onClick={handleProfileMenuOpen}
                   color="inherit"
                 >
-                  <AccountCircle />
+                  {image ?  
+                    <IKImage 
+                      src={image.url} 
+                      urlEndpoint={process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT}
+                      transformation={[{
+                        height: 28,
+                        width: 28,
+                      }]} 
+                      style={{borderRadius: "50%"}}
+                      />
+                    :
+                    <AccountCircle />}
                 </IconButton>
               </Box>
               <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
