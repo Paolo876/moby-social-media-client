@@ -32,10 +32,10 @@ const UserNavigation = () => {
                     </Stack>
                 </ListItemButton>
             </ListItem>
-            <ListItem>
-            <ListItemButton>
-                <UserStatusDropDown/>
-            </ListItemButton>
+            <ListItem disablePadding>
+                <ListItemButton disableRipple={true} disableTouchRipple={true}  sx={{pl: 3}}>
+                    <UserStatusDropDown/> 
+                </ListItemButton>
             </ListItem>
         </List>
     </Paper>
