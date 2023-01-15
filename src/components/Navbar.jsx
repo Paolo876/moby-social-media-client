@@ -165,7 +165,7 @@ const Navbar = () => {
               :
               <AccountCircle />}
           </IconButton>
-          <p>{user.UserData.firstName} {user.UserData.lastName}</p>
+          {user && user.UserData && <p>{user.UserData.firstName} {user.UserData.lastName}</p>}
         </MenuItem>
       </Menu>
     );
