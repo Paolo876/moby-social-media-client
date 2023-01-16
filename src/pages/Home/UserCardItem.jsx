@@ -6,9 +6,7 @@ import Image from '../../components/Image';
 import ChatIcon from '@mui/icons-material/Chat';
 import defaultAvatar from "../../assets/default-profile.png";
 
-const StyledBadge = styled(Badge)(({ theme, status }) => {
-
-  return ({
+const StyledBadge = styled(Badge)(({ theme, status }) => ({
     '& .MuiBadge-badge': {
       backgroundColor: theme.palette.userStatus[status],
       color: theme.palette.userStatus[status],
@@ -35,7 +33,7 @@ const StyledBadge = styled(Badge)(({ theme, status }) => {
         opacity: 0,
       },
     },
-  })});
+  }));
   
 const UserCardItem = ({ status="invisible" }) => {
   let image = null;
@@ -77,7 +75,6 @@ const UserCardItem = ({ status="invisible" }) => {
             </Button>
             }    
         />
-
         <IconButton size="small" color="secondary" sx={{p:1}}><ChatIcon fontSize="small"/></IconButton>
     </ListItemButton>
   )

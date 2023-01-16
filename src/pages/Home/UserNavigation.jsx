@@ -16,7 +16,7 @@ const UserNavigation = () => {
   if(user && user.UserData) image = JSON.parse(user.UserData.image);
 
   return (
-    <Paper variant="outlined" sx={{m:.5, mt: 2, p: 1, height: "100%" }}>
+    <Paper variant="outlined" sx={{m:.5, mt: 2, px: 1, py: 3}}>
         <List>
             <ListItem sx={{pl: 3}} >
                 <Button  
@@ -50,6 +50,7 @@ const UserNavigation = () => {
                 <FriendsList/>
             </ListItem>
         </List>
+        <List></List>
     </Paper>
 
   )
