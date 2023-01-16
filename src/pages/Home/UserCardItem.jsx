@@ -37,18 +37,25 @@ const StyledBadge = styled(Badge)(({ theme, status }) => {
     },
   })});
   
-const UserCardItem = () => {
-    let image = null;
+const UserCardItem = ({ status="invisible" }) => {
+  let image = null;
+  let opacity = .6;
+  if (status === "online"){
+    opacity = 1;
+  } else if (status === "idle"){
+    opacity = .75;
+  }
+  
   return (
-    <ListItemButton sx={{ pl: 1.5, cursor: "default", py: 0.25 }} disableRipple={true} disableTouchRipple={true} >
+    <ListItemButton sx={{ pl: 1.5, cursor: "default", py: 0.25 }} disableRipple={true} disableTouchRipple={true}>
         <ListItemText 
             primary={
-              <Button color="secondary" sx={{textTransform: "initial", color: "initial", py: 0}}>
+              <Button color="secondary" sx={{textTransform: "initial", color: "initial", py: 0, opacity}}>
                 <StyledBadge
                   overlap="circular"
                   anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                   variant="dot"
-                  status="idle"
+                  status={status}
                 >
                   {image ? 
                     <Image 
@@ -71,7 +78,7 @@ const UserCardItem = () => {
             }    
         />
 
-        <IconButton size="small" color="secondary"><ChatIcon fontSize="small"/></IconButton>
+        <IconButton size="small" color="secondary" sx={{p:1}}><ChatIcon fontSize="small"/></IconButton>
     </ListItemButton>
   )
 }

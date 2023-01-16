@@ -15,9 +15,9 @@ const FriendsList = () => {
         </ListItemButton>
         <Collapse in={showOnlineFriends} timeout="auto" unmountOnExit sx={{width: "100%"}}>
           <List component="div" disablePadding>
-            <UserCardItem/>
-            <UserCardItem/>
-            <UserCardItem/>
+            <UserCardItem status="online"/>
+            <UserCardItem status="idle"/>
+            <UserCardItem status="invisible"/>
           </List>
         </Collapse>
         <ListItemButton onClick={() => setShowOfflineFriends(prevState => !prevState)} sx={{width: "100%"}}>
