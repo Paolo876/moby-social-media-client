@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import useAuthRedux from '../hooks/useAuthRedux';
 import { styled, alpha } from '@mui/material/styles';
-import { AppBar, Box, Toolbar, IconButton, InputBase, Badge, MenuItem, Menu, Container, Avatar } from '@mui/material';
+import { AppBar, Box, Toolbar, IconButton, InputBase, Badge, MenuItem, Menu, Container } from '@mui/material';
 import LoadingSpinner from './LoadingSpinner';
 import Image from './Image';
 //media
@@ -249,7 +249,7 @@ const Navbar = () => {
             : <div style={{display: "flex", padding: ".25em"}}><img src={logo} alt="logo" style={{objectFit: "cover", height: 40, filter: "invert(.9)", margin: "0 auto"}}/></div>}
           </Container>
         </AppBar>
-        <Toolbar sx={{my: .5}}>{/* space filler to shift components under the navbar */}</Toolbar> 
+        <Toolbar sx={{py: .5}}>{/* space filler to shift components under the navbar */}</Toolbar> 
         {renderMobileMenu}
         {renderMenu}
       </Box>

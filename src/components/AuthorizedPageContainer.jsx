@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAuthRedux from '../hooks/useAuthRedux';
 
@@ -7,6 +7,7 @@ import useAuthRedux from '../hooks/useAuthRedux';
  */
 const AuthorizedPageContainer = ({ children }) => {
   const { user } = useAuthRedux();
+  const [ isReady, setIsReady ] = useState(false);
   const navigate = useNavigate();
 
   //check if user's profile is setup
@@ -18,11 +19,10 @@ const AuthorizedPageContainer = ({ children }) => {
     } else {
         navigate("/login")
     }
-  }, [ user ])
+    setIsReady(true)
+  }, [ user, navigate ])
   
-  return (
-    <>{children}</>
-  )
+  if(isReady) return <>{children}</>
 }
 
 export default AuthorizedPageContainer

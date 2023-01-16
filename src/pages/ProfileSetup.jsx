@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import useAuthRedux from '../hooks/useAuthRedux';
 import AuthorizedPageContainer from '../components/AuthorizedPageContainer';
 import { Container, Typography, Paper, Button, Alert, CircularProgress } from '@mui/material';
@@ -7,7 +8,6 @@ import * as Yup from 'yup';
 import MyTextField from '../components/MyTextField';
 import UploadImageForm from '../components/UploadImageForm';
 import useImagekit from '../hooks/useImagekit';
-import axios from 'axios';
 import LoadingSpinner from "../components/LoadingSpinner"
 const initialValues = {
   firstName: "",
@@ -21,12 +21,15 @@ const validationSchema = Yup.object().shape({
 })
 
 const ProfileSetup = () => {
-  const { isLoading, error, profileSetup, user: { username,id } } = useAuthRedux();
+  const navigate = useNavigate();
+  const { isLoading, error, profileSetup, user } = useAuthRedux();
   const { getAuthenticationEndpoint, uploadImage, isLoading: isImagekitLoading, error: imagekitError } = useImagekit();
   const [ showDate, setShowDate ] = useState(false);
   const [ image, setImage ] = useState(null);
-  const [ loadingMessage, setLoadingMessage ] = useState("Loading Data...")
   const [ authenticationEndpoint, setAuthenticationEndpoint ] = useState(null);
+  useEffect(() => {
+    if(user.UserData) navigate("/")
+  }, [user, navigate])
 
   useEffect(() => {
     getAuthenticationEndpoint().then(res => setAuthenticationEndpoint(res))
@@ -38,7 +41,7 @@ const ProfileSetup = () => {
       const res = await uploadImage({
         file: image,
         authenticationEndpoint,
-        fileName: `profile_${id}`,
+        fileName: `profile_${user.id}`,
         folder: "/moby/profile-images/"
       })
       if(!imagekitError){
@@ -55,11 +58,12 @@ const ProfileSetup = () => {
     <AuthorizedPageContainer>
       {isImagekitLoading && <LoadingSpinner isModal={true} message="Uploading Image..."/>}
       {isLoading && <LoadingSpinner isModal={true} message="Updating Profile..."/>}
-      <Container>
+      <Container sx={{pt: 1.5}}>
         <Paper sx={{py: 5, px: {xs: 2, md:8}, width: "fit-content", mx: "auto"}} elevation={4}>
           {imagekitError && <Alert severity="error">{imagekitError}</Alert>}
-          <Typography variant="h4" fontWeight={700} mb={3} align="center">Account created successfully!</Typography>
-          <Typography variant="body1" mb={5} fontWeight={400} letterSpacing={1} align="center" lineHeight={1.4}>Welcome to Moby, <strong>{username}</strong>! <br/>Before we get started, let's setup your profile.</Typography>
+          {error && <Alert severity="error">{error}</Alert>}
+          <Typography variant="h5" fontWeight={700} mb={2} align="center">Welcome to Moby, {user.username}!</Typography>
+          <Typography variant="body1" mb={5} fontWeight={400} letterSpacing={1} align="center" lineHeight={1.4}>Before we get started, let's setup your profile.</Typography>
           <Formik  
             initialValues={initialValues}
             onSubmit={handleSubmit} 
