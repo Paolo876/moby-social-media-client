@@ -8,7 +8,7 @@ const FriendsList = () => {
 
   return (
     <>
-        <Typography letterSpacing={.2} fontWeight={500} variant="h6" fontSize={16} textAlign="left">Friends:</Typography>
+        <Typography letterSpacing={.2} fontWeight={500} variant="h6" fontSize={16} align="left">Friends:</Typography>
         <ListItemButton onClick={() => setShowOnlineFriends(prevState => !prevState)} sx={{width: "100%"}}>
           <ListItemText primary={`Online Friends (0)`}  sx={{fontSize: 14}}/>
           {showOnlineFriends ? <ExpandLess /> : <ExpandMore />}

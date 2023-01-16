@@ -42,7 +42,7 @@ export default function UserStatusDropDown() {
           fontWeight={500} 
           fontSize={15} 
           minWidth={120} 
-          textAlign="left" 
+          align="left" 
           color="secondary" 
           textTransform="none"
         >
