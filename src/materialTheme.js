@@ -26,6 +26,11 @@ export const theme = createTheme({
       success: {
         main: '#237b46',
       },
+      userStatus: {
+        online: "#44b700",
+        idle: "rgba(255, 135, 0)",
+        invisible: "grey"
+      }
     },
     typography: {
       fontFamily: 'Quicksand',

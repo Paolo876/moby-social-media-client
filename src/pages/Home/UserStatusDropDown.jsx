@@ -1,5 +1,6 @@
 import { useState, useRef} from 'react';
 import { Button, ClickAwayListener, Grow, Paper, Popper, MenuItem, MenuList, Typography, Stack } from '@mui/material';
+import { useTheme } from '@emotion/react';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import CircleIcon from '@mui/icons-material/Circle';
 import NightsStayIcon from '@mui/icons-material/NightsStay';
@@ -9,7 +10,7 @@ export default function UserStatusDropDown() {
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
   const [ userStatus, setUserStatus ] = useState("online");
-
+  const { palette } = useTheme();
   const handleMenuItemClick = (value) => {
     setUserStatus(value);
     setOpen(false);
@@ -66,12 +67,12 @@ export default function UserStatusDropDown() {
                 placement === 'bottom' ? 'center top' : 'center bottom',
             }}
           >
-            <Paper elevation={3} backgroundColor="white">
+            <Paper elevation={3} >
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList id="split-button-menu" autoFocusItem sx={{p:0}}>
-                  <MenuItem onClick={() => handleMenuItemClick("online")} sx={{px: 4, py:1.5, fontSize: 17}} divider><CircleIcon fontSize="xs" sx={{mr: 1, color: "green"}}/>online</MenuItem>
-                  <MenuItem onClick={() => handleMenuItemClick("idle")} sx={{px: 4, py:1.5, fontSize: 17}} divider><NightsStayIcon fontSize="xs" sx={{mr: 1, color: "orange"}}/>idle</MenuItem>
-                  <MenuItem onClick={() => handleMenuItemClick("invisible")} sx={{px: 4, py:1.5, fontSize: 17}}><VisibilityOffIcon fontSize="xs" sx={{mr: 1, color: "grey"}}/>invisible</MenuItem>
+                  <MenuItem onClick={() => handleMenuItemClick("online")} sx={{pr: 6, py:1.25, fontSize: 16}} divider><CircleIcon fontSize="xs" sx={{mr: 1, color: palette.userStatus.online}}/>online</MenuItem>
+                  <MenuItem onClick={() => handleMenuItemClick("idle")} sx={{pr: 6, py:1.25, fontSize: 16}} divider><NightsStayIcon fontSize="xs" sx={{mr: 1, color: palette.userStatus.idle}}/>idle</MenuItem>
+                  <MenuItem onClick={() => handleMenuItemClick("invisible")} sx={{pr: 6, py:1.25, fontSize: 16}}><VisibilityOffIcon fontSize="xs" sx={{mr: 1, color: palette.userStatus.invisible}}/>invisible</MenuItem>
                 </MenuList>
               </ClickAwayListener>
             </Paper>
