@@ -1,5 +1,5 @@
-import React from 'react'
-import { Paper, Typography, Stack, Grid, Chip, Button } from "@mui/material"
+import { useState } from 'react'
+import { Paper, Typography, Stack, Grid, Chip, Button, useTheme } from "@mui/material"
 import useAuthRedux from '../../hooks/useAuthRedux';
 import defaultAvatar from "../../assets/default-profile.png";
 import Image from '../../components/Image';
@@ -14,15 +14,16 @@ const POSTS_DATA = [
 ];
 
 const PostsFeed = () => {
+  const [ isHovered, setIsHovered ] = useState(false)
   const { user: { UserData } } = useAuthRedux();
+  const { palette } = useTheme();
   let image;
   if(UserData) image = JSON.parse(UserData.image);
-
   return (
     <Grid container >
-      <Grid item sx={{m:.5, mt: 1, mb: 2.5, p: 1}} xs={12}>
+      <Grid item sx={{m:.5, mt: 1, mb: 2.5, p: 1}} xs={12} onMouseOver={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
         <Button sx={{width: "100%", mr: "auto", p:0, textTransform: "none", textAlign: "left"}} color="info">
-          <Paper sx={{width: "100%", p: 3}} variant="outlined">
+          <Paper sx={{width: "100%", p: 3, "&:hover": { boxShadow: 3 }}} variant="outlined">
             <Typography variant="h5" fontWeight={400}>Create A Post</Typography>
             <Stack flexDirection="row" sx={{width: "100%"}} alignItems="center" mt={1.75} ml={1}>
               {image ? 
@@ -37,7 +38,7 @@ const PostsFeed = () => {
                 /> :
                 <img src={defaultAvatar} alt="profile-avatar" style={{height: "35px", width: "35px"}}/>
               }
-              <Chip label="Write a post" sx={{flex: 1, ml:1.5, mr:4, cursor: "pointer"}}/>
+              <Chip label="Write a post" sx={{flex: 1, ml:1.5, mr:4, cursor: "pointer", backgroundColor: !isHovered ? "rgba(0,0,0,0.075)" : "rgba(0,0,0,0.25)"}}/>
             </Stack>
           </Paper>
         </Button>

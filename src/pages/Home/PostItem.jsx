@@ -3,10 +3,9 @@ import { Grid, Paper, Button, Typography, useTheme } from '@mui/material';
 import Image from '../../components/Image';
 
 const PostItem = ({ title, image, isPublic, postText }) => {
-  const { palette } = useTheme();
-  console.log(palette.secondary.main)
+  const { palette, transitions } = useTheme();
   return (
-    <Grid item sx={{m:.5, mt: 2, p: 0, boxShadow: 3, mb: 3, borderRadius: "10px"}} xs={12}>
+    <Grid item sx={{m:.5, mt: 2, p: 0, boxShadow: 1, mb: 3, borderRadius: "10px", transition: transitions.create('all', {duration: 800, delay: 0}), "&:hover": { boxShadow: 4 }}} xs={12}>
         <Button sx={{width: "100%", mr: "auto", p:0, textTransform: "none", textAlign: "left", borderRadius: "10px 10px 0 0"}} color="primary">
             <Paper sx={{width: "100%", p: 3, minHeight: 250, borderRadius: "10px 10px 0 0"}} variant="outlined">
                 <Typography variant="h5" align='center' fontWeight={600}>{title}</Typography>
