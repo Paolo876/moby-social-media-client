@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Paper, Typography, Stack, Grid, Chip, Button, useTheme } from "@mui/material"
+import { Paper, Typography, Stack, Grid, Chip, Button } from "@mui/material"
 import useAuthRedux from '../../hooks/useAuthRedux';
 import defaultAvatar from "../../assets/default-profile.png";
 import Image from '../../components/Image';
@@ -16,7 +16,6 @@ const POSTS_DATA = [
 const PostsFeed = () => {
   const [ isHovered, setIsHovered ] = useState(false)
   const { user: { UserData } } = useAuthRedux();
-  const { palette } = useTheme();
   let image;
   if(UserData) image = JSON.parse(UserData.image);
   return (
