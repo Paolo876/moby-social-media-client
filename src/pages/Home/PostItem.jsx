@@ -1,11 +1,14 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Grid, Paper, Button, Typography, useTheme, Stack, IconButton } from '@mui/material';
 import Image from '../../components/Image';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import defaultAvatar from "../../assets/default-profile.png";
-
+import { Grid, Paper, Button, Typography, useTheme, Stack, IconButton } from '@mui/material';
+import LockIcon from '@mui/icons-material/Lock';
+import ForumIcon from '@mui/icons-material/Forum';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import TurnedInIcon from '@mui/icons-material/TurnedIn';
+import TurnedInNotIcon from '@mui/icons-material/TurnedInNot';
 const MOCK_USER = {
   username: "johndoe",
   id: 123,
@@ -15,7 +18,7 @@ const MOCK_USER = {
     image: `{"fileId":"63c267e6e809dd54b064181c","name":"profile_2_GohWaL7-8","url":"https://ik.imagekit.io/q5892cimh/moby/profile-images/profile_2_GohWaL7-8"}`
   }
 }
-const PostItem = ({ title, image, isPublic, postText, isLiked=false, user=MOCK_USER, createdAt="2023-01-11 08:01:57" }) => {
+const PostItem = ({ title, image, isPublic, postText, isLiked=false, isBookmarked=false, user=MOCK_USER, createdAt="2023-01-11 08:01:57" }) => {
   const navigate = useNavigate();
   const { palette, transitions } = useTheme();
   let userImage;
@@ -41,32 +44,37 @@ const PostItem = ({ title, image, isPublic, postText, isLiked=false, user=MOCK_U
         </Button>                  
         <Paper sx={{backgroundColor: palette.primary.main, p:1, py:0.5, borderRadius: "0 0 10px 10px"}}>
           <Stack flexDirection="row" alignItems="center" justifyContent="space-between" px={.5}>
-            <IconButton sx={{p:.75}}>
-              {isLiked ? 
-                <FavoriteIcon fontSize="medium" sx={{color: "rgba(229, 85, 85, 1)"}}/>: 
-                <FavoriteBorderIcon fontSize="medium" sx={{color: "rgba(229, 85, 85, .85)"}}/>}
+            <Stack flexDirection="row">
+              <IconButton sx={{p:.75, mr:2}}>
+                {isLiked ? 
+                  <FavoriteIcon fontSize="medium" sx={{color: "rgba(229, 85, 85, 1)"}}/> : 
+                  <FavoriteBorderIcon fontSize="medium" sx={{color: "rgba(229, 85, 85, .85)"}}/>
+                }
                 <Typography variant="body2" color="rgba(0, 0, 0, .45)" sx={{ml:.5}}>Like</Typography>
-            </IconButton>
+              </IconButton>
+              <IconButton sx={{p:.75}}>
+                {isBookmarked ? 
+                  <TurnedInIcon fontSize="medium" sx={{color: "rgba(239, 144, 60, 1)"}}/> : 
+                  <TurnedInNotIcon fontSize="medium" sx={{color: "rgba(239, 144, 60, 1)"}}/>
+                }
+                <Typography variant="body2" color="rgba(0, 0, 0, .45)" sx={{ml:.5}}>Bookmark</Typography>
+              </IconButton>
+            </Stack>
             <Stack>
-              <Button color="secondary" sx={{textTransform: "initial", color: "initial", py: 0}}>
+              <Button color="secondary" sx={{ textTransform: "initial", color: "initial", py: 0 }} onClick={() => navigate(`/profile/${user.id}`)}>
                 <Stack mr={.5} p={.5} alignItems="flex-end">
-                  <Typography variant="body1" align='right' color="rgba(255, 255, 255, .75)" fontSize={12} fontWeight={500}>@{user.username}</Typography>
+                  <Typography variant="body1" align='right' color="rgba(255, 255, 255, .75)" fontSize={12} fontWeight={500} pb={.15}>@{user.username}</Typography>
                   <Typography variant="body1" align='right' color="rgba(255, 255, 255, .75)" fontSize={11} fontWeight={300}>{user.UserData.firstName} {user.UserData.lastName}</Typography>
                 </Stack>
-                  {userImage ? 
-                    <Image 
-                        src={userImage.url} 
-                        transformation={[{
-                            height: 25,
-                            width: 25,
-                        }]} 
-                        style={{borderRadius: "50%"}}
-                        alt="profile-avatar"
-                    /> :
-                    <img src={defaultAvatar} style={{height: "25px", width: "25px"}} alt="profile-avatar"/>
-                  }
-            </Button>
-            
+                {userImage ? 
+                  <Image 
+                      src={userImage.url} 
+                      transformation={[{ height: 25, width: 25 }]} 
+                      style={{borderRadius: "50%"}}
+                      alt="profile-avatar"
+                  /> : <img src={defaultAvatar} style={{height: "25px", width: "25px"}} alt="profile-avatar"/>
+                }
+              </Button>
             </Stack>
           </Stack>
         </Paper>

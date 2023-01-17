@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { Paper, Typography, Stack, Grid, Chip, Button } from "@mui/material"
+import { Paper, Typography, Stack, Grid, Chip, Button, Divider } from "@mui/material"
+import { styled } from '@mui/material/styles';
 import useAuthRedux from '../../hooks/useAuthRedux';
 import defaultAvatar from "../../assets/default-profile.png";
 import Image from '../../components/Image';
@@ -12,6 +13,14 @@ const POSTS_DATA = [
   { id: 4, title: "Euismod lacinia at quis", image: "https://ik.imagekit.io/q5892cimh/moby/posts/DJI_0141_i5KBArHpCt.jpg?ik-sdk-version=javascript-1.4.3&updatedAt=1673929790378", isPublic: true, postText: "Euismod lacinia at quis risus. Sapien faucibus et molestie ac feugiat sed lectus. Posuere ac ut consequat semper viverra nam libero justo." },
   { id: 5, title: "Iaculis nunc sed", image: "https://ik.imagekit.io/q5892cimh/moby/posts/DJI_0127.DNG_n6WPiatu5.jpg?ik-sdk-version=javascript-1.4.3&updatedAt=1673929789878", isPublic: true, postText: "Iaculis nunc sed augue lacus viverra vitae." },
 ];
+
+const Root = styled('div')(({ theme }) => ({
+  width: '100%',
+  ...theme.typography.body2,
+  '& > :not(style) + :not(style)': {
+    marginTop: theme.spacing(2),
+  },
+}));
 
 const PostsFeed = () => {
   const [ isHovered, setIsHovered ] = useState(false)
@@ -42,6 +51,9 @@ const PostsFeed = () => {
           </Paper>
         </Button>
       </Grid>
+      <Root>
+        <Divider><Typography variant="body1">{new Date().toLocaleDateString()}</Typography></Divider>
+      </Root>
       {POSTS_DATA.map(item => <PostItem 
         key={item.id}
         title={item.title}
