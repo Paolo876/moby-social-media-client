@@ -19,54 +19,50 @@ const MOCK_USER = {
   }
 }
 
-const PostHover = ({ postText }) => {
-  return <>
-    <Typography variant="subtitle1" align='center'>{postText.length > 160 ? postText.substr(0,160) : postText}...</Typography>
-    <Button variant="contained" color="secondary" sx={{borderRadius: 15}}>Read More</Button>
-  </>
-}
-
-const PostBody = ({ isPublic, createdAt, title, user, image, isHovered, transitions }) => {
+const PostBody = ({ isPublic, createdAt, title, user, image, isHovered, transitions, postText }) => {
   return (
   <Button 
     sx={{
       width: "100%", mr: "auto", p:0, 
       textTransform: "none", textAlign: "left", 
       borderRadius: "10px 10px 0 0", 
-      transition: transitions.create('filter', {duration: 1200, delay: 0})}} 
+      transition: transitions.create('filter', {duration: 1200, delay: 0})
+      }} 
       color="primary"
     >
     <Box 
       sx={{
         position: "relative", 
-        width: "100%", p: 0, color: "black", minHeight: 200, maxHeight: 350, borderRadius: "10px 10px 0 0", overflow: "hidden", backgroundColor: "background.paper"}} 
+        width: "100%", p: 0, color: "black", minHeight: 250, maxHeight: 350, borderRadius: "10px 10px 0 0", overflow: "hidden", backgroundColor: "background.paper"
+      }} 
       variant="outlined"
       >
-      {!isPublic && <Tooltip title="Post is Private" arrow><LockIcon fontSize="small" sx={{position: "absolute", top: 10, left: 10, opacity: .9}} color="info"/></Tooltip>}
+      {!isPublic && <Tooltip title="Private posts are only visible to friends of the author." arrow >
+        <LockIcon fontSize="small" sx={{position: "absolute", top: 10, left: 10, opacity: .9, zIndex: 5}} color="info"/>
+      </Tooltip>}
       <Typography variant="body2" align="right" fontWeight={300} fontSize={12} sx={{position:"absolute", top: 15, right: 15, zIndex: 2 }} color="info">{new Date(createdAt).toLocaleDateString()}</Typography>
-      <Stack  sx={{position:"absolute", top: "45%", left: "50%", transform: "translate(-50%,-50%)", zIndex: 2 }}>
-        <Typography variant="h5" align='center' fontWeight={600} pb={.5} color="primary.dark">{title}</Typography>
-        <Typography variant="body2" align='center' fontWeight={400} sx={{opacity: .75}}>-{user.UserData.firstName} {user.UserData.lastName}</Typography>
+
+      <Stack  sx={{position:"absolute", top: "45%", left: "50%", transform: "translate(-50%,-50%)", zIndex: 2, width: "80%" }}>
+        <Typography variant="h5" align='center' fontWeight={600} pb={isHovered ? .75 :.5} color="primary.dark">{title}</Typography>
+        {isHovered && isPublic && <Typography variant="subtitle1" align='center' sx={{width: "100%", opacity: .8}} mb={2}>{postText.length > 150 ? postText.substr(0,150) : postText}...</Typography>}
+        <Typography variant="body2" align={isHovered ? 'right' : 'center'} fontWeight={400} sx={{opacity: .6}}>-{user.UserData.firstName} {user.UserData.lastName}</Typography>
       </Stack>
       {/* <PostHover postText={postText}/> */}
       {image && 
         <Image 
-            src={image}
-            alt={title}
-            style={{
-              // objectFit: "cover", 
-              objectPosition: "center",
-              width: "100%", 
-              height: "100%", 
-              margin: "0", 
-              // position: "absolute", top: "50%", left: "50%", 
-              transform: "translate(0, 0)", 
-              zIndex: 1, 
-              transition: transitions.create('filter', {duration: 600, delay: 0}), filter: isHovered ? "" : "blur(1px) opacity(0.6) grayscale(.65)"
-              }}
-            />}
-
-
+          src={image}
+          alt={title}
+          style={{
+            objectFit: "cover", 
+            objectPosition: "center",
+            width: "100%", 
+            height: "100%", 
+            // position: "absolute", top: "50%", left: "50%", 
+            transform: "translate(0, 0)", 
+            zIndex: 1, 
+            transition: transitions.create('filter', {duration: 600, delay: 0}), filter: isHovered ? "" : "blur(1px) opacity(0.6) grayscale(.5)"
+            }}
+          />}
     </Box>
   </Button>
   )
@@ -129,7 +125,7 @@ const PostItem = ({ title, image, isPublic, postText, isLiked=false, isBookmarke
       onMouseOver={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       >
-      <PostBody isPublic={isPublic} createdAt={createdAt} title={title} user={user} image={image} isHovered={isHovered} transitions={transitions}/>
+      <PostBody isPublic={isPublic} createdAt={createdAt} title={title} user={user} image={image} isHovered={isHovered} transitions={transitions} postText={postText}/>
       <PostActions palette={palette} isLiked={isLiked} isBookmarked={isBookmarked} user={user} userImage={userImage}/>
     </Grid>
   )
