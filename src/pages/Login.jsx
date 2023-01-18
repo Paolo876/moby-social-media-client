@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import useAuthRedux from '../hooks/useAuthRedux';
 import WelcomeMessage from '../components/WelcomeMessage';
 
-import { Container, Typography, Paper, Button, TextField, Alert, FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton, CircularProgress } from '@mui/material';
+import { Container, Typography, Paper, Button, TextField, Alert, FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton, CircularProgress, Grid } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -23,7 +23,7 @@ export default function Login() {
   return (
     <Container sx={{display: 'flex', justifyContent:'center', alignItems: "center", height: "75vh"}}>
         <WelcomeMessage/>
-        <Paper sx={{py: 5, px: {xs: 2, md:8}, width: "fit-content", mx: "auto"}} elevation={4}>
+        <Paper sx={{py: 5, px: {xs: 2, md:8}, width: "fit-content", mx: "auto" }} elevation={4}>
             <Typography variant="h4" fontWeight={700} mb={4} letterSpacing={1}><LoginIcon style={{verticalAlign:"middle"}} sx={{mr: 1}} fontSize="large"/>LOGIN</Typography>
                 <form onSubmit={handleSubmit} style={{display: "flex", flexDirection: "column", my: 5}}>
                     <TextField 
