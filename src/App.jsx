@@ -20,19 +20,17 @@ function App() {
 
   if(!isAuthReady) return <LoadingSpinner message="Loading Data..."/>
   if(isAuthReady) return (
-    <div className="App">
+    <>
       <Navbar/>
       <Routes>
         <Route element={ user ? <ProfileSetup/> : <Navigate replace to="/login"/>} path="/profile-setup"/>
         <Route element={ user ? <Home/> : <Navigate replace to="/login"/>} path="/"/>
         <Route element={ user ? <Profile/> : <Navigate replace to="/login"/>} path="/profile"/>
-
         {/* auth routes */}
         <Route element={ user ? <Navigate replace to="/"/> : <Login/>} path="/login" />
         <Route element={ user ? <Navigate replace to="/"/> : <Signup/>} path="/signup" />
-
       </Routes>
-    </div>
+    </>
   )
 }
 

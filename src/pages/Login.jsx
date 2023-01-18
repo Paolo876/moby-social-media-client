@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import useAuthRedux from '../hooks/useAuthRedux';
 import WelcomeMessage from '../components/WelcomeMessage';
-
-import { Container, Typography, Paper, Button, TextField, Alert, FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton, CircularProgress, Grid } from '@mui/material';
+import { Container, Typography, Paper, Button, TextField, Alert, FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton, CircularProgress, Box } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -67,5 +66,6 @@ export default function Login() {
             <Typography variant="body2" mt={4}>Not a member yet? <Button  to="/signup" LinkComponent={Link} sx={{textTransform: "none"}}>Click here to sign up.</Button></Typography>
         </Paper>
     </Container>
+
   )
 }

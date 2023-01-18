@@ -28,7 +28,7 @@ const PostsFeed = () => {
   let image;
   if(UserData) image = JSON.parse(UserData.image);
   return (
-    <Grid container >
+    <Grid container>
       <Grid item sx={{m:.5, mt: 1, mb: 2.5, p: 1}} xs={12} onMouseOver={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
         <Button sx={{width: "100%", mr: "auto", p:0, textTransform: "none", textAlign: "left"}} color="info">
           <Paper sx={{width: "100%", p: 3, "&:hover": { boxShadow: 3 }}} variant="outlined">
