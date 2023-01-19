@@ -69,7 +69,7 @@ const PostBody = ({ isPublic, createdAt, title, user, image, isHovered, transiti
             // position: "absolute", top: "50%", left: "50%", 
             transform: "translate(0, 0)", 
             zIndex: 1, 
-            transition: transitions.create('filter', {duration: 600, delay: 0}), filter: isHovered ? "" : "blur(1px) opacity(0.6) grayscale(.5)"
+            transition: transitions.create('filter', {duration: 800, delay: 0}), filter: isPublic && isHovered ? "" : "blur(1px) opacity(0.5) grayscale(.5) brightness(0.65)"
             }}
           />}
     </Box>
