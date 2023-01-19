@@ -42,10 +42,19 @@ const PostBody = ({ isPublic, createdAt, title, user, image, isHovered, transiti
       </Tooltip>}
       <Typography variant="body2" align="right" fontWeight={300} fontSize={12} sx={{position:"absolute", top: 15, right: 15, zIndex: 2 }} color="info">{new Date(createdAt).toLocaleDateString()}</Typography>
 
-      <Stack  sx={{position:"absolute", top: "45%", left: "50%", transform: "translate(-50%,-50%)", zIndex: 2, width: "100%", backgroundColor: isHovered ? "rgba(255,255,255,0.5)" : "", py: 2}}>
+      <Stack  
+        sx={{
+          position:"absolute", top: "45%", left: "50%", transform: "translate(-50%,-50%)", 
+          zIndex: 2, width: "100%", 
+          backgroundColor: isHovered ? "rgba(225,225,225,0.5)" : "", 
+          py: 2,
+          transition: transitions.create('all', {duration: 800, delay: 0}),
+          textShadow: image ? "1px 1px 5px rgba(255,255,255,0.25)" : "initial",
+          }}
+        >
         <Typography variant="h5" align='center' fontWeight={600} pb={isHovered ? .75 :.5} color="primary.dark">{title}</Typography>
-        {isHovered && isPublic && <Typography variant="subtitle1" align='center' sx={{width: "100%", opacity: .8}} mb={2} px={2}>{postText.length > 150 ? postText.substr(0,150) : postText}...</Typography>}
-        {isHovered && !isPublic && <Typography variant="subtitle1" align='center' sx={{width: "100%", opacity: .8}} mb={2} px={2} fontStyle={isPublic ? "" : "italic"}>This post is private.</Typography>}
+        {isHovered && isPublic && <Typography variant="subtitle1" align='center' sx={{width: "100%", opacity: .9}} mb={2} px={2}>{postText.length > 150 ? postText.substr(0,150) : postText}...</Typography>}
+        {isHovered && !isPublic && <Typography variant="subtitle1" align='center' sx={{width: "100%", opacity: .9}} mb={2} px={2} fontStyle={isPublic ? "" : "italic"}>This post is private.</Typography>}
         <Typography variant="body2" align={isHovered ? 'right' : 'center'} fontWeight={400} sx={{opacity: .6}} px={4}>-{user.UserData.firstName} {user.UserData.lastName}</Typography>
       </Stack>
       {image && 
