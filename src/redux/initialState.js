@@ -8,3 +8,12 @@ export const authInitialState = {
     error: null,
 };
 
+/**
+ * postsInitialState
+ */
+export const postsInitialState = {
+    posts: [],
+    isLoading: false,
+    error: null,
+};
+
