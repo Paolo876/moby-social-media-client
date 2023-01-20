@@ -1,11 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import usePostsRedux from '../../hooks/usePostsRedux';
 import { Paper, Typography, Stack, Grid, Chip, Button, Divider } from "@mui/material"
 import { styled } from '@mui/material/styles';
 import useAuthRedux from '../../hooks/useAuthRedux';
 import defaultAvatar from "../../assets/default-profile.png";
 import Image from '../../components/Image';
 import PostItem from './PostItem';
+import LoadingSpinner from '../../components/LoadingSpinner';
 
 const POSTS_DATA = [
   { id: 3, title: "Lorem ipsum dolor sit amet", image: null, isPublic: true, postText: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Amet purus gravida quis blandit turpis. Odio morbi quis commodo odio aenean sed adipiscing diam donec. Donec enim diam vulputate ut pharetra. Amet est placerat in egestas. Est ullamcorper eget nulla facilisi etiam dignissim diam quis. Sed arcu non odio euismod lacinia at. Ut tortor pretium viverra suspendisse potenti nullam ac tortor vitae. Id eu nisl nunc mi ipsum faucibus vitae. Aliquam id diam maecenas ultricies mi eget mauris. Sit amet purus gravida quis blandit turpis. Venenatis tellus in metus vulputate eu scelerisque felis imperdiet proin. Lectus sit amet est placerat in egestas erat imperdiet. Velit ut tortor pretium viverra. Faucibus pulvinar elementum integer enim neque volutpat ac. Odio aenean sed adipiscing diam donec adipiscing tristique risus. Turpis egestas integer eget aliquet nibh praesent tristique. Massa massa ultricies mi quis hendrerit. Ut sem viverra aliquet eget sit amet tellus cras adipiscing. Vel eros donec ac odio tempor orci dapibus ultrices." },
@@ -24,11 +26,19 @@ const Root = styled('div')(({ theme }) => ({
 }));
 
 const PostsFeed = () => {
-  const [ isHovered, setIsHovered ] = useState(false)
+  const { isLoading, error, posts, getPosts } = usePostsRedux();
   const { user: { UserData } } = useAuthRedux();
   const navigate = useNavigate();
+
+  const [ isHovered, setIsHovered ] = useState(false)
+
+  useEffect(() => {
+    if(posts.length === 0) getPosts()
+  }, [])
+
   let image;
   if(UserData) image = JSON.parse(UserData.image);
+
   return (
     <Grid container>
       <Grid item sx={{m:.5, mt: 1, mb: 2.5, p: 1}} xs={12} onMouseOver={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
@@ -60,21 +70,25 @@ const PostsFeed = () => {
       <Root>
         <Divider><Typography variant="body1">{new Date().toLocaleDateString()}</Typography></Divider>
       </Root>
-      {POSTS_DATA.map(item => <PostItem 
-        key={item.id}
-        title={item.title}
-        image={item.image}
-        isPublic={item.isPublic}
-        postText={item.postText}
-      />)}
-      {POSTS_DATA.map(item => <PostItem 
-        key={item.id}
-        title={item.title}
-        image={item.image}
-        isPublic={item.isPublic}
-        postText={item.postText}
-      />)}
 
+      {/* {POSTS_DATA.map(item => <PostItem 
+        key={item.id}
+        title={item.title}
+        image={item.image}
+        isPublic={item.isPublic}
+        postText={item.postText}
+      />)} */}
+      {POSTS_DATA.map(item => <PostItem 
+        key={item.id}
+        title={item.title}
+        image={item.image}
+        isPublic={item.isPublic}
+        postText={item.postText}
+      />)}
+      {isLoading && <Grid item xs={12}>
+        <LoadingSpinner 
+          style={{minHeight: "7em", backgroundColor: "initial", transform: "scale(.6)", opacity: .75}} message="Loading posts..." messageStyle={{color: "black", fontSize: 20}} />
+        </Grid>}
     </Grid>
 
   )
