@@ -8,13 +8,9 @@ export default function useAuthRedux() {
     if(authRedux) {
       return {
         ...authRedux,
-        //   setUserData: data => dispatch(userActions.setUserData(data)),
-        //   setIsLoading: data => dispatch(userActions.setIsLoading(data)),
-        //   setError: () => dispatch(userActions.setError()),
           login: data => dispatch(login(data)),
           signup: data => dispatch(signup(data)),
           profileSetup: data => dispatch(profileSetup(data)),
-        //   updateProfile: data => dispatch(updateProfile(data)),
           logout: () => dispatch(logout()),
           authorizeToken: () => dispatch(authorizeToken()),
       };

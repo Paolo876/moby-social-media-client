@@ -23,83 +23,82 @@ const authSlice = createSlice({
         //     state.success = false;
         // }
     }, 
-    extraReducers: {
-        //login
-        [login.pending.type]: ( state ) => {
+    extraReducers: (builder) => {
+        builder
+        // login
+        .addCase(login.pending, ( state ) => {
             state.isLoading = true;
             state.error = null;
-        },
-        [login.fulfilled.type]: ( state, { payload }) => {
+        })
+        .addCase(login.fulfilled, ( state, { payload }) => {
             state.isLoading = false;
             state.user = payload;
             state.error = null;
-        },
-        [login.rejected]: ( state , { payload }) => {
+
+        })
+        .addCase(login.rejected, ( state , { payload }) => {
             state.isLoading = false;
             state.error = payload.message;
-        },
-        //signup
-        [signup.pending.type]: ( state ) => {
+        })
+        // signup
+        .addCase(signup.pending, ( state ) => {
             state.isLoading = true;
             state.error = null;
-        },
-        [signup.fulfilled.type]: ( state, { payload }) => {
+        })
+        .addCase(signup.fulfilled, ( state, { payload }) => {
             state.isLoading = false;
             state.user = payload;
             state.error = null;
-        },
-        [signup.rejected]: ( state , { payload }) => {
+        })
+        .addCase(signup.rejected, ( state , { payload }) => {
             state.isLoading = false;
             state.error = payload.message;
-        },
-        //profileSetup
-        [profileSetup.pending.type]: ( state ) => {
+        })
+        // profileSetup
+        .addCase(profileSetup.pending, ( state ) => {
             state.isLoading = true;
             state.error = null;
-        },
-        [profileSetup.fulfilled.type]: ( state, { payload }) => {
+        })
+        .addCase(profileSetup.fulfilled, ( state, { payload }) => {
             const user = state.user;
             state.isLoading = false;
             state.user = {...user, UserData: payload };
             state.error = null;
-        },
-        [profileSetup.rejected]: ( state , { payload }) => {
+        })
+        .addCase(profileSetup.rejected, ( state , { payload }) => {
             state.isLoading = false;
             state.error = payload.message;
-        },
-        //logout
-        [logout.pending.type]: ( state ) => {
+        })
+        // logout
+        .addCase(logout.pending, ( state ) => {
             state.isLoading = true;
             state.error = null;
-        },
-        [logout.fulfilled.type]: ( state, { payload }) => {
+        })
+        .addCase(logout.fulfilled, ( state ) => {
             state.isLoading = false;
             state.error = null;
             state.user = null;
             state.userData = null;
-        },
-        [logout.rejected]: ( state , { payload }) => {
+        })
+        .addCase(logout.rejected, ( state , { payload }) => {
             state.isLoading = false;
             state.error = payload.message;
-        },
-        //authorizeToken
-        [authorizeToken.pending.type]: ( state ) => {
+        })
+        // authorizeToken
+        .addCase(authorizeToken.pending, ( state ) => {
             state.isLoading = true;
             state.error = null;
-            state.success = false;
-        },
-        [authorizeToken.fulfilled.type]: ( state, { payload }) => {
+        })
+        .addCase(authorizeToken.fulfilled, ( state, { payload } ) => {
             state.isLoading = false;
             state.error = null;
             state.user = payload;
             state.isAuthReady = true;
-        },
-        [authorizeToken.rejected]: ( state , { payload }) => {
+        })
+        .addCase(authorizeToken.rejected, ( state ) => {
             state.isLoading = false;
-            state.success = false;
             state.isAuthReady = true;
-            // state.error = payload.message
-        }
+        })
     }
 });
 
