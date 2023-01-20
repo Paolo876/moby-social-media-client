@@ -71,19 +71,22 @@ const PostsFeed = () => {
         <Divider><Typography variant="body1">{new Date().toLocaleDateString()}</Typography></Divider>
       </Root>
 
-      {/* {POSTS_DATA.map(item => <PostItem 
-        key={item.id}
-        title={item.title}
-        image={item.image}
-        isPublic={item.isPublic}
-        postText={item.postText}
-      />)} */}
       {POSTS_DATA.map(item => <PostItem 
         key={item.id}
         title={item.title}
         image={item.image}
         isPublic={item.isPublic}
         postText={item.postText}
+      />)}
+      {posts.map(item => <PostItem
+        key={item.id}
+        title={item.title}
+        image={item.image}
+        isPublic={item.isPublic}
+        postText={item.postText}
+        likes={item.Likes.length}
+        user={item.User}
+        createdAt={item.createdAt}
       />)}
       {isLoading && <Grid item xs={12}>
         <LoadingSpinner 

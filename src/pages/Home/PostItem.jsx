@@ -12,7 +12,7 @@ import TurnedInNotIcon from '@mui/icons-material/TurnedInNot';
 const MOCK_USER = {
   username: "johndoe",
   id: 123,
-  UserData: {
+  UserDatum: {
     firstName: "John", 
     lastName: "Doe", 
     image: `{"fileId":"63c267e6e809dd54b064181c","name":"profile_2_GohWaL7-8","url":"https://ik.imagekit.io/q5892cimh/moby/profile-images/profile_2_GohWaL7-8"}`
@@ -55,7 +55,7 @@ const PostBody = ({ isPublic, createdAt, title, user, image, isHovered, transiti
         <Typography variant="h5" align='center' fontWeight={600} pb={isHovered ? .75 :.5} color="primary.dark">{title}</Typography>
         {isHovered && isPublic && <Typography variant="subtitle1" align='center' sx={{width: "100%", opacity: .9}} mb={2} px={2}>{postText.length > 150 ? postText.substr(0,150) : postText}...</Typography>}
         {isHovered && !isPublic && <Typography variant="subtitle1" align='center' sx={{width: "100%", opacity: .9}} mb={2} px={2} fontStyle={isPublic ? "" : "italic"}>This post is private.</Typography>}
-        <Typography variant="body2" align={isHovered ? 'right' : 'center'} fontWeight={400} sx={{opacity: .6}} px={4}>-{user.UserData.firstName} {user.UserData.lastName}</Typography>
+        <Typography variant="body2" align={isHovered ? 'right' : 'center'} fontWeight={400} sx={{opacity: .6}} px={4}>-{user.UserDatum.firstName} {user.UserDatum.lastName}</Typography>
       </Stack>
       {image && 
         <Image 
@@ -102,7 +102,7 @@ const PostActions = ({ palette, isLiked, isBookmarked, user, userImage}) => {
           <Button color="secondary" sx={{ textTransform: "initial", color: "initial", py: 0 }} onClick={() => navigate(`/profile/${user.id}`)}>
             <Stack mr={.75} py={.5} alignItems="flex-end">
               <Typography variant="body1" align='right' color="rgba(255, 255, 255, .75)" fontSize={13} fontWeight={500}>@{user.username}</Typography>
-              <Typography variant="body1" align='right' color="rgba(255, 255, 255, .75)" fontSize={10.5} fontWeight={300}>{user.UserData.firstName} {user.UserData.lastName}</Typography>
+              <Typography variant="body1" align='right' color="rgba(255, 255, 255, .75)" fontSize={10.5} fontWeight={300}>{user.UserDatum.firstName} {user.UserDatum.lastName}</Typography>
             </Stack>
             {userImage ? 
               <Image 
@@ -124,7 +124,7 @@ const PostItem = ({ title, image, isPublic, postText, isLiked=false, isBookmarke
   const [ isHovered, setIsHovered ] = useState(false)
   const { palette, transitions } = useTheme();
   let userImage;
-  if(user && user.UserData) userImage = JSON.parse(user.UserData.image);
+  if(user && user.UserDatum) userImage = JSON.parse(user.UserDatum.image);
 
   return (
     <Grid 
