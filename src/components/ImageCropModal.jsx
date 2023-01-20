@@ -5,17 +5,7 @@ import InputSlider from './InputSlider';
 import CropIcon from '@mui/icons-material/Crop';
 import RotateLeftIcon from '@mui/icons-material/RotateLeft';
 
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  boxShadow: 24,
-  p: 4,
-};
-
-const ImageCropModal = ({ openModal, handleClose, setImage, imageData, setShowModal }) => {
+const ImageCropModal = ({ openModal, handleClose, setImage, imageData, setShowModal, width, height, border, borderRadius }) => {
   const editor = useRef(null);
   const [ scale, setScale ] = useState(1);
   const [ rotate, setRotate ] = useState(0);
@@ -33,22 +23,32 @@ const ImageCropModal = ({ openModal, handleClose, setImage, imageData, setShowMo
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
     >
-        <Paper sx={style}>
-        <Stack alignItems="center" justifyContent="center" >
+        <Paper sx={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          minWidth: width + 100,
+          boxShadow: 24,
+          p: 4,
+        }}>
+        <Stack alignItems="center" justifyContent="center">
           <AvatarEditor
             ref={editor}
             image={imageData}
-            width={200}
-            height={200}
-            border={20}
-            borderRadius={100}
+            width={width}
+            height={height}
+            border={border}
+            borderRadius={borderRadius}
             color={[0, 0, 0, .9]} // RGBA
             backgroundColor="rgb(0,0,0)"
             scale={scale}
             rotate={rotate}
             crossOrigin="use-credentials"
             disableHiDPIScaling={true}
+            
           />
+
         </Stack>
         <Stack direction="column" alignItems="center" justifyContent="center" spacing={1.5} my={2}>
           <InputSlider icon={<CropIcon sx={{mr: 1}} color="secondary"/>} min={1} max={3} value={scale} setValue={setScale} step={.1}/>

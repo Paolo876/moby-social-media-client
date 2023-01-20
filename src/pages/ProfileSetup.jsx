@@ -8,7 +8,8 @@ import * as Yup from 'yup';
 import MyTextField from '../components/MyTextField';
 import UploadImageForm from '../components/UploadImageForm';
 import useImagekit from '../hooks/useImagekit';
-import LoadingSpinner from "../components/LoadingSpinner"
+import LoadingSpinner from "../components/LoadingSpinner";
+import defaultAvatar from "../assets/default-profile.png"
 const initialValues = {
   firstName: "",
   lastName: "",
@@ -105,6 +106,12 @@ const ProfileSetup = () => {
                 setImage={setImage} 
                 image={image} 
                 title="Profile Picture"
+                defaultImage={defaultAvatar}
+                previewStyle={{height: "100px", width: "100px", borderRadius: "50%"}}
+                width={200}
+                height={200}
+                border={20}
+                borderRadius={100}
               />
               {!isLoading && <Button variant="contained" size="large" sx={{mt: 4}} type="submit">Update profile</Button>}
               {isLoading && <Button variant="contained" type="submit" size="large" sx={{ mt: 5 }} disabled>

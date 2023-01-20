@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Paper, Typography, Button, Stack, ButtonBase } from "@mui/material"
 import { styled } from '@mui/material/styles';
-import defaultAvatar from "../assets/default-profile.png";
 import DeleteIcon from '@mui/icons-material/Delete';
 import CropIcon from '@mui/icons-material/Crop';
 import ImageCropModal from './ImageCropModal';
@@ -9,9 +8,8 @@ const Input = styled('input')({
     display: 'none',
 });
 
-const UploadImageForm = ({ image, setImage, title }) => {
+const UploadImageForm = ({ image, setImage, title, defaultImage, previewStyle , width, height, border, borderRadius  }) => {
   const [ imageData, setImageData ] = useState(null);
-//   const [ imageFile, setImageFile ] = useState(null);
   const [ showModal, setShowModal ] = useState(false);
   const onChangePicture = e => {
     if (e.target.files[0]) {
@@ -35,7 +33,7 @@ const UploadImageForm = ({ image, setImage, title }) => {
 
             <Stack direction="row" alignItems="center" justifyContent="center" spacing={6} my={3}>
                 <ButtonBase sx={{borderRadius: "50%"}}>
-                    <img src={image ? image : defaultAvatar} style={{height: "100px", width: "100px", borderRadius: "50%"}}/>
+                    <img src={image ? image : defaultImage} style={previewStyle}/>
                 </ButtonBase>
                 <Stack spacing={1}>
                     {image && <>
@@ -49,7 +47,19 @@ const UploadImageForm = ({ image, setImage, title }) => {
                 </Stack>
             </Stack>
         </Paper>
-        <ImageCropModal openModal={showModal} image={image} handleClose={() => setShowModal(false)} setImage={setImage} imageData={imageData} setImageData={setImageData} setShowModal={setShowModal}/>
+        <ImageCropModal 
+          openModal={showModal} 
+          image={image} 
+          handleClose={() => setShowModal(false)} 
+          setImage={setImage} 
+          imageData={imageData} 
+          setImageData={setImageData} 
+          setShowModal={setShowModal}
+          width={width}
+          height={height}
+          border={border}
+          borderRadius={borderRadius}
+          />
     </>
     
   )

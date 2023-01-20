@@ -119,13 +119,11 @@ const PostActions = ({ palette, isLiked, isBookmarked, user, userImage}) => {
   )
 }
 
-const PostItem = ({ title, image, isPublic, postText, isLiked=false, isBookmarked=false, user=MOCK_USER, createdAt="2023-01-11 08:01:57" }) => {
-  const navigate = useNavigate();
+const PostItem = ({ title, image, isPublic, postText, isLiked=false, isBookmarked=false, user=MOCK_USER, createdAt="2023-01-5 08:01:57" }) => {
   const [ isHovered, setIsHovered ] = useState(false)
   const { palette, transitions } = useTheme();
   let userImage;
   if(user && user.UserDatum) userImage = JSON.parse(user.UserDatum.image);
-
   return (
     <Grid 
       item 

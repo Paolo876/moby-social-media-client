@@ -27,7 +27,7 @@ const Root = styled('div')(({ theme }) => ({
 
 const PostsFeed = () => {
   const { isLoading, error, posts, getPosts } = usePostsRedux();
-  const { user: { UserData } } = useAuthRedux();
+  const { user: { UserData, id } } = useAuthRedux();
   const navigate = useNavigate();
 
   const [ isHovered, setIsHovered ] = useState(false)
@@ -85,6 +85,7 @@ const PostsFeed = () => {
         isPublic={item.isPublic}
         postText={item.postText}
         likes={item.Likes.length}
+        isLiked={item.Likes.some(item => item.UserId === id)}
         user={item.User}
         createdAt={item.createdAt}
       />)}
