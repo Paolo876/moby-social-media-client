@@ -1,10 +1,16 @@
+import { useEffect } from "react";
 import AuthorizedPageContainer from "../../components/AuthorizedPageContainer";
 import UserNavigation from "./UserNavigation";
 import PostsFeed from "./PostsFeed";
 import { Grid, Container, Box } from "@mui/material"
-
+import usePostsRedux from "../../hooks/usePostsRedux";
 const Home = () => {
+  const { posts, isLoading, getPosts } = usePostsRedux();
 
+  useEffect(() => {
+    getPosts()
+  }, [])
+  
   return (
     <AuthorizedPageContainer>
       <Container maxWidth="xl" sx={{position: "relative"}}>
