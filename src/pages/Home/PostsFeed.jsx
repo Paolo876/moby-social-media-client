@@ -64,6 +64,7 @@ const PostsFeed = () => {
       </Root>
       {posts.map(item => <PostItem
         key={item.id}
+        id={item.id}
         title={item.title}
         image={item.image}
         isPublic={item.isPublic}

@@ -32,3 +32,19 @@ export const createPost = createAsyncThunk( 'posts/createPost', async ( payload,
         return rejectWithValue(err.response.data)
     }
 })
+
+
+/** likePost
+ *  @desc like/unlike a post. If post is already liked, it unlikes automatically from server
+ */
+export const likePost = createAsyncThunk( 'posts/likePost', async ( payload, { rejectWithValue }) => {
+    try {
+        const res = await axios.get(`${process.env.REACT_APP_DOMAIN_URL}/api/posts/like/${payload}`, {
+            headers: { 'Content-Type': 'application/json' },
+            withCredentials: true,
+        });
+        return res.data;
+    } catch (err){
+        return rejectWithValue(err.response.data)
+    }
+})

@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { postsInitialState } from "../initialState";
-import { getPosts, createPost } from "./postsReducers";
+import { getPosts, createPost, likePost } from "./postsReducers";
 
 const postsSlice = createSlice({
     name: "posts",
@@ -35,6 +35,28 @@ const postsSlice = createSlice({
             state.posts = updatedPosts;
         })
         .addCase(createPost.rejected, ( state, { payload }) => {
+            state.isLoading = false;
+            state.error = payload.message;
+        })
+        //likePost
+        .addCase(likePost.pending, (state) => {
+            state.isLoading = true;
+            state.error = null;
+        })
+        .addCase(likePost.fulfilled, ( state, { payload }) => {
+            state.isLoading = false;
+            state.error = null;
+            const { isLiked, id, UserId } = payload;
+            const updatedPosts = state.posts;
+            let post = updatedPosts.find(item => parseInt(item.id) === parseInt(id));
+            if(isLiked) {
+                post.Likes.push({UserId});
+            } else {
+                post.Likes = post.Likes.filter(item => item.UserId !== UserId)
+            }
+            state.posts = updatedPosts;
+        })
+        .addCase(likePost.rejected, ( state, { payload }) => {
             state.isLoading = false;
             state.error = payload.message;
         })

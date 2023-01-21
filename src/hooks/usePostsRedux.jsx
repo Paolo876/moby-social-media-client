@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { postsActions } from '../redux/reducers/postsSlice';
-import { getPosts, createPost } from '../redux/reducers/postsReducers';
+import { getPosts, createPost,likePost } from '../redux/reducers/postsReducers';
 
 export default function usePostsRedux() {
     const dispatch = useDispatch();
@@ -10,6 +10,7 @@ export default function usePostsRedux() {
         ...postsRedux,
         getPosts: data => dispatch(getPosts(data)),
         createPost: data => dispatch(createPost(data)),
+        likePost: data => dispatch(likePost(data)),
       };
     } else {
       throw Error('Error accessing posts reducer.');

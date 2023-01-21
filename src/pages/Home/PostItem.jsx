@@ -8,17 +8,9 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import TurnedInIcon from '@mui/icons-material/TurnedIn';
 import TurnedInNotIcon from '@mui/icons-material/TurnedInNot';
-const MOCK_USER = {
-  username: "johndoe",
-  id: 123,
-  UserDatum: {
-    firstName: "John", 
-    lastName: "Doe", 
-    image: `{"fileId":"63c267e6e809dd54b064181c","name":"profile_2_GohWaL7-8","url":"https://ik.imagekit.io/q5892cimh/moby/profile-images/profile_2_GohWaL7-8"}`
-  }
-}
+import usePostsRedux from '../../hooks/usePostsRedux';
 
-const PostBody = ({ isPublic, createdAt, title, user, image: coverImage, isHovered, transitions, postText }) => {
+const PostBody = ({ isPublic, title, user, image: coverImage, isHovered, transitions, postText }) => {
   let image;
   if(coverImage) image = JSON.parse(coverImage);
   return (
@@ -41,8 +33,6 @@ const PostBody = ({ isPublic, createdAt, title, user, image: coverImage, isHover
       {!isPublic && <Tooltip title="Private posts are only visible to friends of the author." arrow >
         <LockIcon fontSize="small" sx={{position: "absolute", top: 10, left: 10, opacity: .9, zIndex: 5}} color="info"/>
       </Tooltip>}
-      <Typography variant="body2" align="right" fontWeight={300} fontSize={12} sx={{position:"absolute", top: 15, right: 15, zIndex: 2 }} color="info">{new Date(createdAt).toLocaleDateString()}</Typography>
-
       <Stack  
         sx={{
           position:"absolute", top: "45%", left: "50%", transform: "translate(-50%,-50%)", 
@@ -77,13 +67,14 @@ const PostBody = ({ isPublic, createdAt, title, user, image: coverImage, isHover
   )
 }
 
-const PostActions = ({ palette, isLiked, isBookmarked, user, userImage}) => {
+const PostActions = ({ palette, isLiked, isBookmarked, user, userImage, createdAt, id}) => {
   const navigate = useNavigate();
+  const { likePost, isLoading } = usePostsRedux();
   return (
     <Paper sx={{backgroundColor: palette.primary.main, p:1, py:0.5, borderRadius: "0 0 10px 10px", zIndex:1000}}>
       <Stack flexDirection="row" alignItems="center" justifyContent="space-between" px={.5}>
         <Stack flexDirection="row">
-          <IconButton sx={{py:1.25, px: 2, mr:.25, borderRadius: 5}} >
+          <IconButton sx={{py:1.25, px: 2, mr:.25, borderRadius: 5}} onClick={() => likePost(id)} disabled={isLoading}>
             {isLiked ? 
               <FavoriteIcon fontSize="medium" sx={{color: "rgba(229, 85, 85, 1)"}}/> : 
               <FavoriteBorderIcon fontSize="medium" sx={{color: "rgba(229, 85, 85, .85)"}}/>
@@ -102,15 +93,15 @@ const PostActions = ({ palette, isLiked, isBookmarked, user, userImage}) => {
           <Button color="secondary" sx={{ textTransform: "initial", color: "initial", py: 0 }} onClick={() => navigate(`/profile/${user.id}`)}>
             <Stack mr={.75} py={.5} alignItems="flex-end">
               <Typography variant="body1" align='right' color="rgba(255, 255, 255, .75)" fontSize={13} fontWeight={500}>@{user.username}</Typography>
-              <Typography variant="body1" align='right' color="rgba(255, 255, 255, .75)" fontSize={10.5} fontWeight={300}>{user.UserDatum.firstName} {user.UserDatum.lastName}</Typography>
+              <Typography variant="body1" align='right' color="rgba(255, 255, 255, .75)" fontSize={10.5} fontWeight={300} mt={.25}>{new Date(createdAt).toLocaleDateString()}</Typography>
             </Stack>
             {userImage ? 
               <Image 
                   src={userImage.url} 
-                  transformation={[{ height: 25, width: 25 }]} 
+                  transformation={[{ height: 28, width: 28 }]} 
                   style={{borderRadius: "50%"}}
                   alt="profile-avatar"
-              /> : <img src={defaultAvatar} style={{height: "25px", width: "25px"}} alt="profile-avatar"/>
+              /> : <img src={defaultAvatar} style={{height: "28px", width: "28px"}} alt="profile-avatar"/>
             }
           </Button>
         </Stack>
@@ -119,7 +110,7 @@ const PostActions = ({ palette, isLiked, isBookmarked, user, userImage}) => {
   )
 }
 
-const PostItem = ({ title, image, isPublic, postText, isLiked=false, isBookmarked=false, user, createdAt, updatedAt}) => {
+const PostItem = ({ title, image, isPublic, postText, isLiked=false, isBookmarked=false, user, createdAt, updatedAt, id}) => {
   const [ isHovered, setIsHovered ] = useState(false)
   const { palette, transitions } = useTheme();
   let userImage;
@@ -133,7 +124,7 @@ const PostItem = ({ title, image, isPublic, postText, isLiked=false, isBookmarke
       onMouseLeave={() => setIsHovered(false)}
       >
       <PostBody isPublic={isPublic} createdAt={createdAt} title={title} user={user} image={image} isHovered={isHovered} transitions={transitions} postText={postText}/>
-      <PostActions palette={palette} isLiked={isLiked} isBookmarked={isBookmarked} user={user} userImage={userImage}/>
+      <PostActions palette={palette} isLiked={isLiked} isBookmarked={isBookmarked} user={user} userImage={userImage} createdAt={createdAt} id={id}/>
     </Grid>
   )
 }
