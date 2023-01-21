@@ -74,20 +74,24 @@ const PostActions = ({ palette, isLiked, isBookmarked, user, userImage, createdA
     <Paper sx={{backgroundColor: palette.primary.main, p:1, py:0.5, borderRadius: "0 0 10px 10px", zIndex:1000}}>
       <Stack flexDirection="row" alignItems="center" justifyContent="space-between" px={.5}>
         <Stack flexDirection="row">
-          <IconButton sx={{py:1.25, px: 2, mr:.25, borderRadius: 5}} onClick={() => likePost(id)} disabled={isLoading}>
-            {isLiked ? 
-              <FavoriteIcon fontSize="medium" sx={{color: "rgba(229, 85, 85, 1)"}}/> : 
-              <FavoriteBorderIcon fontSize="medium" sx={{color: "rgba(229, 85, 85, .85)"}}/>
-            }
-            <Typography variant="body2" color="rgba(0, 0, 0, .45)" sx={{ml:.5}}>Like</Typography>
-          </IconButton>
-          <IconButton sx={{py:.75, px: 2, mr:.25, borderRadius: 5}}>
-            {isBookmarked ? 
-              <TurnedInIcon fontSize="medium" sx={{color: "rgba(239, 144, 60, 1)"}}/> : 
-              <TurnedInNotIcon fontSize="medium" sx={{color: "rgba(239, 144, 60, 1)"}}/>
-            }
-            <Typography variant="body2" color="rgba(0, 0, 0, .45)" sx={{ml:.5}}>Bookmark</Typography>
-          </IconButton>
+          <Tooltip title={isLiked ? "You liked this post." : "Like Post"} arrow>
+            <IconButton sx={{py:1.25, px: 2, mr:.25, borderRadius: 5}} onClick={() => likePost(id)} disabled={isLoading}>
+              {isLiked ? 
+                <FavoriteIcon fontSize="medium" sx={{color: "rgba(229, 85, 85, 1)"}}/> : 
+                <FavoriteBorderIcon fontSize="medium" sx={{color: "rgba(229, 85, 85, .85)"}}/>
+              }
+              <Typography variant="body2" color="rgba(0, 0, 0, .45)" sx={{ml:.5}}>Like</Typography>
+            </IconButton>
+          </Tooltip>
+          <Tooltip title={isBookmarked ? "You bookmarked this post." : "Bookmark Post"} arrow>
+            <IconButton sx={{py:.75, px: 2, mr:.25, borderRadius: 5}}>
+              {isBookmarked ? 
+                <TurnedInIcon fontSize="medium" sx={{color: "rgba(239, 144, 60, 1)"}}/> : 
+                <TurnedInNotIcon fontSize="medium" sx={{color: "rgba(239, 144, 60, 1)"}}/>
+              }
+              <Typography variant="body2" color="rgba(0, 0, 0, .45)" sx={{ml:.5}}>Bookmark</Typography>
+            </IconButton>
+          </Tooltip>
         </Stack>
         <Stack>
           <Button color="secondary" sx={{ textTransform: "initial", color: "initial", py: 0 }} onClick={() => navigate(`/profile/${user.id}`)}>
