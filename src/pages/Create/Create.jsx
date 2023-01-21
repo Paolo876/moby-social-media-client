@@ -8,13 +8,13 @@ import UploadImageForm from '../../components/UploadImageForm';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import { Formik, Form } from "formik";
 import * as Yup from 'yup';
-import { Container, Typography, Paper, Button, CircularProgress, Grid, FormGroup, Checkbox, FormControlLabel } from '@mui/material';
+import { Container, Typography, Paper, Button, CircularProgress, Grid, FormGroup, Checkbox, FormControlLabel, Alert } from '@mui/material';
 import defaultImage from "../../assets/image-icon.png"
 
 
 const Create = () => {
     const { user } = useAuthRedux();
-    const { isLoading, error } = usePostsRedux();
+    const { isLoading, error, createPost } = usePostsRedux();
     const { getAuthenticationEndpoint, uploadImage, isLoading: isImagekitLoading, error: imagekitError } = useImagekit();
     const [ image, setImage ] = useState(null);
     const [ authenticationEndpoint, setAuthenticationEndpoint ] = useState(null);
@@ -33,7 +33,7 @@ const Create = () => {
         postText: "",
     }
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (data) => {
         if(image){
             //upload to imagekit
             const res = await uploadImage({
@@ -45,10 +45,10 @@ const Create = () => {
             if(!imagekitError){
                 const { fileId, name, url, thumbnailUrl } = res;
                 const imageData = JSON.stringify({fileId, name, url, thumbnailUrl})
-                profileSetup({...data, image: imageData})
+                createPost({...data, image: imageData})
               }
         }else {
-            // profileSetup({...data, image})
+            createPost({...data, image})
         }
     }
   return (
@@ -60,6 +60,8 @@ const Create = () => {
                 <Grid item xs={12} md={8} py={2}>
                     <Paper sx={{py: 5, px: {xs: 2, md:8}, width: "100%", mx: "auto" }} elevation={4}>
                         <Typography variant="h4" fontWeight={700} mb={2} letterSpacing={.5}>Create A New Post</Typography>
+                        {imagekitError && <Alert severity="error">{imagekitError}</Alert>}
+                        {error && <Alert severity="error">{error}</Alert>}
                         <Formik  
                             initialValues={initialValues}
                             onSubmit={handleSubmit} 

@@ -16,3 +16,19 @@ export const getPosts = createAsyncThunk( 'posts/getPosts', async ( payload, { r
         return rejectWithValue(err.response.data)
     }
 })
+
+
+/** createPost
+ *  @desc create a new post
+ */
+export const createPost = createAsyncThunk( 'posts/createPost', async ( payload, { rejectWithValue }) => {
+    try {
+        const res = await axios.post(`${process.env.REACT_APP_DOMAIN_URL}/api/posts/create`, payload, {
+            headers: { 'Content-Type': 'application/json' },
+            withCredentials: true,
+        });
+        return res.data;
+    } catch (err){
+        return rejectWithValue(err.response.data)
+    }
+})
