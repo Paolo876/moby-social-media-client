@@ -92,7 +92,7 @@ const Create = () => {
                                     title={<>Cover Image <small>(optional)</small></>}
                                     defaultImage={defaultImage}
                                     previewStyle={{height: "175px", width: "220px"}}
-                                    width={500}
+                                    width={600}
                                     height={400}
                                     border={20}
                                     borderRadius={0}

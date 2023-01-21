@@ -4,7 +4,6 @@ import Image from '../../components/Image';
 import defaultAvatar from "../../assets/default-profile.png";
 import { Grid, Paper, Button, Typography, useTheme, Stack, IconButton, Tooltip, Box } from '@mui/material';
 import LockIcon from '@mui/icons-material/Lock';
-import ForumIcon from '@mui/icons-material/Forum';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import TurnedInIcon from '@mui/icons-material/TurnedIn';
@@ -22,7 +21,6 @@ const MOCK_USER = {
 const PostBody = ({ isPublic, createdAt, title, user, image: coverImage, isHovered, transitions, postText }) => {
   let image;
   if(coverImage) image = JSON.parse(coverImage);
-  console.log(image)
   return (
   <Button 
     sx={{
@@ -36,7 +34,7 @@ const PostBody = ({ isPublic, createdAt, title, user, image: coverImage, isHover
     <Box 
       sx={{
         position: "relative", 
-        width: "100%", p: 0, color: "black", minHeight: 250, maxHeight: 350, borderRadius: "10px 10px 0 0", overflow: "hidden", backgroundColor: "white"
+        width: "100%", p: 0, color: "black", minHeight: {xs: 170, sm:200}, maxHeight: {xs: 220, sm:300, md: 330, lg: 350}, borderRadius: "10px 10px 0 0", overflow: "hidden", backgroundColor: "white"
       }} 
       variant="outlined"
       >
@@ -121,7 +119,7 @@ const PostActions = ({ palette, isLiked, isBookmarked, user, userImage}) => {
   )
 }
 
-const PostItem = ({ title, image, isPublic, postText, isLiked=false, isBookmarked=false, user=MOCK_USER, createdAt="2023-01-5 08:01:57" }) => {
+const PostItem = ({ title, image, isPublic, postText, isLiked=false, isBookmarked=false, user, createdAt, updatedAt}) => {
   const [ isHovered, setIsHovered ] = useState(false)
   const { palette, transitions } = useTheme();
   let userImage;
