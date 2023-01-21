@@ -45,10 +45,10 @@ const Create = () => {
             if(!imagekitError){
                 const { fileId, name, url, thumbnailUrl } = res;
                 const imageData = JSON.stringify({fileId, name, url, thumbnailUrl})
-                createPost({...data, image: imageData})
+                createPost({...data, image: imageData, isPublic})
               }
         }else {
-            createPost({...data, image})
+            createPost({...data, image, isPublic})
         }
     }
   return (

@@ -19,7 +19,10 @@ const MOCK_USER = {
   }
 }
 
-const PostBody = ({ isPublic, createdAt, title, user, image, isHovered, transitions, postText }) => {
+const PostBody = ({ isPublic, createdAt, title, user, image: coverImage, isHovered, transitions, postText }) => {
+  let image;
+  if(coverImage) image = JSON.parse(coverImage);
+  console.log(image)
   return (
   <Button 
     sx={{
@@ -59,14 +62,13 @@ const PostBody = ({ isPublic, createdAt, title, user, image, isHovered, transiti
       </Stack>
       {image && 
         <Image 
-          src={image}
-          alt={title}
+          src={image.url}
+          alt={image.name}
           style={{
             objectFit: "cover", 
             objectPosition: "center",
             width: "100%", 
             height: "100%", 
-            // position: "absolute", top: "50%", left: "50%", 
             transform: "translate(0, 0)", 
             zIndex: 1, 
             transition: transitions.create('filter', {duration: 800, delay: 0}), filter: isPublic && isHovered ? "" : "blur(1px) opacity(0.5) grayscale(.5) brightness(0.65)"

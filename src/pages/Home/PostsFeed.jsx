@@ -71,13 +71,13 @@ const PostsFeed = () => {
         <Divider><Typography variant="body1">{new Date().toLocaleDateString()}</Typography></Divider>
       </Root>
 
-      {POSTS_DATA.map(item => <PostItem 
+      {/* {POSTS_DATA.map(item => <PostItem 
         key={item.id}
         title={item.title}
         image={item.image}
         isPublic={item.isPublic}
         postText={item.postText}
-      />)}
+      />)} */}
       {posts.map(item => <PostItem
         key={item.id}
         title={item.title}
