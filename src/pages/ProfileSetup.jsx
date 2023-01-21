@@ -46,8 +46,8 @@ const ProfileSetup = () => {
         folder: "/moby/profile-images/"
       })
       if(!imagekitError){
-        const { fileId, name, url, thumbnail } = res;
-        const imageData = JSON.stringify({fileId, name, url, thumbnail})
+        const { fileId, name, url, thumbnailUrl } = res;
+        const imageData = JSON.stringify({fileId, name, url, thumbnailUrl})
         profileSetup({...data, image: imageData})
       }
     } else {
