@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import useAuthRedux from '../hooks/useAuthRedux';
 import { styled, alpha } from '@mui/material/styles';
-import { AppBar, Box, Toolbar, IconButton, InputBase, Badge, MenuItem, Menu, Container } from '@mui/material';
+import { AppBar, Box, Toolbar, IconButton, InputBase, Badge, MenuItem, Menu, Container, Tooltip } from '@mui/material';
 import LoadingSpinner from './LoadingSpinner';
 import Image from './Image';
 //media
@@ -197,41 +197,47 @@ const Navbar = () => {
               </Search>
               <Box sx={{ flexGrow: 1 }} />
               <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                <IconButton
-                  size="large"
-                  aria-label="show 17 new notifications"
-                  color="inherit"
-                >
-                  <Badge badgeContent={5} color="error">
-                    <NotificationsIcon />
-                  </Badge>
-                </IconButton>
-                <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-                  <Badge badgeContent={5} color="error">
-                    <ChatIcon />
-                  </Badge>
-                </IconButton>
-                <IconButton
-                  size="large"
-                  edge="end"
-                  aria-label="account of current user"
-                  aria-controls={menuId}
-                  aria-haspopup="true"
-                  onClick={handleProfileMenuOpen}
-                  color="inherit"
-                >
-                  {image ?  
-                    <Image 
-                      src={image.url} 
-                      transformation={[{
-                        height: 25,
-                        width: 25,
-                      }]} 
-                      style={{borderRadius: "50%"}}
-                    />
-                    :
-                    <AccountCircle />}
-                </IconButton>
+                <Tooltip title="Notifications" arrow>
+                  <IconButton
+                    size="large"
+                    aria-label="show 17 new notifications"
+                    color="inherit"
+                  >
+                    <Badge badgeContent={5} color="error">
+                      <NotificationsIcon />
+                    </Badge>
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="Messages" arrow>
+                  <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+                    <Badge badgeContent={5} color="error">
+                      <ChatIcon />
+                    </Badge>
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="Account" arrow>
+                  <IconButton
+                    size="large"
+                    edge="end"
+                    aria-label="account of current user"
+                    aria-controls={menuId}
+                    aria-haspopup="true"
+                    onClick={handleProfileMenuOpen}
+                    color="inherit"
+                  >
+                    {image ?  
+                      <Image 
+                        src={image.url} 
+                        transformation={[{
+                          height: 25,
+                          width: 25,
+                        }]} 
+                        style={{borderRadius: "50%"}}
+                      />
+                      :
+                      <AccountCircle />}
+                  </IconButton>
+                </Tooltip>
               </Box>
               <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
                 <IconButton
