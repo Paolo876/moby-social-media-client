@@ -5,12 +5,15 @@ import defaultAvatar from "../../assets/default-profile.png";
 import { Grid, Paper, Button, Typography, useTheme, Stack, IconButton, Tooltip, Box } from '@mui/material';
 import LockIcon from '@mui/icons-material/Lock';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import ForumIcon from '@mui/icons-material/Forum';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import TurnedInIcon from '@mui/icons-material/TurnedIn';
 import TurnedInNotIcon from '@mui/icons-material/TurnedInNot';
 import usePostsRedux from '../../hooks/usePostsRedux';
 
-const PostBody = ({ isPublic, title, user, image: coverImage, isHovered, transitions, postText, isBookmarked }) => {
+const PostBody = ({ isPublic, title, user, image: coverImage, isHovered, transitions, postText, isBookmarked, id }) => {
+  const navigate = useNavigate();
+
   let image;
   if(coverImage) image = JSON.parse(coverImage);
   return (
@@ -31,6 +34,7 @@ const PostBody = ({ isPublic, title, user, image: coverImage, isHovered, transit
           transition: transitions.create('filter', {duration: 1200, delay: 0})
           }} 
           color="primary"
+          onClick={() => navigate(`posts/${id}`)}
         >
         <Box 
           sx={{
@@ -78,7 +82,7 @@ const PostBody = ({ isPublic, title, user, image: coverImage, isHovered, transit
   )
 }
 
-const PostActions = ({ palette, isLiked, isBookmarked, user, userImage, createdAt, id, likes}) => {
+const PostActions = ({ palette, isLiked, isBookmarked, user, userImage, createdAt, id, likes, comments}) => {
   const navigate = useNavigate();
   const { likePost, isLoading } = usePostsRedux();
   return (
@@ -92,6 +96,13 @@ const PostActions = ({ palette, isLiked, isBookmarked, user, userImage, createdA
                 <FavoriteBorderIcon fontSize="medium" sx={{color: "rgba(229, 85, 85, .85)"}}/>
               }
               <Typography variant="body2" color="rgba(255, 255, 255, .75)" sx={{ml:1}}>{likes > 0 && likes}</Typography>
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Comments" arrow leaveDelay={50}>
+            <IconButton sx={{py:1.25, px: 2, mr:.25, borderRadius: 5}} onClick={() => navigate(`posts/${id}`)} disabled={isLoading}>
+              <ForumIcon fontSize="medium" color="info" />
+              <Typography variant="body2" color="rgba(255, 255, 255, .75)" sx={{ml:1}}>{comments > 0 && comments}</Typography>
+
             </IconButton>
           </Tooltip>
         </Stack>
@@ -116,7 +127,7 @@ const PostActions = ({ palette, isLiked, isBookmarked, user, userImage, createdA
   )
 }
 
-const PostItem = ({ title, image, isPublic, postText, isLiked=false, isBookmarked=false, user, createdAt, updatedAt, id, likes}) => {
+const PostItem = ({ title, image, isPublic, postText, isLiked=false, isBookmarked=false, user, createdAt, updatedAt, id, likes, comments}) => {
   const [ isHovered, setIsHovered ] = useState(false)
   const { palette, transitions } = useTheme();
   let userImage;
@@ -129,8 +140,8 @@ const PostItem = ({ title, image, isPublic, postText, isLiked=false, isBookmarke
       onMouseOver={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       >
-      <PostBody isPublic={isPublic} createdAt={createdAt} title={title} user={user} image={image} isHovered={isHovered} transitions={transitions} postText={postText}/>
-      <PostActions palette={palette} isLiked={isLiked} isBookmarked={isBookmarked} user={user} userImage={userImage} createdAt={createdAt} id={id} likes={likes}/>
+      <PostBody isPublic={isPublic} createdAt={createdAt} title={title} user={user} image={image} isHovered={isHovered} transitions={transitions} postText={postText} id={id}/>
+      <PostActions palette={palette} isLiked={isLiked} isBookmarked={isBookmarked} user={user} userImage={userImage} createdAt={createdAt} id={id} likes={likes} comments={comments}/>
     </Grid>
   )
 }

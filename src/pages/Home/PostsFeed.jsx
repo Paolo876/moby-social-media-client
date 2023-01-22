@@ -70,6 +70,7 @@ const PostsFeed = () => {
         isPublic={item.isPublic}
         postText={item.postText}
         likes={item.Likes.length}
+        comments={item.Comments.length}
         isLiked={item.Likes.some(item => item.UserId === id)}
         user={item.User}
         createdAt={item.createdAt}
