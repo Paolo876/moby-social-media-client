@@ -85,6 +85,7 @@ const Create = () => {
                                     rows={12}
                                     multiline
                                     sx={{my:1, width: "100%"}}
+                                    // style={{whiteSpace: "pre"}}
                                 />
                                 <UploadImageForm
                                     setImage={setImage} 
