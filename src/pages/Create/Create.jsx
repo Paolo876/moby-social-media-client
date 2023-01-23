@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom';
 import usePostsRedux from "../../hooks/usePostsRedux";
 import useAuthRedux from '../../hooks/useAuthRedux';
 import useImagekit from '../../hooks/useImagekit';
@@ -16,6 +17,9 @@ const Create = () => {
     const { user } = useAuthRedux();
     const { isLoading, error, createPost } = usePostsRedux();
     const { getAuthenticationEndpoint, uploadImage, isLoading: isImagekitLoading, error: imagekitError } = useImagekit();
+
+    const navigate = useNavigate();
+
     const [ image, setImage ] = useState(null);
     const [ authenticationEndpoint, setAuthenticationEndpoint ] = useState(null);
     const [ isPublic, setIsPublic ] = useState(true);
@@ -26,7 +30,7 @@ const Create = () => {
 
     const validationSchema = Yup.object().shape({
         title: Yup.string().min(2).max(20),
-        postText: Yup.string().min(6).max(2000),
+        postText: Yup.string().min(30).max(2000),
     })
     const initialValues = {
         title: "",
@@ -49,6 +53,7 @@ const Create = () => {
               }
         }else {
             createPost({...data, image, isPublic})
+            navigate("/")
         }
     }
   return (

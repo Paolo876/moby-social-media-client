@@ -16,6 +16,7 @@ const PostBody = ({ isPublic, title, user, image: coverImage, isHovered, transit
 
   let image;
   if(coverImage) image = JSON.parse(coverImage);
+
   return (
     <>
       <Tooltip title={isBookmarked ? "You bookmarked this post." : "Bookmark Post"} arrow leaveDelay={50}>
@@ -85,12 +86,16 @@ const PostBody = ({ isPublic, title, user, image: coverImage, isHovered, transit
 const PostActions = ({ palette, isLiked, isBookmarked, user, userImage, createdAt, id, likes, comments}) => {
   const navigate = useNavigate();
   const { likePost, isLoading } = usePostsRedux();
+  const handleLikeClick = () => {
+    if(!isLoading) likePost(id);
+  };
+
   return (
     <Paper sx={{backgroundColor: palette.primary.main, p:1, py:0.5, borderRadius: "0 0 10px 10px", zIndex:1000}}>
       <Stack flexDirection="row" alignItems="center" justifyContent="space-between" px={.5}>
         <Stack flexDirection="row">
           <Tooltip title={isLiked ? "You liked this post." : "Like Post"} arrow leaveDelay={50}>
-            <IconButton sx={{py:1.25, px: 2, mr:.25, borderRadius: 5}} onClick={() => likePost(id)} disabled={isLoading}>
+            <IconButton sx={{py:1.25, px: 2, mr:.25, borderRadius: 5}} onClick={handleLikeClick} disableRipple>
               {isLiked ? 
                 <FavoriteIcon fontSize="medium" sx={{color: "rgba(229, 85, 85, 1)"}}/> : 
                 <FavoriteBorderIcon fontSize="medium" sx={{color: "rgba(229, 85, 85, .85)"}}/>
@@ -99,7 +104,7 @@ const PostActions = ({ palette, isLiked, isBookmarked, user, userImage, createdA
             </IconButton>
           </Tooltip>
           <Tooltip title="Comments" arrow leaveDelay={50}>
-            <IconButton sx={{py:1.25, px: 2, mr:.25, borderRadius: 5}} onClick={() => navigate(`posts/${id}`)} disabled={isLoading}>
+            <IconButton sx={{py:1.25, px: 2, mr:.25, borderRadius: 5}} onClick={() => navigate(`posts/${id}`)}>
               <ForumIcon fontSize="medium" color="info" />
               <Typography variant="body2" color="rgba(255, 255, 255, .75)" sx={{ml:1}}>{comments > 0 && comments}</Typography>
 
