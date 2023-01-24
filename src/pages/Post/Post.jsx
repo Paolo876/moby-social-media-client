@@ -28,7 +28,7 @@ const Post = () => {
   return (
     <AuthorizedPageContainer>
         <Container>
-            <Grid container>
+            <Grid container wrap="nowrap">
                 {post && <>
                     <Grid item xs={6}>
                         <PostPreview 
