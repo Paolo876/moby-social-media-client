@@ -30,7 +30,7 @@ const Post = () => {
         <Container>
             <Grid container wrap="nowrap" spacing={2}>
                 {post && <>
-                    <Grid item xs={7}>
+                    <Grid item xs={6.5} sx={{position: "relative"}}>
                         <PostPreview 
                             title={post.title} 
                             postText={post.postText} 
@@ -41,7 +41,7 @@ const Post = () => {
                             updatedAt={post.updatedAt}
                         />
                     </Grid>
-                    <Grid item xs={5}>
+                    <Grid item xs={5.5}>
                         <PostComments
                             comments={post.Comments}
                             likes={post.Likes}
