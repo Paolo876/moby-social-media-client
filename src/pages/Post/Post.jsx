@@ -28,9 +28,9 @@ const Post = () => {
   return (
     <AuthorizedPageContainer>
         <Container>
-            <Grid container wrap="nowrap">
+            <Grid container wrap="nowrap" spacing={2}>
                 {post && <>
-                    <Grid item xs={6}>
+                    <Grid item xs={7}>
                         <PostPreview 
                             title={post.title} 
                             postText={post.postText} 
@@ -41,7 +41,7 @@ const Post = () => {
                             updatedAt={post.updatedAt}
                         />
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid item xs={5}>
                         <PostComments
                             comments={post.Comments}
                             likes={post.Likes}

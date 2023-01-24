@@ -2,20 +2,12 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import usePostsRedux from '../../hooks/usePostsRedux';
 import { Paper, Typography, Stack, Grid, Chip, Button, Divider } from "@mui/material"
-import { styled } from '@mui/material/styles';
 import useAuthRedux from '../../hooks/useAuthRedux';
 import defaultAvatar from "../../assets/default-profile.png";
 import Image from '../../components/Image';
 import PostItem from './PostItem';
 import LoadingSpinner from '../../components/LoadingSpinner';
-
-const Root = styled('div')(({ theme }) => ({
-  width: '100%',
-  ...theme.typography.body2,
-  '& > :not(style) + :not(style)': {
-    marginTop: theme.spacing(2),
-  },
-}));
+import MaterialRoot from '../../components/MaterialRoot';
 
 const PostsFeed = () => {
   const { isLoading, error, posts, getPosts } = usePostsRedux();
@@ -59,9 +51,9 @@ const PostsFeed = () => {
           </Paper>
         </Button>
       </Grid>
-      <Root>
+      <MaterialRoot>
         <Divider><Typography variant="body1">{new Date().toLocaleDateString()}</Typography></Divider>
-      </Root>
+      </MaterialRoot>
       {posts.map(item => <PostItem
         key={item.id}
         id={item.id}
