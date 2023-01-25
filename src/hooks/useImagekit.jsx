@@ -19,7 +19,6 @@ const useImagekit = () => {
     } catch(err) {
         setIsLoading(false)
         setError(err.message)
-        console.log(err)
     }
   }
   
