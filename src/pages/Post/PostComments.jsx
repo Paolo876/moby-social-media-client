@@ -6,12 +6,12 @@ import Image from '../../components/Image';
 import MaterialRoot from '../../components/MaterialRoot';
 import NewCommentForm from './NewCommentForm';
 
-const PostComments = ({ comments, likes }) => {
+const PostComments = ({ comments, likes, setPost }) => {
   const navigate = useNavigate();
 
   return (
     <Grid container my={2}>
-      <Grid item xs={12} px={.5}><NewCommentForm/></Grid>
+      <Grid item xs={12} px={.5}><NewCommentForm setPost={setPost}/></Grid>
       <Grid item xs={12} my={2}><MaterialRoot><Divider><Typography variant="body1">Comments</Typography></Divider></MaterialRoot></Grid>
 
       {comments.map(item => <Grid item xs={12} mb={2} px={.5} key={item.id}>

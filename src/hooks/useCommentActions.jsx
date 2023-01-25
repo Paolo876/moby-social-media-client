@@ -1,9 +1,11 @@
-import { useState } from 'react'
+import { useState } from 'react';
 import axios from 'axios'
 
 const useCommentActions = () => {
   const [ isLoading, setIsLoading ] = useState(false);
+  const [ isNewCommentLoading, setIsNewCommentLoading ] = useState(false);
   const [ error, setError ] = useState(null);
+  const [ newCommentError, setNewCommentError ] = useState(null);
   
 
  /*  @desc       create a new comment for a post
@@ -11,14 +13,14 @@ const useCommentActions = () => {
   *  @return     <Object> --comment data
   */
   const newComment = async (data) => {
-    setIsLoading(true)
+    setIsNewCommentLoading(true)
     try {
         const res = await axios.post(`${process.env.REACT_APP_DOMAIN_URL}/api/comments/new-comment`, data, { headers: { 'Content-Type': 'application/json' }, withCredentials: true });
-        setIsLoading(false)
+        setIsNewCommentLoading(false)
         return res.data
     } catch(err) {
-        setIsLoading(false)
-        setError(err.message)
+        setIsNewCommentLoading(false)
+        setNewCommentError(err.message)
     }
   }
 
@@ -44,7 +46,7 @@ const useCommentActions = () => {
   *  @access     Private
   *  @return     <String> --comment id
   */
-  const deleteComment = async ({ id, data }) => {
+  const deleteComment = async (id) => {
     setIsLoading(true)
     try {
         const res = await axios.delete(`${process.env.REACT_APP_DOMAIN_URL}/api/comments/${id}`, { headers: { 'Content-Type': 'application/json' }, withCredentials: true });
@@ -56,7 +58,7 @@ const useCommentActions = () => {
     }
   }
 
-  return { isLoading, error, newComment, editComment, deleteComment }
+  return { isLoading, error, newComment, editComment, deleteComment, isNewCommentLoading, newCommentError }
 }
 
 export default useCommentActions

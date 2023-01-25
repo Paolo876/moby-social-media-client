@@ -2,7 +2,7 @@ import React from 'react'
 import { Divider, Paper, Typography, Stack } from '@mui/material'
 import MaterialRoot from '../../components/MaterialRoot'
 
-const PostPreview = ({ title, postText, user, image, isPublic, createdAt, updatedAt, width}) => {
+const PostPreview = ({ title, postText, user, image, isPublic, createdAt, updatedAt, width }) => {
   return (
     <Paper sx={{my: 2, py: 5, px: {xs: 2, md:8}, mx: "auto", height: "fit-content", position: "fixed", width}} elevation={4}>
       <Typography variant="h5" align="left" fontSize="1.8em">{title}</Typography>

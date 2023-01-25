@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
-import { Typography, Container, Grid } from '@mui/material'
+import { Alert, Container, Grid, Box } from '@mui/material'
 import AuthorizedPageContainer from '../../components/AuthorizedPageContainer'
 import LoadingSpinner from "../../components/LoadingSpinner"
 import PostPreview from './PostPreview'
@@ -25,9 +25,11 @@ const Post = () => {
         setError(err.response.data.message)
     })
   }, [id])
+  console.log(post)
   return (
     <AuthorizedPageContainer>
         <Container>
+            {error && <Box xs={12} my={2}><Alert severity='error'>{error}</Alert></Box>}
             <Grid container wrap="nowrap" spacing={2}>
                 {post && <>
                     <Grid item xs={6.5} sx={{position: "relative"}} ref={previewRef} mr={1}>
@@ -46,6 +48,7 @@ const Post = () => {
                         <PostComments
                             comments={post.Comments}
                             likes={post.Likes}
+                            setPost={setPost}
                         />
                     </Grid>
                 </>}
