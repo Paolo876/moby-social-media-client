@@ -44,5 +44,17 @@ body {
   background      : radial-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 2px);
   background-size : 25px 25px;
   background-color: rgba(0,0,0,0.07);
+}
 
+::-webkit-scrollbar {
+  width: 12px;
+}
+::-webkit-scrollbar-track {
+  background-color: rgba(0, 0, 0, 0.15);
+}
+::-webkit-scrollbar-thumb {
+  background-color: #2e769dbe;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: content-box;
 }

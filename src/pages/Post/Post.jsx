@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import { Typography, Container, Grid } from '@mui/material'
@@ -12,7 +12,7 @@ const Post = () => {
   const [ post, setPost ] = useState(null);
   const [ isLoading, setIsLoading ] = useState(true);
   const [ error, setError ] = useState(null);
-
+  const previewRef = useRef()
   useEffect(() => {
     axios
     .get(`${process.env.REACT_APP_DOMAIN_URL}/api/posts/${id}`, { headers: { 'Content-Type': 'application/json' }, withCredentials: true })
@@ -30,7 +30,7 @@ const Post = () => {
         <Container>
             <Grid container wrap="nowrap" spacing={2}>
                 {post && <>
-                    <Grid item xs={6.5} sx={{position: "relative"}}>
+                    <Grid item xs={6.5} sx={{position: "relative"}} ref={previewRef} mr={1}>
                         <PostPreview 
                             title={post.title} 
                             postText={post.postText} 
@@ -39,6 +39,7 @@ const Post = () => {
                             isPublic={post.isPublic}
                             createdAt={post.createdAt}
                             updatedAt={post.updatedAt}
+                            width={previewRef.current && previewRef.current.offsetWidth}
                         />
                     </Grid>
                     <Grid item xs={5.5}>

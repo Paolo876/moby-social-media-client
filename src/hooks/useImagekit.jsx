@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import axios from 'axios'
 
 const useImagekit = () => {
@@ -13,7 +13,6 @@ const useImagekit = () => {
   const getAuthenticationEndpoint = async () => {
     setIsLoading(true)
     try {
-        setIsLoading(true)
         const res = await axios.get(`${process.env.REACT_APP_DOMAIN_URL}/api/imagekit/`, { headers: { 'Content-Type': 'application/json' }, withCredentials: true });
         setIsLoading(false)
         return res.data
