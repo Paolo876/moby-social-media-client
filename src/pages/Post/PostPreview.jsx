@@ -1,34 +1,43 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Divider, Paper, Typography, Stack, Box, Button } from '@mui/material'
+import { Divider, Paper, Typography, Stack, Box, Button, Tooltip, IconButton } from '@mui/material'
 import MaterialRoot from '../../components/MaterialRoot'
 import Image from "../../components/Image";
 import defaultAvatar from "../../assets/default-profile.png";
+import TurnedInIcon from '@mui/icons-material/TurnedIn';
+import TurnedInNotIcon from '@mui/icons-material/TurnedInNot';
 
-const PostPreview = ({ title, postText, user, image: coverImage, isPublic, createdAt, updatedAt, width }) => {
+const PostPreview = ({ title, postText, user, image: coverImage, isPublic, createdAt, updatedAt, width, isBookmarked }) => {
   const navigate = useNavigate();
   let image;
   if(coverImage) image = JSON.parse(coverImage);
   let userImage;
   if(user.UserDatum.image) userImage = JSON.parse(user.UserDatum.image)
   return (
-    <Paper sx={{my: 2, py: 5, px: {xs: 2, md:8}, mx: "auto", height: "fit-content"}} elevation={4}>
-    {image && 
-      <Box mb={3}>
-        <Image 
-          src={image.url}
-          alt={image.name}
-          style={{
-            objectFit: "cover", 
-            objectPosition: "center",
-            width: "100%", 
-            height: "100%", 
-            transform: "translate(0, 0)", 
-            zIndex: 1, 
-            }}
-          />
-      </Box>
-      }
+    <Paper sx={{my: 2, py: 5, px: {xs: 2, md:8}, mx: "auto", height: "fit-content", position: "relative"}} elevation={4}>
+      <Tooltip title={isBookmarked ? "You bookmarked this post." : "Bookmark Post"} arrow leaveDelay={50}>
+        <IconButton sx={{ borderRadius: 1, position: "absolute", zIndex: 20, right: 0, top: 0}} >
+          {isBookmarked ? 
+            <TurnedInIcon fontSize="medium" sx={{color: "rgba(239, 144, 60, 1)"}}/> : 
+            <TurnedInNotIcon fontSize="medium" sx={{color: "rgba(239, 144, 60, 1)"}}/>
+          }
+        </IconButton>
+      </Tooltip>
+      {image && 
+        <Box mb={3}>
+          <Image 
+            src={image.url}
+            alt={image.name}
+            style={{
+              objectFit: "cover", 
+              objectPosition: "center",
+              width: "100%", 
+              height: "100%", 
+              zIndex: 1, 
+              }}
+            />
+        </Box>
+        }
       <Typography variant="h5" align="left" fontSize="1.8em">{title}</Typography>
       <Stack alignItems="center" flexDirection="row" justifyContent="space-between">
         <Typography variant="subtitle2" fontWeight="300" align="left">by {user.UserDatum.firstName} {user.UserDatum.lastName}</Typography>
