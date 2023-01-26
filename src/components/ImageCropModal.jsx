@@ -8,7 +8,7 @@ import RotateLeftIcon from '@mui/icons-material/RotateLeft';
 const ImageCropModal = ({ openModal, handleClose, setImage, imageData, setShowModal, width, height, border, borderRadius }) => {
   const editor = useRef(null);
   const [ scale, setScale ] = useState(1);
-  const [ rotate, setRotate ] = useState(0);
+  const [ rotate, setRotate ] = useState(360);
 
   const handleClick = () => {
     if (editor) {
@@ -51,8 +51,8 @@ const ImageCropModal = ({ openModal, handleClose, setImage, imageData, setShowMo
 
         </Stack>
         <Stack direction="column" alignItems="center" justifyContent="center" spacing={1.5} my={2}>
-          <InputSlider icon={<CropIcon sx={{mr: 1}} color="secondary"/>} min={1} max={3} value={scale} setValue={setScale} step={.1}/>
-          <InputSlider icon={<RotateLeftIcon sx={{mr: 1}} color="secondary"/>} min={-180} max={180} value={rotate} setValue={setRotate} step={10}/>
+          <InputSlider icon={<CropIcon sx={{mr: 1}} color="secondary"/>} min={1} max={3} value={scale} setValue={setScale} step={.05}/>
+          <InputSlider icon={<RotateLeftIcon sx={{mr: 1}} color="secondary"/>} min={0} max={360} value={rotate} setValue={setRotate} step={2}/>
         </Stack>
         <Stack mt={3}>
           <Button variant="outlined" onClick={handleClick} type="button">Save changes</Button>
