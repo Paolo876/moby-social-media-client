@@ -25,7 +25,7 @@ const Post = () => {
         setError(err.response.data.message)
     })
   }, [id])
-  console.log(post)
+
   return (
     <AuthorizedPageContainer>
         <Container>
