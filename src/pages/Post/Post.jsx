@@ -12,6 +12,7 @@ const Post = () => {
   const [ post, setPost ] = useState(null);
   const [ isLoading, setIsLoading ] = useState(true);
   const [ error, setError ] = useState(null);
+  const [ width, setWidth ] = useState(0);
   const previewRef = useRef()
   useEffect(() => {
     axios
@@ -26,6 +27,9 @@ const Post = () => {
     })
   }, [id])
 
+  useEffect(() => {
+    if(post && previewRef) setWidth(previewRef.current.offsetWidth)
+  }, [previewRef, post])
   return (
     <AuthorizedPageContainer>
         <Container>
@@ -41,7 +45,7 @@ const Post = () => {
                             isPublic={post.isPublic}
                             createdAt={post.createdAt}
                             updatedAt={post.updatedAt}
-                            width={previewRef.current && previewRef.current.offsetWidth}
+                            width={width}
                         />
                     </Grid>
                     <Grid item xs={5.5}>
