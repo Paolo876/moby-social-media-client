@@ -25,7 +25,7 @@ const useCommentActions = () => {
   }
 
 
- /*  @desc       update/edit a comment
+ /*  @desc       update/edit a comment  (always add PostId on data property -> data: {comment: <STRING>, PostId: <NUMBER>})
   *  @access     Private
   *  @return     <Object> --comment data
   */

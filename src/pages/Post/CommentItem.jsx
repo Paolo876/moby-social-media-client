@@ -1,24 +1,31 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useRef, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import useAuthRedux from '../../hooks/useAuthRedux';
 import Image from '../../components/Image';
 import defaultAvatar from "../../assets/default-profile.png";
 import useCommentActions from '../../hooks/useCommentActions';
 
-import { Paper, Typography, Stack, Grid, ButtonBase, IconButton, Menu, MenuItem } from '@mui/material';
+import { Paper, Typography, Stack, Grid, ButtonBase, IconButton, Menu, MenuItem, TextField, Chip, Tooltip } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 const CommentItem = ({ comment, setPost }) => {
   const { editComment, deleteComment, isLoading, error } = useCommentActions();
-
+  const { id: PostId } = useParams();
+  const inputRef = useRef();
   const navigate = useNavigate();
   const { user: { id } } = useAuthRedux();
   const [anchorEl, setAnchorEl] = useState(null);
+  const [ isEditMode, setIsEditMode ] = useState(false);
+  const [ isEdited, setIsEdited ] = useState(comment.createdAt !== comment.updatedAt)
+  const [ input, setInput ] = useState(comment.comment);
   const open = Boolean(anchorEl);
-
+  useEffect(() => {
+    if(isEditMode) inputRef.current.focus();
+  }, [isEditMode])
   const handleEditClick = () => {
+    setIsEditMode(true);
     setAnchorEl(null);
   };
   const handleDeleteClick = async () => {
@@ -30,6 +37,27 @@ const CommentItem = ({ comment, setPost }) => {
     })
     setAnchorEl(null);
   };
+  const handleKeyDown = async (e) => {
+    if(e.key === "Enter") {
+        e.preventDefault();
+        if(comment.comment !== input){
+            const result = await editComment({id: comment.id, data: {comment: input, PostId}})
+            setPost(prevState => {
+                const updatedPost = { ...prevState };
+                const updatedComment = updatedPost.Comments.find(item => item.id === comment.id);
+                updatedComment.comment = result.comment
+                return updatedPost
+            })
+            setIsEdited(true)
+        }
+        setIsEditMode(false)
+    }
+  }
+
+  const handleInputBlur = () => {
+    setInput(comment.comment)
+    setIsEditMode(false)
+  }
 
   return (
     <Grid item xs={12} mb={2} px={.5} key={comment.id}>
@@ -46,9 +74,22 @@ const CommentItem = ({ comment, setPost }) => {
               }
             </ButtonBase>
 
-            <Stack ml={1} alignItems="flex-start">
+            <Stack ml={1} alignItems="flex-start" width={"100%"}>
               <Typography variant="body2" >{comment.User.username} <small style={{opacity: .75, marginLeft: "1em"}}>{new Date(comment.createdAt).toLocaleDateString()}</small></Typography>
-              <Typography variant="body1" sx={{display: "block", mt:.5 }}>{comment.comment}</Typography>
+              {!isEditMode && <Typography variant="body1" sx={{display: "block", mt:.5 }}>{comment.comment}</Typography>}
+              {isEditMode && <TextField 
+                    id="comment" 
+                    name="comment"
+                    value={input}
+                    onChange={e => setInput(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    type="text" 
+                    variant="outlined" 
+                    fullWidth
+                    disabled={isLoading}
+                    inputRef={inputRef}
+                    onBlur={handleInputBlur}
+                />}
             </Stack>
           </Stack>
 
@@ -78,6 +119,12 @@ const CommentItem = ({ comment, setPost }) => {
                     <MenuItem sx={{ pr: 4 }} onClick={handleDeleteClick} disabled={isLoading}><DeleteIcon fontSize='inherit' sx={{mr: 1}} color="warning"/><Typography variant="body2">Delete</Typography></MenuItem>
                 </Menu>
           </>}
+          {isEdited && <Tooltip title="The original comment has been edited by the user." arrow>
+            <Chip 
+            label={<Typography >edited</Typography>} 
+            size="small"
+            sx={{transform: "scale(.8)", position: "absolute", top: 3, right: 35}}/>
+          </Tooltip>}
         </Paper>
       </Grid>
   )
