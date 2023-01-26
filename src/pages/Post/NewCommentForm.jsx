@@ -11,6 +11,7 @@ const NewCommentForm = ({ setPost }) => {
   const { id: PostId } = useParams();
   const { newComment, isNewCommentLoading: isLoading, newCommentError: error } = useCommentActions();
   const { user } = useAuthRedux();
+
   let image;
   if(user && user.UserData) image = JSON.parse(user.UserData.image);
   const handleKeyDown = async (e) => {
@@ -25,7 +26,6 @@ const NewCommentForm = ({ setPost }) => {
         setComment("")
     }
   }
-  
   return (
     <Paper sx={{px:.5}}>
         <Typography variant="h5" fontWeight={400} fontSize={15} pl={1.5} pt={1.5} mb={1}>Write A Comment</Typography>

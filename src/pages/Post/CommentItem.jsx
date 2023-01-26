@@ -3,22 +3,31 @@ import { useNavigate } from 'react-router-dom';
 import useAuthRedux from '../../hooks/useAuthRedux';
 import Image from '../../components/Image';
 import defaultAvatar from "../../assets/default-profile.png";
+import useCommentActions from '../../hooks/useCommentActions';
 
 import { Paper, Typography, Stack, Grid, ButtonBase, IconButton, Menu, MenuItem } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-const CommentItem = ({ comment }) => {
+const CommentItem = ({ comment, setPost }) => {
+  const { editComment, deleteComment, isLoading, error } = useCommentActions();
+
   const navigate = useNavigate();
   const { user: { id } } = useAuthRedux();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+  const handleEditClick = () => {
+    setAnchorEl(null);
   };
-  const handleClose = () => {
+  const handleDeleteClick = async () => {
+    await deleteComment(comment.id)
+    setPost(prevState => {
+        const updatedPost = { ...prevState };
+        updatedPost.Comments = updatedPost.Comments.filter(item => item.id !== comment.id);
+        return updatedPost
+    })
     setAnchorEl(null);
   };
 
@@ -52,7 +61,7 @@ const CommentItem = ({ comment }) => {
                 aria-controls={open ? 'long-menu' : undefined}
                 aria-expanded={open ? 'true' : undefined}
                 aria-haspopup="true"
-                onClick={handleClick}
+                onClick={e => setAnchorEl(e.currentTarget)}
                 >
                 <MoreVertIcon fontSize="small"/>
             </IconButton>
@@ -63,10 +72,10 @@ const CommentItem = ({ comment }) => {
                     }}
                     anchorEl={anchorEl}
                     open={open}
-                    onClose={handleClose}
+                    onClose={() => setAnchorEl(null)}
                     >
-                    <MenuItem sx={{ pr: 4 }}><EditIcon fontSize='inherit' sx={{mr: 1}} color="secondary"/><Typography variant="body2">Edit</Typography></MenuItem>
-                    <MenuItem sx={{ pr: 4 }}><DeleteIcon fontSize='inherit' sx={{mr: 1}} color="warning"/><Typography variant="body2">Delete</Typography></MenuItem>
+                    <MenuItem sx={{ pr: 4 }} onClick={handleEditClick} disabled={isLoading}><EditIcon fontSize='inherit' sx={{mr: 1}} color="secondary"/><Typography variant="body2">Edit</Typography></MenuItem>
+                    <MenuItem sx={{ pr: 4 }} onClick={handleDeleteClick} disabled={isLoading}><DeleteIcon fontSize='inherit' sx={{mr: 1}} color="warning"/><Typography variant="body2">Delete</Typography></MenuItem>
                 </Menu>
           </>}
         </Paper>
