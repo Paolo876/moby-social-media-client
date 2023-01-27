@@ -12,6 +12,8 @@ import ProfileSetup from './pages/ProfileSetup';
 import Profile from './pages/Profile/Profile';
 import Create from './pages/Create/Create';
 import Post from './pages/Post/Post';
+import Messages from './pages/Messages/Messages';
+import Settings from './pages/Settings/Settings';
 
 function App() {
   const { user, isAuthReady, authorizeToken } = useAuthRedux();
@@ -27,9 +29,11 @@ function App() {
       <Routes>
         <Route element={ user ? <ProfileSetup/> : <Navigate replace to="/login"/>} path="/profile-setup"/>
         <Route element={ user ? <Home/> : <Navigate replace to="/login"/>} path="/"/>
-        <Route element={ user ? <Profile/> : <Navigate replace to="/login"/>} path="/profile"/>
+        <Route element={ user ? <Profile/> : <Navigate replace to="/login"/>} path="/profile/*"/>
         <Route element={ user ? <Create/> : <Navigate replace to="/login"/>} path="/create"/>
         <Route element={ user ? <Post/> : <Navigate replace to="/login"/>} path="/posts/:id"/>
+        <Route element={ user ? <Messages/> : <Navigate replace to="/login"/>} path="/messages"/>
+        <Route element={ user ? <Settings/> : <Navigate replace to="/login"/>} path="/settings"/>
         {/* auth routes */}
         <Route element={ user ? <Navigate replace to="/"/> : <Login/>} path="/login" />
         <Route element={ user ? <Navigate replace to="/"/> : <Signup/>} path="/signup" />

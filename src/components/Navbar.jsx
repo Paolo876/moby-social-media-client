@@ -157,7 +157,7 @@ const Navbar = () => {
           <p>Notifications</p>
         </MenuItem>
         <MenuItem>
-          <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+          <IconButton size="large" aria-label="show 4 new mails" color="inherit" onClick={() => navigate("/messages")}>
             <Badge badgeContent={5} color="error">
               <ChatIcon />
             </Badge>
@@ -226,7 +226,7 @@ const Navbar = () => {
                   </IconButton>
                 </Tooltip>
                 <Tooltip title="Messages" arrow>
-                  <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+                  <IconButton size="large" aria-label="show 4 new mails" color="inherit" onClick={() => navigate("/messages")}>
                     <Badge badgeContent={5} color="error">
                       <ChatIcon />
                     </Badge>
