@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import { Alert, Container, Grid, Box } from '@mui/material'
@@ -12,8 +12,6 @@ const Post = () => {
   const [ post, setPost ] = useState(null);
   const [ isLoading, setIsLoading ] = useState(true);
   const [ error, setError ] = useState(null);
-  const [ width, setWidth ] = useState(0);
-  const previewRef = useRef()
   useEffect(() => {
     axios
     .get(`${process.env.REACT_APP_DOMAIN_URL}/api/posts/${id}`, { headers: { 'Content-Type': 'application/json' }, withCredentials: true })
@@ -27,9 +25,6 @@ const Post = () => {
     })
   }, [id])
 
-  useEffect(() => {
-    if(post && previewRef) setWidth(previewRef.current.offsetWidth)
-  }, [previewRef, post])
 
   return (
     <AuthorizedPageContainer>
@@ -37,7 +32,7 @@ const Post = () => {
             {error && <Box xs={12} my={2}><Alert severity='error'>{error}</Alert></Box>}
             <Grid container wrap="nowrap" spacing={2}>
                 {post && <>
-                    <Grid item xs={6.5} sx={{position: "relative"}} ref={previewRef} mr={1}>
+                    <Grid item xs={6.5} sx={{position: "relative"}} mr={1}>
                         <PostPreview 
                             title={post.title} 
                             postText={post.postText} 
@@ -46,7 +41,6 @@ const Post = () => {
                             isPublic={post.isPublic}
                             createdAt={post.createdAt}
                             updatedAt={post.updatedAt}
-                            width={width}
                         />
                     </Grid>
                     <Grid item xs={5.5}>

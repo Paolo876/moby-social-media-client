@@ -2,23 +2,23 @@ import { useNavigate, useParams } from 'react-router-dom';
 import usePostActions from '../../hooks/usePostActions'
 import useAuthRedux from '../../hooks/useAuthRedux';
 
-import { Typography, Divider, Paper, Stack, Tooltip, IconButton, Alert } from '@mui/material';
+import { Typography, Divider, Paper, Stack, Tooltip, IconButton, AvatarGroup, Avatar } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import ForumIcon from '@mui/icons-material/Forum';
-const PostActions = ({ setPost, likes, commentsLength }) => {
+import PostAddIcon from '@mui/icons-material/PostAdd';
+
+const PostActions = ({ setPost, likes, commentsLength, setShowNewCommentForm }) => {
   const { id: PostId } = useParams();
   const { user } = useAuthRedux();
   const { likePost, isLoading, error } = usePostActions();
   const isLiked = likes.some(item => item.UserId === user.id)
+
   const handleLikeClick = async () => {
     const result = await likePost(PostId);
-    console.log(result)
-
     setPost(prevState => {
         const updatedPost = { ...prevState };
         if(result.isLiked){
-            updatedPost.Likes = [{UserId: result.UserId, username: user.username, UserDatum: user.UserData}, ...updatedPost.Likes];
+            updatedPost.Likes = [{UserId: result.UserId, id: result.id, User: { username: user.username, UserDatum: user.UserData }}, ...updatedPost.Likes];
         } else {
             updatedPost.Likes = updatedPost.Likes.filter(item => item.UserId !== result.UserId)
         }
@@ -28,24 +28,36 @@ const PostActions = ({ setPost, likes, commentsLength }) => {
 
   return (
     <Paper sx={{px:.5}}>
-        <Stack flexDirection="row">
-            <Typography variant="body2" color="rgba(0, 0, 0, .6)" sx={{ml:1}}>Liked by: </Typography>
+        <Stack flexDirection="row" alignItems="center" py={.5} ml={1}>
+            <Typography variant="body2" color="rgba(0, 0, 0, .6)" sx={{mx:1}}>Liked by: </Typography>
+            <AvatarGroup 
+                total={likes.length} 
+                max={3}   
+                sx={{'& .MuiAvatar-root': { width: 25, height: 25, fontSize: 12, cursor: "pointer" },}}
+                >
+                {likes.map(item => <Avatar 
+                    key={item.id} 
+                    alt={item.User.username} 
+                    src={item.User.UserDatum.image ? JSON.parse(item.User.UserDatum.image).url : null}
+                    sx={{width: 25, height: 25}} 
+                    />)}
+            </AvatarGroup>
         </Stack>
         <Divider/>
-        <Stack flexDirection="row">
+        <Stack flexDirection="row" alignItems="center" my={.5}>
         <Tooltip title={isLiked ? "You liked this post." : "Like Post"} arrow leaveDelay={50}>
-            <IconButton sx={{py:1.25, px: 2, mr:.25, borderRadius: 5}} onClick={handleLikeClick} disableRipple disabled={isLoading}>
+            <IconButton sx={{mb: .5, borderRadius: 5, width: "50%"}} onClick={handleLikeClick} disabled={isLoading}>
             {isLiked ? 
                 <FavoriteIcon fontSize="medium" sx={{color: "rgba(229, 85, 85, 1)"}}/> : 
                 <FavoriteBorderIcon fontSize="medium" sx={{color: "rgba(229, 85, 85, .85)"}}/>
             }
-            <Typography variant="body2" color="rgba(0, 0, 0, .6)" sx={{ml:1}}>{likes.length > 0 && likes.length}</Typography>
+            <Typography variant="body2" color="rgba(0, 0, 0, .6)" sx={{ml:1}}>{isLiked ? "You liked this post." : "Like Post"}</Typography>
             </IconButton>
         </Tooltip>
         <Tooltip title="Write a comment" arrow leaveDelay={50}>
-            <IconButton sx={{py:1.25, px: 2, mr:.25, borderRadius: 5}} onClick={() => console.log("WRITE COMMENT")}>
-            <ForumIcon fontSize="medium" color="info" />
-            <Typography variant="body2" color="rgba(0, 0, 0, .6)" sx={{ml:1}}>{commentsLength > 0 && commentsLength}</Typography>
+            <IconButton sx={{mb: .5, borderRadius: 5, width: "50%"}} onClick={() => setShowNewCommentForm(prevState => !prevState)}>
+            <PostAddIcon fontSize="medium" color="info" />
+            <Typography variant="body2" color="rgba(0, 0, 0, .6)" sx={{ml:1}}>Write a comment</Typography>
             </IconButton>
         </Tooltip>
         </Stack>
