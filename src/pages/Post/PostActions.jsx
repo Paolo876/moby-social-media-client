@@ -1,4 +1,5 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import usePostActions from '../../hooks/usePostActions'
 import useAuthRedux from '../../hooks/useAuthRedux';
 
@@ -6,12 +7,15 @@ import { Typography, Divider, Paper, Stack, Tooltip, IconButton, AvatarGroup, Av
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import PostAddIcon from '@mui/icons-material/PostAdd';
+import LikersModal from './LikersModal';
 
-const PostActions = ({ setPost, likes, commentsLength, setShowNewCommentForm }) => {
+const PostActions = ({ setPost, likes, setShowNewCommentForm }) => {
   const { id: PostId } = useParams();
   const { user } = useAuthRedux();
   const { likePost, isLoading, error } = usePostActions();
-  const isLiked = likes.some(item => item.UserId === user.id)
+  const isLiked = likes.some(item => item.UserId === user.id);
+
+  const [ showModal, setShowModal ] = useState(false);
 
   const handleLikeClick = async () => {
     const result = await likePost(PostId);
@@ -30,19 +34,23 @@ const PostActions = ({ setPost, likes, commentsLength, setShowNewCommentForm }) 
     <Paper sx={{px:.5}}>
         <Stack flexDirection="row" alignItems="center" py={.5} ml={1}>
             <Typography variant="body2" color="rgba(0, 0, 0, .6)" sx={{mx:1}}>Liked by: </Typography>
-            <AvatarGroup 
-                total={likes.length} 
-                max={3}   
-                sx={{'& .MuiAvatar-root': { width: 25, height: 25, fontSize: 12, cursor: "pointer" },}}
-                >
-                {likes.map(item => <Avatar 
-                    key={item.id} 
-                    alt={item.User.username} 
-                    src={item.User.UserDatum.image ? JSON.parse(item.User.UserDatum.image).url : null}
-                    sx={{width: 25, height: 25}} 
-                    />)}
-            </AvatarGroup>
+            <Tooltip title="See users who liked this post." arrow>
+                <AvatarGroup 
+                    total={likes.length} 
+                    max={3}   
+                    sx={{'& .MuiAvatar-root': { width: 25, height: 25, fontSize: 12, cursor: "pointer" },}}
+                    onClick={() => setShowModal(true)}
+                    >
+                    {likes.map(item => <Avatar 
+                        key={item.id} 
+                        alt={item.User.username} 
+                        src={item.User.UserDatum.image ? JSON.parse(item.User.UserDatum.image).url : null}
+                        sx={{width: 25, height: 25}} 
+                        />)}
+                </AvatarGroup>
+            </Tooltip>
         </Stack>
+        <LikersModal showModal={showModal} setShowModal={setShowModal} likes={likes}/>
         <Divider/>
         <Stack flexDirection="row" alignItems="center" my={.5}>
         <Tooltip title={isLiked ? "You liked this post." : "Like Post"} arrow leaveDelay={50}>
