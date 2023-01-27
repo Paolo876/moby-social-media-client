@@ -12,15 +12,16 @@ import TurnedInNotIcon from '@mui/icons-material/TurnedInNot';
 import usePostsRedux from '../../hooks/usePostsRedux';
 
 const PostBody = ({ isPublic, title, user, image: coverImage, isHovered, transitions, postText, isBookmarked, id }) => {
+  const { bookmarkPost, isLoading } = usePostsRedux();
   const navigate = useNavigate();
   let image;
   if(coverImage) image = JSON.parse(coverImage);
 
   const handleBookmarkClick = () => {
-    
+    bookmarkPost(id)
   }
 
-  
+
   return (
     <>
       <Tooltip title={isBookmarked ? "You bookmarked this post." : "Bookmark Post"} arrow leaveDelay={50}>

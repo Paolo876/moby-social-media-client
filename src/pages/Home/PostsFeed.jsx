@@ -25,7 +25,7 @@ const PostsFeed = () => {
 
   return (
     <Grid container>
-      {!error && <Grid item xs={12}><Alert severity='error'>{error}</Alert></Grid>}
+      {error && <Grid item xs={12} my={1}><Alert severity='error'>{error}</Alert></Grid>}
       <Grid item sx={{m:.5, mt: 1, mb: 2.5, p: 1}} xs={12} onMouseOver={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
         <Button 
           sx={{width: "100%", mr: "auto", p:0, textTransform: "none", textAlign: "left"}} 

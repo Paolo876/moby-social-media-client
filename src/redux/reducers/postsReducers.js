@@ -48,3 +48,19 @@ export const likePost = createAsyncThunk( 'posts/likePost', async ( payload, { r
         return rejectWithValue(err.response.data)
     }
 })
+
+
+/** bookmarkPost
+ *  @desc bookmark a post. If post is already bookmarked, it unlikes automatically from server
+ */
+export const bookmarkPost = createAsyncThunk( 'posts/bookmarkPost', async ( payload, { rejectWithValue }) => {
+    try {
+        const res = await axios.get(`${process.env.REACT_APP_DOMAIN_URL}/api/posts/bookmark/${payload}`, {
+            headers: { 'Content-Type': 'application/json' },
+            withCredentials: true,
+        });
+        return res.data;
+    } catch (err){
+        return rejectWithValue(err.response.data)
+    }
+})
