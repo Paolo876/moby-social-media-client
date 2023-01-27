@@ -17,15 +17,10 @@ const PostBody = ({ isPublic, title, user, image: coverImage, isHovered, transit
   let image;
   if(coverImage) image = JSON.parse(coverImage);
 
-  const handleBookmarkClick = () => {
-    bookmarkPost(id)
-  }
-
-
   return (
     <>
       <Tooltip title={isBookmarked ? "You bookmarked this post." : "Bookmark Post"} arrow leaveDelay={50}>
-        <IconButton sx={{ borderRadius: 1, position: "absolute", zIndex: 20, right: 0}} onClick={handleBookmarkClick}>
+        <IconButton sx={{ borderRadius: 1, position: "absolute", zIndex: 20, right: 0}} onClick={() => bookmarkPost(id)} disabled={isLoading}>
           {isBookmarked ? 
             <BookmarkAddedIcon fontSize="medium" sx={{color: "rgba(239, 144, 60, .8)"}}/> : 
             <TurnedInNotIcon fontSize="medium" sx={{color: "rgba(239, 144, 60, .9)"}}/>

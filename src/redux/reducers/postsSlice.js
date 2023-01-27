@@ -88,12 +88,10 @@ const postsSlice = createSlice({
             state.error = null;
             const { isBookmarked, PostId } = payload;
             const updatedBookmarks = state.bookmarks;
-
             if(isBookmarked) {
                 updatedBookmarks.push({PostId: parseInt(PostId)});
             } else {
-                // updatedBookmarks = updatedBookmarks.filter(item => item.PostId !== PostId)
-                updatedBookmarks.splice(updatedBookmarks.indexOf(updatedBookmarks.find(item => item.PostId === PostId)), 1)
+                updatedBookmarks.splice(updatedBookmarks.indexOf(updatedBookmarks.find(item => parseInt(item.PostId) === parseInt((PostId)))), 1)
             }
             state.bookmarks = updatedBookmarks;
         })
