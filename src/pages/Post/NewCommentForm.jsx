@@ -25,6 +25,7 @@ const NewCommentForm = ({ setPost, setShowNewCommentForm, setShowComments }) => 
             return updatedPost
         })
         setShowComments(true)
+        setShowNewCommentForm(false)
         setComment("")
     }
   }

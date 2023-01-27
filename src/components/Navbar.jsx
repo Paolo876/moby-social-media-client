@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import useAuthRedux from '../hooks/useAuthRedux';
 import { styled, alpha } from '@mui/material/styles';
 import { AppBar, Box, Toolbar, IconButton, InputBase, Badge, MenuItem, Menu, Container, Tooltip } from '@mui/material';
@@ -56,6 +56,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const Navbar = () => {
+    const navigate = useNavigate();
     const { logout, isLoading, user } = useAuthRedux();
     const [anchorEl, setAnchorEl] = useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
@@ -86,7 +87,22 @@ const Navbar = () => {
     const handleLogout = () => {
       setAnchorEl(null);
       handleMobileMenuClose();
+      handleMenuClose()
       logout()
+    }
+
+    const handleProfileClick = () => {
+      navigate('/profile')
+      handleMenuClose()
+      setAnchorEl(null);
+      handleMobileMenuClose();
+    }
+
+    const handleSettingsClick = () => {
+      navigate("/settings")
+      handleMenuClose()
+      setAnchorEl(null);
+      handleMobileMenuClose();
     }
     const menuId = 'primary-search-account-menu';
     const renderMenu = (
@@ -105,8 +121,8 @@ const Navbar = () => {
         open={isMenuOpen}
         onClose={handleMenuClose}
       >
-        <MenuItem onClick={handleMenuClose} sx={{px: 2.5, py: .8}}><AccountCircle fontSize="sm" sx={{mr: 2}}/> Profile</MenuItem>
-        <MenuItem onClick={handleMenuClose} sx={{px: 2.5, py: .8}}><SettingsIcon fontSize="sm" sx={{mr: 2}}/> Settings</MenuItem>
+        <MenuItem onClick={handleProfileClick} sx={{px: 2.5, py: .8}}><AccountCircle fontSize="sm" sx={{mr: 2}}/> Profile</MenuItem>
+        <MenuItem onClick={handleSettingsClick} sx={{px: 2.5, py: .8}}><SettingsIcon fontSize="sm" sx={{mr: 2}}/> Settings</MenuItem>
         <MenuItem onClick={handleLogout} sx={{px: 2.5, py: .8}}><LogoutIcon fontSize="sm" sx={{mr: 2}}/> Logout</MenuItem>
       </Menu>
     );
@@ -178,6 +194,7 @@ const Navbar = () => {
           {user ?
             <Toolbar>
               <IconButton
+                  disableRipple
                   size="large"
                   edge="start"
                   color="inherit"

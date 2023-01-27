@@ -16,17 +16,17 @@ const LikersModal = ({ showModal, setShowModal, likes }) => {
         >
         <Paper sx={{
             position: 'absolute',
-            top: '50%',
+            top: '40%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
-            minWidth: 300,
+            minWidth: 320,
             boxShadow: 10,
             border: "0px solid transparent",
             p: 4,
             }}>
             <Typography variant="h6" sx={{m:1}}>Liked by: </Typography>
             <Divider/>
-            <List component="div" sx={{ maxHeight: "60vh", overflowY: "scroll"}}>
+            <List component="div" sx={{ maxHeight: "60vh", overflowY: "auto"}}>
                 {likes.map(item => <ListItemButton key={item.id} sx={{mt: .25}} onClick={() => navigate(`/profile/${item.UserId}`)}>
                     {item.User.UserDatum.image ? 
                         <Image 

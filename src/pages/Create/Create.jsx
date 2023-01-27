@@ -53,8 +53,8 @@ const Create = () => {
               }
         }else {
             createPost({...data, image, isPublic})
-            navigate("/")
         }
+        navigate("/")
     }
   return (
     <AuthorizedPageContainer>
