@@ -7,23 +7,27 @@ import LockIcon from '@mui/icons-material/Lock';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ForumIcon from '@mui/icons-material/Forum';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import TurnedInIcon from '@mui/icons-material/TurnedIn';
+import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
 import TurnedInNotIcon from '@mui/icons-material/TurnedInNot';
 import usePostsRedux from '../../hooks/usePostsRedux';
 
 const PostBody = ({ isPublic, title, user, image: coverImage, isHovered, transitions, postText, isBookmarked, id }) => {
   const navigate = useNavigate();
-
   let image;
   if(coverImage) image = JSON.parse(coverImage);
 
+  const handleBookmarkClick = () => {
+    
+  }
+
+  
   return (
     <>
       <Tooltip title={isBookmarked ? "You bookmarked this post." : "Bookmark Post"} arrow leaveDelay={50}>
-        <IconButton sx={{ borderRadius: 1, position: "absolute", zIndex: 20, right: 0}} >
+        <IconButton sx={{ borderRadius: 1, position: "absolute", zIndex: 20, right: 0}} onClick={handleBookmarkClick}>
           {isBookmarked ? 
-            <TurnedInIcon fontSize="medium" sx={{color: "rgba(239, 144, 60, 1)"}}/> : 
-            <TurnedInNotIcon fontSize="medium" sx={{color: "rgba(239, 144, 60, 1)"}}/>
+            <BookmarkAddedIcon fontSize="medium" sx={{color: "rgba(239, 144, 60, .8)"}}/> : 
+            <TurnedInNotIcon fontSize="medium" sx={{color: "rgba(239, 144, 60, .9)"}}/>
           }
         </IconButton>
       </Tooltip>
@@ -145,8 +149,8 @@ const PostItem = ({ title, image, isPublic, postText, isLiked=false, isBookmarke
       onMouseOver={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       >
-      <PostBody isPublic={isPublic} createdAt={createdAt} title={title} user={user} image={image} isHovered={isHovered} transitions={transitions} postText={postText} id={id}/>
-      <PostActions palette={palette} isLiked={isLiked} isBookmarked={isBookmarked} user={user} userImage={userImage} createdAt={createdAt} id={id} likes={likes} comments={comments}/>
+      <PostBody isPublic={isPublic} isBookmarked={isBookmarked} createdAt={createdAt} title={title} user={user} image={image} isHovered={isHovered} transitions={transitions} postText={postText} id={id}/>
+      <PostActions palette={palette} isLiked={isLiked} user={user} userImage={userImage} createdAt={createdAt} id={id} likes={likes} comments={comments}/>
     </Grid>
   )
 }

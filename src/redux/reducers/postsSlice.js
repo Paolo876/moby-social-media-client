@@ -32,7 +32,8 @@ const postsSlice = createSlice({
         })
         .addCase(getPosts.fulfilled, ( state, { payload }) => {
             state.isLoading = false;
-            state.posts = payload;
+            state.posts = payload.posts;
+            state.bookmarks = payload.bookmarks;
             state.error = null;
         })
         .addCase(getPosts.rejected, ( state, { payload }) => {

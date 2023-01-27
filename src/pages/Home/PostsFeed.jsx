@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import usePostsRedux from '../../hooks/usePostsRedux';
-import { Paper, Typography, Stack, Grid, Chip, Button, Divider } from "@mui/material"
+import { Paper, Typography, Stack, Grid, Chip, Button, Divider, Alert } from "@mui/material"
 import useAuthRedux from '../../hooks/useAuthRedux';
 import defaultAvatar from "../../assets/default-profile.png";
 import Image from '../../components/Image';
@@ -10,7 +10,7 @@ import LoadingSpinner from '../../components/LoadingSpinner';
 import MaterialRoot from '../../components/MaterialRoot';
 
 const PostsFeed = () => {
-  const { isLoading, error, posts, getPosts } = usePostsRedux();
+  const { isLoading, error, posts, getPosts, bookmarks } = usePostsRedux();
   const { user: { UserData, id } } = useAuthRedux();
   const navigate = useNavigate();
 
@@ -25,6 +25,7 @@ const PostsFeed = () => {
 
   return (
     <Grid container>
+      {!error && <Grid item xs={12}><Alert severity='error'>{error}</Alert></Grid>}
       <Grid item sx={{m:.5, mt: 1, mb: 2.5, p: 1}} xs={12} onMouseOver={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
         <Button 
           sx={{width: "100%", mr: "auto", p:0, textTransform: "none", textAlign: "left"}} 
@@ -63,7 +64,8 @@ const PostsFeed = () => {
         postText={item.postText}
         likes={item.Likes.length}
         comments={item.Comments.length}
-        isLiked={item.Likes.some(item => item.UserId === id)}
+        isLiked={item.Likes.some(_item => _item.UserId === id)}
+        isBookmarked={bookmarks.some(_item => _item.PostId === item.id)}
         user={item.User}
         createdAt={item.createdAt}
       />)}

@@ -13,6 +13,7 @@ export const authInitialState = {
  */
 export const postsInitialState = {
     posts: [],
+    bookmarks: [],
     isLoading: false,
     error: null,
 };
