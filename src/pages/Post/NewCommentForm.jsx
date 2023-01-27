@@ -2,14 +2,14 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { TextField, Alert, Paper, Stack, Box, Typography } from '@mui/material';
 import useAuthRedux from '../../hooks/useAuthRedux';
-import useCommentActions from '../../hooks/useCommentActions';
+import usePostActions from '../../hooks/usePostActions';
 import defaultAvatar from "../../assets/default-profile.png";
 import Image from '../../components/Image';
 
 const NewCommentForm = ({ setPost }) => {
   const [ comment, setComment ] = useState("");
   const { id: PostId } = useParams();
-  const { newComment, isNewCommentLoading: isLoading, newCommentError: error } = useCommentActions();
+  const { newComment, isNewCommentLoading: isLoading, newCommentError: error } = usePostActions();
   const { user } = useAuthRedux();
 
   let image;

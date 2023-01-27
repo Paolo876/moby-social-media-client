@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import useAuthRedux from '../../hooks/useAuthRedux';
 import Image from '../../components/Image';
 import defaultAvatar from "../../assets/default-profile.png";
-import useCommentActions from '../../hooks/useCommentActions';
+import usePostActions from '../../hooks/usePostActions';
 
 import { Paper, Typography, Stack, Grid, ButtonBase, IconButton, Menu, MenuItem, TextField, Chip, Tooltip } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
@@ -11,7 +11,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 const CommentItem = ({ comment, setPost }) => {
-  const { editComment, deleteComment, isLoading, error } = useCommentActions();
+  const { editComment, deleteComment, isLoading, error } = usePostActions();
   const { id: PostId } = useParams();
   const inputRef = useRef();
   const navigate = useNavigate();

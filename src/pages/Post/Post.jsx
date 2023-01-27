@@ -30,6 +30,7 @@ const Post = () => {
   useEffect(() => {
     if(post && previewRef) setWidth(previewRef.current.offsetWidth)
   }, [previewRef, post])
+
   return (
     <AuthorizedPageContainer>
         <Container>

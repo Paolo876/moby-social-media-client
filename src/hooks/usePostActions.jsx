@@ -1,11 +1,31 @@
 import { useState } from 'react';
 import axios from 'axios'
 
-const useCommentActions = () => {
+/* @desc       A set of request functions for Posts (No redux)
+*  @access     Private
+*/
+const usePostActions = () => {
   const [ isLoading, setIsLoading ] = useState(false);
   const [ isNewCommentLoading, setIsNewCommentLoading ] = useState(false);
   const [ error, setError ] = useState(null);
   const [ newCommentError, setNewCommentError ] = useState(null);
+  
+
+ /*  @desc       like a post
+  *  @access     Private
+  *  @return     <Object> --{isLiked: <BOOLEAN>, id: <NUMBER>, UserId: <NUMBER>}
+  */
+  const likePost = async (id) => {
+    setIsLoading(true)
+    try {
+        const res = await axios.get(`${process.env.REACT_APP_DOMAIN_URL}/api/posts/like/${id}`, { headers: { 'Content-Type': 'application/json' }, withCredentials: true });
+        setIsLoading(false)
+        return res.data
+    } catch(err) {
+        setIsLoading(false)
+        setNewCommentError(err.message)
+    }
+  }
   
 
  /*  @desc       create a new comment for a post
@@ -58,7 +78,7 @@ const useCommentActions = () => {
     }
   }
 
-  return { isLoading, error, newComment, editComment, deleteComment, isNewCommentLoading, newCommentError }
+  return { isLoading, error, newComment, editComment, deleteComment, isNewCommentLoading, newCommentError, likePost }
 }
 
-export default useCommentActions
+export default usePostActions
