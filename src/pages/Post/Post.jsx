@@ -17,14 +17,13 @@ const Post = () => {
     .get(`${process.env.REACT_APP_DOMAIN_URL}/api/posts/${id}`, { headers: { 'Content-Type': 'application/json' }, withCredentials: true })
     .then(res => {
         setIsLoading(false)
-        setPost(res.data)
+        setPost({...res.data.post, isBookmarked: res.data.isBookmarked})
     })
     .catch(err => {
         setIsLoading(false)
         setError(err.response.data.message)
     })
   }, [id])
-
 
   return (
     <AuthorizedPageContainer>
@@ -41,6 +40,8 @@ const Post = () => {
                             isPublic={post.isPublic}
                             createdAt={post.createdAt}
                             updatedAt={post.updatedAt}
+                            isBookmarked={post.isBookmarked}
+                            id={post.id}
                         />
                     </Grid>
                     <Grid item xs={5.5}>

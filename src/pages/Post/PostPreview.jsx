@@ -1,24 +1,34 @@
-import React from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import usePostActions from "../../hooks/usePostActions";
 import { Divider, Paper, Typography, Stack, Box, Button, Tooltip, IconButton } from '@mui/material'
 import MaterialRoot from '../../components/MaterialRoot'
 import Image from "../../components/Image";
 import defaultAvatar from "../../assets/default-profile.png";
-import TurnedInIcon from '@mui/icons-material/TurnedIn';
+import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
 import TurnedInNotIcon from '@mui/icons-material/TurnedInNot';
 
-const PostPreview = ({ title, postText, user, image: coverImage, isPublic, createdAt, updatedAt, width, isBookmarked }) => {
+const PostPreview = ({ title, postText, user, image: coverImage, isPublic, createdAt, updatedAt, width, isBookmarked: _isBookmarked, id }) => {
   const navigate = useNavigate();
+  const { bookmarkPost, isLoading } = usePostActions();
+  
+  const [ isBookmarked, setIsBookmarked ] = useState(_isBookmarked)
   let image;
   if(coverImage) image = JSON.parse(coverImage);
   let userImage;
   if(user.UserDatum.image) userImage = JSON.parse(user.UserDatum.image)
+
+  const handleBookmarkClick = async () => {
+    const result = await bookmarkPost(id)
+    setIsBookmarked(result.isBookmarked)
+  } 
+
   return (
     <Paper sx={{my: 2, py: 5, px: {xs: 2, md:8}, mx: "auto", height: "fit-content", position: "relative"}} elevation={4}>
       <Tooltip title={isBookmarked ? "You bookmarked this post." : "Bookmark Post"} arrow leaveDelay={50}>
-        <IconButton sx={{ borderRadius: 1, position: "absolute", zIndex: 20, right: 0, top: 0}} >
+        <IconButton sx={{ borderRadius: 1, position: "absolute", zIndex: 20, right: 0, top: 0}} onClick={handleBookmarkClick} disabled={isLoading}>
           {isBookmarked ? 
-            <TurnedInIcon fontSize="medium" sx={{color: "rgba(239, 144, 60, 1)"}}/> : 
+            <BookmarkAddedIcon fontSize="medium" sx={{color: "rgba(239, 144, 60, 1)"}}/> : 
             <TurnedInNotIcon fontSize="medium" sx={{color: "rgba(239, 144, 60, 1)"}}/>
           }
         </IconButton>

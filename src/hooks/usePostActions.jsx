@@ -28,6 +28,23 @@ const usePostActions = () => {
   }
   
 
+ /*  @desc       bookmark a post
+  *  @access     Private
+  *  @return     <Object> --{isBookmarked: <BOOLEAN>, PostId: <NUMBER>, UserId: <NUMBER>}
+  */
+  const bookmarkPost = async (id) => {
+    setIsLoading(true)
+    try {
+        const res = await axios.get(`${process.env.REACT_APP_DOMAIN_URL}/api/posts/bookmark/${id}`, { headers: { 'Content-Type': 'application/json' }, withCredentials: true });
+        setIsLoading(false)
+        return res.data
+    } catch(err) {
+        setIsLoading(false)
+        setNewCommentError(err.message)
+    }
+  }
+  
+
  /*  @desc       create a new comment for a post
   *  @access     Private
   *  @return     <Object> --comment data
@@ -78,7 +95,7 @@ const usePostActions = () => {
     }
   }
 
-  return { isLoading, error, newComment, editComment, deleteComment, isNewCommentLoading, newCommentError, likePost }
+  return { isLoading, error, newComment, editComment, deleteComment, isNewCommentLoading, newCommentError, likePost, bookmarkPost }
 }
 
 export default usePostActions
