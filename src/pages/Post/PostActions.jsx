@@ -32,29 +32,32 @@ const PostActions = ({ setPost, likes, setShowNewCommentForm }) => {
 
   return (
     <Paper sx={{px:.5}}>
-        <Stack flexDirection="row" alignItems="center" py={.5} ml={1}>
-            <Typography variant="body2" color="rgba(0, 0, 0, .6)" sx={{mx:1}}>Liked by: </Typography>
-            <Tooltip title="See users who liked this post." arrow>
-                <AvatarGroup 
-                    total={likes.length} 
-                    max={3}   
-                    sx={{'& .MuiAvatar-root': { width: 25, height: 25, fontSize: 12, cursor: "pointer" },}}
-                    onClick={() => setShowModal(true)}
-                    >
-                    {likes.map(item => <Avatar 
-                        key={item.id} 
-                        alt={item.User.username} 
-                        src={item.User.UserDatum.image ? JSON.parse(item.User.UserDatum.image).url : null}
-                        sx={{width: 25, height: 25}} 
-                        />)}
-                </AvatarGroup>
-            </Tooltip>
-        </Stack>
-        <LikersModal showModal={showModal} setShowModal={setShowModal} likes={likes}/>
-        <Divider/>
+        {likes.length > 0 && <>
+            <Stack flexDirection="row" alignItems="center" py={.5} ml={1}>
+                <Typography variant="body2" color="rgba(0, 0, 0, .6)" sx={{mx:1}}>Liked by: </Typography>
+                <Tooltip title="See users who liked this post." arrow>
+                    <AvatarGroup 
+                        total={likes.length} 
+                        max={3}   
+                        sx={{'& .MuiAvatar-root': { width: 25, height: 25, fontSize: 12, cursor: "pointer" },}}
+                        onClick={() => setShowModal(true)}
+                        >
+                        {likes.map(item => <Avatar 
+                            key={item.id} 
+                            alt={item.User.username} 
+                            src={item.User.UserDatum.image ? JSON.parse(item.User.UserDatum.image).url : null}
+                            sx={{width: 25, height: 25}} 
+                            />)}
+                    </AvatarGroup>
+                </Tooltip>
+            </Stack>
+            <LikersModal showModal={showModal} setShowModal={setShowModal} likes={likes}/>
+            <Divider/>
+        </>
+        }
         <Stack flexDirection="row" alignItems="center" my={.5}>
         <Tooltip title={isLiked ? "You liked this post." : "Like Post"} arrow leaveDelay={50}>
-            <IconButton sx={{mb: .5, borderRadius: 5, width: "50%"}} onClick={handleLikeClick} disabled={isLoading}>
+            <IconButton sx={{my: .5, borderRadius: 5, width: "50%"}} onClick={handleLikeClick} disabled={isLoading}>
             {isLiked ? 
                 <FavoriteIcon fontSize="medium" sx={{color: "rgba(229, 85, 85, 1)"}}/> : 
                 <FavoriteBorderIcon fontSize="medium" sx={{color: "rgba(229, 85, 85, .85)"}}/>
@@ -63,7 +66,7 @@ const PostActions = ({ setPost, likes, setShowNewCommentForm }) => {
             </IconButton>
         </Tooltip>
         <Tooltip title="Write a comment" arrow leaveDelay={50}>
-            <IconButton sx={{mb: .5, borderRadius: 5, width: "50%"}} onClick={() => setShowNewCommentForm(prevState => !prevState)}>
+            <IconButton sx={{my: .5, borderRadius: 5, width: "50%"}} onClick={() => setShowNewCommentForm(prevState => !prevState)}>
             <PostAddIcon fontSize="medium" color="info" />
             <Typography variant="body2" color="rgba(0, 0, 0, .6)" sx={{ml:1}}>Write a comment</Typography>
             </IconButton>

@@ -5,10 +5,9 @@ import useAuthRedux from '../../hooks/useAuthRedux';
 import usePostActions from '../../hooks/usePostActions';
 import defaultAvatar from "../../assets/default-profile.png";
 import Image from '../../components/Image';
-import CancelIcon from '@mui/icons-material/Cancel';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
-
-const NewCommentForm = ({ setPost, setShowNewCommentForm }) => {
+const NewCommentForm = ({ setPost, setShowNewCommentForm, setShowComments }) => {
   const [ comment, setComment ] = useState("");
   const { id: PostId } = useParams();
   const { newComment, isNewCommentLoading: isLoading, newCommentError: error } = usePostActions();
@@ -25,13 +24,14 @@ const NewCommentForm = ({ setPost, setShowNewCommentForm }) => {
             updatedPost.Comments = [result, ...updatedPost.Comments];
             return updatedPost
         })
+        setShowComments(true)
         setComment("")
     }
   }
   return (
     <Paper sx={{px:.5, position: "relative"}}>
         <Typography variant="h5" fontWeight={400} fontSize={15} pl={1.5} pt={1.5} mb={1}>Write A Comment</Typography>
-        <Tooltip title="Cancel" arrow><IconButton sx={{position: "absolute", top: 0, right: 0, opacity: .75}}><CancelIcon onClick={() => setShowNewCommentForm(false)}/></IconButton></Tooltip>
+        <Tooltip title="Cancel" arrow><IconButton sx={{position: "absolute", top: 0, right: 0, opacity: .75}}><HighlightOffIcon onClick={() => setShowNewCommentForm(false)}/></IconButton></Tooltip>
         {error && <Alert severity='error'>{error}</Alert>}
         <Stack flexDirection="row"  px={1} pb={2} mb={2} mt={2}>
             <Box>
