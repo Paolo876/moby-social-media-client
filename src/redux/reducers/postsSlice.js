@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { postsInitialState } from "../initialState";
-import { getPosts, createPost, likePost, bookmarkPost } from "./postsReducers";
+import { getPosts, createPost, likePost, bookmarkPost, getBookmarkedPosts } from "./postsReducers";
 
 const postsSlice = createSlice({
     name: "posts",
@@ -75,6 +75,20 @@ const postsSlice = createSlice({
             state.posts = updatedPosts;
         })
         .addCase(likePost.rejected, ( state, { payload }) => {
+            state.isLoading = false;
+            state.error = payload.message;
+        })
+        //getBookmarkedPosts
+        .addCase(getBookmarkedPosts.pending, (state) => {
+            state.isLoading = true;
+            state.error = null;
+        })
+        .addCase(getBookmarkedPosts.fulfilled, ( state, { payload }) => {
+            state.isLoading = false;
+            state.error = null;
+            state.bookmarks = payload;
+        })
+        .addCase(getBookmarkedPosts.rejected, ( state, { payload }) => {
             state.isLoading = false;
             state.error = payload.message;
         })

@@ -64,3 +64,19 @@ export const bookmarkPost = createAsyncThunk( 'posts/bookmarkPost', async ( payl
         return rejectWithValue(err.response.data)
     }
 })
+
+
+/** getBookmarkedPosts
+ *  @desc get bookmarked posts by the user
+ */
+export const getBookmarkedPosts = createAsyncThunk( 'posts/getBookmarkedPosts', async ( payload, { rejectWithValue }) => {
+    try {
+        const res = await axios.get(`${process.env.REACT_APP_DOMAIN_URL}/api/auth/bookmarks`, {
+            headers: { 'Content-Type': 'application/json' },
+            withCredentials: true,
+        });
+        return res.data;
+    } catch (err){
+        return rejectWithValue(err.response.data)
+    }
+})

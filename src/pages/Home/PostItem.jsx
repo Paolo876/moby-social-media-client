@@ -35,7 +35,7 @@ const PostBody = ({ isPublic, title, user, image: coverImage, isHovered, transit
           transition: transitions.create('filter', {duration: 1200, delay: 0})
           }} 
           color="primary"
-          onClick={() => navigate(`posts/${id}`)}
+          onClick={() => navigate(`/posts/${id}`)}
         >
         <Box 
           sx={{
@@ -60,7 +60,7 @@ const PostBody = ({ isPublic, title, user, image: coverImage, isHovered, transit
             <Typography variant="h5" align='center' fontWeight={600} pb={isHovered ? .75 :.5} color="primary.dark">{title}</Typography>
             {isHovered && isPublic && <Typography variant="subtitle1" align='center' sx={{width: "100%", opacity: .9}} mb={2} px={2}>{postText.length > 150 ? postText.substr(0,150) : postText}...</Typography>}
             {isHovered && !isPublic && <Typography variant="subtitle1" align='center' sx={{width: "100%", opacity: .9}} mb={2} px={2} fontStyle={isPublic ? "" : "italic"}>This post is private.</Typography>}
-            <Typography variant="body2" align={isHovered ? 'right' : 'center'} fontWeight={400} sx={{opacity: .6}} px={4}>-{user.UserDatum.firstName} {user.UserDatum.lastName}</Typography>
+            {user && <Typography variant="body2" align={isHovered ? 'right' : 'center'} fontWeight={400} sx={{opacity: .6}} px={4}>-{user.UserDatum.firstName} {user.UserDatum.lastName}</Typography>}
           </Stack>
           {image && 
             <Image 
@@ -104,7 +104,7 @@ const PostActions = ({ palette, isLiked, isBookmarked, user, userImage, createdA
             </IconButton>
           </Tooltip>
           <Tooltip title="Comments" arrow leaveDelay={50}>
-            <IconButton sx={{py:1.25, px: 2, mr:.25, borderRadius: 5}} onClick={() => navigate(`posts/${id}`)}>
+            <IconButton sx={{py:1.25, px: 2, mr:.25, borderRadius: 5}} onClick={() => navigate(`/posts/${id}`)}>
               <ForumIcon fontSize="medium" color="info" />
               <Typography variant="body2" color="rgba(255, 255, 255, .75)" sx={{ml:1}}>{comments > 0 && comments}</Typography>
 
@@ -139,6 +139,7 @@ const PostItem = ({ title, image, isPublic, postText, isLiked=false, isBookmarke
   if(user && user.UserDatum) userImage = JSON.parse(user.UserDatum.image);
   return (
     <Grid 
+      // align="center"
       item 
       sx={{m:.5, mt: 2, p: 0, boxShadow: 3, mb: 3, borderRadius: "10px", position: "relative", transition: transitions.create('all', {duration: 800, delay: 0}), "&:hover": { boxShadow: 5 }}} 
       xs={12}

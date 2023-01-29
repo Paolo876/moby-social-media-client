@@ -16,8 +16,8 @@ const Profile = () => {
   
   useEffect(() => {
     getProfileById(UserId ? UserId : id ).then(res => setUser(res))
-  }, [UserId])
-
+  }, [])
+  // console.log(user)
   return (
     <AuthorizedPageContainer>
         {isLoading && <LoadingSpinner/>}
@@ -25,7 +25,7 @@ const Profile = () => {
         {user && <Container>
             <Grid container>
               <Grid item xs={12}><ProfileHeader id={user.id} username={user.username} createdAt={user.createdAt} userData={user.UserDatum} userBio={user.UserBio}/></Grid>
-              <Grid item xs={12}><UserPostsList posts={user.Posts}/></Grid>
+              <Grid item xs={12}><UserPostsList posts={user.Posts} user={{UserDatum: user.UserDatum, username: user.username, id: user.id}}/></Grid>
             </Grid>
         </Container>}
     </AuthorizedPageContainer>

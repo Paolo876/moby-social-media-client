@@ -31,11 +31,11 @@ const ProfileHeader = ({id, username, createdAt, userData, userBio }) => {
             </IconButton>
           </Grid>
           <Grid item xs={12} align="center">
-            <Typography variant="h5" align="center">{username}</Typography>
+            <Typography variant="h5" align="center">@{username}</Typography>
             <Typography variant="h6" align="center">{userData.firstName} {userData.lastName}</Typography>
           </Grid>
-          <Grid item xs={12} align="center" mt={2}>
-            <Typography variant="body1" align="center" maxWidth="80%">{ userBio && userBio.body ? userBio.body : "This user has no bio yet."}</Typography>
+          <Grid item xs={12} align="center" my={3}>
+            <Typography variant="body1" align="center" maxWidth="75%">{ userBio && userBio.body ? userBio.body : "This user has no bio yet."}</Typography>
             {/* links to be inserted here */}
           </Grid>
           <Grid item xs={12} align="center" mt={2}>
