@@ -1,57 +1,24 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 import usePostsRedux from '../../hooks/usePostsRedux';
-import { Paper, Typography, Stack, Grid, Chip, Button, Divider, Alert } from "@mui/material"
+import { Typography, Grid, Divider, Alert } from "@mui/material"
 import useAuthRedux from '../../hooks/useAuthRedux';
-import defaultAvatar from "../../assets/default-profile.png";
-import Image from '../../components/Image';
 import PostItem from './PostItem';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import MaterialRoot from '../../components/MaterialRoot';
+import CreatePostButton from '../../components/CreatePostButton';
 
 const PostsFeed = () => {
   const { isLoading, error, posts, getPosts, bookmarks } = usePostsRedux();
-  const { user: { UserData, id } } = useAuthRedux();
-  const navigate = useNavigate();
-
-  const [ isHovered, setIsHovered ] = useState(false)
+  const { user: { id } } = useAuthRedux();
 
   useEffect(() => {
     getPosts()
   }, [])
 
-  let image;
-  if(UserData) image = JSON.parse(UserData.image);
-
   return (
     <Grid container>
       {error && <Grid item xs={12} my={1}><Alert severity='error'>{error}</Alert></Grid>}
-      <Grid item sx={{m:.5, mt: 1, mb: 2.5, p: 1}} xs={12} onMouseOver={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
-        <Button 
-          sx={{width: "100%", mr: "auto", p:0, textTransform: "none", textAlign: "left"}} 
-          color="info"
-          onClick={() => navigate("/create")}
-          >
-          <Paper sx={{width: "100%", p: 3, "&:hover": { boxShadow: 3 }}} variant="outlined">
-            <Typography variant="h5" fontWeight={400}>Create A Post</Typography>
-            <Stack flexDirection="row" sx={{width: "100%"}} alignItems="center" mt={1.75} ml={1}>
-              {image ? 
-                <Image 
-                  src={image.url} 
-                  transformation={[{
-                      height: 35,
-                      width: 35,
-                  }]} 
-                  style={{borderRadius: "50%"}}
-                  alt="profile-avatar"
-                /> :
-                <img src={defaultAvatar} alt="profile-avatar" style={{height: "35px", width: "35px"}}/>
-              }
-              <Chip label="Write a post" sx={{flex: 1, ml:1.5, mr:4, cursor: "pointer", backgroundColor: !isHovered ? "rgba(0,0,0,0.075)" : "rgba(0,0,0,0.25)"}}/>
-            </Stack>
-          </Paper>
-        </Button>
-      </Grid>
+      <Grid item sx={{m:.5, mt: 1, mb: 2.5, py: 1}} xs={12}><CreatePostButton/></Grid>
       <MaterialRoot>
         <Divider><Typography variant="body1">{new Date().toLocaleDateString()}</Typography></Divider>
       </MaterialRoot>
