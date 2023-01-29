@@ -23,7 +23,7 @@ const usePostActions = () => {
         return res.data
     } catch(err) {
         setIsLoading(false)
-        setNewCommentError(err.message)
+        setError(err.message)
     }
   }
   
@@ -40,7 +40,7 @@ const usePostActions = () => {
         return res.data
     } catch(err) {
         setIsLoading(false)
-        setNewCommentError(err.message)
+        setError(err.message)
     }
   }
   
