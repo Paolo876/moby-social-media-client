@@ -17,7 +17,7 @@ const PostsFeed = () => {
   const [ isHovered, setIsHovered ] = useState(false)
 
   useEffect(() => {
-    if(posts.length === 0) getPosts()
+    getPosts()
   }, [])
 
   let image;

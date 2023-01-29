@@ -10,6 +10,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
 import TurnedInNotIcon from '@mui/icons-material/TurnedInNot';
 import usePostsRedux from '../../hooks/usePostsRedux';
+import usePostActions from '../../hooks/usePostActions';
 
 const PostBody = ({ isPublic, title, user, image: coverImage, isHovered, transitions, postText, isBookmarked, id }) => {
   const { bookmarkPost, isLoading } = usePostsRedux();
@@ -20,12 +21,14 @@ const PostBody = ({ isPublic, title, user, image: coverImage, isHovered, transit
   return (
     <>
       <Tooltip title={isBookmarked ? "You bookmarked this post." : "Bookmark Post"} arrow leaveDelay={50}>
-        <IconButton sx={{ borderRadius: 1, position: "absolute", zIndex: 20, right: 0}} onClick={() => bookmarkPost(id)} disabled={isLoading}>
-          {isBookmarked ? 
-            <BookmarkAddedIcon fontSize="medium" sx={{color: "rgba(239, 144, 60, .8)"}}/> : 
-            <TurnedInNotIcon fontSize="medium" sx={{color: "rgba(239, 144, 60, .9)"}}/>
-          }
-        </IconButton>
+        <span>
+          <IconButton sx={{ borderRadius: 1, position: "absolute", zIndex: 20, right: 0}} onClick={() => bookmarkPost(id)} disabled={isLoading}>
+            {isBookmarked ? 
+              <BookmarkAddedIcon fontSize="medium" sx={{color: "rgba(239, 144, 60, .8)"}}/> : 
+              <TurnedInNotIcon fontSize="medium" sx={{color: "rgba(239, 144, 60, .9)"}}/>
+            }
+          </IconButton>
+        </span>
       </Tooltip>
       <Button 
         sx={{
@@ -83,11 +86,29 @@ const PostBody = ({ isPublic, title, user, image: coverImage, isHovered, transit
   )
 }
 
-const PostActions = ({ palette, isLiked, isBookmarked, user, userImage, createdAt, id, likes, comments}) => {
+const PostActions = ({ palette, isLiked, isFetchedFromProfile, user, userImage, createdAt, id, likes, comments, setPosts}) => {
   const navigate = useNavigate();
   const { likePost, isLoading } = usePostsRedux();
-  const handleLikeClick = () => {
-    if(!isLoading) likePost(id);
+  const { likePost: _likePost } = usePostActions();
+  const handleLikeClick = async () => {
+    if(!isLoading) {
+      if(isFetchedFromProfile){
+        _likePost(id).then(res => {
+          setPosts(prevState => {
+            const updatedPost = [ ...prevState ]
+            const post = updatedPost.find(item => item.id === parseInt(res.id))
+            if(res.isLiked){
+              post.Likes = [{UserId: res.UserId}, ...post.Likes];
+            } else {
+              post.Likes = post.Likes.filter(item => item.UserId !== res.UserId)
+            }
+            return updatedPost
+        })
+        })
+      } else {
+        likePost(id)
+      }
+    };
   };
 
   return (
@@ -132,7 +153,7 @@ const PostActions = ({ palette, isLiked, isBookmarked, user, userImage, createdA
   )
 }
 
-const PostItem = ({ title, image, isPublic, postText, isLiked=false, isBookmarked=false, user, createdAt, updatedAt, id, likes, comments}) => {
+const PostItem = ({ title, image, isPublic, postText, isLiked=false, isBookmarked=false, user, createdAt, updatedAt, id, likes, comments, isFetchedFromProfile=false, setPosts=null}) => {
   const [ isHovered, setIsHovered ] = useState(false)
   const { palette, transitions } = useTheme();
   let userImage;
@@ -147,7 +168,7 @@ const PostItem = ({ title, image, isPublic, postText, isLiked=false, isBookmarke
       onMouseLeave={() => setIsHovered(false)}
       >
       <PostBody isPublic={isPublic} isBookmarked={isBookmarked} createdAt={createdAt} title={title} user={user} image={image} isHovered={isHovered} transitions={transitions} postText={postText} id={id}/>
-      <PostActions palette={palette} isLiked={isLiked} user={user} userImage={userImage} createdAt={createdAt} id={id} likes={likes} comments={comments}/>
+      <PostActions palette={palette} isLiked={isLiked} user={user} userImage={userImage} createdAt={createdAt} id={id} likes={likes} comments={comments} isFetchedFromProfile={isFetchedFromProfile} setPosts={setPosts}/>
     </Grid>
   )
 }

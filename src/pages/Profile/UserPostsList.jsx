@@ -1,17 +1,15 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import PostItem from '../Home/PostItem'
 import { Grid } from "@mui/material"
-import useAuthRedux from "../../hooks/useAuthRedux";
 import usePostsRedux from '../../hooks/usePostsRedux';
 
-const UserPostsList = ({ posts, user }) => {
-  const { user: { id } } = useAuthRedux();
+const UserPostsList = ({ posts: _posts, user }) => {
   const { bookmarks, getBookmarkedPosts } = usePostsRedux();
-
+  const [ posts, setPosts ] = useState(_posts)
   useEffect(() => {
     getBookmarkedPosts()
   }, [])
-  console.log(posts[0])
+
   return (
     <Grid container maxWidth={680} mx="auto">
       {posts.map(item => <PostItem
@@ -27,6 +25,8 @@ const UserPostsList = ({ posts, user }) => {
         isBookmarked={bookmarks.some(_item => _item.PostId === item.id)}
         user={user}
         createdAt={item.createdAt}
+        isFetchedFromProfile={true}
+        setPosts={setPosts}
       />)}
     </Grid>
   )
