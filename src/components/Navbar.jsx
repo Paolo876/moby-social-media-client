@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import useAuthRedux from '../hooks/useAuthRedux';
 import { styled, alpha } from '@mui/material/styles';
-import { AppBar, Box, Toolbar, IconButton, InputBase, Badge, MenuItem, Menu, Container, Tooltip } from '@mui/material';
+import { AppBar, Box, Toolbar, IconButton, InputBase, Badge, MenuItem, Menu, Container, Tooltip, Divider } from '@mui/material';
 import LoadingSpinner from './LoadingSpinner';
 import Image from './Image';
 //media
@@ -123,6 +123,7 @@ const Navbar = () => {
       >
         <MenuItem onClick={handleProfileClick} sx={{px: 2.5, py: .8}}><AccountCircle fontSize="sm" sx={{mr: 2}}/> Profile</MenuItem>
         <MenuItem onClick={handleSettingsClick} sx={{px: 2.5, py: .8}}><SettingsIcon fontSize="sm" sx={{mr: 2}}/> Settings</MenuItem>
+        <Divider/>
         <MenuItem onClick={handleLogout} sx={{px: 2.5, py: .8}}><LogoutIcon fontSize="sm" sx={{mr: 2}}/> Logout</MenuItem>
       </Menu>
     );

@@ -32,7 +32,7 @@ function App() {
         <Route element={ user ? <Profile/> : <Navigate replace to="/login"/>} path="/profile/*"/>
         <Route element={ user ? <Create/> : <Navigate replace to="/login"/>} path="/create"/>
         <Route element={ user ? <Post/> : <Navigate replace to="/login"/>} path="/posts/:id"/>
-        <Route element={ user ? <Messages/> : <Navigate replace to="/login"/>} path="/messages"/>
+        <Route element={ user ? <Messages/> : <Navigate replace to="/login"/>} path="/messages/*"/>
         <Route element={ user ? <Settings/> : <Navigate replace to="/login"/>} path="/settings"/>
         {/* auth routes */}
         <Route element={ user ? <Navigate replace to="/"/> : <Login/>} path="/login" />
