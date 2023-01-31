@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom';
 import useAuthRedux from '../../hooks/useAuthRedux';
 import { Typography, Stack, Tooltip, Button, Box, Modal, TextField, List, ListItemButton, ListItem } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
@@ -23,6 +24,7 @@ const style = {
 
 const SearchUserForm = () => {
   const { user } = useAuthRedux();
+  const navigate = useNavigate();
   const [ showModal, setShowModal ] = useState(false);
   const [ input, setInput ] = useState("")
   const [ inputResponse, setInputResponse ] = useState("");
@@ -41,7 +43,6 @@ const SearchUserForm = () => {
         setInputResponse(input)
         axios.get(`${process.env.REACT_APP_DOMAIN_URL}/api/auth/search/${input}`, { headers: { 'Content-Type': 'application/json' }, withCredentials: true })
         .then(res => {
-          console.log(res.data)
           setUsers(res.data)
           setIsLoading(false)
         })
@@ -58,8 +59,21 @@ const SearchUserForm = () => {
     setUsers(null)
     setIsLoading(false)
   }
+
+  const findChat = (id) => {
+    //find chat id, redirect user to link
+    axios.get(`${process.env.REACT_APP_DOMAIN_URL}/api/chat/search/${id}`, { headers: { 'Content-Type': 'application/json' }, withCredentials: true })
+    .then( ({ data }) => {
+      if(data.ChatRoomId){
+        navigate(`/messages/${data.ChatRoomId}`)
+      } else {
+        navigate(`/messages/new/${id}`)
+      }
+      handleCloseModal()
+    })
+  }
   return (
-    <Stack flexDirection="row" alignItems="center" justifyContent="center" mx={2} my={1} >
+    <Stack flexDirection="row" alignItems="center" justifyContent="center" mx={2} my={2} >
         <Box backgroundColor="rgba(0,0,0,0.1)" borderRadius={4}  sx={{flex:1, height: "100%", py:.25, mx: .5}} >
             <Typography variant="h6" fontSize={16} align="center">{user.username}</Typography>
         </Box>
@@ -90,7 +104,7 @@ const SearchUserForm = () => {
                 {isLoading && <LoadingSpinner style={{minHeight: "0em", backgroundColor: "initial", transform: "scale(.5)", opacity: .75, position: "absolute", left: "35%", top: "-100%"}}/>}
               </ListItem>
               {users && users.map(item => 
-                <ListItemButton sx={{ }} key={item.id} >
+                <ListItemButton sx={{ }} key={item.id} disabled={isLoading} onClick={() => findChat(item.id)}>
                   {item.UserDatum.image ? 
                     <Image 
                       src={JSON.parse(item.UserDatum.image).url} 
