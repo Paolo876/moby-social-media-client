@@ -1,11 +1,20 @@
 import React from 'react'
-import { useParams } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
+
+
 const MessagesFeed = () => {
-  const params = useParams()["*"];
-  console.log(params)
   return (
-    <div>MessagesFeed</div>
+    <Routes>
+      <Route path="/:id" element={<MessagesList/>}/>
+      <Route path="/new/:id" element={<>new</>}/>
+    </Routes>
   )
 }
 
+const MessagesList = () => {
+
+  return (
+    <div>list of messages</div>
+  )
+}
 export default MessagesFeed
