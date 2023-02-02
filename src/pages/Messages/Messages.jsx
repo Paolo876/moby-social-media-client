@@ -4,7 +4,8 @@ import AuthorizedPageContainer from '../../components/AuthorizedPageContainer'
 import { Container, Alert, Grid } from "@mui/material"
 import MessagesNavigation from './MessagesNavigation'
 import MessagesFeed from './MessagesFeed'
-import NewMessageFeed from './NewMessageFeed'
+
+
 const Messages = () => {
 
   return (
@@ -14,7 +15,6 @@ const Messages = () => {
           <Grid item md={3}><MessagesNavigation/></Grid>
           <Routes>
             <Route element={<Grid item md={9}><MessagesFeed/></Grid>} path="/*"/>
-            <Route element={<Grid item md={9}><NewMessageFeed/></Grid>} path="/new/:id"/>
           </Routes>
         </Grid>
       </Container>

@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Paper, Grid, Divider, List, ListItemButton, ListItem, Stack, Typography } from '@mui/material'
+import { Paper, Grid, Divider, List, ListItemButton, ListItem, Stack, Typography, Alert } from '@mui/material'
 import SearchUserForm from './SearchUserForm'
 import MaterialRoot from '../../components/MaterialRoot'
-import useMessagesActions from '../../hooks/useMessagesActions'
+import useChatRedux from '../../hooks/useChatRedux'
 import LoadingSpinner from '../../components/LoadingSpinner'
 import Image from '../../components/Image'
 import defaultAvatar from "../../assets/default-profile.png"
@@ -12,11 +12,9 @@ import defaultAvatar from "../../assets/default-profile.png"
 const MessagesNavigation = () => {
   const navigate = useNavigate();
   const params = useParams()["*"]
-  const [ messagesList, setMessagesList ] = useState(null)
-  const { getChatRooms, isLoading, error } = useMessagesActions();
-
+  const { getChatRooms, isLoading, error, chatRooms } = useChatRedux();
   useEffect(() => {
-    getChatRooms().then(data => setMessagesList(data))
+    if(chatRooms.length === 0) getChatRooms()
   }, [])
 
   return (
@@ -24,11 +22,12 @@ const MessagesNavigation = () => {
       <Grid container>
         <Grid item xs={12}><SearchUserForm/></Grid>
         <MaterialRoot><Divider/></MaterialRoot>
+        {error && <Grid item xs={12}><Alert severity='error'>{error}</Alert></Grid>}
         <List sx={{width: "100%", minHeight: 0, height: "76vh", overflowY: "auto"}}>
           <ListItem alignItems="flex-start" sx={{justifyContent: "center", p:0}}>
             {isLoading && <LoadingSpinner style={{minHeight: "0em", backgroundColor: "initial", transform: "scale(.6)", opacity: .75}}/>}
           </ListItem>
-          {messagesList && messagesList.map(({ ChatRoom }) => 
+          {chatRooms && chatRooms.map(({ ChatRoom }) => 
             <ListItemButton sx={{ }} key={ChatRoom.id} disabled={isLoading} onClick={() => navigate(`/messages/${ChatRoom.id}`)} selected={ChatRoom.id === parseInt(params)}>
               {ChatRoom.ChatMembers[0].User.UserDatum && ChatRoom.ChatMembers[0].User.UserDatum.image ? 
                 <Image 

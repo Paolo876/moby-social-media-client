@@ -8,12 +8,23 @@ export const authInitialState = {
     error: null,
 };
 
+
 /**
  * postsInitialState
  */
 export const postsInitialState = {
     posts: [],
     bookmarks: [],
+    isLoading: false,
+    error: null,
+};
+
+
+/**
+ * chatInitialState
+ */
+export const chatInitialState = {
+    chatRooms: [],
     isLoading: false,
     error: null,
 };
