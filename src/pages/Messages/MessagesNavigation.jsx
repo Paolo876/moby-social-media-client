@@ -18,7 +18,7 @@ const MessagesNavigation = () => {
   }, [])
 
   return (
-    <Paper sx={{height: "100%" }}>
+    <Paper sx={{height: "100%" }} elevation={2}>
       <Grid container>
         <Grid item xs={12}><SearchUserForm/></Grid>
         <MaterialRoot><Divider/></MaterialRoot>

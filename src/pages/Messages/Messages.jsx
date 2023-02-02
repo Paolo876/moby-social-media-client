@@ -1,5 +1,4 @@
 import React from 'react'
-import { useParams, Routes, Route } from 'react-router-dom'
 import AuthorizedPageContainer from '../../components/AuthorizedPageContainer'
 import { Container, Alert, Grid } from "@mui/material"
 import MessagesNavigation from './MessagesNavigation'
@@ -11,11 +10,9 @@ const Messages = () => {
   return (
     <AuthorizedPageContainer>
       <Container sx={{height: "85vh"}} maxWidth="xl">
-        <Grid container my={1} sx={{height: "100%"}}>
+        <Grid container my={1} sx={{height: "100%"}} spacing={1}>
           <Grid item md={3}><MessagesNavigation/></Grid>
-          <Routes>
-            <Route element={<Grid item md={9}><MessagesFeed/></Grid>} path="/*"/>
-          </Routes>
+          <Grid item md={9}><MessagesFeed/></Grid>
         </Grid>
       </Container>
     </AuthorizedPageContainer>
