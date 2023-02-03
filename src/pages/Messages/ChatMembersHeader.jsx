@@ -5,7 +5,6 @@ import Image from '../../components/Image';
 import defaultAvatar from "../../assets/default-profile.png"
 import { Stack, Avatar, AvatarGroup, Divider, Typography, Tooltip, Modal, Box, List, ListItemButton } from '@mui/material'
 
-
 const modalStyle = {
     position: 'absolute',
     top: '40%',
@@ -15,7 +14,7 @@ const modalStyle = {
     borderRadius: 1,
     bgcolor: 'background.paper',
     boxShadow: 10,
-    p: 2,
+    py: 1,
   };
 
 
@@ -26,31 +25,31 @@ const ChatMembersHeader = ({ chatMembers }) => {
 
   return (
     <Stack width="100%" pt={.5}>
-            <Stack flexDirection="row" alignItems="center" px={1} py={1}>
-                <Typography variant="h6" fontSize={17} mx={1}>Chat Members: </Typography>
-                <Tooltip title="Show Chat Members" arrow>
-                    <AvatarGroup
-                        total={chatMembers.length + 1}
-                        max={3}   
-                        sx={{ mx:1, '& .MuiAvatar-root': { width: 25, height: 25, fontSize: 12, cursor: "pointer" }}}
-                        onClick={() => setShowModal(true)}
-                    >
-                        {chatMembers.map(item => <Avatar 
-                            key={item.id} 
-                            alt={item.User.username} 
-                            src={item.User.UserDatum && item.User.UserDatum.image ? JSON.parse(item.User.UserDatum.image).url : null}
-                            sx={{width: 25, height: 25}} 
-                        />)}
-                        <Avatar 
-                            alt={username} 
-                            src={UserData.image ? JSON.parse(UserData.image).url : null}
-                            sx={{width: 25, height: 25}}  
-                        />
-                    </AvatarGroup>
-                </Tooltip>
-            </Stack>
-            {showModal && <ChatMembersModal showModal={showModal} handleCloseModal={() => setShowModal(false)} chatMembers={chatMembers}/>}
-        <Divider/>
+      <Stack flexDirection="row" alignItems="center" px={1} py={1}>
+        <Typography variant="h6" fontSize={17} mx={1}>Chat Members: </Typography>
+        <Tooltip title="Show Chat Members" arrow>
+          <AvatarGroup
+            total={chatMembers.length + 1}
+            max={3}   
+            sx={{ mx:1, '& .MuiAvatar-root': { width: 25, height: 25, fontSize: 12, cursor: "pointer" }}}
+            onClick={() => setShowModal(true)}
+            >
+            {chatMembers.map(item => <Avatar 
+              key={item.id} 
+              alt={item.User.username} 
+              src={item.User.UserDatum && item.User.UserDatum.image ? JSON.parse(item.User.UserDatum.image).url : null}
+              sx={{width: 25, height: 25}} 
+            />)}
+            <Avatar 
+              alt={username} 
+              src={UserData.image ? JSON.parse(UserData.image).url : null}
+              sx={{width: 25, height: 25}}  
+            />
+          </AvatarGroup>
+        </Tooltip>
+      </Stack>
+      {showModal && <ChatMembersModal showModal={showModal} handleCloseModal={() => setShowModal(false)} chatMembers={chatMembers}/>}
+      <Divider/>
     </Stack>
   )
 }
@@ -67,7 +66,7 @@ const ChatMembersModal = ({ showModal, handleCloseModal, chatMembers }) => {
         onClose={handleCloseModal}
     >
         <Box sx={modalStyle}>
-            <Typography variant="h6" fontSize={17} mx={1}>Chat Members: </Typography>
+            <Typography variant="h6" fontSize={17} mx={1} p={1} >Chat Members: </Typography>
             <Divider/>
             <List>
               {chatMembers && chatMembers.map(({ User}) => 
