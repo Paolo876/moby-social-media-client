@@ -38,28 +38,23 @@ const MessagesList = () => {
     return () => setMessages([])
   }, [params])
 
-  // console.log(chatMembers)
   return (
-    <MessagesFeedContainer>
+    <Paper sx={{width: "100%", display: "flex", flexDirection: "column", overflow: "hidden", height: "100%"}}>
       {params && <>
-          <Paper elevation={1} sx={{ width: "100%"}}>
-            <Grid item xs={12}><ChatMembersHeader chatMembers={chatMembers}/></Grid>
-
+            <Box sx={{width: "100%"}}><ChatMembersHeader chatMembers={chatMembers}/></Box>
             {isLoading && <LoadingSpinner style={{minHeight: "0em", backgroundColor: "initial", transform: "scale(.5)", opacity: .75}}/>}
-            <List sx={{width: "100%", minHeight: 0, height: "77vh",overflowY: "auto"}}>
+            <List sx={{width: "100%", overflowY: "auto", display: "flex", flexDirection: "column-reverse", flex: 1, justifyContent: "end"}}>
                 {chatMembers.length > 0 && messages.map(item => <MessageItem 
                   key={item.id} 
                   message={item.message} 
+                  createdAt={item.createdAt}
                   chatUser={chatMembers.find(_item => _item.User.id === item.UserId) && chatMembers.find(_item => _item.User.id === item.UserId).User}
                 />)}
             </List>
             <Divider/>
-        </Paper>
-        <Paper elevation={3} sx={{ width: "100%", mt: 1.5}}>
-          <Grid item xs={12}><MessageInput/></Grid>
-        </Paper>
+          <Box sx={{width: "100%"}}><MessageInput/></Box>
       </>}
-    </MessagesFeedContainer>
+    </Paper>
   )
 }
 export default MessagesFeed
