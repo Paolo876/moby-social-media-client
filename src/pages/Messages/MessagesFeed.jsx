@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Routes, Route, useParams } from 'react-router-dom'
 import MessagesFeedContainer from './MessagesFeedContainer'
 import MessageInput from './MessageInput'
-import { Box, Divider, List, ListItem, ListItemText, Grid } from '@mui/material'
+import { Box, Divider, Grid, List, ListItem, ListItemText, Paper } from '@mui/material'
 import ChatMembersHeader from './ChatMembersHeader'
 import useMessagesActions from '../../hooks/useMessagesActions'
 import useChatRedux from '../../hooks/useChatRedux'
@@ -42,39 +42,22 @@ const MessagesList = () => {
   return (
     <MessagesFeedContainer>
       {params && <>
-        <ChatMembersHeader chatMembers={chatMembers}/>
-        {isLoading && <LoadingSpinner style={{minHeight: "0em", backgroundColor: "initial", transform: "scale(.5)", opacity: .75}}/>}
-        <Box sx={{flex: 1}}>
-          <Grid 
-          container 
-          sx={{overflow: "scroll !important", height: "inherit"}}
-          // sx={{display: "flex", flexDirection: "column", justifyContent: "end", overflowY: "scroll", height: "300px"}}
-          >
-            {chatMembers.length > 0 && messages.map(item => <MessageItem 
-              key={item.id} 
-              message={item.message} 
-              chatUser={chatMembers.find(_item => _item.User.id === item.UserId) && chatMembers.find(_item => _item.User.id === item.UserId).User}/>)}
-            {chatMembers.length > 0 && messages.map(item => <MessageItem 
-              key={item.id} 
-              message={item.message} 
-              chatUser={chatMembers.find(_item => _item.User.id === item.UserId) && chatMembers.find(_item => _item.User.id === item.UserId).User}/>)}
-            {chatMembers.length > 0 && messages.map(item => <MessageItem 
-              key={item.id} 
-              message={item.message} 
-              chatUser={chatMembers.find(_item => _item.User.id === item.UserId) && chatMembers.find(_item => _item.User.id === item.UserId).User}/>)}
-            {chatMembers.length > 0 && messages.map(item => <MessageItem 
-              key={item.id} 
-              message={item.message} 
-              chatUser={chatMembers.find(_item => _item.User.id === item.UserId) && chatMembers.find(_item => _item.User.id === item.UserId).User}/>)}
-            {chatMembers.length > 0 && messages.map(item => <MessageItem 
-              key={item.id} 
-              message={item.message} 
-              chatUser={chatMembers.find(_item => _item.User.id === item.UserId) && chatMembers.find(_item => _item.User.id === item.UserId).User}/>)}
+          <Paper elevation={1} sx={{ width: "100%"}}>
+            <Grid item xs={12}><ChatMembersHeader chatMembers={chatMembers}/></Grid>
 
-          </Grid>
-        </Box>
-        <Divider/>
-        <MessageInput/>
+            {isLoading && <LoadingSpinner style={{minHeight: "0em", backgroundColor: "initial", transform: "scale(.5)", opacity: .75}}/>}
+            <List sx={{width: "100%", minHeight: 0, height: "77vh",overflowY: "auto"}}>
+                {chatMembers.length > 0 && messages.map(item => <MessageItem 
+                  key={item.id} 
+                  message={item.message} 
+                  chatUser={chatMembers.find(_item => _item.User.id === item.UserId) && chatMembers.find(_item => _item.User.id === item.UserId).User}
+                />)}
+            </List>
+            <Divider/>
+        </Paper>
+        <Paper elevation={3} sx={{ width: "100%", mt: 1.5}}>
+          <Grid item xs={12}><MessageInput/></Grid>
+        </Paper>
       </>}
     </MessagesFeedContainer>
   )

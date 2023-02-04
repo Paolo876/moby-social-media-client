@@ -14,7 +14,7 @@ const MessageInput = () => {
   }
 
   return (
-    <Stack width="100%" flexDirection="row" alignItems="center">
+    <Stack width="100%" flexDirection="row" alignItems="center" pt={1}>
       <Box p={1}>
         <IconButton color="secondary"><ImageIcon/></IconButton>
       </Box>

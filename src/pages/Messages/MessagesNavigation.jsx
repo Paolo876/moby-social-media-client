@@ -18,90 +18,40 @@ const MessagesNavigation = () => {
   }, [])
 
   return (
-      <Grid container  sx={{overflowY: "auto", p: .5}} >
-        <Paper elevation={2}>
-          <Grid item xs={12}><SearchUserForm/></Grid>
-          <MaterialRoot><Divider/></MaterialRoot>
-          {error && <Grid item xs={12}><Alert severity='error'>{error}</Alert></Grid>}
-            <List sx={{width: "100%", minHeight: 0, height: "85vh",overflowY: "auto"}}>
-              <ListItem alignItems="flex-start" sx={{justifyContent: "center", p:0}}>
-                {isLoading && <LoadingSpinner style={{minHeight: "0em", backgroundColor: "initial", transform: "scale(.6)", opacity: .75}}/>}
-              </ListItem>
-              {chatRooms && chatRooms.map(({ ChatRoom }) => 
-                <ListItemButton sx={{ }} key={ChatRoom.id} disabled={isLoading} onClick={() => navigate(`/messages/${ChatRoom.id}`)} selected={ChatRoom.id === parseInt(params)}>
-                  {ChatRoom.ChatMembers[0].User.UserDatum && ChatRoom.ChatMembers[0].User.UserDatum.image ? 
-                    <Image 
-                      src={JSON.parse(ChatRoom.ChatMembers[0].User.UserDatum.image).url} 
-                      transformation={[{
-                          height: 50,
-                          width: 50,
-                      }]} 
-                      style={{borderRadius: "50%"}}
-                      alt="profile-avatar"
-                    /> : <img src={defaultAvatar} style={{height: "50px", width: "50px"}} alt="profile-avatar"/>
-                  }
-                  <Stack ml={1} width="100%">
-                    <Stack flexDirection="row" justifyContent="space-between">
-                      <Typography variant="body2" align='left'>{ChatRoom.ChatMembers[0].User.username}</Typography>
-                      <Typography variant="body2" align='right' fontSize={".7em"} fontWeight={300}>{new Date(ChatRoom.ChatMessages[0].createdAt).toLocaleDateString()}</Typography>
-                    </Stack>
-                    <Typography variant="body1" align='left' fontSize={".8em"} >
-                      {ChatRoom.ChatMessages[0].message.length > 45 ? `${ChatRoom.ChatMessages[0].message.substr(0,40)}...` : ChatRoom.ChatMessages[0].message}
-                      </Typography>
-                  </Stack>
-                </ListItemButton>
-              )}
-              {chatRooms && chatRooms.map(({ ChatRoom }) => 
-                <ListItemButton sx={{ }} key={ChatRoom.id} disabled={isLoading} onClick={() => navigate(`/messages/${ChatRoom.id}`)} selected={ChatRoom.id === parseInt(params)}>
-                  {ChatRoom.ChatMembers[0].User.UserDatum && ChatRoom.ChatMembers[0].User.UserDatum.image ? 
-                    <Image 
-                      src={JSON.parse(ChatRoom.ChatMembers[0].User.UserDatum.image).url} 
-                      transformation={[{
-                          height: 50,
-                          width: 50,
-                      }]} 
-                      style={{borderRadius: "50%"}}
-                      alt="profile-avatar"
-                    /> : <img src={defaultAvatar} style={{height: "50px", width: "50px"}} alt="profile-avatar"/>
-                  }
-                  <Stack ml={1} width="100%">
-                    <Stack flexDirection="row" justifyContent="space-between">
-                      <Typography variant="body2" align='left'>{ChatRoom.ChatMembers[0].User.username}</Typography>
-                      <Typography variant="body2" align='right' fontSize={".7em"} fontWeight={300}>{new Date(ChatRoom.ChatMessages[0].createdAt).toLocaleDateString()}</Typography>
-                    </Stack>
-                    <Typography variant="body1" align='left' fontSize={".8em"} >
-                      {ChatRoom.ChatMessages[0].message.length > 45 ? `${ChatRoom.ChatMessages[0].message.substr(0,40)}...` : ChatRoom.ChatMessages[0].message}
-                      </Typography>
-                  </Stack>
-                </ListItemButton>
-              )}
-              {chatRooms && chatRooms.map(({ ChatRoom }) => 
-                <ListItemButton sx={{ }} key={ChatRoom.id} disabled={isLoading} onClick={() => navigate(`/messages/${ChatRoom.id}`)} selected={ChatRoom.id === parseInt(params)}>
-                  {ChatRoom.ChatMembers[0].User.UserDatum && ChatRoom.ChatMembers[0].User.UserDatum.image ? 
-                    <Image 
-                      src={JSON.parse(ChatRoom.ChatMembers[0].User.UserDatum.image).url} 
-                      transformation={[{
-                          height: 50,
-                          width: 50,
-                      }]} 
-                      style={{borderRadius: "50%"}}
-                      alt="profile-avatar"
-                    /> : <img src={defaultAvatar} style={{height: "50px", width: "50px"}} alt="profile-avatar"/>
-                  }
-                  <Stack ml={1} width="100%">
-                    <Stack flexDirection="row" justifyContent="space-between">
-                      <Typography variant="body2" align='left'>{ChatRoom.ChatMembers[0].User.username}</Typography>
-                      <Typography variant="body2" align='right' fontSize={".7em"} fontWeight={300}>{new Date(ChatRoom.ChatMessages[0].createdAt).toLocaleDateString()}</Typography>
-                    </Stack>
-                    <Typography variant="body1" align='left' fontSize={".8em"} >
-                      {ChatRoom.ChatMessages[0].message.length > 45 ? `${ChatRoom.ChatMessages[0].message.substr(0,40)}...` : ChatRoom.ChatMessages[0].message}
-                      </Typography>
-                  </Stack>
-                </ListItemButton>
-              )}
-            </List>
-        </Paper>
-      </Grid>
+    <Paper sx={{width: "100%", display: "flex", flexDirection: "column", overflow: "hidden", height: "100%"}}>
+      <Box sx={{width: "100%"}}><SearchUserForm/></Box>
+      <Divider/>
+        <List sx={{width: "100%", overflowY: "auto", display: "flex", flexDirection: "column"}}>
+          <ListItem alignItems="flex-start" sx={{justifyContent: "center", p:0}}>
+            {isLoading && <LoadingSpinner style={{minHeight: "0em", backgroundColor: "initial", transform: "scale(.6)", opacity: .75}}/>}
+          </ListItem>
+          {chatRooms && chatRooms.map(({ ChatRoom }) => 
+            <ListItemButton sx={{ }} key={ChatRoom.id} disabled={isLoading} onClick={() => navigate(`/messages/${ChatRoom.id}`)} selected={ChatRoom.id === parseInt(params)}>
+              {ChatRoom.ChatMembers[0].User.UserDatum && ChatRoom.ChatMembers[0].User.UserDatum.image ? 
+                <Image 
+                  src={JSON.parse(ChatRoom.ChatMembers[0].User.UserDatum.image).url} 
+                  transformation={[{
+                      height: 50,
+                      width: 50,
+                  }]} 
+                  style={{borderRadius: "50%"}}
+                  alt="profile-avatar"
+                /> : <img src={defaultAvatar} style={{height: "50px", width: "50px"}} alt="profile-avatar"/>
+              }
+              <Stack ml={1} width="100%">
+                <Stack flexDirection="row" justifyContent="space-between">
+                  <Typography variant="body2" align='left'>{ChatRoom.ChatMembers[0].User.username}</Typography>
+                  <Typography variant="body2" align='right' fontSize={".7em"} fontWeight={300}>{new Date(ChatRoom.ChatMessages[0].createdAt).toLocaleDateString()}</Typography>
+                </Stack>
+                <Typography variant="body1" align='left' fontSize={".8em"} >
+                  {ChatRoom.ChatMessages[0].message.length > 45 ? `${ChatRoom.ChatMessages[0].message.substr(0,40)}...` : ChatRoom.ChatMessages[0].message}
+                  </Typography>
+              </Stack>
+            </ListItemButton>
+          )}
+        </List>
+
+    </Paper>
   )
 }
 

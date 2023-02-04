@@ -9,22 +9,12 @@ const Messages = () => {
 
   return (
     <AuthorizedPageContainer>
-      {/* <Box sx={{position: "absolute", top: 0, left: 0, width: "100%", mx: "auto"}}>
-        <Container sx={{height: "100vh", display: "flex", flexDirection: "row", pt: "5em", pb: "2em"}} maxWidth="xl">
-          <MessagesNavigation/>
-
-        </Container>
-      </Box> */}
-
-      {/* ORIG */}
-      {/* <Container sx={{height: "100vh", display: "flex", flexDirection: "row", pt: "4.5em", pb: ".5em"}} maxWidth="xl"> */}
-      <Container maxWidth="xl">
-        <Grid container my={1} sx={{height: "inherit"}} spacing={1}>
-          <Grid item md={3}><MessagesNavigation/></Grid>
-          <Grid item md={9}><MessagesFeed/></Grid>
-        </Grid>
-      </Container>
-
+      <Box sx={{position: "fixed", top: 0, left: 0, height: "100vh", width: "100%"}}>
+          <Grid container my={1} sx={{height: "100%"}} spacing={1} maxWidth="xl" mx="auto">
+            <Grid item md={3} sx={{width: "100%", display: "flex", flexDirection: "column", height: "100%", mt: "4em", pb: "5em"}} ><MessagesNavigation/></Grid>
+            {/* <Grid item md={9}><MessagesFeed/></Grid> */}
+          </Grid>
+      </Box>
     </AuthorizedPageContainer>
   )
 }
