@@ -9,6 +9,8 @@ const useChatRedux = () => {
     return {
         ...chatRedux,
         getChatRooms: () => dispatch(getChatRooms()),
+        setNewChatUser: (data) => dispatch(chatActions.setNewChatUser(data)),
+        clearNewChatUser: () => dispatch(chatActions.clearNewChatUser()),
     };
   } else {
     throw Error('Error accessing chat reducer.');

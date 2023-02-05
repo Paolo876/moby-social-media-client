@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import useAuthRedux from '../../hooks/useAuthRedux';
+import useChatRedux from '../../hooks/useChatRedux';
 import { Typography, Stack, Tooltip, Button, Box, Modal, TextField, List, ListItemButton, ListItem } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import axios from 'axios';
@@ -24,6 +25,7 @@ const style = {
 
 const SearchUserForm = () => {
   const { user } = useAuthRedux();
+  const { setNewChatUser } = useChatRedux();
   const navigate = useNavigate();
   const [ showModal, setShowModal ] = useState(false);
   const [ input, setInput ] = useState("")
@@ -67,6 +69,8 @@ const SearchUserForm = () => {
       if(data.ChatRoomId){
         navigate(`/messages/${data.ChatRoomId}`)
       } else {
+        const user = users.find(item => item.id === id);
+        setNewChatUser(user)
         navigate(`/messages/new/${id}`)
       }
       handleCloseModal()
@@ -97,6 +101,7 @@ const SearchUserForm = () => {
               fullWidth 
               sx={{mb:2}}
               value={input}  
+              autoFocus
               onChange={e => setInput(e.target.value)}
               />
             <List>

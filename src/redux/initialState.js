@@ -25,6 +25,7 @@ export const postsInitialState = {
  */
 export const chatInitialState = {
     chatRooms: [],
+    newChatUser: null,
     isLoading: false,
     error: null,
 };

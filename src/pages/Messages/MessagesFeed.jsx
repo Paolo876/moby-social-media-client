@@ -8,14 +8,14 @@ import useMessagesActions from '../../hooks/useMessagesActions'
 import useChatRedux from '../../hooks/useChatRedux'
 import LoadingSpinner from "../../components/LoadingSpinner"
 import MessageItem from './MessageItem'
+import NewMessageFeed from './NewMessageFeed'
 
 
 const MessagesFeed = () => {
-
   return (
       <Routes>
         <Route path="/:id" element={<MessagesList/>}/>
-        <Route path="/new/:id" element={<>new</>}/>
+        <Route path="/new/:id" element={<><NewMessageFeed/></>}/>
       </Routes>
   )
 }

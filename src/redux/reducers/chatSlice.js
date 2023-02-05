@@ -5,7 +5,14 @@ import { chatInitialState } from "../initialState";
 const chatSlice = createSlice({
     name: "chat",
     initialState: chatInitialState,
-    reducers: {}, 
+    reducers: {
+        setNewChatUser(state, { payload }){
+            state.newChatUser = payload
+        },
+        clearNewChatUser(state){
+            state.newChatUser = null;
+        }
+    }, 
     extraReducers: (builder) => {
         builder
         // getChatRooms

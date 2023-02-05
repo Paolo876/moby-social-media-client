@@ -14,17 +14,17 @@ const MessageItem = ({ message, chatUser=null, createdAt }) => {
             <Image 
                 src={JSON.parse(chatUser.UserDatum.image).url} 
                 transformation={[{
-                    height: 35,
-                    width: 35,
+                    height: 40,
+                    width: 40,
                 }]} 
                 style={{borderRadius: "50%"}}
                 alt="profile-avatar"
-            /> : <img src={defaultAvatar} style={{height: "35px", width: "35px"}} alt="profile-avatar"/>
+            /> : <img src={defaultAvatar} style={{height: "40px", width: "40px"}} alt="profile-avatar"/>
         }
-        <Stack mx={1} width="100%" alignItems={chatUser.isSelf ? "flex-end": "flex-start"}>
-          <Box sx={{display: "flex", flexDirection: "row", alignItems: "center"}}>
-            <Typography variant="body2">{chatUser.username}</Typography>
-            <Typography variant="body1" fontSize={11}>{new Date(createdAt).toLocaleDateString()}</Typography>
+        <Stack mx={1} width="100%" alignItems={chatUser.isSelf ? "flex-end": "flex-start"} justifyContent="space-between" height="100%" py={.25}>
+          <Box sx={{display: "flex", flexDirection: chatUser.isSelf ? "row-reverse": "row", alignItems: "center"}}>
+            <Typography variant="body2" fontSize={15} lineHeight={1}>{chatUser.username}</Typography>
+            <Typography variant="body1" fontSize={9} lineHeight={1} mx={1}>{new Date(createdAt).toLocaleDateString()}</Typography>
           </Box>
           <Typography variant="body1">{message}</Typography>
         </Stack>

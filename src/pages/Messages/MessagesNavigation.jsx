@@ -22,8 +22,8 @@ const MessagesNavigation = () => {
       <Box sx={{width: "100%"}}><SearchUserForm/></Box>
       <Divider/>
         <List sx={{width: "100%", overflowY: "auto", display: "flex", flexDirection: "column"}}>
-          <ListItem alignItems="flex-start" sx={{justifyContent: "center", p:0}}>
-            {isLoading && <LoadingSpinner style={{minHeight: "0em", backgroundColor: "initial", transform: "scale(.6)", opacity: .75}}/>}
+          <ListItem alignItems="flex-start" sx={{justifyContent: "center", p:0, overflow: "hidden"}}>
+            {isLoading && <LoadingSpinner style={{minHeight: "0em", backgroundColor: "initial", transform: "scale(.45)", opacity: .75}}/>}
           </ListItem>
           {chatRooms && chatRooms.map(({ ChatRoom }) => 
             <ListItemButton sx={{ }} key={ChatRoom.id} disabled={isLoading} onClick={() => navigate(`/messages/${ChatRoom.id}`)} selected={ChatRoom.id === parseInt(params)}>

@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import useAuthRedux from '../../hooks/useAuthRedux';
 import Image from '../../components/Image';
 import defaultAvatar from "../../assets/default-profile.png"
-import { Stack, Avatar, AvatarGroup, Divider, Typography, Tooltip, Modal, Box, List, ListItemButton } from '@mui/material'
+import { Stack, Avatar, AvatarGroup, Divider, Typography, Tooltip, Modal, Box, List, ListItemButton, IconButton } from '@mui/material'
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 const modalStyle = {
     position: 'absolute',
@@ -47,6 +48,12 @@ const ChatMembersHeader = ({ chatMembers }) => {
             />
           </AvatarGroup>
         </Tooltip>
+        <Box sx={{ml: "auto"}}>
+          <Tooltip title="Chat Actions" arrow>
+            <IconButton color="primary"><MoreVertIcon/></IconButton>
+
+          </Tooltip>
+        </Box>
       </Stack>
       {showModal && <ChatMembersModal showModal={showModal} handleCloseModal={() => setShowModal(false)} chatMembers={chatMembers}/>}
       <Divider/>
