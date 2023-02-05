@@ -10,6 +10,7 @@ const useChatRedux = () => {
         ...chatRedux,
         getChatRooms: () => dispatch(getChatRooms()),
         setNewChatUser: (data) => dispatch(chatActions.setNewChatUser(data)),
+        addNewChatRoom: (data) => dispatch(chatActions.addNewChatRoom(data)),
         clearNewChatUser: () => dispatch(chatActions.clearNewChatUser()),
     };
   } else {

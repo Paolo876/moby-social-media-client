@@ -11,6 +11,9 @@ const chatSlice = createSlice({
         },
         clearNewChatUser(state){
             state.newChatUser = null;
+        },
+        addNewChatRoom(state, { payload }) {
+            state.chatRooms = [ payload, ...state.chatRooms]
         }
     }, 
     extraReducers: (builder) => {

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Routes, Route, useParams } from 'react-router-dom'
 import MessagesFeedContainer from './MessagesFeedContainer'
 import MessageInput from './MessageInput'
-import { Box, Divider, Grid, List, ListItem, ListItemText, Paper } from '@mui/material'
+import { Alert, Box, Divider, Grid, List, ListItem, ListItemText, Paper } from '@mui/material'
 import ChatMembersHeader from './ChatMembersHeader'
 import useMessagesActions from '../../hooks/useMessagesActions'
 import useChatRedux from '../../hooks/useChatRedux'
@@ -23,9 +23,8 @@ const MessagesFeed = () => {
 const MessagesList = () => {
   const params = useParams()["id"];
   const { chatRooms } = useChatRedux();
-  const { getMessagesById, isLoading, error } = useMessagesActions(); 
+  const { getMessagesById, isLoading, error, setError } = useMessagesActions(); 
   const [ messages, setMessages ] = useState([])
-
   const chatRoom = chatRooms.find(item => parseInt(item.ChatRoom.id) === parseInt(params))
   let chatMembers = []
   if(chatRoom) chatMembers = chatRoom.ChatRoom.ChatMembers
@@ -33,9 +32,13 @@ const MessagesList = () => {
 
   useEffect(() => {
     if(params) {
-      getMessagesById(params).then(data => setMessages(data.ChatMessages))
+      getMessagesById(params)
+      .then(data => setMessages(data.ChatMessages))
     }
-    return () => setMessages([])
+    return () => {
+      setMessages([])
+      setError(null)
+    }
   }, [params])
 
   return (
@@ -43,6 +46,7 @@ const MessagesList = () => {
       {params && <>
             <Box sx={{width: "100%"}}><ChatMembersHeader chatMembers={chatMembers}/></Box>
             {isLoading && <LoadingSpinner style={{minHeight: "0em", backgroundColor: "initial", transform: "scale(.5)", opacity: .75}}/>}
+            {error && <Alert severity='error'>{error}</Alert>}
             <List sx={{width: "100%", overflowY: "auto", display: "flex", flexDirection: "column-reverse", flex: 1, justifyContent: "end"}}>
                 {chatMembers.length > 0 && messages.map(item => <MessageItem 
                   key={item.id} 

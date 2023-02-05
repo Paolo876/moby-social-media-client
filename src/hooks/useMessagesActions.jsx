@@ -43,7 +43,7 @@ const useMessagesActions = () => {
   }
 
 
-  return { isLoading, error, getChatRooms, getMessagesById }
+  return { isLoading, error, setError, getChatRooms, getMessagesById }
 }
 
 export default useMessagesActions

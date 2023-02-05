@@ -13,8 +13,9 @@ import { Paper, Divider, Box, Alert, IconButton, Typography } from '@mui/materia
 const NewMessageFeed = () => {
   const userId = useParams()["id"];
   const navigate = useNavigate();
-  const { clearNewChatUser, newChatUser } = useChatRedux();
+  const { clearNewChatUser, newChatUser, addNewChatRoom } = useChatRedux();
   const [ user, setUser ] = useState(null);
+  const [isLoading, setIsLoading ] = useState(false);
   const [error, setError ] = useState(null);
 
 
@@ -39,9 +40,34 @@ const NewMessageFeed = () => {
   if(user && user.UserDatum) image = JSON.parse(user.UserDatum.image);
 
 
-  const handleSubmit = (input) => {
-    console.log(input)
+  const handleSubmit = async (input) => {
+
+    try {
+      setError(null)
+      setIsLoading(true)
+      const { data } = await axios.post(`${process.env.REACT_APP_DOMAIN_URL}/api/chat/new`,
+      { message: input, receipientId: user.id }, 
+      { headers: { 'Content-Type': 'application/json' }, withCredentials: true })
+      
+      //add to chatRedux
+      const result = { ChatRoom: 
+        { id: data.ChatRoomId, 
+          ChatMembers: [{ id: user.id, User: { username: user.username, id: user.id, UserDatum: user.UserDatum }}], 
+          isLastMessageRead: [{isLastMessageRead: true}],
+          ChatMessages: [{ id: 0, message: input, createdAt: data.createdAt, updatedAt: data.updatedAt, UserId: user.id, ChatRoomId: data.ChatRoomId}]
+        } 
+      }
+
+      addNewChatRoom(result)
+      setIsLoading(false)
+      navigate(`/messages/${data.ChatRoomId}`)
+      
+    } catch(err) {
+      setIsLoading(false)
+      setError(err.message)
+    }
   }
+
 
   return (
     <Paper sx={{width: "100%", display: "flex", flexDirection: "column", overflow: "hidden", height: "100%"}}>
