@@ -9,7 +9,6 @@ import axios from 'axios';
 import { Paper, Divider, Box, Alert, IconButton, Typography } from '@mui/material';
 
 
-
 const NewMessageFeed = () => {
   const userId = useParams()["id"];
   const navigate = useNavigate();
@@ -72,8 +71,8 @@ const NewMessageFeed = () => {
   return (
     <Paper sx={{width: "100%", display: "flex", flexDirection: "column", overflow: "hidden", height: "100%"}}>
       <Box sx={{width: "100%", overflowY: "auto", display: "flex", flexDirection: "column", flex: 1, alignItems: "center"}}>
-      {error && <Alert severity='error'>{error}</Alert>}
-      {user &&  <>
+        {error && <Alert severity='error'>{error}</Alert>}
+        {user &&  <>
           <IconButton color="primary" sx={{mt: 3}}>
             {image ? 
                 <Image 
@@ -88,12 +87,10 @@ const NewMessageFeed = () => {
           <Typography variant="body1" mb={3}>{user.UserDatum.firstName} {user.UserDatum.lastName}</Typography>
           <MaterialRoot><Divider/></MaterialRoot>
           <Typography variant="body1" my={2} sx={{opacity: .75}}>Start a conversation with {user.UserDatum.firstName}. Type your message on the input field below.</Typography>
-
-      </>}
+        </>}
       </Box>
-
       <Divider/>
-      <Box sx={{width: "100%"}}><MessageInput handleSubmit={handleSubmit} disabled={error && true}/></Box>
+      <Box sx={{width: "100%"}}><MessageInput handleSubmit={handleSubmit} disabled={(error && true) || isLoading}/></Box>
     </Paper>
   )
 }
