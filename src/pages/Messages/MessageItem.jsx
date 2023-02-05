@@ -3,6 +3,7 @@ import useAuthRedux from '../../hooks/useAuthRedux'
 import Image from '../../components/Image';
 import defaultAvatar from "../../assets/default-profile.png"
 import { ListItem, Stack, Typography, Box } from '@mui/material'
+import { formatDistanceToNow } from 'date-fns'
 
 
 const MessageItem = ({ message, chatUser=null, createdAt }) => {
@@ -24,7 +25,7 @@ const MessageItem = ({ message, chatUser=null, createdAt }) => {
         <Stack mx={1} width="100%" alignItems={chatUser.isSelf ? "flex-end": "flex-start"} justifyContent="space-between" height="100%" py={.25}>
           <Box sx={{display: "flex", flexDirection: chatUser.isSelf ? "row-reverse": "row", alignItems: "center"}}>
             <Typography variant="body2" fontSize={15} lineHeight={1}>{chatUser.username}</Typography>
-            <Typography variant="body1" fontSize={9} lineHeight={1} mx={1}>{new Date(createdAt).toLocaleDateString()}</Typography>
+            <Typography variant="body1" fontSize={10} lineHeight={1} mx={1}>{formatDistanceToNow(Date.parse(createdAt))} ago</Typography>
           </Box>
           <Typography variant="body1">{message}</Typography>
         </Stack>

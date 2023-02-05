@@ -41,6 +41,12 @@ const MessagesList = () => {
     }
   }, [params])
 
+  const handleSubmit = (input) => {
+    console.log(input)
+    //post request
+    //push to messages
+    //update chat redux
+  }
   return (
     <Paper sx={{width: "100%", display: "flex", flexDirection: "column", overflow: "hidden", height: "100%"}}>
       {params && <>
@@ -56,7 +62,7 @@ const MessagesList = () => {
                 />)}
             </List>
             <Divider/>
-          <Box sx={{width: "100%"}}><MessageInput/></Box>
+          <Box sx={{width: "100%"}}><MessageInput handleSubmit={handleSubmit} disabled={(error && true) || isLoading}/></Box>
       </>}
     </Paper>
   )

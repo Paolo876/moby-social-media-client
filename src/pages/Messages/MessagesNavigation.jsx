@@ -1,8 +1,8 @@
 import { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Paper, Grid, Divider, List, ListItemButton, ListItem, Stack, Typography, Alert, Box } from '@mui/material'
+import { Paper, Divider, List, ListItemButton, ListItem, Stack, Typography, Alert, Box } from '@mui/material'
 import SearchUserForm from './SearchUserForm'
-import MaterialRoot from '../../components/MaterialRoot'
+import { formatDistanceToNow } from 'date-fns'
 import useChatRedux from '../../hooks/useChatRedux'
 import LoadingSpinner from '../../components/LoadingSpinner'
 import Image from '../../components/Image'
@@ -41,7 +41,8 @@ const MessagesNavigation = () => {
               <Stack ml={1} width="100%">
                 <Stack flexDirection="row" justifyContent="space-between">
                   <Typography variant="body2" align='left'>{ChatRoom.ChatMembers[0].User.username}</Typography>
-                  <Typography variant="body2" align='right' fontSize={".7em"} fontWeight={300}>{new Date(ChatRoom.ChatMessages[0].createdAt).toLocaleDateString()}</Typography>
+                  <Typography variant="body2" align='right' fontSize={".7em"} fontWeight={300}>{formatDistanceToNow(Date.parse(ChatRoom.ChatMessages[0].createdAt))} ago</Typography>
+                  {/* <Typography variant="body2" align='right' fontSize={".7em"} fontWeight={300}>{new Date(ChatRoom.ChatMessages[0].createdAt).toLocaleDateString()}</Typography> */}
                 </Stack>
                 <Typography variant="body1" align='left' fontSize={".8em"} >
                   {ChatRoom.ChatMessages[0].message.length > 45 ? `${ChatRoom.ChatMessages[0].message.substr(0,40)}...` : ChatRoom.ChatMessages[0].message}
