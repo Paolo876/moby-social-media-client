@@ -14,6 +14,14 @@ const chatSlice = createSlice({
         },
         addNewChatRoom(state, { payload }) {
             state.chatRooms = [ payload, ...state.chatRooms]
+        },
+        updateOnMessageSent(state, { payload }){
+            const { id, ChatMessages } = payload;
+            const updatedChatRooms = state.chatRooms;
+            const chatRoom = updatedChatRooms.find(item => item.ChatRoom.id === id)
+            chatRoom.ChatRoom.ChatMessages = ChatMessages;
+            updatedChatRooms.unshift(updatedChatRooms.splice(updatedChatRooms.indexOf(chatRoom), 1)[0]) //move to first 
+            state.chatRooms = updatedChatRooms;
         }
     }, 
     extraReducers: (builder) => {

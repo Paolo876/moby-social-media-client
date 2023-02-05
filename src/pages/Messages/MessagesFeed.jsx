@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react'
 import { Routes, Route, useParams } from 'react-router-dom'
-import MessagesFeedContainer from './MessagesFeedContainer'
-import MessageInput from './MessageInput'
-import { Alert, Box, Divider, Grid, List, ListItem, ListItemText, Paper } from '@mui/material'
-import ChatMembersHeader from './ChatMembersHeader'
 import useMessagesActions from '../../hooks/useMessagesActions'
 import useChatRedux from '../../hooks/useChatRedux'
-import LoadingSpinner from "../../components/LoadingSpinner"
+import MessageInput from './MessageInput'
+import ChatMembersHeader from './ChatMembersHeader'
 import MessageItem from './MessageItem'
 import NewMessageFeed from './NewMessageFeed'
+import LoadingSpinner from "../../components/LoadingSpinner"
+import axios from 'axios'
+import { Alert, Box, Divider, List, Paper } from '@mui/material'
 
 
 const MessagesFeed = () => {
@@ -22,10 +22,11 @@ const MessagesFeed = () => {
 
 const MessagesList = () => {
   const params = useParams()["id"];
-  const { chatRooms } = useChatRedux();
-  const { getMessagesById, isLoading, error, setError } = useMessagesActions(); 
+  const { chatRooms, updateOnMessageSent } = useChatRedux();
+  const { getMessagesById, isLoading, error, setError, sendMessage } = useMessagesActions(); 
   const [ messages, setMessages ] = useState([])
   const chatRoom = chatRooms.find(item => parseInt(item.ChatRoom.id) === parseInt(params))
+
   let chatMembers = []
   if(chatRoom) chatMembers = chatRoom.ChatRoom.ChatMembers
 
@@ -41,12 +42,13 @@ const MessagesList = () => {
     }
   }, [params])
 
-  const handleSubmit = (input) => {
-    console.log(input)
-    //post request
-    //push to messages
-    //update chat redux
+  const handleSubmit = async (input) => {
+    const message = await sendMessage({ message: input, ChatRoomId: params}); //send message [post request]
+    setMessages(prevState => [message, ...prevState]) //update messages list
+    updateOnMessageSent({id: parseInt(params), ChatMessages: [message]}) //update chat redux
   }
+  console.log(messages)
+
   return (
     <Paper sx={{width: "100%", display: "flex", flexDirection: "column", overflow: "hidden", height: "100%"}}>
       {params && <>
