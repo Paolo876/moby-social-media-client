@@ -57,7 +57,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const Navbar = () => {
     const navigate = useNavigate();
-    const { logout, isLoading, user } = useAuthRedux();
+    const { logout, user } = useAuthRedux();
     const [anchorEl, setAnchorEl] = useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
     
@@ -187,7 +187,6 @@ const Navbar = () => {
       </Menu>
     );
   
-    if(isLoading) return <LoadingSpinner/>
     return (
       <Box sx={{ flexGrow: 1 }}>
         <AppBar position="fixed">

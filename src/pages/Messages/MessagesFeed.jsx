@@ -47,8 +47,8 @@ const MessagesList = () => {
     setMessages(prevState => [message, ...prevState]) //update messages list
     updateOnMessageSent({id: parseInt(params), ChatMessages: [message]}) //update chat redux
   }
-  console.log(messages)
 
+  
   return (
     <Paper sx={{width: "100%", display: "flex", flexDirection: "column", overflow: "hidden", height: "100%"}}>
       {params && <>

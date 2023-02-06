@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import AuthorizedPageContainer from "../../components/AuthorizedPageContainer";
 import UserNavigation from "./UserNavigation";
 import PostsFeed from "./PostsFeed";
