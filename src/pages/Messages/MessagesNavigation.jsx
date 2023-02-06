@@ -1,13 +1,14 @@
-import { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Paper, Divider, List, ListItemButton, ListItem, Stack, Typography, Badge, Box } from '@mui/material'
 import SearchUserForm from './SearchUserForm'
 import { formatDistanceToNow } from 'date-fns'
 import useChatRedux from '../../hooks/useChatRedux'
+import useAuthRedux from '../../hooks/useAuthRedux'
 import LoadingSpinner from '../../components/LoadingSpinner'
 import Image from '../../components/Image'
 import defaultAvatar from "../../assets/default-profile.png"
 import { styled } from '@mui/material/styles';
+
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   '& .MuiBadge-badge': {
@@ -42,11 +43,8 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 const MessagesNavigation = () => {
   const navigate = useNavigate();
   const params = useParams()["*"]
-  const { getChatRooms, isLoading, error, chatRooms } = useChatRedux();
-  useEffect(() => {
-    if(chatRooms.length === 0) getChatRooms()
-  }, [])
-
+  const { isLoading, chatRooms } = useChatRedux();
+  const { user: { id }} = useAuthRedux();
   return (
     <Paper sx={{width: "100%", display: "flex", flexDirection: "column", overflow: "hidden", height: "100%"}}>
       <Box sx={{width: "100%"}}><SearchUserForm/></Box>
@@ -55,9 +53,9 @@ const MessagesNavigation = () => {
           <ListItem alignItems="flex-start" sx={{justifyContent: "center", p:0, overflow: "hidden"}}>
             {isLoading && <LoadingSpinner style={{minHeight: "0em", backgroundColor: "initial", transform: "scale(.45)", opacity: .75}}/>}
           </ListItem>
-          {chatRooms && chatRooms.map(({ ChatRoom }) => 
+          {chatRooms.map(({ ChatRoom }) => 
             <ListItemButton 
-              sx={{ opacity: ChatRoom.isLastMessageRead[0].isLastMessageRead ? .8 : 1, position: "relative" }} 
+              sx={{ opacity: ChatRoom.isLastMessageRead[0].isLastMessageRead ? .95 : 1, position: "relative" }} 
               key={ChatRoom.id} 
               disabled={isLoading} 
               onClick={() => navigate(`/messages/${ChatRoom.id}`)} 
@@ -98,6 +96,7 @@ const MessagesNavigation = () => {
                   fontSize={".8em"} 
                   fontWeight={ChatRoom.isLastMessageRead[0].isLastMessageRead ? 300 : 400}
                 >
+                  {ChatRoom.ChatMessages[0].UserId === id && "You: "}
                   {ChatRoom.ChatMessages[0].message.length > 45 ? `${ChatRoom.ChatMessages[0].message.substr(0,40)}...` : ChatRoom.ChatMessages[0].message}
                   </Typography>
               </Stack>

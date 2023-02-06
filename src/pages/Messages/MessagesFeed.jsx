@@ -22,7 +22,7 @@ const MessagesFeed = () => {
 
 const MessagesList = () => {
   const params = useParams()["id"];
-  const { chatRooms, updateOnMessageSent } = useChatRedux();
+  const { chatRooms, updateOnMessageSent, setLastMessageAsRead } = useChatRedux();
   const { getMessagesById, isLoading, error, setError, sendMessage } = useMessagesActions(); 
   const [ messages, setMessages ] = useState([])
   const chatRoom = chatRooms.find(item => parseInt(item.ChatRoom.id) === parseInt(params))
@@ -34,7 +34,11 @@ const MessagesList = () => {
   useEffect(() => {
     if(params) {
       getMessagesById(params)
-      .then(data => setMessages(data.ChatMessages))
+      .then(data => {
+        setMessages(data.ChatMessages)
+        //set chatredux to read
+        setLastMessageAsRead(parseInt(params))
+      })
     }
     return () => {
       setMessages([])

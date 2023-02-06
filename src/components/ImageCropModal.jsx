@@ -51,7 +51,7 @@ const ImageCropModal = ({ openModal, handleClose, setImage, imageData, setShowMo
 
         </Stack>
         <Stack direction="column" alignItems="center" justifyContent="center" spacing={1.5} my={2}>
-          <InputSlider icon={<CropIcon sx={{mr: 1}} color="secondary"/>} min={1} max={3} value={scale} setValue={setScale} step={.05}/>
+          <InputSlider icon={<CropIcon sx={{mr: 1}} color="secondary"/>} min={1} max={10} value={scale} setValue={setScale} step={.05}/>
           <InputSlider icon={<RotateLeftIcon sx={{mr: 1}} color="secondary"/>} min={0} max={360} value={rotate} setValue={setRotate} step={2}/>
         </Stack>
         <Stack mt={3}>
