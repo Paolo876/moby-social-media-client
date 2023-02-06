@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import useAuthRedux from '../../hooks/useAuthRedux';
 import useChatRedux from '../../hooks/useChatRedux';
-import { Typography, Stack, Tooltip, Button, Box, Modal, TextField, List, ListItemButton, ListItem } from '@mui/material';
+import { Typography, Stack, Tooltip, Button, Box, Modal, TextField, List, ListItemButton, ListItem, Fade } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import axios from 'axios';
 import LoadingSpinner from "../../components/LoadingSpinner"
@@ -91,45 +91,49 @@ const SearchUserForm = () => {
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
           onClose={handleCloseModal}
+          closeAfterTransition
         >
-          <Box sx={style}>
-            <Typography variant="h6" align="left" mb={2}>Send a New Message</Typography>
-            <TextField 
-              id="standard-basic" 
-              label="Enter Receipient's Name" 
-              variant="standard" 
-              fullWidth 
-              sx={{mb:2}}
-              value={input}  
-              autoFocus
-              onChange={e => setInput(e.target.value)}
-              />
-            <List>
-              <ListItem alignItems="flex-start" sx={{justifyContent: "center", p:0, position: "relative", minHeight: "1.5em"}}>
-                {isLoading && <LoadingSpinner style={{minHeight: "0em", backgroundColor: "initial", transform: "scale(.5)", opacity: .75, position: "absolute", left: "35%", top: "-100%"}}/>}
-              </ListItem>
-              {users && users.map(item => 
-                <ListItemButton sx={{ }} key={item.id} disabled={isLoading} onClick={() => findChat(item.id)}>
-                  {item.UserDatum.image ? 
-                    <Image 
-                      src={JSON.parse(item.UserDatum.image).url} 
-                      transformation={[{
-                          height: 35,
-                          width: 35,
-                      }]} 
-                      style={{borderRadius: "50%"}}
-                      alt="profile-avatar"
-                    /> :
-                    <img src={defaultAvatar} style={{height: "35px", width: "35px"}} alt="profile-avatar"/>
-                  }
-                  <Stack ml={1}>
-                    <Typography variant="body1" align='left'>{item.username}</Typography>
-                    <Typography variant="body2" align='left'>{item.UserDatum.firstName} {item.UserDatum.lastName}</Typography>
-                  </Stack>
-                </ListItemButton>
-              )}
-            </List>
-          </Box>
+          <Fade in={showModal}>
+
+            <Box sx={style}>
+              <Typography variant="h6" align="left" mb={2}>Send a New Message</Typography>
+              <TextField 
+                id="standard-basic" 
+                label="Enter Receipient's Name" 
+                variant="standard" 
+                fullWidth 
+                sx={{mb:2}}
+                value={input}  
+                autoFocus
+                onChange={e => setInput(e.target.value)}
+                />
+              <List>
+                <ListItem alignItems="flex-start" sx={{justifyContent: "center", p:0, position: "relative", minHeight: "1.5em"}}>
+                  {isLoading && <LoadingSpinner style={{minHeight: "0em", backgroundColor: "initial", transform: "scale(.5)", opacity: .75, position: "absolute", left: "35%", top: "-100%"}}/>}
+                </ListItem>
+                {users && users.map(item => 
+                  <ListItemButton sx={{ }} key={item.id} disabled={isLoading} onClick={() => findChat(item.id)}>
+                    {item.UserDatum.image ? 
+                      <Image 
+                        src={JSON.parse(item.UserDatum.image).url} 
+                        transformation={[{
+                            height: 35,
+                            width: 35,
+                        }]} 
+                        style={{borderRadius: "50%"}}
+                        alt="profile-avatar"
+                      /> :
+                      <img src={defaultAvatar} style={{height: "35px", width: "35px"}} alt="profile-avatar"/>
+                    }
+                    <Stack ml={1}>
+                      <Typography variant="body1" align='left'>{item.username}</Typography>
+                      <Typography variant="body2" align='left'>{item.UserDatum.firstName} {item.UserDatum.lastName}</Typography>
+                    </Stack>
+                  </ListItemButton>
+                )}
+              </List>
+            </Box>
+          </Fade>
         </Modal>
     </Stack>
   )
