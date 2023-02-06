@@ -10,6 +10,8 @@ import UploadImageForm from '../components/UploadImageForm';
 import useImagekit from '../hooks/useImagekit';
 import LoadingSpinner from "../components/LoadingSpinner";
 import defaultAvatar from "../assets/default-profile.png"
+
+
 const initialValues = {
   firstName: "",
   lastName: "",

@@ -8,7 +8,7 @@ const Input = styled('input')({
     display: 'none',
 });
 
-const UploadImageForm = ({ image, setImage, title, defaultImage, previewStyle , width, height, border, borderRadius  }) => {
+const UploadImageForm = ({ image, setImage, title, defaultImage, previewStyle , width, height, border, borderRadius, isImageNew=true  }) => {
   const [ imageData, setImageData ] = useState(null);
   const [ showModal, setShowModal ] = useState(false);
   const onChangePicture = e => {
@@ -37,7 +37,7 @@ const UploadImageForm = ({ image, setImage, title, defaultImage, previewStyle , 
                 </ButtonBase>
                 <Stack spacing={1}>
                     {image && <>
-                        <Button variant="outlined" size="small" type="button" sx={{minWidth: "initial", textAlign: "left"}} color="secondary" onClick={() => setShowModal(true)}><CropIcon fontSize="small" sx={{mr: 1}}/> edit</Button>
+                        {isImageNew && <Button variant="outlined" size="small" type="button" sx={{minWidth: "initial", textAlign: "left"}} color="secondary" onClick={() => setShowModal(true)}><CropIcon fontSize="small" sx={{mr: 1}}/> edit</Button>}
                         <Button variant="outlined" size="small" type="button" sx={{minWidth: "initial", textAlign: "left"}} color="warning" onClick={() => handleDelete()}><DeleteIcon fontSize="small" sx={{mr: 1}}/> delete</Button>
                     </>}
                     <label htmlFor="contained-button-file" style={{marginTop: "1em"}}>

@@ -14,9 +14,13 @@ const Profile = () => {
   const { user: { id } } = useAuthRedux();
   const [ user, setUser ] = useState(null);
   const isOwnProfile = !UserId || parseInt(UserId) === id;
+
+  
   useEffect(() => {
     getProfileById(UserId ? UserId : id ).then(res => setUser(res))
   }, [UserId])
+
+
   return (
     <AuthorizedPageContainer>
         {isLoading && <LoadingSpinner/>}
