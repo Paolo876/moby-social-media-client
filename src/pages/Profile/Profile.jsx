@@ -23,7 +23,7 @@ const Profile = () => {
         {error && <Alert severity="error">{error}</Alert>}
         {user && <Container>
             <Grid container>
-              <Grid item xs={12}><ProfileHeader id={user.id} username={user.username} createdAt={user.createdAt} userData={user.UserDatum} userBio={user.UserBio}/></Grid>
+              <Grid item xs={12}><ProfileHeader id={user.id} username={user.username} createdAt={user.createdAt} userData={user.UserDatum} userBio={user.UserBio} isOwnProfile={isOwnProfile}/></Grid>
               <Grid item xs={12}><UserPostsList posts={user.Posts} user={{UserDatum: user.UserDatum, username: user.username, id: user.id}} isOwnProfile={isOwnProfile}/></Grid>
             </Grid>
         </Container>}

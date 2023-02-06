@@ -12,24 +12,25 @@ import TurnedInNotIcon from '@mui/icons-material/TurnedInNot';
 import usePostsRedux from '../../hooks/usePostsRedux';
 import usePostActions from '../../hooks/usePostActions';
 
-const PostBody = ({ isPublic, title, user, image: coverImage, isHovered, transitions, postText, isBookmarked, id }) => {
+const PostBody = ({ isPublic, title, user, image: coverImage, isHovered, transitions, postText, isBookmarked, id, disableActions }) => {
   const { bookmarkPost, isLoading } = usePostsRedux();
   const navigate = useNavigate();
   let image;
   if(coverImage) image = JSON.parse(coverImage);
 
+
   return (
     <>
-      <Tooltip title={isBookmarked ? "You bookmarked this post." : "Bookmark Post"} arrow leaveDelay={50}>
-        <span>
-          <IconButton sx={{ borderRadius: 1, position: "absolute", zIndex: 20, right: 0}} onClick={() => bookmarkPost(id)} disabled={isLoading}>
+      {!disableActions && <Tooltip title={isBookmarked ? "You bookmarked this post." : "Bookmark Post"} arrow leaveDelay={50}>
+        <Box sx={{ borderRadius: 1, position: "absolute", zIndex: 20, right: 0}} >
+        <IconButton onClick={() => bookmarkPost(id)} disabled={isLoading}>
             {isBookmarked ? 
               <BookmarkAddedIcon fontSize="medium" sx={{color: "rgba(239, 144, 60, .8)"}}/> : 
               <TurnedInNotIcon fontSize="medium" sx={{color: "rgba(239, 144, 60, .9)"}}/>
             }
           </IconButton>
-        </span>
-      </Tooltip>
+        </Box>
+      </Tooltip>}
       <Button 
         sx={{
           width: "100%", mr: "auto", p:0, 
@@ -86,11 +87,11 @@ const PostBody = ({ isPublic, title, user, image: coverImage, isHovered, transit
   )
 }
 
-const PostActions = ({ palette, isLiked, isFetchedFromProfile, user, userImage, createdAt, id, likes, comments, setPosts}) => {
+const PostActions = ({ palette, isLiked, isFetchedFromProfile, user, userImage, createdAt, id, likes, comments, setPosts, disableActions}) => {
   const navigate = useNavigate();
   const { likePost, isLoading } = usePostsRedux();
   const { likePost: _likePost } = usePostActions();
-  const handleLikeClick = async () => {
+  const handleLike = async () => {
     if(!isLoading) {
       if(isFetchedFromProfile){
         _likePost(id).then(res => {
@@ -111,6 +112,15 @@ const PostActions = ({ palette, isLiked, isFetchedFromProfile, user, userImage, 
     };
   };
 
+  const handleLikeClick = () => {
+    if(disableActions){
+      navigate(`/posts/${id}`)
+    } else {
+      handleLike()
+    }
+  }
+
+  
   return (
     <Paper sx={{backgroundColor: palette.primary.main, p:1, py:0.5, borderRadius: "0 0 10px 10px", zIndex:1000}}>
       <Stack flexDirection="row" alignItems="center" justifyContent="space-between" px={.5}>
@@ -153,7 +163,7 @@ const PostActions = ({ palette, isLiked, isFetchedFromProfile, user, userImage, 
   )
 }
 
-const PostItem = ({ title, image, isPublic, postText, isLiked=false, isBookmarked=false, user, createdAt, updatedAt, id, likes, comments, isFetchedFromProfile=false, setPosts=null}) => {
+const PostItem = ({ title, image, isPublic, postText, isLiked=false, isBookmarked=false, user, createdAt, updatedAt, id, likes, comments, isFetchedFromProfile=false, setPosts=null, disableActions=false}) => {
   const [ isHovered, setIsHovered ] = useState(false)
   const { palette, transitions } = useTheme();
   let userImage;
@@ -167,8 +177,8 @@ const PostItem = ({ title, image, isPublic, postText, isLiked=false, isBookmarke
       onMouseOver={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       >
-      <PostBody isPublic={isPublic} isBookmarked={isBookmarked} createdAt={createdAt} title={title} user={user} image={image} isHovered={isHovered} transitions={transitions} postText={postText} id={id}/>
-      <PostActions palette={palette} isLiked={isLiked} user={user} userImage={userImage} createdAt={createdAt} id={id} likes={likes} comments={comments} isFetchedFromProfile={isFetchedFromProfile} setPosts={setPosts}/>
+      <PostBody isPublic={isPublic} isBookmarked={isBookmarked} createdAt={createdAt} title={title} user={user} image={image} isHovered={isHovered} transitions={transitions} postText={postText} id={id} disableActions={disableActions}/>
+      <PostActions palette={palette} isLiked={isLiked} user={user} userImage={userImage} createdAt={createdAt} id={id} likes={likes} comments={comments} isFetchedFromProfile={isFetchedFromProfile} setPosts={setPosts} disableActions={disableActions}/>
     </Grid>
   )
 }

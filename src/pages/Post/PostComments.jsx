@@ -20,7 +20,7 @@ const PostComments = ({ comments, likes, setPost }) => {
         <MaterialRoot>
           <Divider>
             <ButtonBase disableRipple onClick={() => setShowComments(prevState => !prevState)}>
-              <Typography variant="body1" mr={.5}>{comments.length > 0 ? `Show Comments (${comments.length})` : "No comments yet."}</Typography>
+              <Typography variant="body1" mr={.5} fontWeight={400}>{comments.length > 0 ? `Show Comments (${comments.length})` : "No comments yet."}</Typography>
               {comments.length > 0 && (showComments ? <KeyboardArrowUpIcon fontSize='inherit'  color="secondary" sx={{verticalAlign: "middle"}}/> : <KeyboardArrowDownIcon fontSize='inherit'  color="secondary" sx={{verticalAlign: "middle"}}/>)}
             </ButtonBase>
           </Divider>

@@ -4,7 +4,7 @@ import Image from "../../components/Image"
 import defaultAvatar from "../../assets/default-profile.png"
 import ProfileHeaderActions from './ProfileHeaderActions';
 
-const ProfileHeader = ({id, username, createdAt, userData, userBio }) => {
+const ProfileHeader = ({id, username, createdAt, userData, userBio, isOwnProfile }) => {
   let image;
   if(userData) image = JSON.parse(userData.image);
 
@@ -33,9 +33,10 @@ const ProfileHeader = ({id, username, createdAt, userData, userBio }) => {
           <Grid item xs={12} align="center">
             <Typography variant="h5" align="center">@{username}</Typography>
             <Typography variant="h6" align="center">{userData.firstName} {userData.lastName}</Typography>
+            <Typography variant="body2" align="center" fontWeight={400} fontSize={12} color="rgba(0,0,0,0.75)">member since {new Date(createdAt).toLocaleDateString()}</Typography>
           </Grid>
           <Grid item xs={12} align="center" my={3}>
-            <Typography variant="body1" align="center" maxWidth="75%">{ userBio && userBio.body ? userBio.body : "This user has no bio yet."}</Typography>
+            <Typography variant="body1" align="center" maxWidth="75%">{ userBio && userBio.body ? userBio.body : `${isOwnProfile ? 'You have no bio yet. Set your bio by clicking the edit profile button below' : 'This user has no bio yet.'}`}</Typography>
             {/* links to be inserted here */}
           </Grid>
           <Grid item xs={12} align="center" mt={2}>

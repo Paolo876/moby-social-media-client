@@ -57,6 +57,7 @@ const NewCommentForm = ({ setPost, setShowNewCommentForm, setShowComments }) => 
                     variant="outlined" 
                     fullWidth
                     disabled={isLoading}
+                    size="small"
                 />
             </form>
         </Stack>
