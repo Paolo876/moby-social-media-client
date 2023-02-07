@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react'
 import AuthorizedPageContainer from '../../components/AuthorizedPageContainer'
-import { Container, Divider, Paper, Typography, Grid } from '@mui/material'
+import { Container, Divider, Paper, Typography, Grid, InputAdornment, IconButton, Button, Box } from '@mui/material'
 import useProfileActions from '../../hooks/useProfileActions';
 import useAuthRedux from '../../hooks/useAuthRedux';
 import MyTextField from '../../components/MyTextField';
 import UploadImageForm from '../../components/UploadImageForm';
 import useImagekit from '../../hooks/useImagekit';
 import defaultAvatar from "../../assets/default-profile.png"
-
 import { Formik, Form } from "formik";
 import * as Yup from 'yup';
+import LinksForm from './LinksForm';
 
 
 const validationSchema = Yup.object().shape({
@@ -27,7 +27,6 @@ const Settings = () => {
   const [ image, setImage ] = useState(JSON.parse(UserData.image) ? JSON.parse(UserData.image).url : null)
   const [ showDate, setShowDate ] = useState(false);
   const [ initialValues, setInitialValues ] = useState(null)
-  
 
   useEffect(() => {
     getProfileById().then(data => setInitialValues({
@@ -118,6 +117,9 @@ const Settings = () => {
                       multiline
                       sx={{my:1, width: "100%"}}
                     />
+                    <Typography variant="h5" mt={3} fontWeight={500}>User Social Links</Typography>
+                    <Divider/>
+                    <LinksForm/>
                   </Form>
                 </Formik>
             </Paper>
