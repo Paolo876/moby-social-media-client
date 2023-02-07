@@ -120,6 +120,9 @@ const Settings = () => {
                     <Typography variant="h5" mt={3} fontWeight={500}>User Social Links</Typography>
                     <Divider/>
                     <LinksForm/>
+                    <Box sx={{px: 5, mt:5}}>
+                      <Button sx={{width: "100%"}} variant="contained" size="large" color="primary" type="submit">Save Changes</Button>
+                    </Box>
                   </Form>
                 </Formik>
             </Paper>
