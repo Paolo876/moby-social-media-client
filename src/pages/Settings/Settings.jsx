@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import AuthorizedPageContainer from '../../components/AuthorizedPageContainer'
-import { Container, Divider, Paper, Typography, Grid, InputAdornment, IconButton, Button, Box } from '@mui/material'
+import { Container, Divider, Paper, Typography, Grid, InputAdornment, IconButton, Button, Box, List, ListItem, ListItemIcon, ListItemText } from '@mui/material'
 import useProfileActions from '../../hooks/useProfileActions';
 import useAuthRedux from '../../hooks/useAuthRedux';
 import MyTextField from '../../components/MyTextField';
@@ -33,7 +33,8 @@ const Settings = () => {
       firstName: data.UserDatum.firstName,
       lastName: data.UserDatum.lastName,
       birthday: data.UserDatum.birthday,
-      userBioBody : data.UserBio.body,
+      userBioBody : data.UserBio ? data.UserBio.body : "",
+      links: data.UserBio && data.UserBio.links ? JSON.parse(data.UserBio.links) : []
     }))
   }, [])
 
@@ -45,6 +46,7 @@ const Settings = () => {
   const handleSubmit = () => {
     
   }
+
 
   return (
     <AuthorizedPageContainer>
@@ -115,11 +117,15 @@ const Settings = () => {
                       variant="outlined" 
                       rows={4}
                       multiline
-                      sx={{my:1, width: "100%"}}
+                      sx={{my:2, width: "100%"}}
                     />
                     <Typography variant="h5" mt={3} fontWeight={500}>User Social Links</Typography>
                     <Divider/>
-                    <LinksForm/>
+                    <List>
+                      <ListItem><ListItemIcon>a</ListItemIcon><ListItemText>asd</ListItemText></ListItem>
+                      
+                    </List>
+                    <LinksForm links={initialValues.links}/>
                     <Box sx={{px: 5, mt:5}}>
                       <Button sx={{width: "100%"}} variant="contained" size="large" color="primary" type="submit">Save Changes</Button>
                     </Box>

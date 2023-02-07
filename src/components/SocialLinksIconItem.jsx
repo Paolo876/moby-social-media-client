@@ -9,14 +9,23 @@ import PublicIcon from '@mui/icons-material/Public';
 
 // const socialLinksArray = [ "default","facebook", "instagram", "linkedin", "twitter", "youtube", "web" ]
 
-const SocialLinksIconItem = ({ value="default", ...props }) => {
-    if(value === "facebook") return <FacebookIcon {...props}/>
-    if(value === "instagram") return <InstagramIcon {...props}/>
-    if(value === "linkedin") return <LinkedInIcon {...props}/>
-    if(value === "twitter") return <TwitterIcon {...props}/>
-    if(value === "youtube") return <YouTubeIcon {...props}/>
-    if(value === "web") return <PublicIcon {...props}/>
-    if(value === "default") return <LinkIcon {...props}/>
+const SocialLinksIconItem = ({ value, ...props }) => {
+    switch (value) {
+        case "facebook":
+            return <FacebookIcon {...props}/>
+        case "instagram":
+            return <InstagramIcon {...props}/>
+        case "linkedin":
+            return <LinkedInIcon {...props}/>
+        case "twitter":
+            return <TwitterIcon {...props}/>
+        case "youtube":
+            return <YouTubeIcon {...props}/>
+        case "web":
+            return <PublicIcon {...props}/>
+        default:
+            return <LinkIcon {...props}/>
+    }
 }
 
 export default SocialLinksIconItem

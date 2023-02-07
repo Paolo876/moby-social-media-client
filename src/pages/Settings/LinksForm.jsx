@@ -8,11 +8,11 @@ import SocialLinksIconItem from '../../components/SocialLinksIconItem';
 const socialLinksArray = [ "default","facebook", "instagram", "linkedin", "twitter", "youtube", "web" ]
 
 
-const LinksForm = () => {
+const LinksForm = ({ links }) => {
   const [ showLinksForm, setShowLinksForm ] = useState(false)
   const [ url, setUrl ] = useState("")
   const [ title, setTitle ] = useState("")
-
+  // console.log(JSON.stringify([{url: "https://www.facebook.com/paolobugarin19/", title: "facebook", icon: "facebook"}]))
 
   const handleSubmit = (item) => {
     console.log(item)
@@ -24,6 +24,7 @@ const LinksForm = () => {
     setShowLinksForm(false)
   }
 
+  console.log(links)
   return (
     <Box my={1} py={1}>
       {!showLinksForm && <Button variant="outlined" color="info" size="small" onClick={() => setShowLinksForm(true)}><AddLinkIcon sx={{mr:1}}/> Add Links</Button>}
