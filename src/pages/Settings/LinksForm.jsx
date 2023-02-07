@@ -12,6 +12,8 @@ const LinksForm = ({ links }) => {
   const [ showLinksForm, setShowLinksForm ] = useState(false)
   const [ url, setUrl ] = useState("")
   const [ title, setTitle ] = useState("")
+  const [ selectedIcon, setSelectedIcon ] = useState(0);
+
   // console.log(JSON.stringify([{url: "https://www.facebook.com/paolobugarin19/", title: "facebook", icon: "facebook"}]))
 
   const handleSubmit = (item) => {
@@ -21,12 +23,20 @@ const LinksForm = ({ links }) => {
   const handleCancelClick = () => {
     setUrl("")
     setTitle("")
+    setSelectedIcon(0)
     setShowLinksForm(false)
   }
 
-  console.log(links)
+  const handleIconChange = (index) => {
+    if(socialLinksArray[index] !== "default" || socialLinksArray[index] !== "web") {
+      setTitle(socialLinksArray[index])
+
+    }
+    setSelectedIcon(index)
+
+  }
   return (
-    <Box my={1} py={1}>
+    <Box my={2} py={1}>
       {!showLinksForm && <Button variant="outlined" color="info" size="small" onClick={() => setShowLinksForm(true)}><AddLinkIcon sx={{mr:1}}/> Add Links</Button>}
       {showLinksForm && <>
         <TextField
@@ -41,10 +51,14 @@ const LinksForm = ({ links }) => {
           variant="outlined" 
           size="small"
           />
-        <Box sx={{display: "flex", flexDirection:"row", alignItems: "flex-end", gap: 1, mt:.5}}>
+        <Box sx={{display: "flex", flexDirection:"row", alignItems: "flex-end", gap: 1, mt:1}}>
           <Stack>
             <Typography variant="body1" mb={.5} sx={{width: "100%"}} fontSize={12}>Link Icon</Typography>
-            <SplitButton options={socialLinksArray.map(item => <SocialLinksIconItem value={item} sx={{mx:.5}} fontSize="small"/>)}/>
+            <SplitButton 
+              options={socialLinksArray.map(item => <SocialLinksIconItem value={item} sx={{mx:.5}} fontSize="small"/>)}
+              selectedIndex={selectedIcon} 
+              setSelectedIndex={handleIconChange} 
+              />
           </Stack>
           <TextField
             id="title" 

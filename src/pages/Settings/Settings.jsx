@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import AuthorizedPageContainer from '../../components/AuthorizedPageContainer'
-import { Container, Divider, Paper, Typography, Grid, InputAdornment, IconButton, Button, Box, List, ListItem, ListItemIcon, ListItemText } from '@mui/material'
+import { Container, Divider, Paper, Typography, Grid, InputAdornment, Stack, Button, Box, List, ListItem, ListItemIcon, ListItemText, IconButton, Tooltip } from '@mui/material'
 import useProfileActions from '../../hooks/useProfileActions';
 import useAuthRedux from '../../hooks/useAuthRedux';
 import MyTextField from '../../components/MyTextField';
@@ -10,7 +10,8 @@ import defaultAvatar from "../../assets/default-profile.png"
 import { Formik, Form } from "formik";
 import * as Yup from 'yup';
 import LinksForm from './LinksForm';
-
+import SocialLinksIconItem from '../../components/SocialLinksIconItem';
+import ClearIcon from '@mui/icons-material/Clear';
 
 const validationSchema = Yup.object().shape({
   firstName: Yup.string().min(1).max(15).required(),
@@ -46,7 +47,6 @@ const Settings = () => {
   const handleSubmit = () => {
     
   }
-
 
   return (
     <AuthorizedPageContainer>
@@ -121,10 +121,26 @@ const Settings = () => {
                     />
                     <Typography variant="h5" mt={3} fontWeight={500}>User Social Links</Typography>
                     <Divider/>
-                    <List>
-                      <ListItem><ListItemIcon>a</ListItemIcon><ListItemText>asd</ListItemText></ListItem>
+                    <Grid container my={1}>
+                      {initialValues.links.map(item => <Grid item xs={12} key={item.url} >
+                        <Paper variant="outlined" sx={{display: "flex", flexDirection: "row", width: "100%", gap: 1, alignItems: "center", px:1, }} >
+                          <SocialLinksIconItem value={item.icon} color="secondary"/>
+                          <Divider orientation="vertical" flexItem />
+                          <Stack>
+                            <Typography variant="body2" fontSize={12}>title</Typography>
+                            <Typography variant="body1" fontSize={14}>{item.title}</Typography>
+                          </Stack>
+                          <Stack>
+                            <Typography variant="body2" fontSize={12}>url</Typography>
+                            <Typography variant="body1" fontSize={14}>{item.url}</Typography>
+                          </Stack>
+                          <Tooltip title="Remove link" arrow>
+                            <IconButton sx={{ml:"auto"}} color="error"><ClearIcon/></IconButton>
+                          </Tooltip>
+                        </Paper>
+                      </Grid>)}
                       
-                    </List>
+                    </Grid>
                     <LinksForm links={initialValues.links}/>
                     <Box sx={{px: 5, mt:5}}>
                       <Button sx={{width: "100%"}} variant="contained" size="large" color="primary" type="submit">Save Changes</Button>

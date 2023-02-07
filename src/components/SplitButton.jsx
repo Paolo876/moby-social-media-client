@@ -14,9 +14,6 @@ export default function SplitButton({ options, selectedIndex=0, setSelectedIndex
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
 
-  const handleClick = () => {
-    console.info(`You clicked ${options[selectedIndex]}`);
-  };
 
   const handleMenuItemClick = (event, index) => {
     setSelectedIndex(index);
@@ -37,8 +34,8 @@ export default function SplitButton({ options, selectedIndex=0, setSelectedIndex
 
   return (
     <>
-      <ButtonGroup variant="contained" ref={anchorRef} aria-label="split button" color="secondary">
-        <Button onClick={handleClick}>{options[selectedIndex]}</Button>
+      <ButtonGroup variant="outlined" ref={anchorRef} aria-label="split button" color="secondary">
+        <Button onClick={handleToggle}>{options[selectedIndex]}</Button>
         <Button
           size="small"
           aria-controls={open ? 'split-button-menu' : undefined}
@@ -74,7 +71,7 @@ export default function SplitButton({ options, selectedIndex=0, setSelectedIndex
                 <MenuList id="split-button-menu" autoFocusItem>
                   {options.map((option, index) => (
                     <MenuItem
-                      key={option}
+                      key={index}
                       selected={index === selectedIndex}
                       onClick={(event) => handleMenuItemClick(event, index)}
                     >
