@@ -20,7 +20,7 @@ const validationSchema = Yup.object().shape({
   firstName: Yup.string().min(1).max(15).required(),
   lastName: Yup.string().min(1).max(20).required(),
   birthday: Yup.date(),
-  userBioBody : Yup.string().min(1).max(255),
+  body : Yup.string().min(1).max(255),
 })
 
 
@@ -41,7 +41,7 @@ const Settings = () => {
       firstName: data.UserDatum.firstName,
       lastName: data.UserDatum.lastName,
       birthday: data.UserDatum.birthday,
-      userBioBody : data.UserBio ? data.UserBio.body : "",
+      body : data.UserBio ? data.UserBio.body : "",
       links: data.UserBio && data.UserBio.links ? JSON.parse(data.UserBio.links) : []
       })
       setLinks(data.UserBio && data.UserBio.links ? JSON.parse(data.UserBio.links) : [])
@@ -53,10 +53,15 @@ const Settings = () => {
     setIsImageNew(true)
   }
 
-  const handleSubmit = (result) => {
-    result.links = links;
-    if(!compareObject(initialValues, result)) {
-      console.log(result)
+  const handleSubmit = (values) => {
+    values.links = links;
+    if(!compareObject(initialValues, values)) {
+      const { firstName, lastName, birthday, body, links } = values;
+      const result = { 
+        UserData: {firstName, lastName, birthday}, 
+        UserBio: { body, links : JSON.stringify(links)}
+      }
+      updateSettings(result)
     } else {
       console.log("none")
     }
@@ -124,8 +129,8 @@ const Settings = () => {
                   <Typography variant="h5" mt={3} fontWeight={500}>User Bio</Typography>
                   <Divider/>
                   <MyTextField 
-                    id="userBioBody" 
-                    name="userBioBody"
+                    id="body" 
+                    name="body"
                     type="text" 
                     label="User Bio"
                     variant="outlined" 

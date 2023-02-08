@@ -14,10 +14,10 @@ const useSettingsActions = () => {
   *  @access     Private
   *  @return     <Object> --{}
   */
-  const updateSettings = async () => {
+  const updateSettings = async (data) => {
     setIsLoading(true)
     try {
-        const res = await axios.put(`${process.env.REACT_APP_DOMAIN_URL}/api/auth/update-profile`, { headers: { 'Content-Type': 'application/json' }, withCredentials: true });
+        const res = await axios.put(`${process.env.REACT_APP_DOMAIN_URL}/api/auth/update-profile`, data, { headers: { 'Content-Type': 'application/json' }, withCredentials: true });
         setIsLoading(false)
         return res.data
     } catch(err) {
