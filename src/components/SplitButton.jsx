@@ -31,7 +31,6 @@ export default function SplitButton({ options, selectedIndex=0, setSelectedIndex
 
     setOpen(false);
   };
-
   return (
     <>
       <ButtonGroup variant="outlined" ref={anchorRef} aria-label="split button" color="secondary">
@@ -49,7 +48,7 @@ export default function SplitButton({ options, selectedIndex=0, setSelectedIndex
       </ButtonGroup>
       <Popper
         sx={{
-          zIndex: 1,
+          zIndex: 10,
         }}
         open={open}
         anchorEl={anchorRef.current}
@@ -75,7 +74,7 @@ export default function SplitButton({ options, selectedIndex=0, setSelectedIndex
                       selected={index === selectedIndex}
                       onClick={(event) => handleMenuItemClick(event, index)}
                     >
-                      {option}
+                      {option}{option.props.value}
                     </MenuItem>
                   ))}
                 </MenuList>

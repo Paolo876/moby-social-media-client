@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import AuthorizedPageContainer from '../../components/AuthorizedPageContainer'
-import { Container, Divider, Paper, Typography, Grid, InputAdornment, Stack, Button, Box, List, ListItem, ListItemIcon, ListItemText, IconButton, Tooltip } from '@mui/material'
+import { Container, Divider, Paper, Typography, Grid, InputAdornment, Stack, Button, Box, List, ListItem, ListItemIcon, ListItemText, IconButton, Tooltip, MenuList, MenuItem } from '@mui/material'
 import useProfileActions from '../../hooks/useProfileActions';
 import useAuthRedux from '../../hooks/useAuthRedux';
 import MyTextField from '../../components/MyTextField';
@@ -28,15 +28,25 @@ const Settings = () => {
   const [ image, setImage ] = useState(JSON.parse(UserData.image) ? JSON.parse(UserData.image).url : null)
   const [ showDate, setShowDate ] = useState(false);
   const [ initialValues, setInitialValues ] = useState(null)
+  const [ data, setData ] = useState(null)
 
   useEffect(() => {
-    getProfileById().then(data => setInitialValues({
+    getProfileById().then(data => {
+      setInitialValues({
       firstName: data.UserDatum.firstName,
       lastName: data.UserDatum.lastName,
       birthday: data.UserDatum.birthday,
       userBioBody : data.UserBio ? data.UserBio.body : "",
       links: data.UserBio && data.UserBio.links ? JSON.parse(data.UserBio.links) : []
-    }))
+      })
+      setData({
+      firstName: data.UserDatum.firstName,
+      lastName: data.UserDatum.lastName,
+      birthday: data.UserDatum.birthday,
+      userBioBody : data.UserBio ? data.UserBio.body : "",
+      links: data.UserBio && data.UserBio.links ? JSON.parse(data.UserBio.links) : []
+      })
+    })
   }, [])
 
   const handleImageChange = (data) => {
@@ -47,7 +57,7 @@ const Settings = () => {
   const handleSubmit = () => {
     
   }
-
+  console.log(data)
   return (
     <AuthorizedPageContainer>
       <Container sx={{pt: 1.5}}>
@@ -118,30 +128,28 @@ const Settings = () => {
                       rows={4}
                       multiline
                       sx={{my:2, width: "100%"}}
+                      inputProps={{ maxLength: 250 }}
                     />
                     <Typography variant="h5" mt={3} fontWeight={500}>User Social Links</Typography>
                     <Divider/>
-                    <Grid container my={1}>
-                      {initialValues.links.map(item => <Grid item xs={12} key={item.url} >
-                        <Paper variant="outlined" sx={{display: "flex", flexDirection: "row", width: "100%", gap: 1, alignItems: "center", px:1, }} >
-                          <SocialLinksIconItem value={item.icon} color="secondary"/>
-                          <Divider orientation="vertical" flexItem />
-                          <Stack>
-                            <Typography variant="body2" fontSize={12}>title</Typography>
-                            <Typography variant="body1" fontSize={14}>{item.title}</Typography>
-                          </Stack>
-                          <Stack>
-                            <Typography variant="body2" fontSize={12}>url</Typography>
-                            <Typography variant="body1" fontSize={14}>{item.url}</Typography>
-                          </Stack>
-                          <Tooltip title="Remove link" arrow>
+                    <Grid container my={1} px={1}>
+                      <Grid item xs={12}>
+                        <List>
+                        {data.links.map(item => <ListItem xs={12} key={item.url} dense>
+                            <SocialLinksIconItem value={item.icon} color="secondary" fontSize="medium" sx={{mr:.5}}/>
+                            <Divider orientation="vertical" flexItem />
+                            <ListItemText sx={{ml:.5}}>
+                              <Typography variant="body2" fontSize={14} noWrap>{item.title}</Typography>
+                              <Typography variant="body1" fontSize={14} noWrap>{item.url}</Typography>
+                            </ListItemText>
+                            <Tooltip title="Remove link" arrow>
                             <IconButton sx={{ml:"auto"}} color="error"><ClearIcon/></IconButton>
                           </Tooltip>
-                        </Paper>
-                      </Grid>)}
-                      
+                          </ListItem>)}
+                        </List>
+                      </Grid>
                     </Grid>
-                    <LinksForm links={initialValues.links}/>
+                    <LinksForm links={data.links} setData={setData}/>
                     <Box sx={{px: 5, mt:5}}>
                       <Button sx={{width: "100%"}} variant="contained" size="large" color="primary" type="submit">Save Changes</Button>
                     </Box>
