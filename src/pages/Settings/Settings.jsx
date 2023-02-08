@@ -12,6 +12,7 @@ import * as Yup from 'yup';
 import LinksForm from './LinksForm';
 import SocialLinksIconItem from '../../components/SocialLinksIconItem';
 import ClearIcon from '@mui/icons-material/Clear';
+import compareObject from '../../utils/compareObjectValues';
 
 const validationSchema = Yup.object().shape({
   firstName: Yup.string().min(1).max(15).required(),
@@ -55,9 +56,13 @@ const Settings = () => {
   }
 
   const handleSubmit = () => {
-    
+    console.log(compareObject(initialValues, data))
   }
-  console.log(data)
+  
+  
+  const handleLinkDelete = (url) => {
+    setData(prevState => ({...prevState, links: prevState.links.filter(item => item.url !== url)}))
+  }
   return (
     <AuthorizedPageContainer>
       <Container sx={{pt: 1.5}}>
@@ -143,7 +148,13 @@ const Settings = () => {
                               <Typography variant="body1" fontSize={14} noWrap>{item.url}</Typography>
                             </ListItemText>
                             <Tooltip title="Remove link" arrow>
-                            <IconButton sx={{ml:"auto"}} color="error"><ClearIcon/></IconButton>
+                            <IconButton 
+                              sx={{ml:"auto"}} 
+                              color="error" 
+                              onClick={() => setData(prevState => ({...prevState, links: prevState.links.filter(_item => _item.url !== item.url)}))}
+                            >
+                              <ClearIcon/>
+                            </IconButton>
                           </Tooltip>
                           </ListItem>)}
                         </List>

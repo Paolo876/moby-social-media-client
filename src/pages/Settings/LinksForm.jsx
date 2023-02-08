@@ -7,14 +7,13 @@ import SocialLinksIconItem from '../../components/SocialLinksIconItem';
 const socialLinksArray = [ "default","facebook", "instagram", "linkedin", "twitter", "youtube", "web" ]
 
 
-const LinksForm = ({ links, setData }) => {
+const LinksForm = ({ setData }) => {
   const [ showLinksForm, setShowLinksForm ] = useState(false)
   const [ url, setUrl ] = useState("")
   const [ title, setTitle ] = useState("")
   const [ selectedIcon, setSelectedIcon ] = useState(0);
   const [ urlError, setUrlError ] = useState(null)
   const [ titleError, setTitleError ] = useState(null)
-  // console.log(JSON.stringify([{url: "https://www.facebook.com/paolobugarin19/", title: "facebook", icon: "facebook"}]))
 
   const handleSubmit = () => {
     if(url.trim().length !== 0 && title.trim().length !== 0){
@@ -69,7 +68,6 @@ const LinksForm = ({ links, setData }) => {
           />
         {titleError && <Alert severity='error' size="small" sx={{mt:1.5, mb:.5}}>{titleError}</Alert>}
         <Box sx={{display: "flex", flexDirection:"row", alignItems: "flex-end", gap: 1, mt:1}}>
-
           <Stack>
             <Typography variant="body1" mb={.5} sx={{width: "100%"}} fontSize={12}>Link Icon</Typography>
             <SplitButton 
@@ -90,7 +88,6 @@ const LinksForm = ({ links, setData }) => {
             size="small"
             error={titleError && true}
             inputProps={{ maxLength: 20 }}
-
           />
         </Box>
         <Box sx={{display: "flex", flexDirection:"row", alignItems: "flex-end", gap: 1, mt:2.5, mb: 1.5, justifyContent:"right"}}>
