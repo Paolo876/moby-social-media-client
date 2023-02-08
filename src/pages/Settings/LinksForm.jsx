@@ -7,7 +7,7 @@ import SocialLinksIconItem from '../../components/SocialLinksIconItem';
 const socialLinksArray = [ "default","facebook", "instagram", "linkedin", "twitter", "youtube", "web" ]
 
 
-const LinksForm = ({ setData }) => {
+const LinksForm = ({ setLinks }) => {
   const [ showLinksForm, setShowLinksForm ] = useState(false)
   const [ url, setUrl ] = useState("")
   const [ title, setTitle ] = useState("")
@@ -20,7 +20,8 @@ const LinksForm = ({ setData }) => {
       //url regex check
       if(/(https?:\/\/)?\w+(\.\w+)+(\/\w+)*(\/\w+\.\w+)?(\?[\w%&=.]*)*(?=[^\w.?&%=])/.test(url)) {
         const result = {url, title, icon: socialLinksArray[selectedIcon]}
-        setData(prevState => ({...prevState, links: [...prevState.links, result]}))
+        // setData(prevState => ({...prevState, links: [...prevState.links, result]}))
+        setLinks(prevState => [...prevState, result])
         handleCancelClick();
       } else {
         setUrlError("Invalid URL format.")
@@ -91,7 +92,7 @@ const LinksForm = ({ setData }) => {
           />
         </Box>
         <Box sx={{display: "flex", flexDirection:"row", alignItems: "flex-end", gap: 1, mt:2.5, mb: 1.5, justifyContent:"right"}}>
-          <Button type="button" variant="contained" color="info" onClick={handleSubmit} size="small" disabled={urlError || titleError}>Add Link</Button>
+          <Button type="button" variant="contained" color="info" onClick={handleSubmit} size="small" disabled={(urlError && true) || (titleError && true)}>Add Link</Button>
           <Button type="button" variant="outlined" color="warning" onClick={handleCancelClick} size="small">Cancel</Button>
         </Box>
         <Divider/>

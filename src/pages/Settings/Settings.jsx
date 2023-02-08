@@ -29,7 +29,7 @@ const Settings = () => {
   const [ image, setImage ] = useState(JSON.parse(UserData.image) ? JSON.parse(UserData.image).url : null)
   const [ showDate, setShowDate ] = useState(false);
   const [ initialValues, setInitialValues ] = useState(null)
-  const [ data, setData ] = useState(null)
+  const [ links, setLinks ] = useState(null)
 
   useEffect(() => {
     getProfileById().then(data => {
@@ -40,13 +40,14 @@ const Settings = () => {
       userBioBody : data.UserBio ? data.UserBio.body : "",
       links: data.UserBio && data.UserBio.links ? JSON.parse(data.UserBio.links) : []
       })
-      setData({
-      firstName: data.UserDatum.firstName,
-      lastName: data.UserDatum.lastName,
-      birthday: data.UserDatum.birthday,
-      userBioBody : data.UserBio ? data.UserBio.body : "",
-      links: data.UserBio && data.UserBio.links ? JSON.parse(data.UserBio.links) : []
-      })
+      setLinks(data.UserBio && data.UserBio.links ? JSON.parse(data.UserBio.links) : [])
+      // setData({
+      // firstName: data.UserDatum.firstName,
+      // lastName: data.UserDatum.lastName,
+      // birthday: data.UserDatum.birthday,
+      // userBioBody : data.UserBio ? data.UserBio.body : "",
+      // links: data.UserBio && data.UserBio.links ? JSON.parse(data.UserBio.links) : []
+      // })
     })
   }, [])
 
@@ -55,14 +56,16 @@ const Settings = () => {
     setIsImageNew(true)
   }
 
-  const handleSubmit = () => {
-    console.log(compareObject(initialValues, data))
+  const handleSubmit = (result) => {
+    result.links = links;
+    // if(compareObject(initialValues, result))
+    console.log(compareObject(initialValues, result))
   }
   
   
-  const handleLinkDelete = (url) => {
-    setData(prevState => ({...prevState, links: prevState.links.filter(item => item.url !== url)}))
-  }
+  // const handleLinkDelete = (url) => {
+  //   setData(prevState => ({...prevState, links: prevState.links.filter(item => item.url !== url)}))
+  // }
   return (
     <AuthorizedPageContainer>
       <Container sx={{pt: 1.5}}>
@@ -140,7 +143,7 @@ const Settings = () => {
                     <Grid container my={1} px={1}>
                       <Grid item xs={12}>
                         <List>
-                        {data.links.map(item => <ListItem xs={12} key={item.url} dense>
+                        {links.map(item => <ListItem xs={12} key={item.url} dense>
                             <SocialLinksIconItem value={item.icon} color="secondary" fontSize="medium" sx={{mr:.5}}/>
                             <Divider orientation="vertical" flexItem />
                             <ListItemText sx={{ml:.5}}>
@@ -151,7 +154,8 @@ const Settings = () => {
                             <IconButton 
                               sx={{ml:"auto"}} 
                               color="error" 
-                              onClick={() => setData(prevState => ({...prevState, links: prevState.links.filter(_item => _item.url !== item.url)}))}
+                              // onClick={() => setData(prevState => ({...prevState, links: prevState.links.filter(_item => _item.url !== item.url)}))}
+                              onClick={() => setLinks(prevState => prevState.filter(_item => _item.url !== item.url))}
                             >
                               <ClearIcon/>
                             </IconButton>
@@ -160,7 +164,7 @@ const Settings = () => {
                         </List>
                       </Grid>
                     </Grid>
-                    <LinksForm links={data.links} setData={setData}/>
+                    <LinksForm links={links} setLinks={setLinks}/>
                     <Box sx={{px: 5, mt:5}}>
                       <Button sx={{width: "100%"}} variant="contained" size="large" color="primary" type="submit">Save Changes</Button>
                     </Box>
