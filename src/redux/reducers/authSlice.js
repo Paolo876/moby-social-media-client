@@ -6,22 +6,9 @@ const authSlice = createSlice({
     name: "auth",
     initialState: authInitialState,
     reducers: {
-        // setUserData(state, { payload }){
-        //     state.isLoading = false;
-        //     state.userData = payload;
-        //     state.error = null;
-        //     state.success = false;
-        // },
-        // setIsLoading(state, { payload }){
-        //     state.isLoading = payload;
-        //     state.error = null;
-        //     state.success = false;
-        // },
-        // setError(state, { payload }){
-        //     state.isLoading = false;
-        //     state.error = payload.message;
-        //     state.success = false;
-        // }
+        updateUserData(state, { payload }){
+            state.user.UserData = payload;
+        },
     }, 
     extraReducers: (builder) => {
         builder

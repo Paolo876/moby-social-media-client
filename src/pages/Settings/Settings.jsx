@@ -6,8 +6,8 @@ import useProfileActions from '../../hooks/useProfileActions';
 import useSettingsActions from '../../hooks/useSettingsActions';
 import useAuthRedux from '../../hooks/useAuthRedux';
 import MyTextField from '../../components/MyTextField';
+import LoadingSpinner from "../../components/LoadingSpinner"
 import UploadImageForm from '../../components/UploadImageForm';
-import useImagekit from '../../hooks/useImagekit';
 import defaultAvatar from "../../assets/default-profile.png"
 import { Formik, Form } from "formik";
 import * as Yup from 'yup';
@@ -26,8 +26,7 @@ const validationSchema = Yup.object().shape({
 
 const Settings = () => {
   const { getProfileById, isLoading: isProfileLoading, error: profileError } = useProfileActions();
-  const { isLoading, error, updateSettings } = useSettingsActions();
-  const navigate = useNavigate();
+  const { isLoading, error, success, updateSettings } = useSettingsActions();
   const { user: { UserData } } = useAuthRedux();
   const [ isImageNew, setIsImageNew ] = useState(false)
   const [ image, setImage ] = useState(JSON.parse(UserData.image) ? JSON.parse(UserData.image).url : null)
@@ -37,6 +36,7 @@ const Settings = () => {
 
   useEffect(() => {
     getProfileById().then(data => {
+      console.log(data)
       setInitialValues({
       firstName: data.UserDatum.firstName,
       lastName: data.UserDatum.lastName,
@@ -53,7 +53,7 @@ const Settings = () => {
     setIsImageNew(true)
   }
 
-  const handleSubmit = (values) => {
+  const handleSubmit = async (values) => {
     values.links = links;
     if(!compareObject(initialValues, values)) {
       const { firstName, lastName, birthday, body, links } = values;
@@ -61,7 +61,9 @@ const Settings = () => {
         UserData: {firstName, lastName, birthday}, 
         UserBio: { body, links : JSON.stringify(links)}
       }
-      updateSettings(result)
+      const response = await updateSettings(result)
+      //update redux
+      console.log(response)
     } else {
       console.log("none")
     }
@@ -72,6 +74,7 @@ const Settings = () => {
     <AuthorizedPageContainer>
       <Container sx={{pt: 1.5}}>
         <Grid container direction="row" alignItems="flex-start" sx={{justifyContent: {xs: "center"}, height: "75vh"}}>
+          {(isLoading || isProfileLoading) && <LoadingSpinner isModal={true}  message="Updating Data..."/>}
           {initialValues && <Grid item xs={12} md={8} py={2}>
             <Paper sx={{py: 5, px: {xs: 2, md:8}, width: "100%", mx: "auto" }} elevation={4}>
               <Typography variant="h4" fontWeight={700} mb={2} letterSpacing={1}>Settings</Typography>
