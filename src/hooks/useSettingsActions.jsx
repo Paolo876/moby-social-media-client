@@ -20,7 +20,7 @@ const useSettingsActions = () => {
     setError(null)
     try {
       console.log(data)
-        // const res = await axios.put(`${process.env.REACT_APP_DOMAIN_URL}/api/auth/update-profile`, data, { headers: { 'Content-Type': 'application/json' }, withCredentials: true });
+        // const res = await axios.put(`${process.env.REACT_APP_DOMAIN_URL}/api/auth/update-settings`, data, { headers: { 'Content-Type': 'application/json' }, withCredentials: true });
         // setIsLoading(false)
         // setSuccess(true)
         // return res.data
@@ -31,7 +31,27 @@ const useSettingsActions = () => {
   }
 
 
-  return { isLoading, error, updateSettings, success }
+ /*  @desc       update profile picture
+  *  @access     Private
+  *  @return     <Object> --{}
+  */
+  const updateProfilePicture = async (data) => {
+    setIsLoading(true)
+    setError(null)
+    try {
+      console.log(data)
+        const res = await axios.put(`${process.env.REACT_APP_DOMAIN_URL}/api/auth/update-profile-picture`, data, { headers: { 'Content-Type': 'application/json' }, withCredentials: true });
+        setIsLoading(false)
+        setSuccess("Profile picture updated!")
+        return res.data
+    } catch(err) {
+        setIsLoading(false)
+        setError(err.message)
+    }
+  }
+
+
+  return { isLoading, error, updateSettings, updateProfilePicture, success }
 }
 
 export default useSettingsActions

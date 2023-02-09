@@ -8,11 +8,12 @@ export default function useAuthRedux() {
     if(authRedux) {
       return {
         ...authRedux,
-          login: data => dispatch(login(data)),
-          signup: data => dispatch(signup(data)),
-          profileSetup: data => dispatch(profileSetup(data)),
-          logout: () => dispatch(logout()),
-          authorizeToken: () => dispatch(authorizeToken()),
+        updateUserDataImage: (data) => dispatch(authActions.updateUserDataImage(data)),
+        login: data => dispatch(login(data)),
+        signup: data => dispatch(signup(data)),
+        profileSetup: data => dispatch(profileSetup(data)),
+        logout: () => dispatch(logout()),
+        authorizeToken: () => dispatch(authorizeToken()),
       };
     } else {
       throw Error('Error accessing auth reducer.');
