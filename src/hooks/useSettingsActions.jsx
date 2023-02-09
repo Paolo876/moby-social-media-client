@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import useImagekit from "../hooks/useImagekit"
 import axios from 'axios'
 
 
@@ -20,10 +19,11 @@ const useSettingsActions = () => {
     setIsLoading(true)
     setError(null)
     try {
-        const res = await axios.put(`${process.env.REACT_APP_DOMAIN_URL}/api/auth/update-profile`, data, { headers: { 'Content-Type': 'application/json' }, withCredentials: true });
-        setIsLoading(false)
-        setSuccess(true)
-        return res.data
+      console.log(data)
+        // const res = await axios.put(`${process.env.REACT_APP_DOMAIN_URL}/api/auth/update-profile`, data, { headers: { 'Content-Type': 'application/json' }, withCredentials: true });
+        // setIsLoading(false)
+        // setSuccess(true)
+        // return res.data
     } catch(err) {
         setIsLoading(false)
         setError(err.message)

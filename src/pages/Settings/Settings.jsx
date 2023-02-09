@@ -4,6 +4,7 @@ import AuthorizedPageContainer from '../../components/AuthorizedPageContainer'
 import { Container, Divider, Paper, Typography, Grid, InputAdornment, Stack, Button, Box, List, ListItem, ListItemIcon, ListItemText, IconButton, Tooltip, MenuList, MenuItem } from '@mui/material'
 import useProfileActions from '../../hooks/useProfileActions';
 import useSettingsActions from '../../hooks/useSettingsActions';
+import useImagekit from "../../hooks/useImagekit"
 import useAuthRedux from '../../hooks/useAuthRedux';
 import MyTextField from '../../components/MyTextField';
 import LoadingSpinner from "../../components/LoadingSpinner"
@@ -15,6 +16,7 @@ import LinksForm from './LinksForm';
 import SocialLinksIconItem from '../../components/SocialLinksIconItem';
 import ClearIcon from '@mui/icons-material/Clear';
 import compareObject from '../../utils/compareObjectValues';
+import UpdateProfilePictureForm from './UpdateProfilePictureForm';
 
 const validationSchema = Yup.object().shape({
   firstName: Yup.string().min(1).max(15).required(),
@@ -27,24 +29,30 @@ const validationSchema = Yup.object().shape({
 const Settings = () => {
   const { getProfileById, isLoading: isProfileLoading, error: profileError } = useProfileActions();
   const { isLoading, error, success, updateSettings } = useSettingsActions();
-  const { user: { UserData } } = useAuthRedux();
+  const { getAuthenticationEndpoint, uploadImage, isLoading: isImagekitLoading, error: imagekitError } = useImagekit();
+
+  const { user } = useAuthRedux();
   const [ isImageNew, setIsImageNew ] = useState(false)
-  const [ image, setImage ] = useState(JSON.parse(UserData.image) ? JSON.parse(UserData.image).url : null)
+  const [ image, setImage ] = useState(null)
+  const [ imageData, setImageData ] = useState(null)
   const [ showDate, setShowDate ] = useState(false);
   const [ initialValues, setInitialValues ] = useState(null)
   const [ links, setLinks ] = useState(null)
+  const [ authenticationEndpoint, setAuthenticationEndpoint ] = useState(null);
 
   useEffect(() => {
     getProfileById().then(data => {
-      console.log(data)
       setInitialValues({
-      firstName: data.UserDatum.firstName,
-      lastName: data.UserDatum.lastName,
-      birthday: data.UserDatum.birthday,
-      body : data.UserBio ? data.UserBio.body : "",
-      links: data.UserBio && data.UserBio.links ? JSON.parse(data.UserBio.links) : []
+        firstName: data.UserDatum.firstName,
+        lastName: data.UserDatum.lastName,
+        birthday: data.UserDatum.birthday,
+        body : data.UserBio ? data.UserBio.body : "",
+        links: data.UserBio && data.UserBio.links ? JSON.parse(data.UserBio.links) : [],
+        // image: JSON.parse(data.UserDatum.image) ? JSON.parse(data.UserDatum.image).url : ""
       })
       setLinks(data.UserBio && data.UserBio.links ? JSON.parse(data.UserBio.links) : [])
+      setImageData(JSON.parse(data.UserDatum.image) ? JSON.parse(data.UserDatum.image) : null)
+      // setImage(JSON.parse(data.UserDatum.image) ? JSON.parse(data.UserDatum.image).url : "")
     })
   }, [])
 
@@ -56,41 +64,50 @@ const Settings = () => {
   const handleSubmit = async (values) => {
     values.links = links;
     if(!compareObject(initialValues, values)) {
-      const { firstName, lastName, birthday, body, links } = values;
-      const result = { 
-        UserData: {firstName, lastName, birthday}, 
-        UserBio: { body, links : JSON.stringify(links)}
+
+      //upload to imagekit
+      if(isImageNew && image) {
+        const res = await uploadImage({
+          file: image,
+          authenticationEndpoint,
+          fileName: `profile_${user.id}`,
+          folder: "/moby/profile-images/"
+        })
+        if(!imagekitError){
+          const { fileId, name, url, thumbnailUrl } = res;
+          values.image = JSON.stringify({fileId, name, url, thumbnailUrl})
+        }
       }
-      const response = await updateSettings(result)
-      //update redux
-      console.log(response)
+      // const { firstName, lastName, birthday, body, links } = values;
+      // const result = { 
+      //   UserData: {firstName, lastName, birthday, image}, 
+      //   UserBio: { body, links : JSON.stringify(links)}
+      // }
+      const response = await updateSettings(values)
+
+      // //update redux
+      // console.log(response)
     } else {
       console.log("none")
     }
   }
-  
-  
+
   return (
     <AuthorizedPageContainer>
       <Container sx={{pt: 1.5}}>
         <Grid container direction="row" alignItems="flex-start" sx={{justifyContent: {xs: "center"}, height: "75vh"}}>
           {(isLoading || isProfileLoading) && <LoadingSpinner isModal={true}  message="Updating Data..."/>}
-          {initialValues && <Grid item xs={12} md={8} py={2}>
-            <Paper sx={{py: 5, px: {xs: 2, md:8}, width: "100%", mx: "auto" }} elevation={4}>
-              <Typography variant="h4" fontWeight={700} mb={2} letterSpacing={1}>Settings</Typography>
-              <Formik  
-                  initialValues={initialValues}
-                  onSubmit={handleSubmit} 
-                  validationSchema={validationSchema}
-                >
-                <Form style={{display: "flex", flexDirection: "column", my: 5}}>
-                  <Typography variant="h5" mt={2} fontWeight={500}>User Data</Typography>
-                  <Divider/>
+          {initialValues && <>
+            <UpdateProfilePictureForm imageData={imageData}/>
+            {/* <Grid item xs={12} md={8} py={.75}>
+              <Paper sx={{py: 2, px: {xs: 2, md:8}, width: "100%", mx: "auto" }} elevation={2}>
+                <Typography variant="h5" mt={2} fontWeight={600}>Update Profile Picture</Typography>
+                <Divider/>
+                <Box sx={{my: 4}}>
                   <UploadImageForm
                     setImage={handleImageChange} 
                     isImageNew={isImageNew}
                     image={image} 
-                    title="Update Profile Picture"
                     defaultImage={defaultAvatar}
                     previewStyle={{ height: "100px", width: "100px", borderRadius: "50%" }}
                     width={200}
@@ -98,84 +115,99 @@ const Settings = () => {
                     border={20}
                     borderRadius={100}
                   />
-                  <MyTextField 
-                    id="firstName" 
-                    name="firstName"
-                    type="text" 
-                    label={<p>First Name</p>} 
-                    variant="standard" 
-                    sx={{my:1, minWidth: "320px"}}
-                    error="First Name is Required."
-                  />
-                  <MyTextField 
-                    id="lastName" 
-                    name="lastName"
-                    type="text" 
-                    label={<p>Last Name</p>} 
-                    variant="standard" 
-                    sx={{my:1, minWidth: "320px"}}
-                    error="First Name is Required."
-                  />
-                  <MyTextField 
-                    id="birthday" 
-                    name="birthday"
-                    type={showDate ? "date" : "text" }
-                    onFocus={() => setShowDate(true)}
-                    onBlur={(e) => {
-                      if(e.target.value === "") setShowDate(false)
-                    }}
-                    label={<p>Birthday</p>} 
-                    variant="standard" 
-                    sx={{my:1, minWidth: "320px"}}
-                    error="Last Name is Required."
-                  />
-                  <Typography variant="h5" mt={3} fontWeight={500}>User Bio</Typography>
-                  <Divider/>
-                  <MyTextField 
-                    id="body" 
-                    name="body"
-                    type="text" 
-                    label="User Bio"
-                    variant="outlined" 
-                    rows={4}
-                    multiline
-                    sx={{my:2, width: "100%"}}
-                    inputProps={{ maxLength: 250 }}
-                  />
-                  <Typography variant="h5" mt={3} fontWeight={500}>User Social Links</Typography>
-                  <Divider/>
-                  <Grid container my={1} px={1}>
-                    <Grid item xs={12}>
-                      <List>
-                      {links.map(item => <ListItem xs={12} key={item.url} dense>
-                          <SocialLinksIconItem value={item.icon} color="secondary" fontSize="medium" sx={{mr:.5}}/>
-                          <Divider orientation="vertical" flexItem />
-                          <ListItemText sx={{ml:.5}}>
-                            <Typography variant="body2" fontSize={14} noWrap>{item.title}</Typography>
-                            <Typography variant="body1" fontSize={14} noWrap>{item.url}</Typography>
-                          </ListItemText>
-                          <Tooltip title="Remove link" arrow>
-                          <IconButton 
-                            sx={{ml:"auto"}} 
-                            color="error" 
-                            // onClick={() => setData(prevState => ({...prevState, links: prevState.links.filter(_item => _item.url !== item.url)}))}
-                            onClick={() => setLinks(prevState => prevState.filter(_item => _item.url !== item.url))}
-                          >
-                            <ClearIcon/>
-                          </IconButton>
-                        </Tooltip>
-                        </ListItem>)}
-                      </List>
+                </Box>
+              </Paper>
+            </Grid> */}
+            <Grid item xs={12} md={8} py={.75}>
+              <Paper sx={{py: 2, px: {xs: 2, md:8}, width: "100%", mx: "auto" }} elevation={2}>
+                <Formik  
+                    initialValues={initialValues}
+                    onSubmit={handleSubmit} 
+                    validationSchema={validationSchema}
+                  >
+                  <Form style={{display: "flex", flexDirection: "column"}}>
+                    <Typography variant="h5" mt={4} fontWeight={600}>User Data</Typography>
+                    <Divider/>
+                    <MyTextField 
+                      id="firstName" 
+                      name="firstName"
+                      type="text" 
+                      label={<p>First Name</p>} 
+                      variant="standard" 
+                      sx={{m:1, mt: 4}}
+                      error="First Name is Required."
+                    />
+                    <MyTextField 
+                      id="lastName" 
+                      name="lastName"
+                      type="text" 
+                      label={<p>Last Name</p>} 
+                      variant="standard" 
+                      sx={{m:1}}
+                      error="First Name is Required."
+                    />
+                    <MyTextField 
+                      id="birthday" 
+                      name="birthday"
+                      type={showDate ? "date" : "text" }
+                      onFocus={() => setShowDate(true)}
+                      onBlur={(e) => {
+                        if(e.target.value === "") setShowDate(false)
+                      }}
+                      label={<p>Birthday</p>} 
+                      variant="standard" 
+                      sx={{m:1}}
+                      error="Last Name is Required."
+                    />
+                    <Typography variant="h5" mt={3} fontWeight={500}>User Bio</Typography>
+                    <Divider/>
+                    <MyTextField 
+                      id="body" 
+                      name="body"
+                      type="text" 
+                      label="User Bio"
+                      variant="outlined" 
+                      rows={4}
+                      multiline
+                      sx={{my:2, width: "100%"}}
+                      inputProps={{ maxLength: 250 }}
+                    />
+                    <Typography variant="h5" mt={3} fontWeight={500}>User Social Links</Typography>
+                    <Divider/>
+                    <Grid container my={1} px={1}>
+                      <Grid item xs={12}>
+                        <List>
+                        {links.map(item => <ListItem xs={12} key={item.url} dense>
+                            <SocialLinksIconItem value={item.icon} color="secondary" fontSize="medium" sx={{mr:.5}}/>
+                            <Divider orientation="vertical" flexItem />
+                            <ListItemText sx={{ml:.5}}>
+                              <Typography variant="body2" fontSize={14} noWrap>{item.title}</Typography>
+                              <Typography variant="body1" fontSize={14} noWrap>{item.url}</Typography>
+                            </ListItemText>
+                            <Tooltip title="Remove link" arrow>
+                            <IconButton 
+                              sx={{ml:"auto"}} 
+                              color="error" 
+                              // onClick={() => setData(prevState => ({...prevState, links: prevState.links.filter(_item => _item.url !== item.url)}))}
+                              onClick={() => setLinks(prevState => prevState.filter(_item => _item.url !== item.url))}
+                            >
+                              <ClearIcon/>
+                            </IconButton>
+                          </Tooltip>
+                          </ListItem>)}
+                        </List>
+                      </Grid>
                     </Grid>
-                  </Grid>
-                  <LinksForm links={links} setLinks={setLinks}/>
-                  <Box sx={{px: 5, mt:5}}>
-                    <Button sx={{width: "100%"}} variant="contained" size="large" color="primary" type="submit">Save Changes</Button>
-                  </Box>
-                </Form>
-              </Formik>
-            </Paper>
-        </Grid>}
+                    <LinksForm links={links} setLinks={setLinks}/>
+                    <Box sx={{px: 5, mt:5}}>
+                      <Button sx={{width: "100%"}} variant="contained" size="large" color="primary" type="submit">Save Changes</Button>
+                    </Box>
+                  </Form>
+                </Formik>
+              </Paper>
+          </Grid>
+          </>
+          }
         </Grid>
       </Container>
     </AuthorizedPageContainer>
