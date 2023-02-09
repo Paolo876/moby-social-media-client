@@ -50,10 +50,13 @@ const UpdateProfilePictureForm = ({ imageData }) => {
     setIsImageNew(false)
   }
 
-
+  const handleCancel = () => {
+    setIsImageNew(false)
+    setImage(imageData && imageData.url)
+  }
   return (
     <Grid item xs={12} md={8} py={.75}>
-        {isLoading && <LoadingSpinner isModal={true}  message="Uploading Image..."/>}
+        {isLoading && <LoadingSpinner isModal={true}  message="Updating Profile Picture..."/>}
         <Paper sx={{py: 2, px: {xs: 2, md:8}, width: "100%", mx: "auto" }} elevation={2}>
         <Typography variant="h5" mt={2} fontWeight={600}>Profile Picture</Typography>
         <Divider/>
@@ -72,7 +75,7 @@ const UpdateProfilePictureForm = ({ imageData }) => {
             borderRadius={100}
             />
         </Box>
-        <Box sx={{display: "flex", alignItems: "center", width: "100%", justifyContent: "center", my: 2}}>
+        <Box sx={{display: "flex", alignItems: "center", width: "100%", justifyContent: "center", my: 2, gap: 3, flexDirection: {xs: "column", md: "row"}}}>
            {image && isImageNew && 
                 <Button 
                     sx={{maxWidth: 500}} 
@@ -93,6 +96,16 @@ const UpdateProfilePictureForm = ({ imageData }) => {
                     disabled={isLoading}
                     onClick={handleSubmit}
                 >Remove Profile Picture</Button>}
+            {isImageNew && 
+                <Button 
+                    sx={{maxWidth: 500}} 
+                    variant="outlined" 
+                    size="medium" 
+                    color="warning" 
+                    type="button" 
+                    disabled={isLoading}
+                    onClick={handleCancel}
+                >Cancel</Button>}
         </Box>
         </Paper>
     </Grid>

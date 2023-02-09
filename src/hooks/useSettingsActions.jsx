@@ -39,7 +39,6 @@ const useSettingsActions = () => {
     setIsLoading(true)
     setError(null)
     try {
-      console.log(data)
         const res = await axios.put(`${process.env.REACT_APP_DOMAIN_URL}/api/auth/update-profile-picture`, data, { headers: { 'Content-Type': 'application/json' }, withCredentials: true });
         setIsLoading(false)
         setSuccess("Profile picture updated!")
