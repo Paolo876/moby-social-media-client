@@ -56,58 +56,58 @@ const UpdateProfilePictureForm = ({ imageData }) => {
   }
   return (
     <Grid item xs={12} md={8} py={.75}>
-        {isLoading && <LoadingSpinner isModal={true}  message="Updating Profile Picture..."/>}
-        <Paper sx={{py: 2, px: {xs: 2, md:8}, width: "100%", mx: "auto" }} elevation={2}>
+      {isLoading && <LoadingSpinner isModal={true}  message="Updating Profile Picture..."/>}
+      <Paper sx={{py: 2, px: {xs: 2, md:8}, width: "100%", mx: "auto" }} elevation={2}>
         <Typography variant="h5" mt={2} fontWeight={600}>Profile Picture</Typography>
         <Divider/>
         <Box sx={{my: 4}}>
             {success && <Alert severity='success'>{success}</Alert>}
             {(error || imagekitError) && <Alert severity='error'>{error || imagekitError}</Alert>}
             <UploadImageForm
-            setImage={handleImageChange} 
-            isImageNew={isImageNew}
-            image={image} 
-            defaultImage={defaultAvatar}
-            previewStyle={{ height: "130px", width: "130px", borderRadius: "50%" }}
-            width={200}
-            height={200}
-            border={20}
-            borderRadius={100}
+              setImage={handleImageChange} 
+              isImageNew={isImageNew}
+              image={image} 
+              defaultImage={defaultAvatar}
+              previewStyle={{ height: "130px", width: "130px", borderRadius: "50%" }}
+              width={200}
+              height={200}
+              border={20}
+              borderRadius={100}
             />
         </Box>
         <Box sx={{display: "flex", alignItems: "center", width: "100%", justifyContent: "center", my: 2, gap: 3, flexDirection: {xs: "column", md: "row"}}}>
-           {image && isImageNew && 
-                <Button 
-                    sx={{maxWidth: 500}} 
-                    variant="contained" 
-                    size="medium" 
-                    color="secondary" 
-                    type="button" 
-                    disabled={isLoading}
-                    onClick={handleSubmit}
-                >Update Profile Picture</Button>}
-           {!image && imageData && isImageNew && 
-                <Button 
-                    sx={{maxWidth: 500}} 
-                    variant="contained" 
-                    size="medium" 
-                    color="warning" 
-                    type="button" 
-                    disabled={isLoading}
-                    onClick={handleSubmit}
-                >Remove Profile Picture</Button>}
+          {image && isImageNew && 
+            <Button 
+              sx={{maxWidth: 500}} 
+              variant="contained" 
+              size="medium" 
+              color="secondary" 
+              type="button" 
+              disabled={isLoading || isImagekitLoading}
+              onClick={handleSubmit}
+            >Update Profile Picture</Button>}
+          {!image && imageData && isImageNew && 
+            <Button 
+              sx={{maxWidth: 500}} 
+              variant="contained" 
+              size="medium" 
+              color="warning" 
+              type="button" 
+              disabled={isLoading || isImagekitLoading}
+              onClick={handleSubmit}
+            >Remove Profile Picture</Button>}
             {isImageNew && 
-                <Button 
-                    sx={{maxWidth: 500}} 
-                    variant="outlined" 
-                    size="medium" 
-                    color="warning" 
-                    type="button" 
-                    disabled={isLoading}
-                    onClick={handleCancel}
-                >Cancel</Button>}
+              <Button 
+                sx={{maxWidth: 500}} 
+                variant="outlined" 
+                size="medium" 
+                color="warning" 
+                type="button" 
+                disabled={isLoading || isImagekitLoading}
+                onClick={handleCancel}
+              >Cancel</Button>}
         </Box>
-        </Paper>
+      </Paper>
     </Grid>
   )
 }
