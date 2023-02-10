@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react'
-import { Divider, Paper, Typography, Grid,  Button, Box, List, ListItem, ListItemText, IconButton, Tooltip } from '@mui/material'
-import useProfileActions from '../../hooks/useProfileActions';
+import { useState, useEffect } from 'react'
+import { Divider, Paper, Typography, Grid,  Button, Box, List, ListItem, ListItemText, IconButton, Tooltip, Alert } from '@mui/material'
+import useAuthRedux from '../../hooks/useAuthRedux';
 import useSettingsActions from '../../hooks/useSettingsActions';
 import MyTextField from '../../components/MyTextField';
 import LoadingSpinner from "../../components/LoadingSpinner"
@@ -20,37 +20,41 @@ const validationSchema = Yup.object().shape({
 })
 
 
-const UserSettingsForm = ({ initialData}) => {
-  const { getProfileById, isLoading: isProfileLoading, error: profileError } = useProfileActions();
+const UserSettingsForm = ({ initialData, setInitialData }) => {
   const { isLoading, error, success, updateSettings } = useSettingsActions();
-
-  const [ initialValues, setInitialValues ] = useState(initialData)
-  const [ links, setLinks ] = useState(initialData.UserBio && initialData.UserBio.links ? JSON.parse(initialData.UserBio.links) : [])
+  const { updateUserData } = useAuthRedux();
+  const [ initialValues, setInitialValues ] = useState(null)
+  const [ links, setLinks ] = useState(initialData.links)
   const [ showDate, setShowDate ] = useState(false);
 
-
+  useEffect(() => {
+    setInitialValues(initialData)
+  }, [])
   const handleSubmit = async (values) => {
     values.links = links;
-    if(!compareObject(initialValues, values)) {
+    console.log(initialValues, initialData, values)
+    if(!compareObject(initialData, values)) {
+      console.log("ASD")
+      const { firstName, lastName, birthday, body, links } = values;
+      const result = { 
+        UserData: { firstName, lastName, birthday }, 
+        UserBio: { body, links : JSON.stringify(links)}
+      }
 
-      // const { firstName, lastName, birthday, body, links } = values;
-      // const result = { 
-      //   UserData: {firstName, lastName, birthday, image}, 
-      //   UserBio: { body, links : JSON.stringify(links)}
-      // }
-      const response = await updateSettings(values)
-
-      // //update redux
-      // console.log(response)
-    } else {
-      console.log("none")
+      const response = await updateSettings(result)
+      console.log(response)
+      updateUserData(response.UserData) //update redux
+      setInitialData(values)  //set new values to initialValues
     }
   }
-
 
   return (
     <Grid item xs={12} md={8} py={.75}>
       <Paper sx={{py: 2, px: {xs: 2, md:8}, width: "100%", mx: "auto" }} elevation={2}>
+        {isLoading && <LoadingSpinner isModal={true}  message="Updating Settings..."/>}
+        {error && <Alert severity='error'>error</Alert>}
+        {success && <Alert severity='success'>{success}</Alert>}
+        {initialValues &&
         <Formik  
             initialValues={initialValues}
             onSubmit={handleSubmit} 
@@ -130,10 +134,10 @@ const UserSettingsForm = ({ initialData}) => {
             </Grid>
             <LinksForm links={links} setLinks={setLinks}/>
             <Box sx={{px: 5, mt:5}}>
-              <Button sx={{width: "100%"}} variant="contained" size="large" color="primary" type="submit">Save Changes</Button>
+              <Button sx={{width: "100%"}} variant="contained" size="large" color="primary" type="submit" disabled={isLoading}>Save Changes</Button>
             </Box>
           </Form>
-        </Formik>
+        </Formik>}
       </Paper>
   </Grid>  
 )

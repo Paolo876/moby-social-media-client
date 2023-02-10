@@ -2,9 +2,7 @@ import { useEffect, useState } from 'react'
 import AuthorizedPageContainer from '../../components/AuthorizedPageContainer'
 import { Container, Grid, Alert } from '@mui/material'
 import useProfileActions from '../../hooks/useProfileActions';
-import useSettingsActions from '../../hooks/useSettingsActions';
 import LoadingSpinner from "../../components/LoadingSpinner"
-import compareObject from '../../utils/compareObjectValues';
 import UpdateProfilePictureForm from './UpdateProfilePictureForm';
 import UserSettingsForm from './UserSettingsForm';
 
@@ -37,7 +35,7 @@ const Settings = () => {
         <Grid container direction="row" alignItems="flex-start" sx={{justifyContent: {xs: "center"}, height: "75vh"}}>
           {initialData && <>
             <UpdateProfilePictureForm imageData={imageData}/>
-            <UserSettingsForm initialData={initialData}/>
+            <UserSettingsForm initialData={initialData} setInitialData={setInitialData}/>
             {/* <Grid item xs={12} md={8} py={.75}>
               <Paper sx={{py: 2, px: {xs: 2, md:8}, width: "100%", mx: "auto" }} elevation={2}>
                 <Formik  

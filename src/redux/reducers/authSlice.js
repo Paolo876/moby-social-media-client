@@ -7,7 +7,8 @@ const authSlice = createSlice({
     initialState: authInitialState,
     reducers: {
         updateUserData(state, { payload }){
-            state.user.UserData = payload;
+            const updatedUserData = state.user.UserData
+            state.user.UserData = {...updatedUserData, payload};
         },
         updateUserDataImage(state, { payload }){
             state.user.UserData.image = payload;

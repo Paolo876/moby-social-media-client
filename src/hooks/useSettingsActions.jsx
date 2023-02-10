@@ -19,11 +19,10 @@ const useSettingsActions = () => {
     setIsLoading(true)
     setError(null)
     try {
-      console.log(data)
-        // const res = await axios.put(`${process.env.REACT_APP_DOMAIN_URL}/api/auth/update-settings`, data, { headers: { 'Content-Type': 'application/json' }, withCredentials: true });
-        // setIsLoading(false)
-        // setSuccess(true)
-        // return res.data
+        const res = await axios.put(`${process.env.REACT_APP_DOMAIN_URL}/api/auth/update-settings`, data, { headers: { 'Content-Type': 'application/json' }, withCredentials: true });
+        setIsLoading(false)
+        setSuccess("User profile updated!")
+        return res.data
     } catch(err) {
         setIsLoading(false)
         setError(err.message)

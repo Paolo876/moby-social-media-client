@@ -9,6 +9,7 @@ export default function useAuthRedux() {
       return {
         ...authRedux,
         updateUserDataImage: (data) => dispatch(authActions.updateUserDataImage(data)),
+        updateUserData: (data) => dispatch(authActions.updateUserData(data)),
         login: data => dispatch(login(data)),
         signup: data => dispatch(signup(data)),
         profileSetup: data => dispatch(profileSetup(data)),
