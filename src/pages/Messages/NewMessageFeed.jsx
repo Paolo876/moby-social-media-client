@@ -6,7 +6,7 @@ import MaterialRoot from "../../components/MaterialRoot"
 import Image from '../../components/Image';
 import defaultAvatar from "../../assets/default-profile.png"
 import axios from 'axios';
-import { Paper, Divider, Box, Alert, IconButton, Typography } from '@mui/material';
+import { Paper, Divider, Box, Alert, IconButton, Typography, Tooltip } from '@mui/material';
 
 
 const NewMessageFeed = () => {
@@ -73,16 +73,18 @@ const NewMessageFeed = () => {
       <Box sx={{width: "100%", overflowY: "auto", display: "flex", flexDirection: "column", flex: 1, alignItems: "center"}}>
         {error && <Alert severity='error'>{error}</Alert>}
         {user &&  <>
-          <IconButton color="primary" sx={{mt: 3}}>
-            {image ? 
-                <Image 
-                    src={image.url} 
-                    transformation={[{ height: 100, width: 100 }]} 
-                    style={{borderRadius: "50%"}}
-                    alt="profile-avatar"
-                /> : <img src={defaultAvatar} style={{height: "100px", width: "100px"}} alt="profile-avatar"/>
-                }
-          </IconButton>
+          <Tooltip title="View Profile" arrow>
+            <IconButton color="primary" sx={{mt: 3}} onClick={() => navigate(`/profile/${userId}`)}>
+              {image ? 
+                  <Image 
+                      src={image.url} 
+                      transformation={[{ height: 100, width: 100 }]} 
+                      style={{borderRadius: "50%"}}
+                      alt="profile-avatar"
+                  /> : <img src={defaultAvatar} style={{height: "100px", width: "100px"}} alt="profile-avatar"/>
+                  }
+            </IconButton>
+          </Tooltip>
           <Typography variant="body2">{user.username}</Typography>
           <Typography variant="body1" mb={3}>{user.UserDatum.firstName} {user.UserDatum.lastName}</Typography>
           <MaterialRoot><Divider/></MaterialRoot>

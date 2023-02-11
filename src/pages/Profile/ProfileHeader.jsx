@@ -40,7 +40,7 @@ const ProfileHeader = ({id, username, createdAt, userData, userBio, isOwnProfile
             {/* links to be inserted here */}
           </Grid>
           <Grid item xs={12} align="center" mt={2}>
-              <ProfileHeaderActions/>
+              <ProfileHeaderActions user={{id, username, UserDatum: userData}}/>
           </Grid>
         </Grid>
       </Paper>

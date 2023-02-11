@@ -20,7 +20,6 @@ const Profile = () => {
     getProfileById(UserId ? UserId : id ).then(res => setUser(res))
   }, [UserId])
 
-
   return (
     <AuthorizedPageContainer>
         {isLoading && <LoadingSpinner/>}
