@@ -3,9 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import useAuthRedux from '../../hooks/useAuthRedux';
 import useChatRedux from '../../hooks/useChatRedux';
 import useMessagesActions from '../../hooks/useMessagesActions';
-import { Typography, Stack, Tooltip, Button, Box, Modal, TextField, List, ListItemButton, ListItem, Fade } from '@mui/material';
+import { Typography, Stack, Tooltip, Button, Box, Modal, TextField, List, ListItemButton, ListItem, Fade, Alert } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
-import axios from 'axios';
 import LoadingSpinner from "../../components/LoadingSpinner"
 import defaultAvatar from "../../assets/default-profile.png"
 import Image from '../../components/Image';
@@ -91,6 +90,7 @@ const SearchUserForm = () => {
 
             <Box sx={style}>
               <Typography variant="h6" align="left" mb={2}>Send a New Message</Typography>
+              {error && <Alert severity='error'>{error}</Alert>}
               <TextField 
                 id="standard-basic" 
                 label="Search user" 
