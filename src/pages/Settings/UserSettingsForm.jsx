@@ -32,9 +32,7 @@ const UserSettingsForm = ({ initialData, setInitialData }) => {
   }, [])
   const handleSubmit = async (values) => {
     values.links = links;
-    console.log(initialValues, initialData, values)
     if(!compareObject(initialData, values)) {
-      console.log("ASD")
       const { firstName, lastName, birthday, body, links } = values;
       const result = { 
         UserData: { firstName, lastName, birthday }, 
@@ -42,7 +40,6 @@ const UserSettingsForm = ({ initialData, setInitialData }) => {
       }
 
       const response = await updateSettings(result)
-      console.log(response)
       updateUserData(response.UserData) //update redux
       setInitialData(values)  //set new values to initialValues
     }
