@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import useAuthRedux from '../../hooks/useAuthRedux';
 import useChatRedux from '../../hooks/useChatRedux';
+import useMessagesActions from '../../hooks/useMessagesActions';
 import { Typography, Stack, Tooltip, Button, Box, Modal, TextField, List, ListItemButton, ListItem, Fade } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import axios from 'axios';
@@ -24,30 +25,24 @@ const style = {
 
 
 const SearchUserForm = () => {
+  const navigate = useNavigate();
   const { user } = useAuthRedux();
   const { setNewChatUser } = useChatRedux();
-  const navigate = useNavigate();
+  const { findChat, isLoading, error, searchUser } = useMessagesActions();
   const [ showModal, setShowModal ] = useState(false);
   const [ input, setInput ] = useState("")
   const [ inputResponse, setInputResponse ] = useState("");
   const [ users, setUsers ] = useState(null);
-  const [ isLoading, setIsLoading ] = useState(false)
 
   useEffect(() => {
     let timeout;
     if(input.trim().length === 0) {
       setUsers(null)
-      setIsLoading(false)
     };
     if(input.trim().length !== 0 && inputResponse.toLowerCase() !== input.toLowerCase()){
-      setIsLoading(true)
       timeout = setTimeout(() => {
         setInputResponse(input)
-        axios.get(`${process.env.REACT_APP_DOMAIN_URL}/api/auth/search/${input}`, { headers: { 'Content-Type': 'application/json' }, withCredentials: true })
-        .then(res => {
-          setUsers(res.data)
-          setIsLoading(false)
-        })
+        searchUser(input).then( data => setUsers(data))
       }, 500);
     
     }
@@ -59,23 +54,22 @@ const SearchUserForm = () => {
     setInput("")
     setInputResponse("")
     setUsers(null)
-    setIsLoading(false)
   }
 
-  const findChat = (id) => {
-    //find chat id, redirect user to link
-    axios.get(`${process.env.REACT_APP_DOMAIN_URL}/api/chat/search/${id}`, { headers: { 'Content-Type': 'application/json' }, withCredentials: true })
-    .then( ({ data }) => {
-      if(data.ChatRoomId){
-        navigate(`/messages/${data.ChatRoomId}`)
+
+  const handleUserItemClick = async (id) => {
+    const result = await findChat(id);
+      if(result.ChatRoomId){
+        navigate(`/messages/${result.ChatRoomId}`)
       } else {
         const user = users.find(item => item.id === id);
         setNewChatUser(user)
         navigate(`/messages/new/${id}`)
       }
       handleCloseModal()
-    })
   }
+
+  
   return (
     <Stack flexDirection="row" alignItems="center" justifyContent="center" mx={2} my={2} >
         <Box backgroundColor="rgba(0,0,0,0.1)" borderRadius={4}  sx={{flex:1, height: "100%", py:.25, mx: .5}} >
@@ -99,7 +93,7 @@ const SearchUserForm = () => {
               <Typography variant="h6" align="left" mb={2}>Send a New Message</Typography>
               <TextField 
                 id="standard-basic" 
-                label="Enter Receipient's Name" 
+                label="Search user" 
                 variant="standard" 
                 fullWidth 
                 sx={{mb:2}}
@@ -112,7 +106,7 @@ const SearchUserForm = () => {
                   {isLoading && <LoadingSpinner style={{minHeight: "0em", backgroundColor: "initial", transform: "scale(.5)", opacity: .75, position: "absolute", left: "35%", top: "-100%"}}/>}
                 </ListItem>
                 {users && users.map(item => 
-                  <ListItemButton sx={{ }} key={item.id} disabled={isLoading} onClick={() => findChat(item.id)}>
+                  <ListItemButton sx={{ }} key={item.id} disabled={isLoading} onClick={() => handleUserItemClick(item.id)}>
                     {item.UserDatum.image ? 
                       <Image 
                         src={JSON.parse(item.UserDatum.image).url} 

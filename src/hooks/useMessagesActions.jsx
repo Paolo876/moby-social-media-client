@@ -60,7 +60,40 @@ const useMessagesActions = () => {
   }
 
 
-  return { isLoading, error, setError, getChatRooms, getMessagesById, sendMessage }
+ /*  @desc       find chat id, redirect user to link(chatRoomId)
+  *  @access     Private
+  *  @return     {ChatRoomId}
+  */
+ const findChat = async (id) => {
+  setIsLoading(true)
+  try {
+      const res = await axios.get(`${process.env.REACT_APP_DOMAIN_URL}/api/chat/search/${id}`, { headers: { 'Content-Type': 'application/json' }, withCredentials: true })
+      setIsLoading(false)
+      return res.data
+  } catch(err) {
+      setIsLoading(false)
+      setError(err.message)
+  }
+}
+
+
+ /*  @desc       search users
+  *  @access     Private
+  *  @return     <Array>
+  */
+ const searchUser = async (input) => {
+  setIsLoading(true)
+  try {
+      const res = await axios.get(`${process.env.REACT_APP_DOMAIN_URL}/api/auth/search/${input}`, { headers: { 'Content-Type': 'application/json' }, withCredentials: true })
+      setIsLoading(false)
+      return res.data
+  } catch(err) {
+      setIsLoading(false)
+      setError(err.message)
+  }
+}
+
+  return { isLoading, error, setError, getChatRooms, getMessagesById, sendMessage, findChat, searchUser }
 }
 
 export default useMessagesActions
