@@ -22,7 +22,7 @@ import axios from "axios";
   */
  export const sendRequest = createAsyncThunk( 'friends/sendRequest', async ( payload, { rejectWithValue }) => {
     try {
-        const res = await axios.get(`${process.env.REACT_APP_DOMAIN_URL}/api/send-request/${payload}`, { headers: { 'Content-Type': 'application/json' }, withCredentials: true });
+        const res = await axios.get(`${process.env.REACT_APP_DOMAIN_URL}/api/friends/send-request/${payload}`, { headers: { 'Content-Type': 'application/json' }, withCredentials: true });
         return res.data;
     } catch (err){
         return rejectWithValue(err.response.data)

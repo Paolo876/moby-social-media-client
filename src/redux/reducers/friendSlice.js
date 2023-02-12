@@ -32,10 +32,15 @@ const friendSlice = createSlice({
             state.error = null;
         })
         .addCase(sendRequest.fulfilled, ( state, { payload }) => {
-            // const { Friends, Requesters, Requestees } = payload;
-            // state.friends = Friends;
-            // state.friendRequests = Requesters;
-            // state.sentRequests = Requestees;
+            const { isRequested } = payload;
+            const updatedSentRequests = state.sentRequests
+            if(isRequested) {
+                //add to sentRequests
+                state.sentRequests = [payload.User, ...updatedSentRequests]
+            } else {
+                //remove from sentRequests
+                state.sentRequests = updatedSentRequests.filter(item => item.id !== parseInt(payload.FriendId))
+            }
             state.error = null;
             state.isLoading = false;
         })
