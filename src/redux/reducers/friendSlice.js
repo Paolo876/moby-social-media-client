@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { friendsInitialState } from "../initialState";
-import { getFriends } from "./friendReducers"
+import { getFriends, sendRequest } from "./friendReducers"
 
 const friendSlice = createSlice({
     name: "friends",
@@ -9,7 +9,7 @@ const friendSlice = createSlice({
     }, 
     extraReducers: (builder) => {
         builder
-        // getChatRooms
+        // getFriends
         .addCase(getFriends.pending, ( state ) => {
             state.isLoading = true;
             state.error = null;
@@ -23,6 +23,23 @@ const friendSlice = createSlice({
             state.isLoading = false;
         })
         .addCase(getFriends.rejected, ( state , { payload }) => {
+            state.isLoading = false;
+            state.error = payload.message;
+        })
+        // sendRequest
+        .addCase(sendRequest.pending, ( state ) => {
+            state.isLoading = true;
+            state.error = null;
+        })
+        .addCase(sendRequest.fulfilled, ( state, { payload }) => {
+            // const { Friends, Requesters, Requestees } = payload;
+            // state.friends = Friends;
+            // state.friendRequests = Requesters;
+            // state.sentRequests = Requestees;
+            state.error = null;
+            state.isLoading = false;
+        })
+        .addCase(sendRequest.rejected, ( state , { payload }) => {
             state.isLoading = false;
             state.error = payload.message;
         })
