@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { Routes, Route, Navigate } from "react-router-dom";
 import useAuthRedux from "./hooks/useAuthRedux";
+import useFriendRedux from './hooks/useFriendRedux';
 //components
 import Navbar from './components/Navbar';
 //pages
@@ -17,10 +18,16 @@ import Settings from './pages/Settings/Settings';
 
 function App() {
   const { user, isAuthReady, authorizeToken } = useAuthRedux();
-
+  const { getFriends } = useFriendRedux();
   useEffect(() => {
     authorizeToken()
   }, [])
+
+  useEffect(() => {
+    if(isAuthReady && user){
+      getFriends();
+    }
+  }, [user])
 
   if(!isAuthReady) return <LoadingSpinner message="Loading Data..."/>
   if(isAuthReady) return (
