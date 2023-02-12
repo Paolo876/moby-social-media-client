@@ -30,3 +30,15 @@ export const chatInitialState = {
     error: null,
 };
 
+
+/**
+ * friendsInitialState
+ */
+export const friendsInitialState = {
+    friends: null,
+    friendRequests: null,
+    sentRequests: null,
+    isLoading: false,
+    error: null,
+};
+

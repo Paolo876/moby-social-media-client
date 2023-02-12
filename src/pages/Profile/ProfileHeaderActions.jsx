@@ -17,6 +17,11 @@ const ProfileHeaderActions = ({ user}) => {
   const isOwnProfile = !UserId || parseInt(UserId) === id;
 
 
+  const handleSendRequestClick = () => {
+    
+  }
+
+  
   const handleMessageClick = async () => {
     const result = await findChat(UserId);
     if(result.ChatRoomId){
@@ -27,14 +32,14 @@ const ProfileHeaderActions = ({ user}) => {
     }
   }
 
-  
+
   return (
     <>
       {isOwnProfile ? 
         <Button variant="contained" color="secondary" size='medium' sx={{mr: .5}} onClick={() => navigate("/settings")}><SettingsIcon fontSize="inherit" sx={{mr: 1}}/> Edit Profile</Button>
       :
         <Box>
-          <Button variant="contained" color="primary" size='medium' sx={{mr: .5}}><PersonAddIcon fontSize="inherit" sx={{mr: 1}}/> Send Friend Request</Button>
+          <Button variant="contained" color="primary" size='medium' sx={{mr: .5}} onClick={() => handleSendRequestClick()}><PersonAddIcon fontSize="inherit" sx={{mr: 1}}/> Send Friend Request</Button>
           <Button variant="outlined" color="secondary" size='medium'  sx={{ml: .5}} onClick={() => handleMessageClick()}><MessageIcon fontSize="inherit" sx={{mr: 1}}/> Send a Message</Button>
         </Box>}
     </>
