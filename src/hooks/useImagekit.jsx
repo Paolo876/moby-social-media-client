@@ -18,7 +18,7 @@ const useImagekit = () => {
         return res.data
     } catch(err) {
         setIsLoading(false)
-        setError(err.message)
+        setError((err.response && err.response.data) ? err.response.data.message : err.message)
     }
   }
   
@@ -49,7 +49,7 @@ const useImagekit = () => {
         if(err.response.status === 400){
             setError("An Error occurred, please refresh the page and try again.")
         } else {
-            setError(err.message)
+          setError((err.response && err.response.data) ? err.response.data.message : err.message)
         }
     }
   }

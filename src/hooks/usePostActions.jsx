@@ -23,7 +23,7 @@ const usePostActions = () => {
         return res.data
     } catch(err) {
         setIsLoading(false)
-        setError(err.message)
+        setError((err.response && err.response.data) ? err.response.data.message : err.message)
     }
   }
   
@@ -40,7 +40,7 @@ const usePostActions = () => {
         return res.data
     } catch(err) {
         setIsLoading(false)
-        setError(err.message)
+        setError((err.response && err.response.data) ? err.response.data.message : err.message)
     }
   }
   
@@ -57,7 +57,7 @@ const usePostActions = () => {
         return res.data
     } catch(err) {
         setIsNewCommentLoading(false)
-        setNewCommentError(err.message)
+        setNewCommentError((err.response && err.response.data) ? err.response.data.message : err.message)
     }
   }
 
@@ -74,7 +74,7 @@ const usePostActions = () => {
         return res.data
     } catch(err) {
         setIsLoading(false)
-        setError(err.message)
+        setError((err.response && err.response.data) ? err.response.data.message : err.message)
     }
   }
 
@@ -91,7 +91,7 @@ const usePostActions = () => {
         return res.data
     } catch(err) {
         setIsLoading(false)
-        setError(err.message)
+        setError((err.response && err.response.data) ? err.response.data.message : err.message)
     }
   }
 

@@ -21,7 +21,7 @@ const useMessagesActions = () => {
         return res.data
     } catch(err) {
         setIsLoading(false)
-        setError(err.message)
+        setError((err.response && err.response.data) ? err.response.data.message : err.message)
     }
   }
 
@@ -38,7 +38,7 @@ const useMessagesActions = () => {
         return res.data
     } catch(err) {
         setIsLoading(false)
-        setError(err.message)
+        setError((err.response && err.response.data) ? err.response.data.message : err.message)
     }
   }
 
@@ -55,7 +55,7 @@ const useMessagesActions = () => {
         return res.data
     } catch(err) {
         setIsLoading(false)
-        setError(err.message)
+        setError((err.response && err.response.data) ? err.response.data.message : err.message)
     }
   }
 
@@ -72,7 +72,7 @@ const useMessagesActions = () => {
       return res.data
   } catch(err) {
       setIsLoading(false)
-      setError(err.message)
+      setError((err.response && err.response.data) ? err.response.data.message : err.message)
   }
 }
 
@@ -89,7 +89,7 @@ const useMessagesActions = () => {
       return res.data
   } catch(err) {
       setIsLoading(false)
-      setError(err.message)
+      setError((err.response && err.response.data) ? err.response.data.message : err.message)
   }
 }
 

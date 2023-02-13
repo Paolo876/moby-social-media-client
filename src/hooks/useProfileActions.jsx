@@ -22,8 +22,8 @@ const useProfileActions = () => {
         setIsLoading(false)
         return res.data
     } catch(err) {
-        setIsLoading(false)
-        setError(err.message)
+      setIsLoading(false)
+      setError((err.response && err.response.data) ? err.response.data.message : err.message)
     }
   }
 
