@@ -10,13 +10,14 @@ import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 
 
-export default function SplitButton({ options, selectedIndex=0, setSelectedIndex}) {
+export default function SplitButton({ options, selectedIndex=0, setSelectedIndex, variant="outlined", color="secondary", placement='bottom-start', disabled=false, handleSubmit=(() => {})}) {
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
 
 
   const handleMenuItemClick = (event, index) => {
     setSelectedIndex(index);
+    handleSubmit(index)
     setOpen(false);
   };
 
@@ -33,8 +34,8 @@ export default function SplitButton({ options, selectedIndex=0, setSelectedIndex
   };
   return (
     <>
-      <ButtonGroup variant="outlined" ref={anchorRef} aria-label="split button" color="secondary">
-        <Button onClick={handleToggle}>{options[selectedIndex]}</Button>
+      <ButtonGroup variant={variant} ref={anchorRef} aria-label="split button" color={color} disabled={disabled}>
+        <Button onClick={handleToggle} disabled={disabled}>{options[selectedIndex]}</Button>
         <Button
           size="small"
           aria-controls={open ? 'split-button-menu' : undefined}
@@ -42,6 +43,7 @@ export default function SplitButton({ options, selectedIndex=0, setSelectedIndex
           aria-label="select merge strategy"
           aria-haspopup="menu"
           onClick={handleToggle}
+          disabled={disabled}
         >
           <ArrowDropDownIcon />
         </Button>
@@ -55,7 +57,7 @@ export default function SplitButton({ options, selectedIndex=0, setSelectedIndex
         role={undefined}
         transition
         disablePortal
-        placement='top-start'
+        placement={placement}
       >
         {({ TransitionProps, placement }) => (
           <Grow
@@ -74,7 +76,7 @@ export default function SplitButton({ options, selectedIndex=0, setSelectedIndex
                       selected={index === selectedIndex}
                       onClick={(event) => handleMenuItemClick(event, index)}
                     >
-                      {option}{option.props.value}
+                      {option}{option.props && option.props.value}
                     </MenuItem>
                   ))}
                 </MenuList>
