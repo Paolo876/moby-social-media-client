@@ -9,7 +9,6 @@ import SplitButton from "../../components/SplitButton"
 import { Button, Box, Alert, Typography } from '@mui/material';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import PersonAddDisabledIcon from '@mui/icons-material/PersonAddDisabled';
-import PeopleIcon from '@mui/icons-material/People';
 import MessageIcon from '@mui/icons-material/Message';
 import SettingsIcon from '@mui/icons-material/Settings';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
@@ -46,6 +45,7 @@ const ProfileHeaderActions = ({ user }) => {
   return (
     <>
       {error && <Alert severity='error'>{error}</Alert>}
+      {messagesError && <Alert severity='error'>{messagesError}</Alert>}
       {isOwnProfile ? 
         <Button variant="contained" color="secondary" size='medium' sx={{mr: .5}} onClick={() => navigate("/settings")}><SettingsIcon fontSize="inherit" sx={{mr: 1}}/> Edit Profile</Button>
       :
