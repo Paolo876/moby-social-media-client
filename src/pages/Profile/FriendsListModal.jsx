@@ -1,23 +1,22 @@
 import { useNavigate } from "react-router-dom";
 import Image from "../../components/Image";
 import defaultAvatar from "../../assets/default-profile.png"
-import { Typography, Modal, Divider, List, ListItemButton, Stack, Box } from "@mui/material"
+import { Typography, Modal, Divider, List, ListItemButton, Stack, Box, Alert } from "@mui/material"
 
 const style = {
   position: 'absolute',
   top: '40%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
+  minWidth: 375,
   bgcolor: 'background.paper',
   border: '0px solid #000',
   boxShadow: 24,
   p: 4,
 };
 
-export default function FriendsListModal({ open, handleClose, friendsList }) {
+export default function FriendsListModal({ open, handleClose, friendsList, error }) {
   const navigate = useNavigate();
-  console.log(friendsList)
   return (
     <Modal
       open={open}
@@ -26,6 +25,7 @@ export default function FriendsListModal({ open, handleClose, friendsList }) {
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
+        {error && <Alert severity="error">{error}</Alert>}
         <Typography variant="h6" fontSize={17} mx={1} p={1} >Friends: </Typography>
         <Divider/>
         <List>

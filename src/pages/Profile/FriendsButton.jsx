@@ -7,6 +7,7 @@ import PeopleIcon from '@mui/icons-material/People';
 import GroupsIcon from '@mui/icons-material/Groups';
 import PersonOffIcon from '@mui/icons-material/PersonOff';
 import FriendsListModal from './FriendsListModal';
+import UnfriendPromptModal from './UnfriendPromptModal';
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -50,6 +51,7 @@ export default function FriendsButton({ id }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const { isLoading, error, getFriendsList } = useProfileActions();
   const [ showFriendsListModal, setShowFriendsListModal ] = useState(false);
+  const [ showUnfriendModal, setShowUnfriendModal ] = useState(false);
   const [ friendsList, setFriendsList ] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -58,6 +60,7 @@ export default function FriendsButton({ id }) {
   const handleClose = (action) => {
     setAnchorEl(null);
     if(action === "friends") setShowFriendsListModal(true)
+    if(action === "unfriend") setShowUnfriendModal(true)
   };
 
   useEffect(() => {
@@ -80,7 +83,8 @@ export default function FriendsButton({ id }) {
       >
         Friends
       </Button>
-      <FriendsListModal open={showFriendsListModal} handleClose={() => setShowFriendsListModal(false)} friendsList={friendsList}/>
+      <FriendsListModal open={showFriendsListModal} handleClose={() => setShowFriendsListModal(false)} friendsList={friendsList} error={error}/>
+      <UnfriendPromptModal open={showUnfriendModal} handleClose={() => setShowUnfriendModal(false)}/>
       <StyledMenu
         id="demo-customized-menu"
         MenuListProps={{
