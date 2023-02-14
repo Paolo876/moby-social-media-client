@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { friendsInitialState } from "../initialState";
-import { getFriends, sendRequest, confirmRequest } from "./friendReducers"
+import { getFriends, sendRequest, confirmRequest, unfriend } from "./friendReducers"
 
 const friendSlice = createSlice({
     name: "friends",
@@ -82,6 +82,25 @@ const friendSlice = createSlice({
             state.isLoading = false;
         })
         .addCase(confirmRequest.rejected, ( state , { payload }) => {
+            state.isLoading = false;
+            state.error = payload.message;
+        })
+        // unfriend
+        .addCase(unfriend.pending, ( state ) => {
+            state.isLoading = true;
+            state.error = null;
+        })
+        .addCase(unfriend.fulfilled, ( state, { payload }) => {
+            const { isFriends, FriendId } = payload;
+            
+            if(!isFriends){
+                const updatedFriends = state.friends;
+                state.friends = updatedFriends.filter(item => item.id !== parseInt(FriendId))
+            }
+            state.error = null;
+            state.isLoading = false;
+        })
+        .addCase(unfriend.rejected, ( state , { payload }) => {
             state.isLoading = false;
             state.error = payload.message;
         })

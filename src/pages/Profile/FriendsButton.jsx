@@ -84,7 +84,7 @@ export default function FriendsButton({ id }) {
         Friends
       </Button>
       <FriendsListModal open={showFriendsListModal} handleClose={() => setShowFriendsListModal(false)} friendsList={friendsList} error={error}/>
-      <UnfriendPromptModal open={showUnfriendModal} handleClose={() => setShowUnfriendModal(false)}/>
+      <UnfriendPromptModal open={showUnfriendModal} handleClose={() => setShowUnfriendModal(false)} id={id}/>
       <StyledMenu
         id="demo-customized-menu"
         MenuListProps={{
