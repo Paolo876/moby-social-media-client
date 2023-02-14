@@ -6,6 +6,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import PeopleIcon from '@mui/icons-material/People';
 import GroupsIcon from '@mui/icons-material/Groups';
 import PersonOffIcon from '@mui/icons-material/PersonOff';
+import FriendsListModal from './FriendsListModal';
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -47,13 +48,14 @@ const StyledMenu = styled((props) => (
 
 export default function FriendsButton({ }) {
   const [anchorEl, setAnchorEl] = useState(null);
+  const [ showFriendsListModal, setShowFriendsListModal ] = useState(false);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = (action) => {
     setAnchorEl(null);
-    console.log(action)
+    if(action === "friends") setShowFriendsListModal(true)
   };
 
   return (
@@ -71,6 +73,7 @@ export default function FriendsButton({ }) {
       >
         Friends
       </Button>
+      <FriendsListModal open={showFriendsListModal} handleClose={() => setShowFriendsListModal(false)}/>
       <StyledMenu
         id="demo-customized-menu"
         MenuListProps={{
