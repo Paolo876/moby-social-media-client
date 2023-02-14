@@ -1,7 +1,7 @@
-import { useState, } from 'react';
+import { useState, useEffect } from 'react';
 import { styled, alpha } from '@mui/material/styles';
-import { Button, Menu, MenuItem, Divider, Modal } from '@mui/material';
-
+import useProfileActions from '../../hooks/useProfileActions';
+import { Button, Menu, MenuItem, Divider } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import PeopleIcon from '@mui/icons-material/People';
 import GroupsIcon from '@mui/icons-material/Groups';
@@ -46,9 +46,11 @@ const StyledMenu = styled((props) => (
   },
 }));
 
-export default function FriendsButton({ }) {
+export default function FriendsButton({ id }) {
   const [anchorEl, setAnchorEl] = useState(null);
+  const { isLoading, error, getFriendsList } = useProfileActions();
   const [ showFriendsListModal, setShowFriendsListModal ] = useState(false);
+  const [ friendsList, setFriendsList ] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -57,6 +59,10 @@ export default function FriendsButton({ }) {
     setAnchorEl(null);
     if(action === "friends") setShowFriendsListModal(true)
   };
+
+  useEffect(() => {
+    getFriendsList(id).then(data => setFriendsList(data.Friends))
+  }, [id])
 
   return (
     <>
@@ -70,10 +76,11 @@ export default function FriendsButton({ }) {
         onClick={handleClick}
         startIcon={<PeopleIcon/>}
         endIcon={<KeyboardArrowDownIcon />}
+        disabled={isLoading}
       >
         Friends
       </Button>
-      <FriendsListModal open={showFriendsListModal} handleClose={() => setShowFriendsListModal(false)}/>
+      <FriendsListModal open={showFriendsListModal} handleClose={() => setShowFriendsListModal(false)} friendsList={friendsList}/>
       <StyledMenu
         id="demo-customized-menu"
         MenuListProps={{

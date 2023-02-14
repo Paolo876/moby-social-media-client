@@ -50,7 +50,7 @@ const ProfileHeaderActions = ({ user }) => {
         <Button variant="contained" color="secondary" size='medium' sx={{mr: .5}} onClick={() => navigate("/settings")}><SettingsIcon fontSize="inherit" sx={{mr: 1}}/> Edit Profile</Button>
       :
         <Box>
-          {isFriends && <FriendsButton/>}
+          {isFriends && <FriendsButton id={UserId}/>}
           {!isFriends && !isUserSentRequest && (!isRequestSent ?
             <Button variant="contained" color="primary" size='medium' sx={{mr: .5}} onClick={() => handleSendRequestClick()} disabled={isLoading} startIcon={<PersonAddIcon/>}>
               Send Friend Request
