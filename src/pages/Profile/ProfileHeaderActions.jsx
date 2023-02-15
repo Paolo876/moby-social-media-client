@@ -47,21 +47,21 @@ const ProfileHeaderActions = ({ user }) => {
       {error && <Alert severity='error'>{error}</Alert>}
       {messagesError && <Alert severity='error'>{messagesError}</Alert>}
       {isOwnProfile ? 
-        <Button variant="contained" color="secondary" size='medium' sx={{mr: .5}} onClick={() => navigate("/settings")}><SettingsIcon fontSize="inherit" sx={{mr: 1}}/> Edit Profile</Button>
+        <Button variant="contained" color="secondary" size='medium' sx={{m: .5}} onClick={() => navigate("/settings")}><SettingsIcon fontSize="inherit" sx={{m: 1}}/> Edit Profile</Button>
       :
         <Box>
           {isFriends && <FriendsButton id={UserId}/>}
           {!isFriends && !isUserSentRequest && (!isRequestSent ?
-            <Button variant="contained" color="primary" size='medium' sx={{mr: .5}} onClick={() => handleSendRequestClick()} disabled={isLoading} startIcon={<PersonAddIcon/>}>
+            <Button variant="contained" color="primary" size='medium' sx={{m: .5}} onClick={() => handleSendRequestClick()} disabled={isLoading} startIcon={<PersonAddIcon/>}>
               Send Friend Request
             </Button>
-          : <Button variant="contained" color="warning" size='medium' sx={{mr: .5, opacity: .85}} onClick={() => handleSendRequestClick()} disabled={isLoading} startIcon={<PersonAddDisabledIcon/>}>
+          : <Button variant="contained" color="warning" size='medium' sx={{m: .5, opacity: .85}} onClick={() => handleSendRequestClick()} disabled={isLoading} startIcon={<PersonAddDisabledIcon/>}>
               Cancel Friend Request
             </Button>)
           }
           {!isFriends && !isRequestSent && isUserSentRequest && <ConfirmButtonGroup id={UserId}/>}
 
-          <Button variant="outlined" color="secondary" size='medium'  sx={{ml: .5}} onClick={() => handleMessageClick()} disabled={isMessagesLoading} startIcon={<MessageIcon/>}>
+          <Button variant="outlined" color="secondary" size='medium'  sx={{m: .5}} onClick={() => handleMessageClick()} disabled={isMessagesLoading} startIcon={<MessageIcon/>}>
              Send a Message
           </Button>
         </Box>}
@@ -79,11 +79,11 @@ const ConfirmButtonGroup = ({ id }) => {
 
   return <SplitButton 
     options={[
-      <Typography textTransform="uppercase" fontWeight={500} variant="h6" fontSize={13}><HowToRegIcon sx={{mx:.5, }} fontSize="inherit" color="success"/>Confirm Friend Request</Typography>, 
+      <Typography textTransform="uppercase" fontWeight={500} variant="h6" fontSize={13}><HowToRegIcon sx={{mx:.5, }} fontSize="inherit" color="inherit"/>Confirm Friend Request</Typography>, 
       <Typography textTransform="uppercase" fontWeight={500} variant="h6" fontSize={13}><PersonOffIcon sx={{mx:.5}} fontSize="inherit"  color="error"/>Decline Friend Request</Typography>
     ]} 
     variant="contained"
-    color="success"
+    color="info"
     placement="bottom-end"
     selectedIndex={selectedIndex}
     setSelectedIndex={setSelectedIndex}

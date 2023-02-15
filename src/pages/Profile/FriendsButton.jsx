@@ -75,7 +75,7 @@ export default function FriendsButton({ id }) {
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         variant="contained"
-        color="info"
+        color="success"
         onClick={handleClick}
         startIcon={<PeopleIcon/>}
         endIcon={<KeyboardArrowDownIcon />}
