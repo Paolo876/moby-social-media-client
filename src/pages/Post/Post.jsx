@@ -28,10 +28,10 @@ const Post = () => {
   return (
     <AuthorizedPageContainer>
         <Container>
-            {error && <Box xs={12} my={2}><Alert severity='error'>{error}</Alert></Box>}
-            <Grid container wrap="nowrap" spacing={2}>
+            {error && <Box my={2}><Alert severity='error'>{error}</Alert></Box>}
+            <Grid container>
                 {post && <>
-                    <Grid item xs={6.5} sx={{position: "relative"}} mr={1}>
+                    <Grid item xs={12} md={6} sx={{position: "relative"}}>
                         <PostPreview 
                             title={post.title} 
                             postText={post.postText} 
@@ -44,11 +44,12 @@ const Post = () => {
                             id={post.id}
                         />
                     </Grid>
-                    <Grid item xs={5.5}>
+                    <Grid item xs={12} md={6} pl={{xs:0, md: 2}}>
                         <PostComments
                             comments={post.Comments}
                             likes={post.Likes}
                             setPost={setPost}
+                            authorId={post.User.id}
                         />
                     </Grid>
                 </>}

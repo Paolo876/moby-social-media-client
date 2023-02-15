@@ -56,21 +56,17 @@ const PostActions = ({ setPost, likes, setShowNewCommentForm }) => {
         </>
         }
         <Stack flexDirection="row" alignItems="center" my={.5}>
-        <Tooltip title={isLiked ? "You liked this post." : "Like Post"} arrow leaveDelay={50}>
-            <IconButton sx={{my: .5, borderRadius: 5, width: "50%"}} onClick={handleLikeClick} disabled={isLoading}>
+          <IconButton sx={{my: .5, borderRadius: 5, width: "50%"}} onClick={handleLikeClick} disabled={isLoading}>
             {isLiked ? 
-                <FavoriteIcon fontSize="medium" sx={{color: "rgba(229, 85, 85, 1)"}}/> : 
-                <FavoriteBorderIcon fontSize="medium" sx={{color: "rgba(229, 85, 85, .85)"}}/>
+              <FavoriteIcon fontSize="medium" sx={{color: "rgba(229, 85, 85, 1)"}}/> : 
+              <FavoriteBorderIcon fontSize="medium" sx={{color: "rgba(229, 85, 85, .85)"}}/>
             }
             <Typography variant="body2" color="rgba(0, 0, 0, .6)" sx={{ml:1}}>{isLiked ? "You liked this post." : "Like Post"}</Typography>
-            </IconButton>
-        </Tooltip>
-        <Tooltip title="Write a comment" arrow leaveDelay={50}>
-            <IconButton sx={{my: .5, borderRadius: 5, width: "50%"}} onClick={() => setShowNewCommentForm(prevState => !prevState)}>
+          </IconButton>
+          <IconButton sx={{my: .5, borderRadius: 5, width: "50%"}} onClick={() => setShowNewCommentForm(prevState => !prevState)}>
             <PostAddIcon fontSize="medium" color="info" />
             <Typography variant="body2" color="rgba(0, 0, 0, .6)" sx={{ml:1}}>Write a comment</Typography>
-            </IconButton>
-        </Tooltip>
+          </IconButton>
         </Stack>
     </Paper>
   )

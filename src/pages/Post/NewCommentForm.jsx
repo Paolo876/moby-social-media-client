@@ -58,6 +58,7 @@ const NewCommentForm = ({ setPost, setShowNewCommentForm, setShowComments }) => 
                     fullWidth
                     disabled={isLoading}
                     size="small"
+                    inputProps={{ maxLength: 80 }}
                 />
             </form>
         </Stack>

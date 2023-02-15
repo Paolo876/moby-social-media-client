@@ -47,7 +47,7 @@ const ProfileHeaderActions = ({ user }) => {
       {error && <Alert severity='error'>{error}</Alert>}
       {messagesError && <Alert severity='error'>{messagesError}</Alert>}
       {isOwnProfile ? 
-        <Button variant="contained" color="secondary" size='medium' sx={{m: .5}} onClick={() => navigate("/settings")}><SettingsIcon fontSize="inherit" sx={{m: 1}}/> Edit Profile</Button>
+        <Button variant="contained" color="secondary" size='medium' sx={{m: .5}} onClick={() => navigate("/settings")} startIcon={<SettingsIcon/>}>Edit Profile</Button>
       :
         <Box>
           {isFriends && <FriendsButton id={UserId}/>}

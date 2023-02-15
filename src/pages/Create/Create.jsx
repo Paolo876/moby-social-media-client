@@ -29,7 +29,7 @@ const Create = () => {
       }, [])
 
     const validationSchema = Yup.object().shape({
-        title: Yup.string().min(2).max(20),
+        title: Yup.string().min(2).max(30),
         postText: Yup.string().min(30).max(2000),
     })
     const initialValues = {
