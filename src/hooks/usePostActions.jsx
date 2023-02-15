@@ -95,7 +95,24 @@ const usePostActions = () => {
     }
   }
 
-  return { isLoading, error, newComment, editComment, deleteComment, isNewCommentLoading, newCommentError, likePost, bookmarkPost }
+
+ /*  @desc       delete post
+  *  @access     Private
+  *  @return     <String> --comment id
+  */
+  const deletePost = async (id) => {
+    setIsLoading(true)
+    try {
+        const res = await axios.delete(`${process.env.REACT_APP_DOMAIN_URL}/api/posts/${id}`, { headers: { 'Content-Type': 'application/json' }, withCredentials: true });
+        setIsLoading(false)
+        return res.data
+    } catch(err) {
+        setIsLoading(false)
+        setError((err.response && err.response.data) ? err.response.data.message : err.message)
+    }
+  }
+
+  return { isLoading, error, newComment, editComment, deleteComment, isNewCommentLoading, newCommentError, likePost, bookmarkPost, deletePost }
 }
 
 export default usePostActions

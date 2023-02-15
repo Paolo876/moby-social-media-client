@@ -50,6 +50,7 @@ const Post = () => {
                             likes={post.Likes}
                             setPost={setPost}
                             authorId={post.User.id}
+                            postId={post.id}
                         />
                     </Grid>
                 </>}

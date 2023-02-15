@@ -1,11 +1,12 @@
 import { useState } from 'react'
+
 import { Box, Paper, Tooltip, Typography, Button, useTheme, Modal, Divider, Stack, Alert } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import usePostActions from '../../hooks/usePostActions';
 
 
-const UserPostActions = () => {
+const UserPostActions = ({postId}) => {
   const { palette } = useTheme();
   const [ showDeleteModal, setShowDeleteModal ] = useState(false);
   return (
@@ -19,17 +20,20 @@ const UserPostActions = () => {
           </Box>
         </Box>
       </Tooltip>
-      <DeletePromptModal open={showDeleteModal} handleClose={() => setShowDeleteModal(false)}/>
+      <DeletePromptModal open={showDeleteModal} handleClose={() => setShowDeleteModal(false)} postId={postId}/>
     </Paper>
   )
 }
 
-const DeletePromptModal = ({ open, handleClose }) => {
-  const { isLoading, error } = usePostActions();
+const DeletePromptModal = ({ open, handleClose, postId }) => {
+  const { isLoading, error, deletePost } = usePostActions();
 
   const handleClick = (isConfirmed) => {
     if(isConfirmed){
+      deletePost(postId).then(data => {
+        //data = postId -> check postredux if postid exist, then remove
 
+      })
     }
     handleClose()
   }
@@ -50,7 +54,7 @@ const DeletePromptModal = ({ open, handleClose }) => {
         <Typography variant="h6" fontSize={17} mx={1} p={1} align="center">Are you sure you want to delete this post?</Typography>
         <Divider/>
         <Stack flexDirection="row" alignItems="center" justifyContent="center" mt={2} gap={3}>
-          <Button variant="contained" color="error" onClick={() => handleClick(true)} disabled={isLoading}>Confirm</Button>
+          <Button variant="contained" color="error" onClick={() => handleClick(true)} disabled={isLoading}>Delete</Button>
           <Button variant="outlined" color="secondary" onClick={() => handleClick()} disabled={isLoading}>Cancel</Button>
         </Stack>
       </Box>

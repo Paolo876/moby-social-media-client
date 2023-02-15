@@ -10,7 +10,7 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import UserPostActions from './UserPostActions';
 import useAuthRedux from '../../hooks/useAuthRedux';
 
-const PostComments = ({ comments, likes, setPost, authorId }) => {
+const PostComments = ({ comments, likes, setPost, authorId, postId }) => {
   const { user } = useAuthRedux();
   const [ showNewCommentForm, setShowNewCommentForm ] = useState(false)
   const [ showComments, setShowComments ] = useState(false)
@@ -18,7 +18,7 @@ const PostComments = ({ comments, likes, setPost, authorId }) => {
 
   return (
     <Grid container my={2}>
-      {user.id === authorId && <Grid item xs={12} px={.5} my={1}><UserPostActions/></Grid>}
+      {user.id === authorId && <Grid item xs={12} px={.5} my={1}><UserPostActions postId={postId}/></Grid>}
       <Grid item xs={12} px={.5} my={1}><PostActions likes={likes} setPost={setPost} setShowNewCommentForm={setShowNewCommentForm}/></Grid>
       {showNewCommentForm && <Grid item xs={12} px={.5}><NewCommentForm setPost={setPost} setShowNewCommentForm={setShowNewCommentForm} setShowComments={setShowComments}/></Grid>}
       <Grid item xs={12} my={2}>
