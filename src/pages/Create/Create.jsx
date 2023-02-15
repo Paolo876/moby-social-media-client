@@ -11,7 +11,7 @@ import { Formik, Form } from "formik";
 import * as Yup from 'yup';
 import { Container, Typography, Paper, Button, CircularProgress, Grid, FormGroup, Checkbox, FormControlLabel, Alert } from '@mui/material';
 import defaultImage from "../../assets/image-icon.png"
-
+import LockIcon from '@mui/icons-material/Lock';
 
 const Create = () => {
     const { user } = useAuthRedux();
@@ -30,7 +30,7 @@ const Create = () => {
 
     const validationSchema = Yup.object().shape({
         title: Yup.string().min(2).max(30),
-        postText: Yup.string().min(30).max(2000),
+        postText: Yup.string().min(30).max(800),
     })
     const initialValues = {
         title: "",
@@ -80,6 +80,7 @@ const Create = () => {
                                     label="Title"
                                     variant="standard" 
                                     sx={{my:3, width: "100%"}}
+                                    inputProps={{ maxLength: 30 }}
                                 />
                                 <MyTextField 
                                     id="postText" 
@@ -90,7 +91,7 @@ const Create = () => {
                                     rows={12}
                                     multiline
                                     sx={{my:1, width: "100%"}}
-                                    // style={{whiteSpace: "pre"}}
+                                    inputProps={{ maxLength: 800 }}
                                 />
                                 <UploadImageForm
                                     setImage={setImage} 
@@ -105,7 +106,7 @@ const Create = () => {
                                 />
                                 <FormGroup>
                                     <Typography variant="body1" fontSize={17}>Post Privacy</Typography>
-                                    <Typography variant="subtitle2" fontWeight={400} pl={2} mt={.75} sx={{opacity: .7}}>
+                                    <Typography variant="subtitle2" fontWeight={400} pl={2} mt={.75} sx={{opacity: .7}} color="secondary">
                                         {isPublic ? 
                                             "Public: Any user can access, view, and write a comment on the post." : 
                                             "Private: Only the author's friends can access, view, and write a comment on the post."}
@@ -113,8 +114,8 @@ const Create = () => {
                                     <FormControlLabel 
                                         control={<Checkbox checked={isPublic} 
                                         onChange={() => setIsPublic(prevState => !prevState)} />} 
-                                        label="Set as Public" 
-                                        sx={{ml: 2, mt: 1}}   
+                                        label={<Typography varant="body1" fontWeight={400} sx={{opacity: isPublic ? 1 : .5}}>Set as Public {!isPublic && <small><LockIcon fontSize="inherit"/></small>}</Typography>}
+                                        sx={{ml: 2, mt: .5}}   
                                         />
 
                                 </FormGroup>
