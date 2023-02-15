@@ -6,6 +6,7 @@ import ProfileHeaderActions from './ProfileHeaderActions';
 import SocialLinksIconItem from '../../components/SocialLinksIconItem';
 
 const ProfileHeader = ({id, username, createdAt, userData, userBio, isOwnProfile }) => {
+
   let image;
   let links = [];
   if(userData) image = JSON.parse(userData.image);
@@ -41,7 +42,7 @@ const ProfileHeader = ({id, username, createdAt, userData, userBio, isOwnProfile
           <Grid item xs={12} align="center" my={1}>
             <Box>
               {links.map(item => <Tooltip title={item.title} arrow  key={item.url}>
-                <IconButton key={item.url} color="secondary" sx={{ mx:.25 }}>
+                <IconButton key={item.url} color="secondary" sx={{ mx:.25 }} target="_blank" href={item.url}>
                   <SocialLinksIconItem value={item.icon} fontSize="small"/>
                 </IconButton>
               </Tooltip>)}
