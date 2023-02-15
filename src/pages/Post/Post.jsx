@@ -31,7 +31,7 @@ const Post = () => {
             {error && <Box my={2}><Alert severity='error'>{error}</Alert></Box>}
             <Grid container>
                 {post && <>
-                    <Grid item xs={12} md={6} sx={{position: "relative"}}>
+                    <Grid item xs={12} md={6.75} sx={{position: "relative"}}>
                         <PostPreview 
                             title={post.title} 
                             postText={post.postText} 
@@ -44,7 +44,7 @@ const Post = () => {
                             id={post.id}
                         />
                     </Grid>
-                    <Grid item xs={12} md={6} pl={{xs:0, md: 2}}>
+                    <Grid item xs={12} md={5.25} pl={{xs:0, md: 2}}>
                         <PostComments
                             comments={post.Comments}
                             likes={post.Likes}
