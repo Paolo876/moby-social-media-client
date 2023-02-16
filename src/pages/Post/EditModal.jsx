@@ -19,11 +19,15 @@ const validationSchema = Yup.object().shape({
   postText: Yup.string().min(30).max(800),
 })
 
-const EditModal = ({ open, handleClose, post }) => {
+const EditModal = ({ open, handleClose, post, setPost }) => {
   const { user } = useAuthRedux();
   const { getAuthenticationEndpoint, uploadImage, isLoading: isImagekitLoading, error: imagekitError } = useImagekit();
   const { isLoading, error, editPost } = usePostActions();
 
+  const initialValues = {
+    title: post.title,
+    postText: post.postText,
+  }
   const [ image, setImage ] = useState(JSON.parse(post.image) ? JSON.parse(post.image).url : null);
   const [ isImageNew, setIsImageNew ] = useState(false)
 
@@ -31,22 +35,8 @@ const EditModal = ({ open, handleClose, post }) => {
   const [ isPublic, setIsPublic ] = useState(true);
   
   useEffect(() => {
-
     getAuthenticationEndpoint().then(res => setAuthenticationEndpoint(res))
   }, [])
-
-
-  const initialValues = {
-    title: post.title,
-    postText: post.postText,
-  }
-
-  const handleClick = (isConfirmed) => {
-    if(isConfirmed){
-
-    }
-    handleCancel();
-  }
 
   const handleCancel = () => {
     setImage(JSON.parse(post.image) ? JSON.parse(post.image).url : null)
@@ -63,6 +53,7 @@ const EditModal = ({ open, handleClose, post }) => {
   
   const handleSubmit = async (values) => {
     //upload to imagekit
+    let result;
     if(isImageNew && image) {
       const res = await uploadImage({
         file: image,
@@ -72,14 +63,16 @@ const EditModal = ({ open, handleClose, post }) => {
       })
       if(!imagekitError){
         const { fileId, name, url, thumbnailUrl } = res;
-        editPost({data:{ data: {...values, isPublic, image: JSON.stringify({ fileId, name, url, thumbnailUrl })}, isImageNew }, id: post.id })
+        result = await editPost({data:{ data: {...values, isPublic, image: JSON.stringify({ fileId, name, url, thumbnailUrl })}, isImageNew }, id: post.id })
       }
     } else if(isImageNew && !image) {
       //remove image from db
-      editPost({data:{ data: {...values, isPublic, image }, isImageNew }, id: post.id })
+      result = await editPost({data:{ data: {...values, isPublic, image }, isImageNew }, id: post.id })
     } else {
-      editPost({data:{ data: {...values, isPublic, image }, isImageNew }, id: post.id })
+      result = await editPost({data:{ data: {...values, isPublic }, isImageNew }, id: post.id })
     }
+    setPost(prevState => ({...prevState, ...result}))
+    handleCancel()
   }
   return (
     <Modal open={open} >

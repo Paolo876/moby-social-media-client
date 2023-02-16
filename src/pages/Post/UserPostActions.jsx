@@ -9,21 +9,21 @@ import EditModal from './EditModal';
 import LoadingSpinner from '../../components/LoadingSpinner';
 
 
-const UserPostActions = ({postId}) => {
+const UserPostActions = ({postId, setPost}) => {
   const { isLoading, error, authorizePost } = usePostActions();
   const { palette } = useTheme();
 
   const [ showDeleteModal, setShowDeleteModal ] = useState(false);
   const [ showEditModal, setShowEditModal ] = useState(false);
-  const [ post, setPost ] = useState(null);
+  const [ authorizedPost, setAuthorizedPost ] = useState(null);
 
 
   useEffect(() => {
-    authorizePost(postId).then(data => setPost(data))
-  }, [])
+    authorizePost(postId).then(data => setAuthorizedPost(data))
+  }, [showEditModal])
 
   if(isLoading) return <LoadingSpinner style={{minHeight: "0em", height: "1em",backgroundColor: "initial", transform: "scale(.35)", opacity: .75}}/>
-  if(post) return (
+  if(authorizedPost) return (
     <Paper sx={{px:1, py:1.25, borderColor: palette.secondary.light }} variant="outlined">
       <Tooltip title="These actions are only available for the post's author." arrow  placement="left-start">
         <Box display="flex" alignItems="flex-start" justifyContent="space-between">
@@ -34,7 +34,7 @@ const UserPostActions = ({postId}) => {
           </Box>
         </Box>
       </Tooltip>
-      <EditModal open={showEditModal} handleClose={() => setShowEditModal(false)} post={post}/>
+      <EditModal open={showEditModal} handleClose={() => setShowEditModal(false)} post={authorizedPost} setPost={setPost}/>
       <DeletePromptModal open={showDeleteModal} handleClose={() => setShowDeleteModal(false)} postId={postId}/>
     </Paper>
   )
