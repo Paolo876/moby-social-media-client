@@ -4,6 +4,7 @@ import useAuthRedux from '../../hooks/useAuthRedux';
 import Image from '../../components/Image';
 import defaultAvatar from "../../assets/default-profile.png";
 import usePostActions from '../../hooks/usePostActions';
+import { formatDistanceToNow } from 'date-fns'
 
 import { Paper, Typography, Stack, Grid, ButtonBase, IconButton, Menu, MenuItem, TextField, Chip, Tooltip } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
@@ -75,7 +76,7 @@ const CommentItem = ({ comment, setPost }) => {
             </ButtonBase>
 
             <Stack ml={1} alignItems="flex-start" width={"100%"}>
-              <Typography variant="body2" >{comment.User.username} <small style={{opacity: .75, marginLeft: "1em"}}>{new Date(comment.createdAt).toLocaleDateString()}</small></Typography>
+              <Typography variant="body2" >{comment.User.username} <small style={{opacity: .75, marginLeft: "1em"}}>{formatDistanceToNow(Date.parse(comment.createdAt), { addSuffix: true, includeSeconds: true})}</small></Typography>
               {!isEditMode && <Typography variant="body1" sx={{display: "block", mt:.5 }}>{comment.comment}</Typography>}
               {isEditMode && <TextField 
                     id="comment" 

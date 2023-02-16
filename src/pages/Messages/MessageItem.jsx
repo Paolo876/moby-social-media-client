@@ -25,7 +25,7 @@ const MessageItem = ({ message, chatUser=null, createdAt }) => {
         <Stack mx={1} width="100%" alignItems={chatUser.isSelf ? "flex-end": "flex-start"} justifyContent="space-between" height="100%" py={.25}>
           <Box sx={{display: "flex", flexDirection: chatUser.isSelf ? "row-reverse": "row", alignItems: "center"}}>
             <Typography variant="body2" fontSize={15} lineHeight={1}>{chatUser.username}</Typography>
-            <Typography variant="body1" fontSize={10} lineHeight={1} mx={1}>{formatDistanceToNow(Date.parse(createdAt))} ago</Typography>
+            <Typography variant="body1" fontSize={10} lineHeight={1} mx={1}>{formatDistanceToNow(Date.parse(createdAt), { addSuffix: true, includeSeconds: true})}</Typography>
           </Box>
           <Typography variant="body1">{message}</Typography>
         </Stack>
