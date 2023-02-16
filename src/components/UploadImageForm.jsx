@@ -32,7 +32,7 @@ const UploadImageForm = ({ image, setImage, title, defaultImage, previewStyle , 
             <Typography variant="body1">{title}</Typography>
 
             <Stack direction="row" alignItems="center" justifyContent="center" spacing={6} my={3}>
-                <ButtonBase sx={{borderRadius: "50%"}}>
+                <ButtonBase sx={{borderRadius: "50%"}} disableRipple disableTouchRipple>
                     <img src={image ? image : defaultImage} style={previewStyle}/>
                 </ButtonBase>
                 <Stack spacing={1}>

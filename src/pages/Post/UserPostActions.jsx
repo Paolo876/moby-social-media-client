@@ -34,7 +34,7 @@ const UserPostActions = ({postId}) => {
           </Box>
         </Box>
       </Tooltip>
-      <EditModal open={showEditModal} handleClose={() => setShowEditModal(false)} postId={postId}/>
+      <EditModal open={showEditModal} handleClose={() => setShowEditModal(false)} post={post}/>
       <DeletePromptModal open={showDeleteModal} handleClose={() => setShowDeleteModal(false)} postId={postId}/>
     </Paper>
   )
