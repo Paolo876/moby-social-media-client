@@ -1,26 +1,40 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { Box, Paper, Tooltip, Typography, Button, useTheme, Modal, Divider, Stack, Alert } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import usePostActions from '../../hooks/usePostActions';
 import usePostsRedux from '../../hooks/usePostsRedux';
+import EditModal from './EditModal';
+import LoadingSpinner from '../../components/LoadingSpinner';
 
 
 const UserPostActions = ({postId}) => {
+  const { isLoading, error, authorizePost } = usePostActions();
   const { palette } = useTheme();
+
   const [ showDeleteModal, setShowDeleteModal ] = useState(false);
-  return (
+  const [ showEditModal, setShowEditModal ] = useState(false);
+  const [ post, setPost ] = useState(null);
+
+
+  useEffect(() => {
+    authorizePost(postId).then(data => setPost(data))
+  }, [])
+
+  if(isLoading) return <LoadingSpinner style={{minHeight: "0em", height: "1em",backgroundColor: "initial", transform: "scale(.35)", opacity: .75}}/>
+  if(post) return (
     <Paper sx={{px:1, py:1.25, borderColor: palette.secondary.light }} variant="outlined">
       <Tooltip title="These actions are only available for the post's author." arrow  placement="left-start">
         <Box display="flex" alignItems="flex-start" justifyContent="space-between">
           <Typography variant="h6" fontSize={16}>Post Settings:</Typography>
           <Box justifyContent="right" display="flex" gap={2}>
-            <Button variant="contained" disableElevation color="secondary" size="small" startIcon={<EditIcon/>}>Edit Post</Button>
+            <Button variant="contained" disableElevation color="secondary" size="small" startIcon={<EditIcon/>} onClick={() => setShowEditModal(true)}>Edit Post</Button>
             <Button variant="outlined" color="error" size="small" startIcon={<DeleteIcon/>} onClick={() => setShowDeleteModal(true)}>Delete Post</Button>
           </Box>
         </Box>
       </Tooltip>
+      <EditModal open={showEditModal} handleClose={() => setShowEditModal(false)} postId={postId}/>
       <DeletePromptModal open={showDeleteModal} handleClose={() => setShowDeleteModal(false)} postId={postId}/>
     </Paper>
   )

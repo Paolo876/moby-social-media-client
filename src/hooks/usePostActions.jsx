@@ -98,7 +98,7 @@ const usePostActions = () => {
 
  /*  @desc       delete post
   *  @access     Private
-  *  @return     <String> --comment id
+  *  @return     <String> --post id
   */
   const deletePost = async (id) => {
     setIsLoading(true)
@@ -112,7 +112,24 @@ const usePostActions = () => {
     }
   }
 
-  return { isLoading, error, newComment, editComment, deleteComment, isNewCommentLoading, newCommentError, likePost, bookmarkPost, deletePost }
+
+ /*  @desc       authorize post. check if the user logged in is the post's author
+  *  @access     Private
+  *  @return     <Object>
+  */
+  const authorizePost = async (id) => {
+    setIsLoading(true)
+    try {
+        const res = await axios.get(`${process.env.REACT_APP_DOMAIN_URL}/api/posts/authorize/${id}`, { headers: { 'Content-Type': 'application/json' }, withCredentials: true });
+        setIsLoading(false)
+        return res.data
+    } catch(err) {
+        setIsLoading(false)
+        setError((err.response && err.response.data) ? err.response.data.message : err.message)
+    }
+  }
+
+  return { isLoading, error, newComment, editComment, deleteComment, isNewCommentLoading, newCommentError, likePost, bookmarkPost, deletePost, authorizePost }
 }
 
 export default usePostActions
