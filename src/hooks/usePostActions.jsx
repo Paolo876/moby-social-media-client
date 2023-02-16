@@ -129,7 +129,24 @@ const usePostActions = () => {
     }
   }
 
-  return { isLoading, error, newComment, editComment, deleteComment, isNewCommentLoading, newCommentError, likePost, bookmarkPost, deletePost, authorizePost }
+
+ /*  @desc       edit/update post
+  *  @access     Private
+  *  @return     <Object>
+  */
+  const editPost = async ({data, id}) => {
+    setIsLoading(true)
+    try {
+        const res = await axios.put(`${process.env.REACT_APP_DOMAIN_URL}/api/posts/${id}`, data, { headers: { 'Content-Type': 'application/json' }, withCredentials: true });
+        setIsLoading(false)
+        return res.data
+    } catch(err) {
+        setIsLoading(false)
+        setError((err.response && err.response.data) ? err.response.data.message : err.message)
+    }
+  }
+
+  return { isLoading, error, newComment, editComment, deleteComment, isNewCommentLoading, newCommentError, likePost, bookmarkPost, deletePost, authorizePost, editPost }
 }
 
 export default usePostActions

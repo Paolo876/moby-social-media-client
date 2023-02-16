@@ -22,7 +22,7 @@ const validationSchema = Yup.object().shape({
 const EditModal = ({ open, handleClose, post }) => {
   const { user } = useAuthRedux();
   const { getAuthenticationEndpoint, uploadImage, isLoading: isImagekitLoading, error: imagekitError } = useImagekit();
-  const { isLoading, error } = usePostActions();
+  const { isLoading, error, editPost } = usePostActions();
 
   const [ image, setImage ] = useState(JSON.parse(post.image) ? JSON.parse(post.image).url : null);
   const [ isImageNew, setIsImageNew ] = useState(false)
@@ -48,10 +48,6 @@ const EditModal = ({ open, handleClose, post }) => {
     handleCancel();
   }
 
-  const handleSubmit = () => {
-    
-  }
-
   const handleCancel = () => {
     setImage(JSON.parse(post.image) ? JSON.parse(post.image).url : null)
     setIsPublic(true)
@@ -64,6 +60,27 @@ const EditModal = ({ open, handleClose, post }) => {
     setIsImageNew(true)
   }
 
+  
+  const handleSubmit = async (values) => {
+    //upload to imagekit
+    if(isImageNew && image) {
+      const res = await uploadImage({
+        file: image,
+        authenticationEndpoint,
+        fileName: `post_${user.id}`,
+        folder: "/moby/posts/"
+      })
+      if(!imagekitError){
+        const { fileId, name, url, thumbnailUrl } = res;
+        editPost({data:{ data: {...values, isPublic, image: JSON.stringify({ fileId, name, url, thumbnailUrl })}, isImageNew }, id: post.id })
+      }
+    } else if(isImageNew && !image) {
+      //remove image from db
+      editPost({data:{ data: {...values, isPublic, image }, isImageNew }, id: post.id })
+    } else {
+      editPost({data:{ data: {...values, isPublic, image }, isImageNew }, id: post.id })
+    }
+  }
   return (
     <Modal open={open} >
       <Box 
@@ -73,7 +90,8 @@ const EditModal = ({ open, handleClose, post }) => {
           left: '50%',
           transform: 'translate(-50%, -50%)',
           width: "100%",
-          height: "100%"
+          height: "100vh",
+          overflow: "auto"
         }}
       >
       <Container>
@@ -137,12 +155,9 @@ const EditModal = ({ open, handleClose, post }) => {
                       sx={{ml: 2, mt: .5}}   
                     />
                   </FormGroup>
-                  <Stack flexDirection="row" alignItems="center" justifyContent="center" mt={2} gap={3}>
-                    {!isLoading && <Button variant="contained" type="submit">Save Changes</Button>}
-                    {!isLoading && <Button variant="outlined" color="secondary" onClick={() => handleCancel()} disabled={isLoading} type="button">Cancel</Button>}
-                    {isLoading && <Button variant="contained" type="submit" size="large" sx={{ mt: 8 }} disabled>
-                        <CircularProgress color="secondary" size={16} thickness={6} sx={{ml: 2}}/>
-                    </Button>}   
+                  <Stack flexDirection="row" alignItems="center" justifyContent="center" mt={4} gap={3}>
+                    <Button variant="contained" type="submit" disabled={isLoading || isImagekitLoading}>Save Changes</Button>
+                    <Button variant="outlined" color="secondary" onClick={() => handleCancel()} disabled={isLoading || isImagekitLoading} type="button">Cancel</Button>
                   </Stack>
                 </Form>
               </Formik>
