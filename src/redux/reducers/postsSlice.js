@@ -6,22 +6,10 @@ const postsSlice = createSlice({
     name: "posts",
     initialState: postsInitialState,
     reducers: {
-        // addComment(state, { payload }){
-        //     state.isLoading = false;
-        //     state.userData = payload;
-        //     state.error = null;
-        //     state.success = false;
-        // },
-        // setIsLoading(state, { payload }){
-        //     state.isLoading = payload;
-        //     state.error = null;
-        //     state.success = false;
-        // },
-        // setError(state, { payload }){
-        //     state.isLoading = false;
-        //     state.error = payload.message;
-        //     state.success = false;
-        // }
+        removeFromPosts(state, { payload }){
+            const updatedPosts = state.posts;
+            state.posts = updatedPosts.filter(item => item.id !== parseInt(payload))
+        },
     }, 
     extraReducers: (builder) => {
         builder

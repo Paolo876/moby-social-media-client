@@ -1,9 +1,10 @@
 import { useState } from 'react'
-
+import { useNavigate } from 'react-router-dom';
 import { Box, Paper, Tooltip, Typography, Button, useTheme, Modal, Divider, Stack, Alert } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import usePostActions from '../../hooks/usePostActions';
+import usePostsRedux from '../../hooks/usePostsRedux';
 
 
 const UserPostActions = ({postId}) => {
@@ -26,13 +27,14 @@ const UserPostActions = ({postId}) => {
 }
 
 const DeletePromptModal = ({ open, handleClose, postId }) => {
+  const navigate = useNavigate();
   const { isLoading, error, deletePost } = usePostActions();
-
+  const { removeFromPosts } = usePostsRedux();
   const handleClick = (isConfirmed) => {
     if(isConfirmed){
       deletePost(postId).then(data => {
-        //data = postId -> check postredux if postid exist, then remove
-
+        removeFromPosts(data)
+        navigate("/");
       })
     }
     handleClose()
