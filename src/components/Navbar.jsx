@@ -2,8 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import useAuthRedux from '../hooks/useAuthRedux';
 import { styled, alpha } from '@mui/material/styles';
-import { AppBar, Box, Toolbar, IconButton, InputBase, Badge, MenuItem, Menu, Container, Tooltip, Divider } from '@mui/material';
-import LoadingSpinner from './LoadingSpinner';
+import { AppBar, Box, Toolbar, IconButton, Badge, MenuItem, Menu, Container, Tooltip, Divider } from '@mui/material';
 import Image from './Image';
 //media
 import SearchIcon from '@mui/icons-material/Search';
@@ -14,6 +13,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import MenuIcon from '@mui/icons-material/Menu';
 import logo from "../assets/logo_header.png"
 import SettingsIcon from '@mui/icons-material/Settings';
+import SearchInput from './SearchInput';
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -41,19 +41,6 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
     justifyContent: 'center',
 }));
 
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    color: 'inherit',
-    '& .MuiInputBase-input': {
-      padding: theme.spacing(1, 1, 1, 0),
-      // vertical padding + font size from searchIcon
-      paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-      transition: theme.transitions.create('width'),
-      width: '100%',
-      [theme.breakpoints.up('md')]: {
-        width: '20ch',
-      },
-    },
-}));
 
 const paperProps = {
   elevation: 0,
@@ -131,6 +118,8 @@ const Navbar = () => {
       setAnchorEl(null);
       handleMobileMenuClose();
     }
+
+
     const menuId = 'primary-search-account-menu';
     const renderMenu = (
       <Menu
@@ -225,14 +214,11 @@ const Navbar = () => {
                   LinkComponent={Link}
                   to="/"
               ><img src={logo} alt="logo" style={{objectFit: "cover", height: 40, filter: "invert(.9)"}}/></IconButton>
-              <Search>
+              <Search onSubmit={(e) => console.log(e)}>
                 <SearchIconWrapper>
                   <SearchIcon />
                 </SearchIconWrapper>
-                <StyledInputBase
-                  placeholder="Search…"
-                  inputProps={{ 'aria-label': 'search' }}
-                />
+                <SearchInput/>
               </Search>
               <Box sx={{ flexGrow: 1 }} />
               <Box sx={{ display: { xs: 'none', md: 'flex' } }}>

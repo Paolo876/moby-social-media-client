@@ -1,6 +1,9 @@
-import { Button } from '@mui/material';
+import { Button, Paper } from '@mui/material';
 import { useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
+import AuthorizedPageContainer from '../../components/AuthorizedPageContainer'
+
+import { Container, Alert, Grid } from "@mui/material"
 
 
 const Search = () => {
@@ -16,9 +19,18 @@ const Search = () => {
 
 
   return (
-    <div>
-      <Button onClick={() => setSearchParams({"q" : "yoooo"})}>CLICK</Button>
-    </div>
+    <AuthorizedPageContainer>
+      <Container>
+        <Grid container>
+          <Grid item xs={12} my={2}>
+            <Paper >
+              <Button onClick={() => setSearchParams({"q" : "yoooo"})} >CLICK</Button>
+
+            </Paper>
+          </Grid>
+        </Grid>
+      </Container>
+    </AuthorizedPageContainer>
 
   )
 }
