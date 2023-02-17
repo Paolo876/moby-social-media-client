@@ -1,16 +1,17 @@
 import { Button, ButtonBase, Divider, Paper, Typography } from '@mui/material';
 import { useState, useEffect } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams, useNavigate } from 'react-router-dom'
 import AuthorizedPageContainer from '../../components/AuthorizedPageContainer'
 import axios from 'axios';
 
-import { Container, Alert, Grid } from "@mui/material"
+import { Container, Alert, Grid, Box } from "@mui/material"
 import LoadingSpinner from '../../components/LoadingSpinner';
 
 
 const Search = () => {
   const [ searchParams ] = useSearchParams()
   const query = searchParams.get("q");
+  const navigate = useNavigate();
 
   const [ isLoading, setIsLoading ] = useState(false);
   const [ error, setError ] = useState(null);
@@ -46,8 +47,19 @@ const Search = () => {
           </Grid>
           {result && 
             <>
-              {result.users.map(item => <Grid item xs={12} md={8} my={.5} mx="auto"><ButtonBase key={item.id} sx={{width: "100%"}}><Paper sx={{width: "100%"}}>asd</Paper></ButtonBase></Grid>)}
-              {result.posts.map(item => <Grid item xs={12} md={8} my={.5} mx="auto"><ButtonBase key={item.id} sx={{width: "100%"}}><Paper sx={{width: "100%"}}>asd</Paper></ButtonBase></Grid>)}
+              {result.users.map(item => 
+                <Grid item xs={12} md={8} my={.5} mx="auto" key={item.id}>
+                  <Paper sx={{width: "100%", cursor: "pointer"}} onClick={() => navigate(`/profile/${item.id}`)}>
+                    asd
+                  </Paper>                  
+                </Grid>)}
+              
+              {result.posts.map(item => 
+                <Grid item xs={12} md={8} my={.5} mx="auto" key={item.id}>
+                  <Paper sx={{width: "100%", cursor: "pointer"}} onClick={() => navigate(`/posts/${item.id}`)}>
+                    asd
+                  </Paper>                  
+                </Grid>)}
             </>
           }
         </Grid>
