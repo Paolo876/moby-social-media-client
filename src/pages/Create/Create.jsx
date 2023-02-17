@@ -9,7 +9,7 @@ import UploadImageForm from '../../components/UploadImageForm';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import { Formik, Form } from "formik";
 import * as Yup from 'yup';
-import { Container, Typography, Paper, Button, CircularProgress, Grid, FormGroup, Checkbox, FormControlLabel, Alert } from '@mui/material';
+import { Container, Typography, Paper, Button, CircularProgress, Grid, FormGroup, Checkbox, FormControlLabel, Alert, Divider } from '@mui/material';
 import defaultImage from "../../assets/image-icon.png"
 import LockIcon from '@mui/icons-material/Lock';
 
@@ -64,7 +64,8 @@ const Create = () => {
             <Grid container direction="row" alignItems="flex-start" sx={{justifyContent: {xs: "center"}, height: "75vh"}} >
                 <Grid item xs={12} md={8} py={2}>
                     <Paper sx={{py: 5, px: {xs: 2, md:8}, width: "100%", mx: "auto" }} elevation={4}>
-                        <Typography variant="h4" fontWeight={700} mb={2} letterSpacing={.5}>Create A New Post</Typography>
+                        <Typography variant="h4" fontWeight={700}>Create A New Post</Typography>
+                        <Divider mb={2}/>
                         {imagekitError && <Alert severity="error">{imagekitError}</Alert>}
                         {error && <Alert severity="error">{error}</Alert>}
                         <Formik  
