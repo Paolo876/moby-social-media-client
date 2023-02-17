@@ -12,8 +12,8 @@ import { styled } from '@mui/material/styles';
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   '& .MuiBadge-badge': {
-    backgroundColor: theme.palette.info.main,
-    color: theme.palette.info.main,
+    backgroundColor: theme.palette.secondary.light,
+    color: theme.palette.secondary.light,
     boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
     '&::after': {
       position: 'absolute',
@@ -55,7 +55,7 @@ const MessagesNavigation = () => {
           </ListItem>
           {chatRooms.map(({ ChatRoom }) => 
             <ListItemButton 
-              sx={{ opacity: ChatRoom.isLastMessageRead[0].isLastMessageRead ? .95 : 1, position: "relative" }} 
+              sx={{ background: ChatRoom.isLastMessageRead[0].isLastMessageRead ? "rgba(0,0,0,0)" : "rgba(0,0,0,0.025)", position: "relative", }} 
               key={ChatRoom.id} 
               disabled={isLoading} 
               onClick={() => navigate(`/messages/${ChatRoom.id}`)} 
