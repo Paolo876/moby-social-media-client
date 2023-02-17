@@ -4,6 +4,8 @@ import useAuthRedux from '../hooks/useAuthRedux';
 import { styled, alpha } from '@mui/material/styles';
 import { AppBar, Box, Toolbar, IconButton, Badge, MenuItem, Menu, Container, Tooltip, Divider } from '@mui/material';
 import Image from './Image';
+import SearchInput from './SearchInput';
+
 //media
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
@@ -13,7 +15,8 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import MenuIcon from '@mui/icons-material/Menu';
 import logo from "../assets/logo_header.png"
 import SettingsIcon from '@mui/icons-material/Settings';
-import SearchInput from './SearchInput';
+import InfoIcon from '@mui/icons-material/Info';
+
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -105,15 +108,10 @@ const Navbar = () => {
       logout()
     }
 
-    const handleProfileClick = () => {
-      navigate('/profile')
-      handleMenuClose()
-      setAnchorEl(null);
-      handleMobileMenuClose();
-    }
-
-    const handleSettingsClick = () => {
-      navigate("/settings")
+    const handleItemClick = (option) => {
+      if(option === "profile") navigate(`/${option}`)
+      if(option === "settings") navigate(`/${option}`)
+      if(option === "about") navigate(`/${option}`)
       handleMenuClose()
       setAnchorEl(null);
       handleMobileMenuClose();
@@ -132,10 +130,11 @@ const Navbar = () => {
         open={isMenuOpen}
         onClose={handleMenuClose}
       >
-        <MenuItem onClick={handleProfileClick} sx={{px: 2.5, py: .8}}><AccountCircle fontSize="sm" sx={{mr: 2}}/> Profile</MenuItem>
-        <MenuItem onClick={handleSettingsClick} sx={{px: 2.5, py: .8}}><SettingsIcon fontSize="sm" sx={{mr: 2}}/> Settings</MenuItem>
+        <MenuItem onClick={() => handleItemClick("profile")} sx={{px: 3, py: .8}}><AccountCircle fontSize="sm" sx={{mr: 2}}/> Profile</MenuItem>
+        <MenuItem onClick={() => handleItemClick("settings")} sx={{px: 3, py: .8}}><SettingsIcon fontSize="sm" sx={{mr: 2}}/> Settings</MenuItem>
+        <MenuItem onClick={() => handleItemClick("about")} sx={{px: 3, py: .8}}><InfoIcon fontSize="sm" sx={{mr: 2}}/> About</MenuItem>
         <Divider/>
-        <MenuItem onClick={handleLogout} sx={{px: 2.5, py: .8}}><LogoutIcon fontSize="sm" sx={{mr: 2}}/> Logout</MenuItem>
+        <MenuItem onClick={handleLogout} sx={{px: 3, py: .8}}><LogoutIcon fontSize="sm" sx={{mr: 2}}/> Logout</MenuItem>
       </Menu>
     );
   

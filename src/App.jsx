@@ -16,6 +16,7 @@ import Post from './pages/Post/Post';
 import Messages from './pages/Messages/Messages';
 import Settings from './pages/Settings/Settings';
 import Search from './pages/Search/Search';
+import About from './pages/About';
 
 function App() {
   const { user, isAuthReady, authorizeToken } = useAuthRedux();
@@ -43,6 +44,7 @@ function App() {
         <Route element={ user ? <Messages/> : <Navigate replace to="/login"/>} path="/messages/*"/>
         <Route element={ user ? <Settings/> : <Navigate replace to="/login"/>} path="/settings"/>
         <Route element={ user ? <Search/> : <Navigate replace to="/login"/>} path="/search"/>
+        <Route element={ user ? <About/> : <Navigate replace to="/login"/>} path="/about"/>
         {/* auth routes */}
         <Route element={ user ? <Navigate replace to="/"/> : <Login/>} path="/login" />
         <Route element={ user ? <Navigate replace to="/"/> : <Signup/>} path="/signup" />
