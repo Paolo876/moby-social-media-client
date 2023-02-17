@@ -40,8 +40,6 @@ const Search = () => {
   }
 
 
-  console.log(result)
-
   return (
     <AuthorizedPageContainer>
       <Container>
@@ -49,6 +47,7 @@ const Search = () => {
           <Grid item xs={12} my={2}><Typography variant="h5" mb={.5}>Search results for "{query}"</Typography><Divider/></Grid>
           <Grid item xs={12} md={8} my={.5} mx="auto">
             {isLoading && <LoadingSpinner isModal={false} style={{minHeight: "0em", backgroundColor: "initial", transform: "scale(.6)", opacity: .5}}/>}
+            {error && <Alert severity='error'>{error}</Alert>}
           </Grid>
           <Grid item xs={12} md={8} my={.5} mx="auto">
             <List>
