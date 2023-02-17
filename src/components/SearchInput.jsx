@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import { InputBase } from '@mui/material';
@@ -23,8 +24,15 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const SearchInput = () => {
   const navigate = useNavigate();
 
+  const { pathname } = useLocation();
   const [ input, setInput ] = useState("");
 
+
+  useEffect(() => {
+    if(pathname === "/") setInput("")
+  }, [pathname])
+
+  
   const handleKeyDown = async (e) => {
     if(e.key === "Enter") {
         e.preventDefault();

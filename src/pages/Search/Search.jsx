@@ -1,4 +1,4 @@
-import { Button, Paper } from '@mui/material';
+import { Button, Paper, Typography } from '@mui/material';
 import { useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import AuthorizedPageContainer from '../../components/AuthorizedPageContainer'
@@ -24,7 +24,7 @@ const Search = () => {
         <Grid container>
           <Grid item xs={12} my={2}>
             <Paper >
-              <Button onClick={() => setSearchParams({"q" : "yoooo"})} >CLICK</Button>
+              <Typography variant="h5">Search results for "{query}"</Typography>
 
             </Paper>
           </Grid>
