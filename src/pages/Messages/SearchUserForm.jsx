@@ -9,6 +9,7 @@ import LoadingSpinner from "../../components/LoadingSpinner"
 import defaultAvatar from "../../assets/default-profile.png"
 import Image from '../../components/Image';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import SplitButton from '../../components/SplitButton';
 
 
 const style = {
@@ -25,49 +26,16 @@ const style = {
 
 
 const SearchUserForm = () => {
-  const navigate = useNavigate();
   const { user } = useAuthRedux();
-  const { setNewChatUser } = useChatRedux();
-  const { findChat, isLoading, error, searchUser } = useMessagesActions();
   const [ showModal, setShowModal ] = useState(false);
-  const [ input, setInput ] = useState("")
-  const [ inputResponse, setInputResponse ] = useState("");
-  const [ users, setUsers ] = useState(null);
-
-  useEffect(() => {
-    let timeout;
-    if(input.trim().length === 0) {
-      setUsers(null)
-    };
-    if(input.trim().length !== 0 && inputResponse.toLowerCase() !== input.toLowerCase()){
-      timeout = setTimeout(() => {
-        setInputResponse(input)
-        searchUser(input).then( data => setUsers(data))
-      }, 500);
-    
-    }
-    return () => clearTimeout(timeout)
-  }, [input]);
-
-  const handleCloseModal = () => {
-    setShowModal(false)
-    setInput("")
-    setInputResponse("")
-    setUsers(null)
-  }
 
 
-  const handleUserItemClick = async (id) => {
-    const result = await findChat(id);
-      if(result.ChatRoomId){
-        navigate(`/messages/${result.ChatRoomId}`)
-      } else {
-        const user = users.find(item => item.id === id);
-        setNewChatUser(user)
-        navigate(`/messages/new/${id}`)
-      }
-      handleCloseModal()
-  }
+
+
+
+
+
+
 
   
   return (
@@ -92,59 +60,110 @@ const SearchUserForm = () => {
         >
           <ArrowDropDownIcon sx={{height: "100%"}}/>
         </IconButton>
-
+        {/* dropdown */}
         {/* modal */}
-        <Modal
-          open={showModal}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-          onClose={handleCloseModal}
-          closeAfterTransition
-        >
-          <Fade in={showModal}>
+        <SearchModal showModal={showModal} setShowModal={setShowModal}/>
 
-            <Box sx={style}>
-              <Typography variant="h6" align="left" mb={2}>Send a New Message</Typography>
-              {error && <Alert severity='error'>{error}</Alert>}
-              <TextField 
-                id="standard-basic" 
-                label="Search user" 
-                variant="standard" 
-                fullWidth 
-                sx={{mb:2}}
-                value={input}  
-                autoFocus
-                onChange={e => setInput(e.target.value)}
-                />
-              <List>
-                <ListItem alignItems="flex-start" sx={{justifyContent: "center", p:0, position: "relative", minHeight: "1.5em"}}>
-                  {isLoading && <LoadingSpinner style={{minHeight: "0em", backgroundColor: "initial", transform: "scale(.5)", opacity: .75, position: "absolute", left: "35%", top: "-100%"}}/>}
-                </ListItem>
-                {users && users.map(item => 
-                  <ListItemButton sx={{ }} key={item.id} disabled={isLoading} onClick={() => handleUserItemClick(item.id)}>
-                    {item.UserDatum.image ? 
-                      <Image 
-                        src={JSON.parse(item.UserDatum.image).url} 
-                        transformation={[{
-                            height: 35,
-                            width: 35,
-                        }]} 
-                        style={{borderRadius: "50%"}}
-                        alt="profile-avatar"
-                      /> :
-                      <img src={defaultAvatar} style={{height: "35px", width: "35px"}} alt="profile-avatar"/>
-                    }
-                    <Stack ml={1}>
-                      <Typography variant="body1" align='left'>{item.username}</Typography>
-                      <Typography variant="body2" align='left'>{item.UserDatum.firstName} {item.UserDatum.lastName}</Typography>
-                    </Stack>
-                  </ListItemButton>
-                )}
-              </List>
-            </Box>
-          </Fade>
-        </Modal>
     </Stack>
+  )
+}
+
+const SearchModal = ({ showModal, setShowModal }) => {
+  const navigate = useNavigate();
+  const { setNewChatUser } = useChatRedux();
+  const { findChat, isLoading, error, searchUser } = useMessagesActions();
+
+  const [ input, setInput ] = useState("")
+  const [ inputResponse, setInputResponse ] = useState("");
+  const [ users, setUsers ] = useState(null);
+
+
+  useEffect(() => {
+    let timeout;
+    if(input.trim().length === 0) {
+      setUsers(null)
+    };
+    if(input.trim().length !== 0 && inputResponse.toLowerCase() !== input.toLowerCase()){
+      timeout = setTimeout(() => {
+        setInputResponse(input)
+        searchUser(input).then( data => setUsers(data))
+      }, 500);
+    
+    }
+    return () => clearTimeout(timeout)
+  }, [input]);
+
+
+  const handleCloseModal = () => {
+    setShowModal(false)
+    setInput("")
+    setInputResponse("")
+    setUsers(null)
+  }
+
+
+  const handleUserItemClick = async (id) => {
+    const result = await findChat(id);
+      if(result.ChatRoomId){
+        navigate(`/messages/${result.ChatRoomId}`)
+      } else {
+        const user = users.find(item => item.id === id);
+        setNewChatUser(user)
+        navigate(`/messages/new/${id}`)
+      }
+      handleCloseModal()
+  }
+  return (
+    <Modal
+      open={showModal}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
+      onClose={handleCloseModal}
+      closeAfterTransition
+    >
+      <Fade in={showModal}>
+
+        <Box sx={style}>
+          <Typography variant="h6" align="left" mb={2}>Send a New Message</Typography>
+          {error && <Alert severity='error'>{error}</Alert>}
+          <TextField 
+            id="standard-basic" 
+            label="Search user" 
+            variant="standard" 
+            fullWidth 
+            sx={{mb:2}}
+            value={input}  
+            autoFocus
+            onChange={e => setInput(e.target.value)}
+            />
+          <List>
+            <ListItem alignItems="flex-start" sx={{justifyContent: "center", p:0, position: "relative", minHeight: "1.5em"}}>
+              {isLoading && <LoadingSpinner style={{minHeight: "0em", backgroundColor: "initial", transform: "scale(.5)", opacity: .75, position: "absolute", left: "35%", top: "-100%"}}/>}
+            </ListItem>
+            {users && users.map(item => 
+              <ListItemButton sx={{ }} key={item.id} disabled={isLoading} onClick={() => handleUserItemClick(item.id)}>
+                {item.UserDatum.image ? 
+                  <Image 
+                    src={JSON.parse(item.UserDatum.image).url} 
+                    transformation={[{
+                        height: 35,
+                        width: 35,
+                    }]} 
+                    style={{borderRadius: "50%"}}
+                    alt="profile-avatar"
+                  /> :
+                  <img src={defaultAvatar} style={{height: "35px", width: "35px"}} alt="profile-avatar"/>
+                }
+                <Stack ml={1}>
+                  <Typography variant="body1" align='left'>{item.username}</Typography>
+                  <Typography variant="body2" align='left'>{item.UserDatum.firstName} {item.UserDatum.lastName}</Typography>
+                </Stack>
+              </ListItemButton>
+            )}
+          </List>
+        </Box>
+      </Fade>
+    </Modal>
   )
 }
 
