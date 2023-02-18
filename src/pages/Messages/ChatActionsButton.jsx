@@ -4,7 +4,6 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ArchiveIcon from '@mui/icons-material/Archive';
 import GroupRemoveIcon from '@mui/icons-material/GroupRemove';
 
-
 const style = {
     position: 'absolute',
     top: '40%',
@@ -110,10 +109,19 @@ const ChatActionsModal = ({ showModal, setShowModal}) => {
     >
       <Fade in={showModal.isVisible}>
         <Box sx={style}>
-          <Typography id="transition-modal-title" variant="h6" m={2}>Are you sure you want to leave this chat room?</Typography>
+          {showModal.option === "archive" && <>
+            <Typography id="transition-modal-title" variant="h6" m={2} align="center">Are you sure you want to archive this chat room?</Typography>
+            <Typography id="transition-modal-title" variant="body2" m={2} fontWeight={300} maxWidth={600}>Archived chat rooms will be moved to your archived folder. All notifications from this chat room will be disabled and will be delisted from your messages.</Typography>
+          </>}
+          {showModal.option === "leave" && <Typography id="transition-modal-title" variant="h6" m={2}>Are you sure you want to leave this chat room?</Typography>}
           <Divider/>
           <Stack flexDirection="row" alignItems="center" justifyContent="center" my={3}>
-            <Button variant="contained" color="error" sx={{mx:.75}} onClick={() => handleClick(true)}><GroupRemoveIcon fontSize="inherit" color="light" sx={{mr:1}}/> Leave</Button>
+            {showModal.option === "archive" && <Button variant="contained" color="warning" sx={{mx:.75}} onClick={() => handleClick(true)}>
+              <ArchiveIcon fontSize="inherit" color="light" sx={{mr:1}}/> Archive
+            </Button>}
+            {showModal.option === "leave" && <Button variant="contained" color="error" sx={{mx:.75}} onClick={() => handleClick(true)}>
+              <GroupRemoveIcon fontSize="inherit" color="light" sx={{mr:1}}/> Leave
+            </Button>}
             <Button variant="outlined" color="secondary" sx={{mx:.75}} onClick={() => handleClick()}>Cancel</Button>
           </Stack>
         </Box>

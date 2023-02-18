@@ -98,7 +98,7 @@ const DropDownButton = () => {
                   id="composition-menu"
                   aria-labelledby="composition-button"
                 >
-                  <MenuItem onClick={handleClose}><InventoryIcon fontSize="inherit" color="info" sx={{mr: 1}}/> Archived Chat Rooms</MenuItem>
+                  <MenuItem onClick={handleClose}><InventoryIcon fontSize="inherit" color="info" sx={{mr: 1}}/> Archived Chats</MenuItem>
                 </MenuList>
               </ClickAwayListener>
             </Paper>
