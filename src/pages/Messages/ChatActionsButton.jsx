@@ -20,40 +20,23 @@ const style = {
 
 
 const ChatActionsButton = () => {
+  const [ showModal, setShowModal ] = useState({isVisible: false, option: ""});
   const [anchorEl, setAnchorEl] = useState(null);
-  const [ showModal, setShowModal ] = useState(false);
 
   const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-  
-  const handleArchiveClick = () => {
-    //
-    handleClose();
-  }
-  
-  const handleLeaveChatClick = () => {
-    //
-    setShowModal(true)
-    handleClose();
-  }
 
   return (
     <Box sx={{ml: "auto"}}>
         <Tooltip title="Chat Actions" arrow>
-            <IconButton color="primary" onClick={handleClick}><MoreVertIcon/></IconButton>
+            <IconButton color="primary" onClick={e => setAnchorEl(e.currentTarget)}><MoreVertIcon/></IconButton>
         </Tooltip>
 
         <Menu
             anchorEl={anchorEl}
             id="account-menu"
             open={open}
-            onClose={handleClose}
-            onClick={handleClose}
+            onClose={() => setAnchorEl(null)}
+            onClick={() => setAnchorEl(null)}
             PaperProps={{
                 elevation: 0,
                 sx: {
@@ -84,7 +67,7 @@ const ChatActionsButton = () => {
             anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
         >
         <Tooltip title="Archived chat rooms are placed on the archive chat folder. Notifications from this chat room will be disabled." enterDelay={400} arrow placement="left">
-            <MenuItem onClick={handleArchiveClick}>
+            <MenuItem onClick={() => setShowModal({isVisible: true, option: "archive"})}>
             <ListItemIcon>
                 <ArchiveIcon fontSize="small" color="warning"/>
             </ListItemIcon>
@@ -92,35 +75,50 @@ const ChatActionsButton = () => {
             </MenuItem>
         </Tooltip>
         <Divider/>
-        <MenuItem onClick={handleLeaveChatClick}>
+        <MenuItem onClick={() => setShowModal({isVisible: true, option: "leave"})}>
           <ListItemIcon>
             <GroupRemoveIcon fontSize="small"  color="error"/>
           </ListItemIcon>
           Leave Chat Room
         </MenuItem>
       </Menu>
-
-      <Modal
-          open={showModal}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-          onClose={() => setShowModal(false)}
-          closeAfterTransition
-        >
-          <Fade in={showModal}>
-
-            <Box sx={style}>
-                <Typography id="transition-modal-title" variant="h6" m={2}>Are you sure you want to leave this chat room?</Typography>
-                <Divider/>
-                <Stack flexDirection="row" alignItems="center" justifyContent="center" my={3}>
-                    <Button variant="contained" color="error" sx={{mx:.75}}><GroupRemoveIcon fontSize="inherit" color="light" sx={{mr:1}}/> Leave</Button>
-                    <Button variant="outlined" color="secondary" sx={{mx:.75}}>Cancel</Button>
-                </Stack>
-            </Box>
-          </Fade>
-        </Modal>
+      {/* modal */}
+      <ChatActionsModal showModal={showModal} setShowModal={setShowModal}/>
     </Box>
     
+  )
+}
+
+
+const ChatActionsModal = ({ showModal, setShowModal}) => {
+  
+  const handleClick = (isConfirmed) => {
+    console.log("ASD")
+
+    if(isConfirmed){
+
+    }
+    setShowModal({isVisible: false, option: ""})
+  }
+  return (
+    <Modal
+      open={showModal.isVisible}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
+      onClose={() => setShowModal({isVisible: false, option: ""})}
+      closeAfterTransition
+    >
+      <Fade in={showModal.isVisible}>
+        <Box sx={style}>
+          <Typography id="transition-modal-title" variant="h6" m={2}>Are you sure you want to leave this chat room?</Typography>
+          <Divider/>
+          <Stack flexDirection="row" alignItems="center" justifyContent="center" my={3}>
+            <Button variant="contained" color="error" sx={{mx:.75}} onClick={() => handleClick(true)}><GroupRemoveIcon fontSize="inherit" color="light" sx={{mr:1}}/> Leave</Button>
+            <Button variant="outlined" color="secondary" sx={{mx:.75}} onClick={() => handleClick()}>Cancel</Button>
+          </Stack>
+        </Box>
+      </Fade>
+    </Modal>
   )
 }
 

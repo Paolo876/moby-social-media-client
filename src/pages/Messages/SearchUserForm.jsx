@@ -91,7 +91,7 @@ const DropDownButton = () => {
               placement === 'bottom-start' ? 'left top' : 'left bottom',
             }}
           >
-            <Paper>
+            <Paper elevation={3}>
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList
                   autoFocusItem={open}
