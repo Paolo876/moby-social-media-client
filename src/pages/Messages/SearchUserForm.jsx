@@ -1,15 +1,15 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom';
 import useAuthRedux from '../../hooks/useAuthRedux';
 import useChatRedux from '../../hooks/useChatRedux';
 import useMessagesActions from '../../hooks/useMessagesActions';
-import { Typography, Stack, Tooltip, Button, Box, Modal, TextField, List, ListItemButton, ListItem, Fade, Alert, Divider, IconButton, ButtonBase } from '@mui/material';
+import { Typography, Stack, Tooltip, Button, Box, Modal, TextField, List, ListItemButton, ListItem, Fade, Alert, Divider, IconButton, Popper, Grow, Paper, ClickAwayListener, MenuList, MenuItem } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import LoadingSpinner from "../../components/LoadingSpinner"
 import defaultAvatar from "../../assets/default-profile.png"
 import Image from '../../components/Image';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import SplitButton from '../../components/SplitButton';
+import InventoryIcon from '@mui/icons-material/Inventory';
 
 
 const style = {
@@ -29,15 +29,6 @@ const SearchUserForm = () => {
   const { user } = useAuthRedux();
   const [ showModal, setShowModal ] = useState(false);
 
-
-
-
-
-
-
-
-
-  
   return (
     <Stack flexDirection="row" alignItems="center" justifyContent="center">
         <Box backgroundColor="rgba(0,0,0,0.1)" borderRadius={4}  sx={{flex:1, height: "100%", mx: 2, my: 1}} >
@@ -47,26 +38,78 @@ const SearchUserForm = () => {
             <Button color="secondary" size="small" variant="contained" sx={{minWidth: 0, mr: 1}} onClick={() => setShowModal(true)}><EditIcon fontSize='small'/></Button>
         </Tooltip>
         <Divider orientation="vertical" flexItem sx={{ml:.5}}/>
-        <IconButton
-          // aria-controls={open ? 'split-button-menu' : undefined}
-          // aria-expanded={open ? 'true' : undefined}
-          aria-label="select merge strategy"
-          aria-haspopup="menu"
-          // onClick={handleToggle}
-          sx={{borderRadius: "0"}}
-          color="info"
-          variant="outlined"
-          edge={false}
-        >
-          <ArrowDropDownIcon sx={{height: "100%"}}/>
-        </IconButton>
         {/* dropdown */}
+        <DropDownButton/>
         {/* modal */}
         <SearchModal showModal={showModal} setShowModal={setShowModal}/>
-
     </Stack>
   )
 }
+
+
+const DropDownButton = () => {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const anchorRef = useRef(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  return (
+    <>
+      <IconButton
+        id="basic-button"
+        aria-controls={open ? 'messages-navigation-menu' : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? 'true' : undefined}
+        onClick={handleClick}
+        sx={{borderRadius: "0"}}
+        color="info"
+        variant="outlined"
+        edge={false}
+        ref={anchorRef}
+      >
+        <ArrowDropDownIcon sx={{height: "100%"}}/>
+      </IconButton>
+      <Popper
+          open={open}
+          anchorEl={anchorRef.current}
+          role={undefined}
+          placement="bottom-start"
+          transition
+          disablePortal
+          sx={{zIndex: 10}}
+        >
+        {({ TransitionProps, placement }) => (
+          <Grow
+            {...TransitionProps}
+            style={{
+              transformOrigin:
+              placement === 'bottom-start' ? 'left top' : 'left bottom',
+            }}
+          >
+            <Paper>
+              <ClickAwayListener onClickAway={handleClose}>
+                <MenuList
+                  autoFocusItem={open}
+                  id="composition-menu"
+                  aria-labelledby="composition-button"
+                >
+                  <MenuItem onClick={handleClose}><InventoryIcon fontSize="inherit" color="info" sx={{mr: 1}}/> Archived Chat Rooms</MenuItem>
+                </MenuList>
+              </ClickAwayListener>
+            </Paper>
+          </Grow>
+        )}
+      </Popper>
+    </>
+  )
+}
+
+
 
 const SearchModal = ({ showModal, setShowModal }) => {
   const navigate = useNavigate();
