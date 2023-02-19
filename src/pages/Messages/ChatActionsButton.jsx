@@ -92,9 +92,9 @@ const ChatActionsButton = () => {
 const ChatActionsModal = ({ showModal, setShowModal}) => {
   
   const handleClick = (isConfirmed) => {
-    console.log("ASD")
 
     if(isConfirmed){
+      console.log(showModal.option)
 
     }
     setShowModal({isVisible: false, option: ""})
