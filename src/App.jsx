@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { Routes, Route, Navigate } from "react-router-dom";
 import useAuthRedux from "./hooks/useAuthRedux";
 import useFriendRedux from './hooks/useFriendRedux';
+import useSocketIo from './hooks/useSocketIo';
 //components
 import Navbar from './components/Navbar';
 //pages
@@ -21,6 +22,9 @@ import About from './pages/About';
 function App() {
   const { user, isAuthReady, authorizeToken } = useAuthRedux();
   const { getFriends } = useFriendRedux();
+  const { isConnected } = useSocketIo();
+
+
   useEffect(() => {
     authorizeToken()
   }, [])

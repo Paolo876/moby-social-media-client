@@ -8,14 +8,13 @@ import { Container, Alert, Grid } from "@mui/material"
 import ProfileHeader from './ProfileHeader';
 import UserPostsList from './UserPostsList';
 
+
 const Profile = () => {
   const UserId = useParams()["*"];
   const { getProfileById, isLoading, error } = useProfileActions();
   const { user: { id } } = useAuthRedux();
   const [ user, setUser ] = useState(null);
   const isOwnProfile = !UserId || parseInt(UserId) === id;
-
-  
   useEffect(() => {
     getProfileById(UserId ? UserId : id ).then(res => setUser(res))
   }, [UserId])
