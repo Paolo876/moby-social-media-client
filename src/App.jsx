@@ -22,7 +22,7 @@ import About from './pages/About';
 function App() {
   const { user, isAuthReady, authorizeToken } = useAuthRedux();
   const { getFriends } = useFriendRedux();
-  const { isConnected } = useSocketIo();
+  const { isConnected, emitLogin } = useSocketIo();
 
 
   useEffect(() => {
@@ -31,6 +31,7 @@ function App() {
 
   useEffect(() => {
     if(isAuthReady && user){
+      emitLogin();
       getFriends();
     }
   }, [user])

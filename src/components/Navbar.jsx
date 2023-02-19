@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import useAuthRedux from '../hooks/useAuthRedux';
+import useSocketIo from '../hooks/useSocketIo';
 import { styled, alpha } from '@mui/material/styles';
 import { AppBar, Box, Toolbar, IconButton, Badge, MenuItem, Menu, Container, Tooltip, Divider } from '@mui/material';
 import Image from './Image';
@@ -77,7 +78,7 @@ const Navbar = () => {
     const { logout, user } = useAuthRedux();
     const [anchorEl, setAnchorEl] = useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
-    
+    const { emitLogout } = useSocketIo();
     let image;
     if(user && user.UserData) image = JSON.parse(user.UserData.image);
 
@@ -103,6 +104,7 @@ const Navbar = () => {
     
     const handleLogout = () => {
       setAnchorEl(null);
+      emitLogout();
       handleMobileMenuClose();
       handleMenuClose()
       logout()
