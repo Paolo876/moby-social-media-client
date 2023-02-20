@@ -46,7 +46,7 @@ const UserNavigation = () => {
                 <UserStatusDropDown/> 
             </ListItem>
             <Divider/>
-            <ListItem disablePadding   sx={{pl: 3, mt: 2, flexDirection: "column", alignItems: "flex-start"}} >
+            <ListItem disablePadding   sx={{pl: 2, mt: 2, flexDirection: "column", alignItems: "flex-start"}} >
                 <FriendsList/>
             </ListItem>
         </List>

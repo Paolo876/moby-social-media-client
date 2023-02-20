@@ -4,6 +4,8 @@ import { styled } from '@mui/material/styles';
 
 import Image from '../../components/Image';
 import ChatIcon from '@mui/icons-material/Chat';
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
 import defaultAvatar from "../../assets/default-profile.png";
 
 const StyledBadge = styled(Badge)(({ theme, status }) => ({
@@ -35,17 +37,17 @@ const StyledBadge = styled(Badge)(({ theme, status }) => ({
     },
   }));
   
-const UserCardItem = ({ status="invisible" }) => {
+const UserCardItem = ({ status="invisible", user, disableStatus=false, isFriendRequest=false }) => {
   let image = null;
   let opacity = .6;
-  if (status === "online"){
+  if (status === "online" || (status === "invisible" && isFriendRequest)){
     opacity = 1;
   } else if (status === "idle"){
     opacity = .75;
   }
   
   return (
-    <ListItemButton sx={{ pl: 1.5, cursor: "default", py: 0.25 }} disableRipple={true} disableTouchRipple={true}>
+    <ListItemButton sx={{ pl: 1, cursor: "default", py: 0.25 }} disableRipple={true} disableTouchRipple={true}>
         <ListItemText 
             primary={
               <Button color="secondary" sx={{textTransform: "initial", color: "initial", py: 0, opacity}}>
@@ -69,13 +71,20 @@ const UserCardItem = ({ status="invisible" }) => {
                   }
                 </StyledBadge>
                 <Stack ml={1}>
-                  <Typography variant="body1" align='left'>@username</Typography>
-                  <Typography variant="body2" align='left'>John Doe</Typography>
+                  <Typography variant="body1" align='left' noWrap>{user.username}</Typography>
+                  <Typography variant="body2" align='left' noWrap>{user.UserDatum.firstName} {user.UserDatum.lastName}</Typography>
                 </Stack>
             </Button>
             }    
         />
-        <IconButton size="small" color="secondary" sx={{p:1}}><ChatIcon fontSize="small"/></IconButton>
+        {isFriendRequest ? 
+          <>
+          <IconButton size="small" color="primary" ><CheckIcon fontSize="small"/></IconButton>
+          <IconButton size="small" color="error" ><CloseIcon fontSize="small"/></IconButton>
+          </>
+        :
+          <IconButton size="small" color="secondary" sx={{p:1}}><ChatIcon fontSize="small"/></IconButton>
+        }
     </ListItemButton>
   )
 }

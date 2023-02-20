@@ -48,7 +48,7 @@ export default function UserStatusDropDown() {
           align="left" 
           color="secondary" 
           textTransform="none"
-          sx={{opacity: isLoading ? .5 : 1}}
+          sx={{opacity: isLoading ? .75 : 1}}
         >
           {UserStatus.status}
         </Typography>

@@ -72,6 +72,7 @@ const ProfileSetup = () => {
             onSubmit={handleSubmit} 
             validationSchema={validationSchema}
           >
+          {({ errors }) => (
             <Form style={{display: "flex", flexDirection: "column", my: 5}}>
               <MyTextField 
                 id="firstName" 
@@ -80,7 +81,7 @@ const ProfileSetup = () => {
                 label={<p>First Name</p>} 
                 variant="standard" 
                 sx={{my:1, minWidth: "320px"}}
-                error="First Name is Required."
+                error={errors.firstName}
               />
               <MyTextField 
                 id="lastName" 
@@ -89,7 +90,7 @@ const ProfileSetup = () => {
                 label={<p>Last Name</p>} 
                 variant="standard" 
                 sx={{my:1, minWidth: "320px"}}
-                error="Last Name is Required."
+                error={errors.lastName}
               />
               <MyTextField 
                 id="birthday" 
@@ -102,7 +103,7 @@ const ProfileSetup = () => {
                 label={<p>Birthday</p>} 
                 variant="standard" 
                 sx={{my:1, minWidth: "320px"}}
-                error="Last Name is Required."
+                error={errors.birthday}
               />
               <UploadImageForm
                 setImage={setImage} 
@@ -120,6 +121,7 @@ const ProfileSetup = () => {
                 Update profile<CircularProgress color="secondary" size={16} thickness={6} sx={{ml: 2}}/>
               </Button>}    
             </Form>
+          )}
           </Formik>
         </Paper>
       </Container>
