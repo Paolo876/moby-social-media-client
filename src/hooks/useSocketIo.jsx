@@ -25,22 +25,14 @@ const useSocketIo = () => {
 
   const emitLogin = () => {
     socket.connect();
-    socket.emit("login")
+    socket.emit("login")  //user data is transported with the httpcookie token
     setIsConnected(true)
   }
 
   const emitLogout = () => {
-    // socket.emit("disconnect")
     setIsConnected(false)
     socket.disconnect()
-    // socket.off('connect');
-
-    // socket.off('disconnect');
-
   }
-
-
-  // console.log(socketRef.current.connected)
 
 
   return { isConnected, emitLogin, emitLogout }
