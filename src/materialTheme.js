@@ -29,7 +29,7 @@ export const theme = createTheme({
       userStatus: {
         online: "#44b700",
         idle: "rgba(255, 135, 0)",
-        invisible: "grey"
+        invisible: "rgba(200, 200, 200, 1)"
       }
     },
     typography: {

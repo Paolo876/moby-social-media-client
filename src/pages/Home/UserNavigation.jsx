@@ -11,6 +11,7 @@ const UserNavigation = () => {
   const { user } = useAuthRedux();
   const navigate = useNavigate();
   const { palette } = useTheme();
+  const status = user.UserStatus.status;
 
   let image;
   if(user && user.UserData) image = JSON.parse(user.UserData.image);
@@ -20,8 +21,7 @@ const UserNavigation = () => {
         <List>
             <ListItem sx={{pl: 3}} >
                 <Button  
-                    sx={{border: 2, borderColor: palette.userStatus.online, minWidth: 0, borderRadius: 50, mr: 3, p:0.4}} 
-                    color="secondary"  
+                    sx={{border: 2, borderColor: palette.userStatus[status], minWidth: 0, borderRadius: 50, mr: 3, p:0.4}} 
                     onClick={() => navigate("/profile")}
                 >
                     {image ? 

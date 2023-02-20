@@ -3,7 +3,7 @@ import { Typography, List, ListItemButton, ListItemText, Collapse } from "@mui/m
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import UserCardItem from './UserCardItem';
 const FriendsList = () => {
-  const [ showOnlineFriends, setShowOnlineFriends ] = useState(false);
+  const [ showOnlineFriends, setShowOnlineFriends ] = useState(true);
   const [ showOfflineFriends, setShowOfflineFriends ] = useState(false);
 
   return (
