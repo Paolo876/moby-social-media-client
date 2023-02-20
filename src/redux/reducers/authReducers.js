@@ -35,6 +35,23 @@ export const login = createAsyncThunk( 'auth/login', async ( payload, { rejectWi
 })
 
 
+/** updateStatus
+ *  @desc   update user status
+ *  @params payload { userame, password }
+ */
+export const updateStatus = createAsyncThunk( 'auth/updateStatus', async ( payload, { rejectWithValue }) => {
+    try {
+        const res = await axios.put(`${process.env.REACT_APP_DOMAIN_URL}/api/auth/update-status`, payload , {
+            headers: { 'Content-Type': 'application/json' },
+            withCredentials: true,
+        });
+        return res.data;
+    } catch (err){
+        return rejectWithValue(err.response.data)
+    }
+})
+
+
 /** signup
  *  @desc   signup a user
  *  @params payload { userame, password }

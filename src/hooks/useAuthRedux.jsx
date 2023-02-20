@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { authActions } from '../redux/reducers/authSlice';
-import { authorizeToken, login, logout, signup, profileSetup } from '../redux/reducers/authReducers';
+import { authorizeToken, login, logout, signup, profileSetup, updateStatus} from '../redux/reducers/authReducers';
 
 export default function useAuthRedux() {
     const dispatch = useDispatch();
@@ -15,6 +15,7 @@ export default function useAuthRedux() {
         profileSetup: data => dispatch(profileSetup(data)),
         logout: () => dispatch(logout()),
         authorizeToken: () => dispatch(authorizeToken()),
+        updateStatus: data => dispatch(updateStatus(data)),
       };
     } else {
       throw Error('Error accessing auth reducer.');

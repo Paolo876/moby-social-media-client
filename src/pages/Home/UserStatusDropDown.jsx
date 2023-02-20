@@ -1,4 +1,5 @@
 import { useState, useRef} from 'react';
+import useAuthRedux from '../../hooks/useAuthRedux';
 import { Button, ClickAwayListener, Grow, Paper, Popper, MenuItem, MenuList, Typography, Stack } from '@mui/material';
 import { useTheme } from '@emotion/react';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
@@ -7,12 +8,13 @@ import NightsStayIcon from '@mui/icons-material/NightsStay';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 export default function UserStatusDropDown() {
+  const { user: { UserStatus }, updateStatus, isLoading } = useAuthRedux();
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
-  const [ userStatus, setUserStatus ] = useState("online");
   const { palette } = useTheme();
+
   const handleMenuItemClick = (value) => {
-    setUserStatus(value);
+    updateStatus({status: value});
     setOpen(false);
   };
 
@@ -36,6 +38,7 @@ export default function UserStatusDropDown() {
           onClick={handleToggle}
           ref={anchorRef}
           sx={{width: "100%", display: "flex", alignItems: "center", flexDirection: "row"}}
+          disabled={isLoading}
         >
         <Typography 
           letterSpacing={.2} 
@@ -45,8 +48,9 @@ export default function UserStatusDropDown() {
           align="left" 
           color="secondary" 
           textTransform="none"
+          sx={{opacity: isLoading ? .5 : 1}}
         >
-          {userStatus}
+          {UserStatus.status}
         </Typography>
         <ArrowDropDownIcon />
       </Button>

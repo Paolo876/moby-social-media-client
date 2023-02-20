@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { authorizeToken, login, logout, signup, profileSetup } from "./authReducers";
+import { authorizeToken, login, logout, signup, profileSetup, updateStatus } from "./authReducers";
 import { authInitialState } from "../initialState";
 
 const authSlice = createSlice({
@@ -87,6 +87,21 @@ const authSlice = createSlice({
             state.isAuthReady = true;
         })
         .addCase(authorizeToken.rejected, ( state ) => {
+            state.isLoading = false;
+            state.isAuthReady = true;
+        })
+        // updateStatus
+        .addCase(updateStatus.pending, ( state ) => {
+            state.isLoading = true;
+            state.error = null;
+        })
+        .addCase(updateStatus.fulfilled, ( state, { payload } ) => {
+            const user = state.user;
+            state.isLoading = false;
+            state.user = {...user, UserStatus: payload };
+            state.error = null;
+        })
+        .addCase(updateStatus.rejected, ( state ) => {
             state.isLoading = false;
             state.isAuthReady = true;
         })
