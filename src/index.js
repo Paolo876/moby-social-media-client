@@ -10,13 +10,13 @@ import "./index.scss"
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  // <React.StrictMode>
+  <React.StrictMode>
     <BrowserRouter>
       <ThemeProvider theme={theme}>
         <Provider store={store}>    
-          <App />
+          <App/>
         </Provider>
       </ThemeProvider>
     </BrowserRouter>
-  // </React.StrictMode>
+  </React.StrictMode>
 );

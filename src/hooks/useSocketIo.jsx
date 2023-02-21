@@ -1,36 +1,31 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useRef } from 'react'
 import io from 'socket.io-client';
+import useFriendRedux from './useFriendRedux';
+
 
 const socket = io(`${process.env.REACT_APP_DOMAIN_URL}/`, { transports: ['websocket'], upgrade: false })
-// const socket = io(`${process.env.REACT_APP_DOMAIN_URL}/`, { transports: ['websocket'], upgrade: false, extraHeaders: { Cookie: 'token'} })
+
 
 const useSocketIo = () => {
   const socketRef = useRef();
   socketRef.current = socket;
   const [isConnected, setIsConnected] = useState(socketRef.current);
-  // useEffect(() => {
-  //   console.log("RUNNN")
-  //   socket.on('connection', () => {
-  //     setIsConnected(true);
-  //   });
-  //   socket.on('disconnect', () => {
-  //     setIsConnected(false);
-  //   });
 
-  //   return () => {
-  //     socket.off('connect');
-  //     socket.off('disconnect');
-  //   };
-  // }, [])
+  const triggerListeners = () => {
+    socket.on("online-friends", data => console.log(data))
+    socket.on("logged-in-friend", data => console.log(data, "just logged in"))
+  }
 
   const emitLogin = () => {
     socket.connect();
+    triggerListeners();
     socket.emit("login")  //user data is transported with the httpcookie token
     setIsConnected(true)
   }
 
   const emitLogout = () => {
     setIsConnected(false)
+    socket.off("online-friends")
     socket.disconnect()
   }
 

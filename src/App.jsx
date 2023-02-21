@@ -22,7 +22,7 @@ import About from './pages/About';
 function App() {
   const { user, isAuthReady, authorizeToken } = useAuthRedux();
   const { getFriends } = useFriendRedux();
-  const { isConnected, emitLogin } = useSocketIo();
+  const { isConnected, emitLogin, triggerListeners } = useSocketIo();
 
 
   useEffect(() => {
