@@ -22,7 +22,7 @@ import About from './pages/About';
 function App() {
   const { user, isAuthReady, authorizeToken } = useAuthRedux();
   const { getFriends } = useFriendRedux();
-  const { isConnected, emitLogin, triggerListeners } = useSocketIo();
+  const { emitLogin, emitLogout } = useSocketIo();
 
 
   useEffect(() => {
@@ -30,11 +30,15 @@ function App() {
   }, [])
 
   useEffect(() => {
-    if(isAuthReady && user){
-      emitLogin();
-      getFriends();
+    if(isAuthReady){
+      if(user){
+        emitLogin();
+        getFriends();
+      } else {
+        emitLogout();
+      }
     }
-  }, [user])
+  }, [isAuthReady, user])
 
   if(!isAuthReady) return <LoadingSpinner message="Loading Data..."/>
   if(isAuthReady) return (

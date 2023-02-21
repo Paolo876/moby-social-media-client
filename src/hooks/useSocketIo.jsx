@@ -14,6 +14,7 @@ const useSocketIo = () => {
   const triggerListeners = () => {
     socket.on("online-friends", data => console.log(data))
     socket.on("logged-in-friend", data => console.log(data, "just logged in"))
+    socket.on("logged-out-friend", data => console.log(data, "just logged out"))
   }
 
   const emitLogin = () => {
@@ -25,7 +26,9 @@ const useSocketIo = () => {
 
   const emitLogout = () => {
     setIsConnected(false)
+    socket.emit("logout")
     socket.off("online-friends")
+    socket.off("logged-in-friend")
     socket.disconnect()
   }
 
