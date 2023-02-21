@@ -36,6 +36,8 @@ export const chatInitialState = {
  */
 export const friendsInitialState = {
     friends: null,
+    onlineFriends: [],
+    offlineFriends: [],
     friendRequests: null,
     sentRequests: null,
     isLoading: false,

@@ -38,7 +38,7 @@ function App() {
         emitLogout();
       }
     }
-  }, [user])
+  }, [isAuthReady, user])
 
   if(!isAuthReady) return <LoadingSpinner message="Loading Data..."/>
   if(isAuthReady) return (
