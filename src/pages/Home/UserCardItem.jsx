@@ -70,12 +70,13 @@ const UserCardItem = ({ status="invisible", user, disableStatus=false, isFriendR
                     <img src={defaultAvatar} style={{height: "35px", width: "35px"}} alt="profile-avatar"/>
                   }
                 </StyledBadge>
-                <Stack ml={1}>
+                <Stack ml={1} sx={{overflow: "hidden"}}>
                   <Typography variant="body1" align='left' noWrap>{user.username}</Typography>
                   <Typography variant="body2" align='left' noWrap>{user.UserDatum.firstName} {user.UserDatum.lastName}</Typography>
                 </Stack>
             </Button>
-            }    
+            }
+            sx={{overflow: "hidden"}} 
         />
         {isFriendRequest ? 
           <>

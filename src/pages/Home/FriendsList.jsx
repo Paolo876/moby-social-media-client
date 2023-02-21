@@ -19,16 +19,17 @@ const FriendsList = () => {
       </Box>}
       {friends && <>
         <Typography letterSpacing={.2} fontWeight={500} variant="h6" fontSize={16} align="left">Friends:</Typography>
-        
-        <ListItemButton onClick={() => setShowFriendRequests(prevState => !prevState)} sx={{width: "100%"}}>
-          <ListItemText primary={`Friend Requests (${friendRequests.length})`}  sx={{fontSize: 14 }}/>
-          {showFriendRequests ? <ExpandLess /> : <ExpandMore />}
-        </ListItemButton>
-        <Collapse in={showFriendRequests} timeout="auto" unmountOnExit sx={{width: "100%"}}>
-          <List component="div" disablePadding>
-            {friendRequests.map(item => <UserCardItem key={item.id} user={item} disableStatus isFriendRequest/>)}
-          </List>
-        </Collapse>
+        {friendRequests.length !== 0 && <>
+          <ListItemButton onClick={() => setShowFriendRequests(prevState => !prevState)} sx={{width: "100%"}}>
+            <ListItemText primary={`Friend Requests (${friendRequests.length})`}  sx={{fontSize: 14 }}/>
+            {showFriendRequests ? <ExpandLess /> : <ExpandMore />}
+          </ListItemButton>
+          <Collapse in={showFriendRequests} timeout="auto" unmountOnExit sx={{width: "100%"}}>
+            <List component="div" disablePadding>
+              {friendRequests.map(item => <UserCardItem key={item.id} user={item} disableStatus isFriendRequest/>)}
+            </List>
+          </Collapse>
+        </>}
 
         <ListItemButton onClick={() => setShowOnlineFriends(prevState => !prevState)} sx={{width: "100%"}}>
           <ListItemText primary={`Online Friends (0)`}  sx={{fontSize: 14}}/>
