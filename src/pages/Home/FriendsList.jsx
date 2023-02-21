@@ -8,14 +8,13 @@ const FriendsList = () => {
   const [ showFriendRequests, setShowFriendRequests ] = useState(true);
   const [ showOnlineFriends, setShowOnlineFriends ] = useState(true);
   const [ showOfflineFriends, setShowOfflineFriends ] = useState(false);
-  const { friends, friendRequests, isLoading, error } = useFriendRedux();
+  const { friends, friendRequests, isLoading, error, confirmRequest } = useFriendRedux();
 
   const handleFriendRequestClick = ({isConfirmed, id}) => {
-    console.log(isConfirmed, id)
-    if(isConfirmed){
-      
-    }
+    confirmRequest({id, data: { isConfirmed }})
   }
+
+
   return (
     <>
       {error && <Alert severity='error' sx={{width: "100%"}}>{error}</Alert>}
@@ -31,7 +30,7 @@ const FriendsList = () => {
           </ListItemButton>
           <Collapse in={showFriendRequests} timeout="auto" unmountOnExit sx={{width: "100%"}}>
             <List component="div" disablePadding>
-              {friendRequests.map(item => <UserCardItem key={item.id} user={item} disableStatus isFriendRequest handleFriendRequestClick={handleFriendRequestClick}/>)}
+              {friendRequests.map(item => <UserCardItem key={item.id} user={item} disableStatus isFriendRequest handleFriendRequestClick={handleFriendRequestClick} isButtonDisabled={isLoading}/>)}
             </List>
           </Collapse>
         </>}
