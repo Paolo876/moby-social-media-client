@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import useFriendRedux from "../../hooks/useFriendRedux"
 import { Typography, List, ListItemButton, ListItemText, Collapse, Box, Alert } from "@mui/material"
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
@@ -10,10 +10,15 @@ const FriendsList = () => {
   const [ showOfflineFriends, setShowOfflineFriends ] = useState(false);
   const { friends, friendRequests, isLoading, error, confirmRequest } = useFriendRedux();
 
+  const [ onlineFriends, setOnlineFriends ] = useState([])
+  const [ offlineFriends, setOfflineFriends ] = useState([])
+
+  useEffect(() => {
+
+  }, [friends, friendRequests])
   const handleFriendRequestClick = ({isConfirmed, id}) => {
     confirmRequest({id, data: { isConfirmed }})
   }
-
 
   return (
     <>
@@ -36,18 +41,16 @@ const FriendsList = () => {
         </>}
 
         <ListItemButton onClick={() => setShowOnlineFriends(prevState => !prevState)} sx={{width: "100%"}}>
-          <ListItemText primary={`Online Friends (0)`}  sx={{fontSize: 14}}/>
+          <ListItemText primary={`Online Friends (${onlineFriends.length})`}  sx={{fontSize: 14}}/>
           {showOnlineFriends ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
         <Collapse in={showOnlineFriends} timeout="auto" unmountOnExit sx={{width: "100%"}}>
-          <List component="div" disablePadding>
-            {/* <UserCardItem status="online"/>
-            <UserCardItem status="idle"/>
-            <UserCardItem status="invisible"/> */}
-          </List>
+        <List component="div" disablePadding>
+              {friends.map(item => <UserCardItem key={item.id} user={item} status="online"/>)}
+            </List>
         </Collapse>
         <ListItemButton onClick={() => setShowOfflineFriends(prevState => !prevState)} sx={{width: "100%"}}>
-          <ListItemText primary={`Offline Friends (0)`} sx={{fontSize: 14}}/>
+          <ListItemText primary={`Offline Friends (${offlineFriends.length})`} sx={{fontSize: 14}}/>
           {showOfflineFriends ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
       </>}
