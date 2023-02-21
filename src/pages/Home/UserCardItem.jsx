@@ -1,5 +1,6 @@
 import React from 'react'
-import { ListItemButton, ListItemText, Typography, IconButton, Stack, Badge, Button } from '@mui/material';
+import { useNavigate } from "react-router-dom"
+import { ListItemButton, ListItemText, Typography, IconButton, Stack, Badge, Button, Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 import Image from '../../components/Image';
@@ -38,6 +39,7 @@ const StyledBadge = styled(Badge)(({ theme, status }) => ({
   }));
   
 const UserCardItem = ({ status="invisible", user, disableStatus=false, isFriendRequest=false, handleFriendRequestClick, isButtonDisabled }) => {
+  const navigate = useNavigate();
   let image = null;
   let opacity = .6;
   if (status === "online" || (status === "invisible" && isFriendRequest)){
@@ -46,12 +48,38 @@ const UserCardItem = ({ status="invisible", user, disableStatus=false, isFriendR
     opacity = .75;
   }
   
+  const handleMessageClick = (e) => {
+    e.stopPropagation();
+    console.log("messge click")
+  }
+
+  const handleFriendRequestActions = ({e, isConfirmed, id}) => {
+    e.stopPropagation();
+    handleFriendRequestClick({ isConfirmed, id})
+  }
+
+
   return (
-    <ListItemButton sx={{ pl: 1, cursor: "default", py: 0.25 }} disableRipple={true} disableTouchRipple={true}>
+    <ListItemButton sx={{ pl: 1, cursor: "", py: 0.25 }} disableRipple={true} disableTouchRipple={true} onClick={() => navigate(`/profile/${user.id}`)}>
         <ListItemText 
             primary={
-              <Button color="secondary" sx={{textTransform: "initial", color: "initial", py: 0, opacity}}>
-                <StyledBadge
+              <Box sx={{textTransform: "initial", color: "initial", py: 0, opacity, display: "flex", flexDirection: "row"}} >
+                {disableStatus ? 
+                <>
+                  {image ? 
+                    <Image 
+                      src={image.url} 
+                      transformation={[{
+                        height: 28,
+                        width: 28,
+                      }]} 
+                      style={{borderRadius: "50%"}}
+                      alt="profile-avatar"
+                    /> :
+                    <img src={defaultAvatar} style={{height: "35px", width: "35px"}} alt="profile-avatar"/>
+                  }
+                </>
+                :<StyledBadge
                   overlap="circular"
                   anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                   variant="dot"
@@ -69,22 +97,22 @@ const UserCardItem = ({ status="invisible", user, disableStatus=false, isFriendR
                     /> :
                     <img src={defaultAvatar} style={{height: "35px", width: "35px"}} alt="profile-avatar"/>
                   }
-                </StyledBadge>
+                </StyledBadge>}
                 <Stack ml={1} sx={{overflow: "hidden"}}>
                   <Typography variant="body1" align='left' noWrap>{user.username}</Typography>
                   <Typography variant="body2" align='left' noWrap>{user.UserDatum.firstName} {user.UserDatum.lastName}</Typography>
                 </Stack>
-            </Button>
+            </Box>
             }
             sx={{overflow: "hidden"}} 
         />
         {isFriendRequest ? 
           <>
-          <IconButton size="small" color="primary" onClick={() => handleFriendRequestClick({isConfirmed: true, id: user.id})} disabled={isButtonDisabled}><CheckIcon fontSize="small"/></IconButton>
-          <IconButton size="small" color="error" onClick={() => handleFriendRequestClick({isConfirmed: false, id: user.id})} disabled={isButtonDisabled}><CloseIcon fontSize="small"/></IconButton>
+          <IconButton size="small" color="primary" onClick={(e) => handleFriendRequestActions({e, isConfirmed: true, id: user.id})} disabled={isButtonDisabled}><CheckIcon fontSize="small"/></IconButton>
+          <IconButton size="small" color="error" onClick={(e) => handleFriendRequestActions({e, isConfirmed: false, id: user.id})} disabled={isButtonDisabled}><CloseIcon fontSize="small"/></IconButton>
           </>
         :
-          <IconButton size="small" color="secondary" sx={{p:1}}><ChatIcon fontSize="small"/></IconButton>
+          <IconButton size="small" color="secondary" sx={{p:1}} onClick={handleMessageClick}><ChatIcon fontSize="small"/></IconButton>
         }
     </ListItemButton>
   )
