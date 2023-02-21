@@ -1,5 +1,7 @@
 import React from 'react'
 import { useNavigate } from "react-router-dom"
+import useChatRedux from '../../hooks/useChatRedux';
+import useMessagesActions from "../../hooks/useMessagesActions"
 import { ListItemButton, ListItemText, Typography, IconButton, Stack, Badge, Button, Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
@@ -39,6 +41,9 @@ const StyledBadge = styled(Badge)(({ theme, status }) => ({
   }));
   
 const UserCardItem = ({ status="invisible", user, disableStatus=false, isFriendRequest=false, handleFriendRequestClick, isButtonDisabled }) => {
+  const { findChat, isLoading } = useMessagesActions();
+  const { setNewChatUser } = useChatRedux();
+
   const navigate = useNavigate();
   let image = null;
   let opacity = .6;
@@ -48,9 +53,15 @@ const UserCardItem = ({ status="invisible", user, disableStatus=false, isFriendR
     opacity = .75;
   }
   
-  const handleMessageClick = (e) => {
+  const handleMessageClick = async(e) => {
     e.stopPropagation();
-    console.log("messge click")
+    const result = await findChat(user.id);
+    if(result.ChatRoomId){
+      navigate(`/messages/${result.ChatRoomId}`)
+    } else {
+      setNewChatUser(user)
+      navigate(`/messages/new/${user.id}`)
+    }
   }
 
   const handleFriendRequestActions = ({e, isConfirmed, id}) => {
@@ -112,7 +123,7 @@ const UserCardItem = ({ status="invisible", user, disableStatus=false, isFriendR
           <IconButton size="small" color="error" onClick={(e) => handleFriendRequestActions({e, isConfirmed: false, id: user.id})} disabled={isButtonDisabled}><CloseIcon fontSize="small"/></IconButton>
           </>
         :
-          <IconButton size="small" color="secondary" sx={{p:1}} onClick={handleMessageClick}><ChatIcon fontSize="small"/></IconButton>
+          <IconButton size="small" color="secondary" sx={{p:1}} onClick={handleMessageClick} disabled={isLoading}><ChatIcon fontSize="small"/></IconButton>
         }
     </ListItemButton>
   )
