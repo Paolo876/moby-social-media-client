@@ -10,7 +10,12 @@ const FriendsList = () => {
   const [ showOfflineFriends, setShowOfflineFriends ] = useState(false);
   const { friends, friendRequests, isLoading, error } = useFriendRedux();
 
-  console.log(friendRequests)
+  const handleFriendRequestClick = ({isConfirmed, id}) => {
+    console.log(isConfirmed, id)
+    if(isConfirmed){
+      
+    }
+  }
   return (
     <>
       {error && <Alert severity='error' sx={{width: "100%"}}>{error}</Alert>}
@@ -26,7 +31,7 @@ const FriendsList = () => {
           </ListItemButton>
           <Collapse in={showFriendRequests} timeout="auto" unmountOnExit sx={{width: "100%"}}>
             <List component="div" disablePadding>
-              {friendRequests.map(item => <UserCardItem key={item.id} user={item} disableStatus isFriendRequest/>)}
+              {friendRequests.map(item => <UserCardItem key={item.id} user={item} disableStatus isFriendRequest handleFriendRequestClick={handleFriendRequestClick}/>)}
             </List>
           </Collapse>
         </>}

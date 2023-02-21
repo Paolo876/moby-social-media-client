@@ -37,7 +37,7 @@ const StyledBadge = styled(Badge)(({ theme, status }) => ({
     },
   }));
   
-const UserCardItem = ({ status="invisible", user, disableStatus=false, isFriendRequest=false }) => {
+const UserCardItem = ({ status="invisible", user, disableStatus=false, isFriendRequest=false, handleFriendRequestClick }) => {
   let image = null;
   let opacity = .6;
   if (status === "online" || (status === "invisible" && isFriendRequest)){
@@ -80,8 +80,8 @@ const UserCardItem = ({ status="invisible", user, disableStatus=false, isFriendR
         />
         {isFriendRequest ? 
           <>
-          <IconButton size="small" color="primary" ><CheckIcon fontSize="small"/></IconButton>
-          <IconButton size="small" color="error" ><CloseIcon fontSize="small"/></IconButton>
+          <IconButton size="small" color="primary" onClick={() => handleFriendRequestClick({isConfirmed: true, id: user.id})}><CheckIcon fontSize="small"/></IconButton>
+          <IconButton size="small" color="error" onClick={() => handleFriendRequestClick({isConfirmed: false, id: user.id})}><CloseIcon fontSize="small"/></IconButton>
           </>
         :
           <IconButton size="small" color="secondary" sx={{p:1}}><ChatIcon fontSize="small"/></IconButton>
