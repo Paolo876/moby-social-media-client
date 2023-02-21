@@ -3,7 +3,7 @@ import io from 'socket.io-client';
 import useFriendRedux from './useFriendRedux';
 
 
-const socket = io(`${process.env.REACT_APP_DOMAIN_URL}/`, { transports: ['websocket'], upgrade: true })
+const socket = io(`${process.env.REACT_APP_DOMAIN_URL}/`, { transports: ['websocket'], upgrade: false})
 
 
 const useSocketIo = () => {
@@ -18,14 +18,13 @@ const useSocketIo = () => {
   }
 
   const emitLogin = () => {
-    socket.connect(); //user data is transported with the httpcookie token
     triggerListeners();
+    socket.connect()
     setIsConnected(true)
   }
 
   const emitLogout = () => {
     setIsConnected(false)
-    console.log("LOGOUT")
     socket.emit("logout")
     socket.off("online-friends")
     socket.off("logged-in-friend")

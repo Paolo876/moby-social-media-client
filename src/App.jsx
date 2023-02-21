@@ -34,9 +34,9 @@ function App() {
       if(user){
         emitLogin();
         getFriends();
-      } else {
-        emitLogout();
-      }
+      }      
+    } else {
+      emitLogout(); //cut existing connections
     }
   }, [isAuthReady, user])
 
