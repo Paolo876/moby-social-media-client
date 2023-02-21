@@ -21,7 +21,7 @@ const UserNavigation = () => {
         <List>
             <ListItem sx={{pl: 3}} >
                 <Button  
-                    sx={{border: 2, borderColor: palette.userStatus[status], minWidth: 0, borderRadius: 50, mr: 3, p:0.4}} 
+                    sx={{border: 2, borderColor: palette.userStatus[status], width: 48, height: 48, minWidth: 48, borderRadius: 50, mr: 1}} 
                     onClick={() => navigate("/profile")}
                 >
                     {image ? 
@@ -37,9 +37,9 @@ const UserNavigation = () => {
                         <img src={defaultAvatar} alt="profile-avatar" style={{height: "40px", width: "40px"}}/>
                     }
                 </Button>
-                <Stack>
-                    <Typography variant="body1" align='left'>@{user.username}</Typography>
-                    <Typography variant="body2" align='left'>{user.UserData.firstName} {user.UserData.lastName}</Typography>
+                <Stack sx={{overflow: "hidden"}}>
+                    <Typography variant="body1" align='left' noWrap>@{user.username}</Typography>
+                    <Typography variant="body2" align='left' noWrap>{user.UserData.firstName} {user.UserData.lastName}</Typography>
                 </Stack>
             </ListItem>
             <ListItem sx={{pl: 3}} >

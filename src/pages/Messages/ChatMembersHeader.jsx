@@ -36,7 +36,7 @@ const ChatMembersHeader = ({ chatMembers }) => {
             onClick={() => setShowModal(true)}
             >
             {chatMembers.map(item => <Avatar 
-              key={item.id} 
+              key={item.User.id} 
               alt={item.User.username} 
               src={item.User.UserDatum && item.User.UserDatum.image ? JSON.parse(item.User.UserDatum.image).url : null}
               sx={{width: 25, height: 25}} 
