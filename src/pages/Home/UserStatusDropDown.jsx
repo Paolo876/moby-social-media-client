@@ -1,5 +1,6 @@
-import { useState, useRef} from 'react';
+import { useState, useRef } from 'react';
 import useAuthRedux from '../../hooks/useAuthRedux';
+import useSocketIo from '../../hooks/useSocketIo';
 import { Button, ClickAwayListener, Grow, Paper, Popper, MenuItem, MenuList, Typography, Stack } from '@mui/material';
 import { useTheme } from '@emotion/react';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
@@ -9,12 +10,14 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 export default function UserStatusDropDown() {
   const { user: { UserStatus }, updateStatus, isLoading } = useAuthRedux();
+  const { emitStatusChange } = useSocketIo();
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
   const { palette } = useTheme();
 
   const handleMenuItemClick = (value) => {
     updateStatus({status: value});
+    emitStatusChange(value);
     setOpen(false);
   };
 

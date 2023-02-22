@@ -20,8 +20,8 @@ const friendSlice = createSlice({
             state.offlineFriends = updatedOfflineFriends;
         },
         setLoggedInFriend: (state, { payload }) => {    //payload = UserId
-            let updatedOnlineFriends = state.onlineFriends
-            let updatedOfflineFriends = state.offlineFriends
+            const updatedOnlineFriends = state.onlineFriends
+            const updatedOfflineFriends = state.offlineFriends
             const loggedInFriend = state.friends.find(item => item.id === payload)
             const isFriendAlreadyLoggedIn = updatedOnlineFriends.find(item => item.id === payload)
 
@@ -29,13 +29,41 @@ const friendSlice = createSlice({
             state.offlineFriends = updatedOfflineFriends.filter(item => item.id !== payload)            
         },
         setLoggedOutFriend: (state, { payload }) => {    //payload = UserId
-            let updatedOnlineFriends = state.onlineFriends
-            let updatedOfflineFriends = state.offlineFriends
+            const updatedOnlineFriends = state.onlineFriends
+            const updatedOfflineFriends = state.offlineFriends
             const loggedOutFriend = state.friends.find(item => item.id === payload)
             const isFriendAlreadyLoggedOut = updatedOfflineFriends.find(item => item.id === payload)
 
             if(!isFriendAlreadyLoggedOut) state.offlineFriends = [loggedOutFriend, ...updatedOfflineFriends]
             state.onlineFriends = updatedOnlineFriends.filter(item => item.id !== payload)
+        },
+        setStatusChangedFriend: (state, { payload }) => {    //payload = {status, UserId}
+            const { status, UserId } = payload;
+            const updatedOnlineFriends = state.onlineFriends;
+            const updatedOfflineFriends = state.offlineFriends
+            const friend = state.friends.find(item => item.id === UserId);
+            if(friend){
+                //update UserStatus
+                friend.UserStatus.status = status;
+                if(status === "invisible"){
+                    //add to offline list (check if it's already in the list)
+                    if(!updatedOfflineFriends.some(item => item.id === UserId)) state.offlineFriends = [friend, ...updatedOfflineFriends]
+                    
+                    //remove from online list
+                    state.onlineFriends = updatedOnlineFriends.filter(item => item.id !== UserId)
+                } else {
+                    //filter out from offline list
+                    state.offlineFriends = updatedOfflineFriends.filter(item => item.id !== UserId)
+                    //add to onlineList (check if it's already in the list)
+                    if(!updatedOnlineFriends.some(item => item.id === UserId)) {
+                        state.onlineFriends = [friend, ...updatedOnlineFriends]
+                    } else {
+                        const onlineFriend = updatedOnlineFriends.find(item => item.id === UserId)
+                        onlineFriend.UserStatus.status = status;
+                        state.onlineFriends = updatedOnlineFriends;
+                    }
+                }
+            }
         },
     }, 
     extraReducers: (builder) => {

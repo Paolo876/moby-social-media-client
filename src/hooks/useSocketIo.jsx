@@ -7,7 +7,7 @@ const socket = io(`${process.env.REACT_APP_DOMAIN_URL}/`, { transports: ['websoc
 
 
 const useSocketIo = () => {
-  const { setOnlineFriends, setLoggedInFriend, setLoggedOutFriend } = useFriendRedux();
+  const { setOnlineFriends, setLoggedInFriend, setLoggedOutFriend, setStatusChangedFriend } = useFriendRedux();
   const socketRef = useRef();
   socketRef.current = socket;
   const [isConnected, setIsConnected] = useState(socketRef.current);
@@ -16,11 +16,12 @@ const useSocketIo = () => {
     socket.on("online-friends", data => setOnlineFriends(data))
     socket.on("logged-in-friend", data => setLoggedInFriend(data))
     socket.on("logged-out-friend", data => setLoggedOutFriend(data))
+    socket.on("status-changed-friend", data => setStatusChangedFriend(data))
   }
 
   const emitLogin = () => {
     triggerListeners();
-    socket.connect()
+    socket.connect({ autoConnect: true})
     setIsConnected(true)
   }
 
@@ -29,11 +30,18 @@ const useSocketIo = () => {
     socket.emit("logout")
     socket.off("online-friends")
     socket.off("logged-in-friend")
+    socket.off("status-changed-friend")
     socket.disconnect()
   }
 
+  const emitStatusChange = (status) => {
+    if(isConnected){
+      socket.emit("status-change", status)
+    }
+  }
 
-  return { isConnected, emitLogin, emitLogout }
+
+  return { isConnected, emitLogin, emitLogout, emitStatusChange }
 }
 
 export default useSocketIo
