@@ -6,6 +6,19 @@ const friendSlice = createSlice({
     name: "friends",
     initialState: friendsInitialState,
     reducers: {
+        setOnlineFriends: (state, { payload }) => {     //payload is an array of UserIds
+            let updatedOnlineFriends = []
+            let updatedOfflineFriends = []
+            state.friends.forEach(item => {
+                if(payload.includes(item.id) && item.UserStatus.status !== "invisible") {
+                    updatedOnlineFriends.push(item)
+                } else {
+                    updatedOfflineFriends.push(item)
+                }
+            })
+            state.onlineFriends = updatedOnlineFriends;
+            state.offlineFriends = updatedOfflineFriends;
+        }
     }, 
     extraReducers: (builder) => {
         builder

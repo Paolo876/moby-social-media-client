@@ -8,10 +8,8 @@ const FriendsList = () => {
   const [ showFriendRequests, setShowFriendRequests ] = useState(true);
   const [ showOnlineFriends, setShowOnlineFriends ] = useState(true);
   const [ showOfflineFriends, setShowOfflineFriends ] = useState(false);
-  const { friends, friendRequests, isLoading, error, confirmRequest } = useFriendRedux();
+  const { friends, friendRequests, isLoading, error, confirmRequest, onlineFriends, offlineFriends } = useFriendRedux();
 
-  const [ onlineFriends, setOnlineFriends ] = useState([])
-  const [ offlineFriends, setOfflineFriends ] = useState([])
 
   useEffect(() => {
 
@@ -46,13 +44,19 @@ const FriendsList = () => {
         </ListItemButton>
         <Collapse in={showOnlineFriends} timeout="auto" unmountOnExit sx={{width: "100%"}}>
         <List component="div" disablePadding>
-              {friends.map(item => <UserCardItem key={item.id} user={item} status="online"/>)}
-            </List>
+          {onlineFriends.map(item => <UserCardItem key={item.id} user={item} status={item.UserStatus.status}/>)}
+        </List>
         </Collapse>
+
         <ListItemButton onClick={() => setShowOfflineFriends(prevState => !prevState)} sx={{width: "100%"}}>
           <ListItemText primary={`Offline Friends (${offlineFriends.length})`} sx={{fontSize: 14}}/>
           {showOfflineFriends ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
+        <Collapse in={showOfflineFriends} timeout="auto" unmountOnExit sx={{width: "100%"}}>
+        <List component="div" disablePadding>
+          {offlineFriends.map(item => <UserCardItem key={item.id} user={item} disableStatus/>)}
+        </List>
+        </Collapse>
       </>}
     </>
   )

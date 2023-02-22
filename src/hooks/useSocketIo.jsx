@@ -7,12 +7,13 @@ const socket = io(`${process.env.REACT_APP_DOMAIN_URL}/`, { transports: ['websoc
 
 
 const useSocketIo = () => {
+  const { setOnlineFriends } = useFriendRedux();
   const socketRef = useRef();
   socketRef.current = socket;
   const [isConnected, setIsConnected] = useState(socketRef.current);
 
   const triggerListeners = () => {
-    socket.on("online-friends", data => console.log(data, "online friends"))
+    socket.on("online-friends", data => setOnlineFriends(data))
     socket.on("logged-in-friend", data => console.log(data, "just logged in"))
     socket.on("logged-out-friend", data => console.log(data, "just logged out"))
   }

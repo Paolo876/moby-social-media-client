@@ -12,6 +12,7 @@ const useFriendRedux = () => {
         sendRequest: (data) => dispatch(sendRequest(data)),
         confirmRequest: (data) => dispatch(confirmRequest(data)),
         unfriend: (data) => dispatch(unfriend(data)),
+        setOnlineFriends: (data) => dispatch(friendActions.setOnlineFriends(data)),
     };
   } else {
     throw Error('Error accessing friend reducer.');
