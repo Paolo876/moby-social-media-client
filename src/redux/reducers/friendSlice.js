@@ -6,7 +6,7 @@ const friendSlice = createSlice({
     name: "friends",
     initialState: friendsInitialState,
     reducers: {
-        setOnlineFriends: (state, { payload }) => {     //payload is an array of UserIds
+        setOnlineFriends: (state, { payload }) => {     //payload = array of UserIds
             let updatedOnlineFriends = []
             let updatedOfflineFriends = []
             state.friends.forEach(item => {
@@ -18,7 +18,25 @@ const friendSlice = createSlice({
             })
             state.onlineFriends = updatedOnlineFriends;
             state.offlineFriends = updatedOfflineFriends;
-        }
+        },
+        setLoggedInFriend: (state, { payload }) => {    //payload = UserId
+            let updatedOnlineFriends = state.onlineFriends
+            let updatedOfflineFriends = state.offlineFriends
+            const loggedInFriend = state.friends.find(item => item.id === payload)
+            const isFriendAlreadyLoggedIn = updatedOnlineFriends.find(item => item.id === payload)
+
+            if(!isFriendAlreadyLoggedIn) state.onlineFriends = [loggedInFriend, ...updatedOnlineFriends]
+            state.offlineFriends = updatedOfflineFriends.filter(item => item.id !== payload)            
+        },
+        setLoggedOutFriend: (state, { payload }) => {    //payload = UserId
+            let updatedOnlineFriends = state.onlineFriends
+            let updatedOfflineFriends = state.offlineFriends
+            const loggedOutFriend = state.friends.find(item => item.id === payload)
+            const isFriendAlreadyLoggedOut = updatedOfflineFriends.find(item => item.id === payload)
+
+            if(!isFriendAlreadyLoggedOut) state.offlineFriends = [loggedOutFriend, ...updatedOfflineFriends]
+            state.onlineFriends = updatedOnlineFriends.filter(item => item.id !== payload)
+        },
     }, 
     extraReducers: (builder) => {
         builder
