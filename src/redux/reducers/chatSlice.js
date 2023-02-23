@@ -28,7 +28,11 @@ const chatSlice = createSlice({
             const chatRoom = updatedChatRooms.find(item => item.ChatRoom.id === payload)
             chatRoom.ChatRoom.isLastMessageRead = [{isLastMessageRead: true }]
             state.chatRooms = updatedChatRooms;
+        },
 
+        //socketio
+        receiveMessage(state, { payload }){
+            console.log(payload)
         },
     }, 
     extraReducers: (builder) => {

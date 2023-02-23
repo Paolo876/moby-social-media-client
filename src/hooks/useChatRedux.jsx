@@ -14,6 +14,7 @@ const useChatRedux = () => {
         updateOnMessageSent: (data) => dispatch(chatActions.updateOnMessageSent(data)),
         setLastMessageAsRead: (data) => dispatch(chatActions.setLastMessageAsRead(data)),
         clearNewChatUser: () => dispatch(chatActions.clearNewChatUser()),
+        receiveMessage: (data) => dispatch(chatActions.receiveMessage(data)),
     };
   } else {
     throw Error('Error accessing chat reducer.');
