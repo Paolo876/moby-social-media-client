@@ -29,7 +29,7 @@ const MessagesList = () => {
 
   let chatMembers = []
   if(chatRoom) chatMembers = chatRoom.ChatRoom.ChatMembers
-
+  console.log(chatMembers)
 
   useEffect(() => {
     if(params) {
@@ -47,12 +47,11 @@ const MessagesList = () => {
   }, [params])
 
   const handleSubmit = async (input) => {
-    const message = await sendMessage({ message: input, ChatRoomId: params}); //send message [post request]
+    const message = await sendMessage({ message: input, ChatRoomId: params}, chatMembers.map(item => item.UserId || item.id)); //send message [post request]
     setMessages(prevState => [message, ...prevState]) //update messages list
     updateOnMessageSent({id: parseInt(params), ChatMessages: [message]}) //update chat redux
   }
 
-  
   return (
     <Paper sx={{width: "100%", display: "flex", flexDirection: "column", overflow: "hidden", height: "100%"}}>
       {params && <>

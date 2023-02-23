@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import axios from 'axios'
-
+import useSocketIo from './useSocketIo';
 /* @desc       A set of request functions for Messages (No redux)
 *  @access     Private
 */
 const useMessagesActions = () => {
+  const { emitMessage } = useSocketIo();
   const [ isLoading, setIsLoading ] = useState(false);
   const [ error, setError ] = useState(null);
 
@@ -47,11 +48,12 @@ const useMessagesActions = () => {
   *  @access     Private
   *  @return     <Array>
   */
-  const sendMessage = async (data) => {
+  const sendMessage = async (data, ChatMembers = []) => {
     setIsLoading(true)
     try {
         const res = await axios.post(`${process.env.REACT_APP_DOMAIN_URL}/api/chat/send-message`, data, { headers: { 'Content-Type': 'application/json' }, withCredentials: true });
         setIsLoading(false)
+        emitMessage({users: ChatMembers, ...data })
         return res.data
     } catch(err) {
         setIsLoading(false)

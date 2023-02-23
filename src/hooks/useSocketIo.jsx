@@ -41,7 +41,13 @@ const useSocketIo = () => {
   }
 
 
-  return { isConnected, emitLogin, emitLogout, emitStatusChange }
+  //chat events
+
+  const emitMessage = (data) => {
+    socket.emit("send-message", data)   // data = { users, ChatRoomId, message}
+  }
+
+  return { isConnected, emitLogin, emitLogout, emitStatusChange, emitMessage }
 }
 
 export default useSocketIo
