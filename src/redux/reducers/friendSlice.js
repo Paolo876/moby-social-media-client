@@ -19,14 +19,18 @@ const friendSlice = createSlice({
             state.onlineFriends = updatedOnlineFriends;
             state.offlineFriends = updatedOfflineFriends;
         },
-        setLoggedInFriend: (state, { payload }) => {    //payload = UserId
+        setLoggedInFriend: (state, { payload }) => {    //payload = {UserId, status}
+            const { UserId, status } = payload;
             const updatedOnlineFriends = state.onlineFriends
             const updatedOfflineFriends = state.offlineFriends
-            const loggedInFriend = state.friends.find(item => item.id === payload)
-            const isFriendAlreadyLoggedIn = updatedOnlineFriends.find(item => item.id === payload)
-
-            if(!isFriendAlreadyLoggedIn) state.onlineFriends = [loggedInFriend, ...updatedOnlineFriends]
-            state.offlineFriends = updatedOfflineFriends.filter(item => item.id !== payload)            
+            const loggedInFriend = state.friends.find(item => item.id === UserId)
+            if(status !== "invisible"){
+                loggedInFriend.UserStatus.status = status;
+                const isFriendAlreadyLoggedIn = updatedOnlineFriends.find(item => item.id === UserId)
+                if(!isFriendAlreadyLoggedIn) state.onlineFriends = [loggedInFriend, ...updatedOnlineFriends]
+                state.offlineFriends = updatedOfflineFriends.filter(item => item.id !== UserId)     
+            }
+       
         },
         setLoggedOutFriend: (state, { payload }) => {    //payload = UserId
             const updatedOnlineFriends = state.onlineFriends
