@@ -12,6 +12,8 @@ const Messages = () => {
 
   useEffect(() => {
     if(!chatRooms) getChatRooms()
+    //emit to join chatroom
+
   }, [])
   return (
     <AuthorizedPageContainer>
