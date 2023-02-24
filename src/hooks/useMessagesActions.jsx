@@ -53,7 +53,7 @@ const useMessagesActions = () => {
     try {
         const res = await axios.post(`${process.env.REACT_APP_DOMAIN_URL}/api/chat/send-message`, data, { headers: { 'Content-Type': 'application/json' }, withCredentials: true });
         setIsLoading(false)
-        emitMessage({users: ChatMembers, ...data })
+        emitMessage({...data, users: ChatMembers, messageData: res.data })
         return res.data
     } catch(err) {
         setIsLoading(false)

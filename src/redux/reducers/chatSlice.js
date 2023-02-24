@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getChatRooms } from "./chatReducers";
+import { getChatRooms, receiveMessage } from "./chatReducers";
 import { chatInitialState } from "../initialState";
 
 const chatSlice = createSlice({
@@ -29,11 +29,6 @@ const chatSlice = createSlice({
             chatRoom.ChatRoom.isLastMessageRead = [{isLastMessageRead: true }]
             state.chatRooms = updatedChatRooms;
         },
-
-        //socketio
-        receiveMessage(state, { payload }){
-            console.log(payload)
-        },
     }, 
     extraReducers: (builder) => {
         builder
@@ -48,6 +43,27 @@ const chatSlice = createSlice({
             state.error = null;
         })
         .addCase(getChatRooms.rejected, ( state , { payload }) => {
+            state.isLoading = false;
+            state.error = payload.message;
+        })
+        // receiveMessage
+        .addCase(receiveMessage.pending, ( state ) => {
+            state.isLoading = true;
+            state.error = null;
+        })
+        .addCase(receiveMessage.fulfilled, ( state, { payload }) => {
+            if(state.chatRooms){
+                const updatedChatRooms = state.chatRooms;
+                const chatRoom = updatedChatRooms.find(item => parseInt(item.ChatRoom.id) === parseInt(payload.id))
+                chatRoom.ChatRoom = {...chatRoom.ChatRoom, ...payload}
+                updatedChatRooms.unshift(updatedChatRooms.splice(updatedChatRooms.indexOf(chatRoom), 1)[0]) //move to first 
+                state.chatRooms = updatedChatRooms;
+            }
+
+            state.isLoading = false;
+            state.error = null;
+        })
+        .addCase(receiveMessage.rejected, ( state , { payload }) => {
             state.isLoading = false;
             state.error = payload.message;
         })

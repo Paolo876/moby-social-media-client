@@ -29,7 +29,7 @@ const MessagesList = () => {
 
   let chatMembers = []
   if(chatRoom) chatMembers = chatRoom.ChatRoom.ChatMembers
-  console.log(chatMembers)
+  // console.log(chatMembers)
 
   useEffect(() => {
     if(params) {
