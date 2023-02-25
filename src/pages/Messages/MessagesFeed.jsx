@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { Routes, Route, useParams } from 'react-router-dom'
 import useMessagesActions from '../../hooks/useMessagesActions'
 import useChatRedux from '../../hooks/useChatRedux'
@@ -26,10 +26,11 @@ const MessagesList = () => {
   const { getMessagesById, isLoading, error, setError, sendMessage } = useMessagesActions(); 
   const [ messages, setMessages ] = useState([])
   const chatRoom = chatRooms.find(item => parseInt(item.ChatRoom.id) === parseInt(params))
+  const chatRoomRef = useRef();
+
 
   let chatMembers = []
   if(chatRoom) chatMembers = chatRoom.ChatRoom.ChatMembers
-  // console.log(chatMembers)
 
   useEffect(() => {
     if(params) {
@@ -39,12 +40,17 @@ const MessagesList = () => {
         //set chatredux to read
         setLastMessageAsRead(parseInt(params))
       })
+
     }
     return () => {
       setMessages([])
       setError(null)
     }
   }, [params])
+
+  useEffect(() => {
+   console.log(chatRoom)
+  }, [chatRoom])
 
   const handleSubmit = async (input) => {
     const message = await sendMessage({ message: input, ChatRoomId: params}, chatMembers.map(item => item.UserId || item.id)); //send message [post request]

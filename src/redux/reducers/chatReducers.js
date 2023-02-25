@@ -35,13 +35,3 @@ export const receiveMessage = createAsyncThunk( 'chat/receiveMessage', async ( p
         return rejectWithValue(err.response.data)
     }
 })
-
-// receiveMessage(state, { payload }){
-//             const { sender, ChatRoomId, message } = payload;
-//             const updatedChatRooms = state.chatRooms;
-//             const chatRoom = updatedChatRooms.find(item => item.ChatRoom.id === payload)
-//             if(chatRoom){
-
-//             }
-//             console.log(payload)
-//         },
