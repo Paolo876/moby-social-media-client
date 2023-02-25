@@ -23,7 +23,6 @@ const MessagesList = () => {
   const params = useParams()["id"];
   const { chatRooms, updateOnMessageSent, isMessagesLoading, messagesError, getMessagesById } = useChatRedux();
   const { isLoading, error, setError, sendMessage } = useMessagesActions(); 
-  const [ messages, setMessages ] = useState([])
   const chatRoom = chatRooms.find(item => parseInt(item.ChatRoom.id) === parseInt(params))
 
   let chatMembers = []
@@ -53,8 +52,8 @@ const MessagesList = () => {
     <Paper sx={{width: "100%", display: "flex", flexDirection: "column", overflow: "hidden", height: "100%"}}>
       {params && <>
             <Box sx={{width: "100%"}}><ChatMembersHeader chatMembers={chatMembers}/></Box>
-            {isLoading && <LoadingSpinner style={{minHeight: "0em", backgroundColor: "initial", transform: "scale(.5)", opacity: .75}}/>}
-            {error && <Alert severity='error'>{error}</Alert>}
+            {(isLoading  || isMessagesLoading) && <LoadingSpinner style={{minHeight: "0em", backgroundColor: "initial", transform: "scale(.5)", opacity: .75}}/>}
+            {(error || messagesError) && <Alert severity='error'>{error || messagesError}</Alert>}
             <List sx={{width: "100%", overflowY: "auto", display: "flex", flexDirection: "column-reverse", flex: 1, justifyContent: "end"}}>
                 {chatMembers.length > 0 && chatRoom.ChatRoom.ChatMessages.map(item => <MessageItem 
                   key={item.id} 
