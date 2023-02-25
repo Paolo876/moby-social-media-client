@@ -10,6 +10,7 @@ const useChatRedux = () => {
         ...chatRedux,
         getChatRooms: () => dispatch(getChatRooms()),
         getMessagesById: (data) => dispatch(getMessagesById(data)),
+        // sendMessage: (data) => dispatch(sendMessage(data)),
         setNewChatUser: (data) => dispatch(chatActions.setNewChatUser(data)),
         addNewChatRoom: (data) => dispatch(chatActions.addNewChatRoom(data)),
         updateOnMessageSent: (data) => dispatch(chatActions.updateOnMessageSent(data)),

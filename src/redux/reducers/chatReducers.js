@@ -11,7 +11,7 @@ export const getChatRooms = createAsyncThunk( 'chat/getChatRooms', async ( paylo
         const res = await axios.get(`${process.env.REACT_APP_DOMAIN_URL}/api/chat`, { headers: { 'Content-Type': 'application/json' }, withCredentials: true });
         return res.data;
     } catch (err){
-        return rejectWithValue(err.response.data)
+        return rejectWithValue((err.response && err.response.data) ? err.response.data.message : err.message)
     }
 })
 
@@ -25,7 +25,7 @@ export const getMessagesById = createAsyncThunk( 'chat/getMessagesById', async (
         const res = await axios.get(`${process.env.REACT_APP_DOMAIN_URL}/api/chat/${payload}`, { headers: { 'Content-Type': 'application/json' }, withCredentials: true });
         return res.data;
     } catch (err){
-        return rejectWithValue(err.response.data)
+        return rejectWithValue((err.response && err.response.data) ? err.response.data.message : err.message)
     }
 })
 
@@ -46,6 +46,6 @@ export const receiveMessage = createAsyncThunk( 'chat/receiveMessage', async ( p
 
         return result
     } catch (err){
-        return rejectWithValue(err.response.data)
+        return rejectWithValue((err.response && err.response.data) ? err.response.data.message : err.message)
     }
 })

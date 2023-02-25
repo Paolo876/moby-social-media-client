@@ -19,7 +19,7 @@ const chatSlice = createSlice({
             const { id, ChatMessages } = payload;
             const updatedChatRooms = state.chatRooms;
             const chatRoom = updatedChatRooms.find(item => item.ChatRoom.id === id)
-            chatRoom.ChatRoom.ChatMessages = ChatMessages;
+            chatRoom.ChatRoom.ChatMessages = [...ChatMessages, ...chatRoom.ChatRoom.ChatMessages];
             updatedChatRooms.unshift(updatedChatRooms.splice(updatedChatRooms.indexOf(chatRoom), 1)[0]) //move to first 
             state.chatRooms = updatedChatRooms;
         },
@@ -65,7 +65,6 @@ const chatSlice = createSlice({
             state.isMessagesLoading = false;
             state.messagesError = payload.message;
         })
-
         // receiveMessage
         .addCase(receiveMessage.pending, ( state ) => {
             state.isLoading = true;
@@ -75,9 +74,12 @@ const chatSlice = createSlice({
             if(state.chatRooms){
                 const updatedChatRooms = state.chatRooms;
                 const chatRoom = updatedChatRooms.find(item => parseInt(item.ChatRoom.id) === parseInt(payload.id))
-                chatRoom.ChatRoom = {...chatRoom.ChatRoom, ...payload}
-                updatedChatRooms.unshift(updatedChatRooms.splice(updatedChatRooms.indexOf(chatRoom), 1)[0]) //move to first 
-                state.chatRooms = updatedChatRooms;
+                if(chatRoom.ChatRoom.ChatMessages.length !== 0 && chatRoom.ChatRoom.ChatMessages[0].id !== payload.ChatMessages[0].id){
+                    chatRoom.ChatRoom.ChatMessages = [...payload.ChatMessages, ...chatRoom.ChatRoom.ChatMessages];
+                    chatRoom.ChatRoom.isLastMessageRead = payload.isLastMessageRead
+                    updatedChatRooms.unshift(updatedChatRooms.splice(updatedChatRooms.indexOf(chatRoom), 1)[0]) //move to first 
+                    state.chatRooms = updatedChatRooms;    
+                }
             }
 
             state.isLoading = false;

@@ -26,40 +26,18 @@ const MessagesList = () => {
   const [ messages, setMessages ] = useState([])
   const chatRoom = chatRooms.find(item => parseInt(item.ChatRoom.id) === parseInt(params))
 
-
   let chatMembers = []
   if(chatRoom) chatMembers = chatRoom.ChatRoom.ChatMembers
 
   useEffect(() => {
     if(params) {
       getMessagesById(params)
-      // getMessagesById(params)
-      // .then(data => {
-      //   setMessages(data.ChatMessages)
-      //   //set chatredux to read
-      //   setLastMessageAsRead(parseInt(params))
-      // })
-
     }
     return () => {
-      setMessages([])
       setError(null)
     }
   }, [params])
 
-  // useEffect(() => {
-  //   // console.log("YO")
-  //  if(chatRoom && messages.length !== 0){
-  //   const lastMessage = chatRoom.ChatRoom.ChatMessages[0]
-  //   if(lastMessage.id !== messages[0].id){
-  //     console.log(lastMessage.id, messages[0].id)
-  //   }
-
-  //   // return () => setChatRoom(null)
-  //  }
-  // }, [chatRoom, params])
-
-  
   useEffect(() => {
     // console.log(handleReceiveMessage)
   }, [])
@@ -67,7 +45,7 @@ const MessagesList = () => {
   // console.log(chatRoom)
   const handleSubmit = async (input) => {
     const message = await sendMessage({ message: input, ChatRoomId: params}, chatMembers.map(item => item.UserId || item.id)); //send message [post request]
-    setMessages(prevState => [message, ...prevState]) //update messages list
+    // setMessages(prevState => [message, ...prevState]) //update messages list
     updateOnMessageSent({id: parseInt(params), ChatMessages: [message]}) //update chat redux
   }
 
@@ -78,7 +56,7 @@ const MessagesList = () => {
             {isLoading && <LoadingSpinner style={{minHeight: "0em", backgroundColor: "initial", transform: "scale(.5)", opacity: .75}}/>}
             {error && <Alert severity='error'>{error}</Alert>}
             <List sx={{width: "100%", overflowY: "auto", display: "flex", flexDirection: "column-reverse", flex: 1, justifyContent: "end"}}>
-                {chatMembers.length > 0 && messages.map(item => <MessageItem 
+                {chatMembers.length > 0 && chatRoom.ChatRoom.ChatMessages.map(item => <MessageItem 
                   key={item.id} 
                   message={item.message} 
                   createdAt={item.createdAt}
