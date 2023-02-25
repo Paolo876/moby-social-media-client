@@ -26,7 +26,6 @@ const MessagesList = () => {
   const { getMessagesById, isLoading, error, setError, sendMessage } = useMessagesActions(); 
   const [ messages, setMessages ] = useState([])
   const chatRoom = chatRooms.find(item => parseInt(item.ChatRoom.id) === parseInt(params))
-  const chatRoomRef = useRef();
 
 
   let chatMembers = []
@@ -49,7 +48,9 @@ const MessagesList = () => {
   }, [params])
 
   useEffect(() => {
-   console.log(chatRoom)
+   if(chatRoom){
+    const lastMessage = chatRoom.ChatRoom.ChatMessages[0]
+   }
   }, [chatRoom])
 
   const handleSubmit = async (input) => {
