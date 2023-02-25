@@ -7,9 +7,8 @@ import ChatMembersHeader from './ChatMembersHeader'
 import MessageItem from './MessageItem'
 import NewMessageFeed from './NewMessageFeed'
 import LoadingSpinner from "../../components/LoadingSpinner"
-import axios from 'axios'
 import { Alert, Box, Divider, List, Paper } from '@mui/material'
-
+import useSocketIo from '../../hooks/useSocketIo'
 
 const MessagesFeed = () => {
   return (
@@ -22,8 +21,8 @@ const MessagesFeed = () => {
 
 const MessagesList = () => {
   const params = useParams()["id"];
-  const { chatRooms, updateOnMessageSent, setLastMessageAsRead } = useChatRedux();
-  const { getMessagesById, isLoading, error, setError, sendMessage } = useMessagesActions(); 
+  const { chatRooms, updateOnMessageSent, isMessagesLoading, messagesError, getMessagesById } = useChatRedux();
+  const { isLoading, error, setError, sendMessage } = useMessagesActions(); 
   const [ messages, setMessages ] = useState([])
   const chatRoom = chatRooms.find(item => parseInt(item.ChatRoom.id) === parseInt(params))
 
@@ -34,11 +33,12 @@ const MessagesList = () => {
   useEffect(() => {
     if(params) {
       getMessagesById(params)
-      .then(data => {
-        setMessages(data.ChatMessages)
-        //set chatredux to read
-        setLastMessageAsRead(parseInt(params))
-      })
+      // getMessagesById(params)
+      // .then(data => {
+      //   setMessages(data.ChatMessages)
+      //   //set chatredux to read
+      //   setLastMessageAsRead(parseInt(params))
+      // })
 
     }
     return () => {
@@ -47,12 +47,24 @@ const MessagesList = () => {
     }
   }, [params])
 
-  useEffect(() => {
-   if(chatRoom){
-    const lastMessage = chatRoom.ChatRoom.ChatMessages[0]
-   }
-  }, [chatRoom])
+  // useEffect(() => {
+  //   // console.log("YO")
+  //  if(chatRoom && messages.length !== 0){
+  //   const lastMessage = chatRoom.ChatRoom.ChatMessages[0]
+  //   if(lastMessage.id !== messages[0].id){
+  //     console.log(lastMessage.id, messages[0].id)
+  //   }
 
+  //   // return () => setChatRoom(null)
+  //  }
+  // }, [chatRoom, params])
+
+  
+  useEffect(() => {
+    // console.log(handleReceiveMessage)
+  }, [])
+
+  // console.log(chatRoom)
   const handleSubmit = async (input) => {
     const message = await sendMessage({ message: input, ChatRoomId: params}, chatMembers.map(item => item.UserId || item.id)); //send message [post request]
     setMessages(prevState => [message, ...prevState]) //update messages list

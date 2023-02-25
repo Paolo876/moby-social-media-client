@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getChatRooms, receiveMessage } from "./chatReducers";
+import { getChatRooms, receiveMessage, getMessagesById } from "./chatReducers";
 import { chatInitialState } from "../initialState";
 
 const chatSlice = createSlice({
@@ -23,12 +23,12 @@ const chatSlice = createSlice({
             updatedChatRooms.unshift(updatedChatRooms.splice(updatedChatRooms.indexOf(chatRoom), 1)[0]) //move to first 
             state.chatRooms = updatedChatRooms;
         },
-        setLastMessageAsRead(state, { payload }) {
-            const updatedChatRooms = state.chatRooms;
-            const chatRoom = updatedChatRooms.find(item => item.ChatRoom.id === payload)
-            chatRoom.ChatRoom.isLastMessageRead = [{isLastMessageRead: true }]
-            state.chatRooms = updatedChatRooms;
-        },
+        // setLastMessageAsRead(state, { payload }) {
+        //     const updatedChatRooms = state.chatRooms;
+        //     const chatRoom = updatedChatRooms.find(item => item.ChatRoom.id === payload)
+        //     chatRoom.ChatRoom.isLastMessageRead = [{isLastMessageRead: true }]
+        //     state.chatRooms = updatedChatRooms;
+        // },
     }, 
     extraReducers: (builder) => {
         builder
@@ -46,6 +46,26 @@ const chatSlice = createSlice({
             state.isLoading = false;
             state.error = payload.message;
         })
+        // getMessagesById
+        .addCase(getMessagesById.pending, ( state ) => {
+            state.isMessagesLoading = true;
+            state.messagesError = null;
+        })
+        .addCase(getMessagesById.fulfilled, ( state, { payload }) => {
+            const updatedChatRooms = state.chatRooms;
+            const chatRoom = updatedChatRooms.find(item => parseInt(item.ChatRoom.id) === parseInt(payload.id))
+            chatRoom.ChatRoom.ChatMessages = payload.ChatMessages;
+            chatRoom.ChatRoom.isLastMessageRead = [{isLastMessageRead: true }]
+
+            state.chatRooms = updatedChatRooms;
+            state.isMessagesLoading = false;
+            state.messagesError = null;
+        })
+        .addCase(getMessagesById.rejected, ( state , { payload }) => {
+            state.isMessagesLoading = false;
+            state.messagesError = payload.message;
+        })
+
         // receiveMessage
         .addCase(receiveMessage.pending, ( state ) => {
             state.isLoading = true;

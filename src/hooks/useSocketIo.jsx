@@ -18,9 +18,12 @@ const useSocketIo = () => {
     socket.on("logged-in-friend", data => setLoggedInFriend(data))
     socket.on("logged-out-friend", data => setLoggedOutFriend(data))
     socket.on("status-changed-friend", data => setStatusChangedFriend(data))
-    socket.on("receive-message", data => receiveMessage(data))
+    socket.on("receive-message", data => handleReceiveMessage(data))
   }
 
+  const handleReceiveMessage = (data) => {
+    receiveMessage(data)
+  }
   const emitLogin = () => {
     triggerListeners();
     socket.connect({ autoConnect: true })
@@ -50,7 +53,7 @@ const useSocketIo = () => {
     socket.emit("send-message", data)   // data = { users, ChatRoomId, message}
   }
 
-  return { isConnected, emitLogin, emitLogout, emitStatusChange, emitMessage }
+  return { isConnected, emitLogin, emitLogout, emitStatusChange, emitMessage, handleReceiveMessage }
 }
 
 export default useSocketIo

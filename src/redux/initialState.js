@@ -28,6 +28,8 @@ export const chatInitialState = {
     newChatUser: null,
     isLoading: false,
     error: null,
+    isMessagesLoading: false,
+    messagesError: null,
 };
 
 

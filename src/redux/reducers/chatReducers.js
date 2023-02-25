@@ -16,6 +16,20 @@ export const getChatRooms = createAsyncThunk( 'chat/getChatRooms', async ( paylo
 })
 
 
+ /*  @desc       Get messages by chatRoomId
+  *  @access     Private
+  *  @return     <Array>
+  */
+export const getMessagesById = createAsyncThunk( 'chat/getMessagesById', async ( payload, { rejectWithValue }) => {
+    try {
+        const res = await axios.get(`${process.env.REACT_APP_DOMAIN_URL}/api/chat/${payload}`, { headers: { 'Content-Type': 'application/json' }, withCredentials: true });
+        return res.data;
+    } catch (err){
+        return rejectWithValue(err.response.data)
+    }
+})
+
+
 //socketio events
 
  /*  @desc       realtime listen to messages received 
