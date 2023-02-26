@@ -23,12 +23,17 @@ const chatSlice = createSlice({
             updatedChatRooms.unshift(updatedChatRooms.splice(updatedChatRooms.indexOf(chatRoom), 1)[0]) //move to first 
             state.chatRooms = updatedChatRooms;
         },
-        // setLastMessageAsRead(state, { payload }) {
-        //     const updatedChatRooms = state.chatRooms;
-        //     const chatRoom = updatedChatRooms.find(item => item.ChatRoom.id === payload)
-        //     chatRoom.ChatRoom.isLastMessageRead = [{isLastMessageRead: true }]
-        //     state.chatRooms = updatedChatRooms;
-        // },
+        setLastMessageAsRead(state, { payload }) {
+            const updatedChatRooms = state.chatRooms;
+            const chatRoom = updatedChatRooms.find(item => parseInt(item.ChatRoom.id) === parseInt(payload))
+            if(chatRoom){
+                chatRoom.ChatRoom.isLastMessageRead = [{isLastMessageRead: true }]
+                state.chatRooms = updatedChatRooms;
+            }
+        },
+        leaveChatRoom(state) {
+            state.currentChatRoomId = null;
+        },
     }, 
     extraReducers: (builder) => {
         builder
@@ -57,6 +62,7 @@ const chatSlice = createSlice({
             chatRoom.ChatRoom.ChatMessages = payload.ChatMessages;
             chatRoom.ChatRoom.isLastMessageRead = [{isLastMessageRead: true }]
 
+            state.currentChatRoomId = chatRoom.ChatRoom.id
             state.chatRooms = updatedChatRooms;
             state.isMessagesLoading = false;
             state.messagesError = null;
@@ -77,6 +83,9 @@ const chatSlice = createSlice({
                 if(chatRoom.ChatRoom.ChatMessages.length !== 0 && chatRoom.ChatRoom.ChatMessages[0].id !== payload.ChatMessages[0].id){
                     chatRoom.ChatRoom.ChatMessages = [...payload.ChatMessages, ...chatRoom.ChatRoom.ChatMessages];
                     chatRoom.ChatRoom.isLastMessageRead = payload.isLastMessageRead
+
+                    //set isLastMessageRead to true if user is currently in the chatRoom
+                    if(state.currentChatRoomId === parseInt(payload.id)) chatRoom.ChatRoom.isLastMessageRead = [{isLastMessageRead: true}]
                     updatedChatRooms.unshift(updatedChatRooms.splice(updatedChatRooms.indexOf(chatRoom), 1)[0]) //move to first 
                     state.chatRooms = updatedChatRooms;    
                 }

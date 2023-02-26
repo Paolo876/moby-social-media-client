@@ -30,6 +30,7 @@ export const chatInitialState = {
     error: null,
     isMessagesLoading: false,
     messagesError: null,
+    currentChatRoomId: null,
 };
 
 

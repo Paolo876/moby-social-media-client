@@ -37,12 +37,15 @@ export const getMessagesById = createAsyncThunk( 'chat/getMessagesById', async (
   *  @return     <Object>
   */
 export const receiveMessage = createAsyncThunk( 'chat/receiveMessage', async ( payload, { getState, rejectWithValue }) => {
-    const UserId = getState().auth.user.id
+    const UserId = getState().auth.user.id;
+    const currentChatRoomId = getState().chat.currentChatRoomId;
     try {
-        // { ChatRoom: { id: 1, isLastMessageRead: [{isLastMessageRead: true}], ChatMessages: {[id,]}}}
-        // {sender: {…}, ChatRoomId: '9', messageData: {…}, UserId: 1}
         let result = { id: parseInt(payload.ChatRoomId),isLastMessageRead: [{isLastMessageRead: false}], ChatMessages: [{...payload.messageData}]}
         if(UserId === payload.sender.UserId) result.isLastMessageRead[0].isLastMessageRead = true;
+        if(currentChatRoomId === result.id){
+            const res = await axios.get(`${process.env.REACT_APP_DOMAIN_URL}/api/chat/read-last-message/${currentChatRoomId}`, { headers: { 'Content-Type': 'application/json' }, withCredentials: true });
+            result.isLastMessageRead[0].isLastMessageRead = res.isLastMessageRead;
+        }
 
         return result
     } catch (err){

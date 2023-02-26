@@ -14,7 +14,8 @@ const useChatRedux = () => {
         setNewChatUser: (data) => dispatch(chatActions.setNewChatUser(data)),
         addNewChatRoom: (data) => dispatch(chatActions.addNewChatRoom(data)),
         updateOnMessageSent: (data) => dispatch(chatActions.updateOnMessageSent(data)),
-        // setLastMessageAsRead: (data) => dispatch(chatActions.setLastMessageAsRead(data)),
+        setLastMessageAsRead: (data) => dispatch(chatActions.setLastMessageAsRead(data)),
+        leaveChatRoom: (data) => dispatch(chatActions.leaveChatRoom(data)),
         clearNewChatUser: () => dispatch(chatActions.clearNewChatUser()),
         receiveMessage: (data) => dispatch(receiveMessage(data)),
     };

@@ -10,39 +10,6 @@ const useMessagesActions = () => {
   const [ error, setError ] = useState(null);
 
 
- /*  @desc       Get all user's chatrooms 
-  *  @access     Private
-  *  @return     <Array>
-  */
-  // const getChatRooms = async (id) => {
-  //   setIsLoading(true)
-  //   try {
-  //       const res = await axios.get(`${process.env.REACT_APP_DOMAIN_URL}/api/chat`, { headers: { 'Content-Type': 'application/json' }, withCredentials: true });
-  //       setIsLoading(false)
-  //       return res.data
-  //   } catch(err) {
-  //       setIsLoading(false)
-  //       setError((err.response && err.response.data) ? err.response.data.message : err.message)
-  //   }
-  // }
-
-
- /*  @desc       Get chatMessages by id 
-  *  @access     Private
-  *  @return     <Array>
-  */
-  // const getMessagesById = async (id) => {
-  //   setIsLoading(true)
-  //   try {
-  //       const res = await axios.get(`${process.env.REACT_APP_DOMAIN_URL}/api/chat/${id}`, { headers: { 'Content-Type': 'application/json' }, withCredentials: true });
-  //       setIsLoading(false)
-  //       return res.data
-  //   } catch(err) {
-  //       setIsLoading(false)
-  //       setError((err.response && err.response.data) ? err.response.data.message : err.message)
-  //   }
-  // }
-
 
  /*  @desc       send a message
   *  @access     Private

@@ -8,7 +8,6 @@ import MessageItem from './MessageItem'
 import NewMessageFeed from './NewMessageFeed'
 import LoadingSpinner from "../../components/LoadingSpinner"
 import { Alert, Box, Divider, List, Paper } from '@mui/material'
-import useSocketIo from '../../hooks/useSocketIo'
 
 const MessagesFeed = () => {
   return (
@@ -21,7 +20,7 @@ const MessagesFeed = () => {
 
 const MessagesList = () => {
   const params = useParams()["id"];
-  const { chatRooms, updateOnMessageSent, isMessagesLoading, messagesError, getMessagesById } = useChatRedux();
+  const { chatRooms, updateOnMessageSent, isMessagesLoading, messagesError, getMessagesById, setLastMessageAsRead, leaveChatRoom } = useChatRedux();
   const { isLoading, error, setError, sendMessage } = useMessagesActions(); 
   const chatRoom = chatRooms.find(item => parseInt(item.ChatRoom.id) === parseInt(params))
 
@@ -30,21 +29,17 @@ const MessagesList = () => {
 
   useEffect(() => {
     if(params) {
-      getMessagesById(params)
+      if(chatRoom.ChatRoom.ChatMessages.length <= 1) getMessagesById(params)
+      setLastMessageAsRead(params)
     }
     return () => {
+      leaveChatRoom()
       setError(null)
     }
   }, [params])
 
-  useEffect(() => {
-    // console.log(handleReceiveMessage)
-  }, [])
-
-  // console.log(chatRoom)
   const handleSubmit = async (input) => {
     const message = await sendMessage({ message: input, ChatRoomId: params}, chatMembers.map(item => item.UserId || item.id)); //send message [post request]
-    // setMessages(prevState => [message, ...prevState]) //update messages list
     updateOnMessageSent({id: parseInt(params), ChatMessages: [message]}) //update chat redux
   }
 
