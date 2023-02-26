@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import useAuthRedux from '../hooks/useAuthRedux';
 import useSocketIo from '../hooks/useSocketIo';
+import useChatRedux from '../hooks/useChatRedux';
 import { styled, alpha } from '@mui/material/styles';
 import { AppBar, Box, Toolbar, IconButton, Badge, MenuItem, Menu, Container, Tooltip, Divider } from '@mui/material';
 import Image from './Image';
@@ -76,12 +77,14 @@ const paperProps = {
 const Navbar = () => {
     const navigate = useNavigate();
     const { logout, user } = useAuthRedux();
+    const { chatRooms } = useChatRedux();
     const [anchorEl, setAnchorEl] = useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
     const { emitLogout } = useSocketIo();
     let image;
     if(user && user.UserData) image = JSON.parse(user.UserData.image);
 
+    const unreadMessages = chatRooms ? chatRooms.filter(item => item.ChatRoom.isLastMessageRead[0].isLastMessageRead === false).length : 0
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   
@@ -171,7 +174,7 @@ const Navbar = () => {
         </MenuItem>
         <MenuItem>
           <IconButton size="large" aria-label="show 4 new mails" color="inherit" onClick={() => navigate("/messages")}>
-            <Badge badgeContent={5} color="error">
+            <Badge badgeContent={unreadMessages} color="error">
               <ChatIcon />
             </Badge>
           </IconButton>
@@ -236,7 +239,7 @@ const Navbar = () => {
                 </Tooltip>
                 <Tooltip title="Messages" arrow>
                   <IconButton size="large" aria-label="show 4 new mails" color="inherit" onClick={() => navigate("/messages")}>
-                    <Badge badgeContent={5} color="error">
+                    <Badge badgeContent={unreadMessages} color="error">
                       <ChatIcon />
                     </Badge>
                   </IconButton>

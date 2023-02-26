@@ -73,7 +73,7 @@ const chatSlice = createSlice({
         })
         // receiveMessage
         .addCase(receiveMessage.pending, ( state ) => {
-            state.isLoading = true;
+            // state.isMessagesLoading = true;
             state.error = null;
         })
         .addCase(receiveMessage.fulfilled, ( state, { payload }) => {
@@ -91,11 +91,11 @@ const chatSlice = createSlice({
                 }
             }
 
-            state.isLoading = false;
+            state.isMessagesLoading = false;
             state.error = null;
         })
         .addCase(receiveMessage.rejected, ( state , { payload }) => {
-            state.isLoading = false;
+            state.isMessagesLoading = false;
             state.error = payload.message;
         })
     }

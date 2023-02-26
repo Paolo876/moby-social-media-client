@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { Routes, Route, Navigate } from "react-router-dom";
 import useAuthRedux from "./hooks/useAuthRedux";
+import useChatRedux from './hooks/useChatRedux';
 import useFriendRedux from './hooks/useFriendRedux';
 import useSocketIo from './hooks/useSocketIo';
 //components
@@ -22,6 +23,7 @@ import About from './pages/About';
 function App() {
   const { user, isAuthReady, authorizeToken } = useAuthRedux();
   const { getFriends } = useFriendRedux();
+  const { getChatRooms } = useChatRedux();
   const { emitLogin, emitLogout } = useSocketIo();
 
 
@@ -34,6 +36,7 @@ function App() {
       if(user){
         emitLogin();
         getFriends();
+        getChatRooms();
       }      
     } else {
       emitLogout(); //cut existing connections

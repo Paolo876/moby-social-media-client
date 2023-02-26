@@ -1,20 +1,14 @@
-import { useEffect } from 'react'
 import useChatRedux from '../../hooks/useChatRedux'
 import LoadingSpinner from '../../components/LoadingSpinner'
 import AuthorizedPageContainer from '../../components/AuthorizedPageContainer'
-import { Grid, Box} from "@mui/material"
+import { Grid, Box } from "@mui/material"
 import MessagesNavigation from './MessagesNavigation'
 import MessagesFeed from './MessagesFeed'
 
 
 const Messages = () => {
-  const { getChatRooms, chatRooms } = useChatRedux();
+  const { chatRooms } = useChatRedux();
 
-  useEffect(() => {
-    if(!chatRooms) getChatRooms()
-    //emit to join chatroom
-
-  }, [])
   return (
     <AuthorizedPageContainer>
       {!chatRooms && <LoadingSpinner isModal={true} message="Loading Data..."/>}
