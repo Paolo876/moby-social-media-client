@@ -72,7 +72,6 @@ const friendSlice = createSlice({
         sendRequestRedux: (state, { payload }) => {
             const { isRequested } = payload;
             const updatedSentRequests = state.sentRequests;
-            
             if(payload.isFriends){
                 const updatedFriendRequests = state.friendRequests;
                 const updatedFriends = state.friends;
@@ -93,6 +92,8 @@ const friendSlice = createSlice({
         setFriendRequests: (state, { payload }) => {
             const { isRequested } = payload;
             const updatedFriendRequests = state.friendRequests;
+            console.log(payload)
+
             if(payload.isFriends){
                 const updatedSentRequests = state.sentRequests;
                 const updatedFriends = state.friends;    

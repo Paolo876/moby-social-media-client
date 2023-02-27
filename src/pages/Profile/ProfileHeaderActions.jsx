@@ -18,7 +18,7 @@ import FriendsButton from './FriendsButton';
 import useProfileActions from '../../hooks/useProfileActions';
 
 const ProfileHeaderActions = ({ user }) => {
-  const { user: { id } } = useAuthRedux();
+  const { user: myUser } = useAuthRedux();
   const { emitFriendRequest } = useSocketIo();
   const { sendRequest, isLoading, error } = useProfileActions();
   const { sentRequests, friendRequests, friends, sendRequestRedux} = useFriendRedux();
@@ -26,7 +26,7 @@ const ProfileHeaderActions = ({ user }) => {
   const { setNewChatUser } = useChatRedux();
   const UserId = useParams()["*"];
   const navigate = useNavigate();
-  const isOwnProfile = !UserId || parseInt(UserId) === id;
+  const isOwnProfile = !UserId || parseInt(UserId) === myUser.id;
   const isRequestSent = sentRequests && sentRequests.some(item => item.id === parseInt(UserId));
   const isUserSentRequest = friendRequests && friendRequests.some(item => item.id === parseInt(UserId));
   const isFriends = friends && friends.some(item => item.id === parseInt(UserId))
@@ -34,7 +34,7 @@ const ProfileHeaderActions = ({ user }) => {
   
   const handleSendRequestClick = async () => {
     const result = await sendRequest(UserId)
-    emitFriendRequest(result) //emit to this user's socket
+    emitFriendRequest({requestData: {...result, FriendId: myUser.id, User: {username: myUser.username, id: myUser.id, UserDatum: myUser.UserData}}, requesteeId: UserId}) //emit to this user's socket
     sendRequestRedux(result)  //update redux
   }
 
