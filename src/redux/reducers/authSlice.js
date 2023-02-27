@@ -13,6 +13,7 @@ const authSlice = createSlice({
         updateUserDataImage(state, { payload }){
             state.user.UserData.image = payload;
         },
+        reset: (state) => ({ ...authInitialState, isAuthReady: state.isAuthReady}),
     }, 
     extraReducers: (builder) => {
         builder

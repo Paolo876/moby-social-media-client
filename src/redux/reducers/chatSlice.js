@@ -6,6 +6,7 @@ const chatSlice = createSlice({
     name: "chat",
     initialState: chatInitialState,
     reducers: {
+        reset: () => chatInitialState,
         setNewChatUser(state, { payload }){
             state.newChatUser = payload
         },

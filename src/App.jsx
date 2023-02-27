@@ -4,6 +4,7 @@ import useAuthRedux from "./hooks/useAuthRedux";
 import useChatRedux from './hooks/useChatRedux';
 import useFriendRedux from './hooks/useFriendRedux';
 import useSocketIo from './hooks/useSocketIo';
+import useResetRedux from './hooks/useResetRedux';
 //components
 import Navbar from './components/Navbar';
 //pages
@@ -25,7 +26,7 @@ function App() {
   const { getFriends } = useFriendRedux();
   const { getChatRooms } = useChatRedux();
   const { emitLogin, emitLogout } = useSocketIo();
-
+  const { resetAllStates } = useResetRedux();
 
   useEffect(() => {
     authorizeToken()
@@ -37,10 +38,17 @@ function App() {
         emitLogin();
         getFriends();
         getChatRooms();
-      }      
-    } else {
-      emitLogout(); //cut existing connections
-    }
+      } else {
+        // console.log("ASD")
+
+        // emitLogout(); //cut existing connections
+        // resetAllStates()
+      }
+    } 
+    // else {
+    //   emitLogout(); //cut existing connections
+    //   resetAllStates()
+    // }
   }, [isAuthReady, user])
 
   if(!isAuthReady) return <LoadingSpinner message="Loading Data..."/>

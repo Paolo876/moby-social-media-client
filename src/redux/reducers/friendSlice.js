@@ -6,6 +6,7 @@ const friendSlice = createSlice({
     name: "friends",
     initialState: friendsInitialState,
     reducers: {
+        reset: () => friendsInitialState,
         setOnlineFriends: (state, { payload }) => {     //payload = array of UserIds
             let updatedOnlineFriends = []
             let updatedOfflineFriends = []
@@ -92,23 +93,19 @@ const friendSlice = createSlice({
         setFriendRequests: (state, { payload }) => {
             const { isRequested } = payload;
             const updatedFriendRequests = state.friendRequests;
-            console.log(payload)
             if(payload.isFriends){
                 const updatedSentRequests = state.sentRequests;
-                const updatedFriends = state.friends;
-    
+                const updatedFriends = state.friends;    
                 state.sentRequests = updatedSentRequests.filter(item => item.id !== parseInt(payload.FriendId)) //remove from sentRequests
                 state.friendRequests = updatedFriendRequests.filter(item => item.id !== parseInt(payload.FriendId)) //remove from sentRequests
                 state.friends = [payload.User, ...updatedFriends];
             } else {
-                //check if friendrequest is already sent
-                    if(isRequested) {
-                        const isRequestSent = updatedFriendRequests.some(item => parseInt(item.id) === parseInt(payload.FriendId))
-                        if(!isRequestSent) state.friendRequests = [payload.User, ...updatedFriendRequests] //add to friendRequests
-                    } else {  
-                        state.friendRequests = updatedFriendRequests.filter(item => item.id !== parseInt(payload.FriendId)) //remove from friendRequests
-                    }
-                
+                if(isRequested) {
+                    const isRequestSent = updatedFriendRequests.some(item => parseInt(item.id) === parseInt(payload.FriendId))
+                    if(!isRequestSent) state.friendRequests = [payload.User, ...updatedFriendRequests] //check if friendrequest is already sent, add to friendRequests
+                } else {  
+                    state.friendRequests = updatedFriendRequests.filter(item => item.id !== parseInt(payload.FriendId)) //remove from friendRequests
+                }
             }
             state.error = null;
             state.isLoading = false;

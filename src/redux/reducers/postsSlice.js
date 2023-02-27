@@ -10,6 +10,7 @@ const postsSlice = createSlice({
             const updatedPosts = state.posts;
             state.posts = updatedPosts.filter(item => item.id !== parseInt(payload))
         },
+        reset: () => postsInitialState,
     }, 
     extraReducers: (builder) => {
         builder

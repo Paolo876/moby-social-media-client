@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import useAuthRedux from '../hooks/useAuthRedux';
 import useSocketIo from '../hooks/useSocketIo';
 import useChatRedux from '../hooks/useChatRedux';
+// import useResetRedux from '../hooks/useResetRedux';
 import { styled, alpha } from '@mui/material/styles';
 import { AppBar, Box, Toolbar, IconButton, Badge, MenuItem, Menu, Container, Tooltip, Divider } from '@mui/material';
 import Image from './Image';
@@ -77,6 +78,7 @@ const paperProps = {
 const Navbar = () => {
     const navigate = useNavigate();
     const { logout, user } = useAuthRedux();
+    // const { resetAllStates } = useResetRedux();
     const { chatRooms } = useChatRedux();
     const [anchorEl, setAnchorEl] = useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
@@ -111,6 +113,7 @@ const Navbar = () => {
       handleMobileMenuClose();
       handleMenuClose()
       logout()
+      // resetAllStates()
     }
 
     const handleItemClick = (option) => {
