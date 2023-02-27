@@ -2,7 +2,6 @@ import { useState } from 'react';
 import axios from 'axios'
 import useAuthRedux from './useAuthRedux';
 
-
 /* @desc       A set of request functions for Profile (No redux)
 *  @access     Private
 */
@@ -36,9 +35,9 @@ const useProfileActions = () => {
   const getFriendsList = async (id) => {
     setIsLoading(true)
     try {
-        const res = await axios.get(`${process.env.REACT_APP_DOMAIN_URL}/api/friends/friends-list/${id}`, { headers: { 'Content-Type': 'application/json' }, withCredentials: true });
-        setIsLoading(false)
-        return res.data
+      const res = await axios.get(`${process.env.REACT_APP_DOMAIN_URL}/api/friends/friends-list/${id}`, { headers: { 'Content-Type': 'application/json' }, withCredentials: true });
+      setIsLoading(false)
+      return res.data
     } catch(err) {
       setIsLoading(false)
       setError((err.response && err.response.data) ? err.response.data.message : err.message)
@@ -46,7 +45,25 @@ const useProfileActions = () => {
   }
 
 
-  return { isLoading, error, getProfileById, getFriendsList }
+ /*  @desc       send friend request
+  *  @access     Private
+  *  @return     <Object>
+  */
+  const sendRequest = async (id) => {
+    setIsLoading(true)
+    try {
+      const res = await axios.get(`${process.env.REACT_APP_DOMAIN_URL}/api/friends/send-request/${id}`, { headers: { 'Content-Type': 'application/json' }, withCredentials: true });
+
+      setIsLoading(false)
+      return res.data
+    } catch(err) {
+      setIsLoading(false)
+      setError((err.response && err.response.data) ? err.response.data.message : err.message)
+    }
+  }
+
+
+  return { isLoading, error, getProfileById, getFriendsList, sendRequest }
 }
 
 export default useProfileActions

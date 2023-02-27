@@ -1,7 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-
  /*  @desc       Get friends
   *  @access     Private
   *  @return     <Array>
@@ -11,7 +10,7 @@ import axios from "axios";
         const res = await axios.get(`${process.env.REACT_APP_DOMAIN_URL}/api/friends`, { headers: { 'Content-Type': 'application/json' }, withCredentials: true });
         return res.data;
     } catch (err){
-        return rejectWithValue(err.response.data)
+        return rejectWithValue((err.response && err.response.data) ? err.response.data.message : err.message)
     }
 })
 
@@ -25,7 +24,7 @@ import axios from "axios";
         const res = await axios.get(`${process.env.REACT_APP_DOMAIN_URL}/api/friends/send-request/${payload}`, { headers: { 'Content-Type': 'application/json' }, withCredentials: true });
         return res.data;
     } catch (err){
-        return rejectWithValue(err.response.data)
+        return rejectWithValue((err.response && err.response.data) ? err.response.data.message : err.message)
     }
 })
 
@@ -39,7 +38,7 @@ import axios from "axios";
         const res = await axios.post(`${process.env.REACT_APP_DOMAIN_URL}/api/friends/confirm-request/${id}`, data, { headers: { 'Content-Type': 'application/json' }, withCredentials: true });
         return res.data;
     } catch (err){
-        return rejectWithValue(err.response.data)
+        return rejectWithValue((err.response && err.response.data) ? err.response.data.message : err.message)
     }
 })
 
@@ -53,6 +52,6 @@ import axios from "axios";
         const res = await axios.get(`${process.env.REACT_APP_DOMAIN_URL}/api/friends/unfriend/${id}`, { headers: { 'Content-Type': 'application/json' }, withCredentials: true });
         return res.data;
     } catch (err){
-        return rejectWithValue(err.response.data)
+        return rejectWithValue((err.response && err.response.data) ? err.response.data.message : err.message)
     }
 })

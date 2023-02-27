@@ -12,11 +12,12 @@ const useFriendRedux = () => {
         sendRequest: (data) => dispatch(sendRequest(data)),
         confirmRequest: (data) => dispatch(confirmRequest(data)),
         unfriend: (data) => dispatch(unfriend(data)),
-        //socketio functions
+        sendRequestRedux: (data) => dispatch(friendActions.sendRequestRedux(data)),  
+        //socketio listener functions
         setOnlineFriends: (data) => dispatch(friendActions.setOnlineFriends(data)),
         setLoggedInFriend: (data) => dispatch(friendActions.setLoggedInFriend(data)),
         setLoggedOutFriend: (data) => dispatch(friendActions.setLoggedOutFriend(data)),
-        setStatusChangedFriend: (data) => dispatch(friendActions.setStatusChangedFriend(data)),
+        setStatusChangedFriend: (data) => dispatch(friendActions.setStatusChangedFriend(data)),  
     };
   } else {
     throw Error('Error accessing friend reducer.');

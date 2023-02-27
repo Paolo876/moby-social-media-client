@@ -46,6 +46,12 @@ const useSocketIo = () => {
     }
   }
 
+  const emitFriendRequest = (data) => {
+    if(isConnected){
+      socket.emit("send-friend-request", data)
+    }
+  }
+
 
   //chat events
 
@@ -53,7 +59,7 @@ const useSocketIo = () => {
     socket.emit("send-message", data)   // data = { users, ChatRoomId, message}
   }
 
-  return { isConnected, emitLogin, emitLogout, emitStatusChange, emitMessage, handleReceiveMessage }
+  return { isConnected, emitLogin, emitLogout, emitStatusChange, emitMessage, handleReceiveMessage, emitFriendRequest, socketRef }
 }
 
 export default useSocketIo

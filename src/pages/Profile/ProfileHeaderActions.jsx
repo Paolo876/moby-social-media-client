@@ -4,6 +4,7 @@ import useAuthRedux from '../../hooks/useAuthRedux';
 import useFriendRedux from '../../hooks/useFriendRedux';
 import useMessagesActions from '../../hooks/useMessagesActions';
 import useChatRedux from '../../hooks/useChatRedux';
+import useSocketIo from '../../hooks/useSocketIo';
 import SplitButton from "../../components/SplitButton"
 
 import { Button, Box, Alert, Typography } from '@mui/material';
@@ -14,10 +15,13 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import PersonOffIcon from '@mui/icons-material/PersonOff';
 import FriendsButton from './FriendsButton';
+import useProfileActions from '../../hooks/useProfileActions';
 
 const ProfileHeaderActions = ({ user }) => {
   const { user: { id } } = useAuthRedux();
-  const { sendRequest, sentRequests, friendRequests, friends, isLoading, error } = useFriendRedux();
+  const { emitFriendRequest } = useSocketIo();
+  const { sendRequest, isLoading, error } = useProfileActions();
+  const { sentRequests, friendRequests, friends, sendRequestRedux} = useFriendRedux();
   const { findChat, isLoading : isMessagesLoading, error: messagesError } = useMessagesActions();
   const { setNewChatUser } = useChatRedux();
   const UserId = useParams()["*"];
@@ -27,8 +31,11 @@ const ProfileHeaderActions = ({ user }) => {
   const isUserSentRequest = friendRequests && friendRequests.some(item => item.id === parseInt(UserId));
   const isFriends = friends && friends.some(item => item.id === parseInt(UserId))
   
-  const handleSendRequestClick = () => {
-    sendRequest(UserId)
+  
+  const handleSendRequestClick = async () => {
+    const result = await sendRequest(UserId)
+    emitFriendRequest(result) //emit to this user's socket
+    sendRequestRedux(result)  //update redux
   }
 
   
@@ -41,6 +48,7 @@ const ProfileHeaderActions = ({ user }) => {
       navigate(`/messages/new/${UserId}`)
     }
   }
+
 
   return (
     <>

@@ -69,6 +69,28 @@ const friendSlice = createSlice({
                 }
             }
         },
+        sendRequestRedux: (state, { payload }) => {
+            const { isRequested } = payload;
+            const updatedSentRequests = state.sentRequests;
+            
+            if(payload.isFriends){
+                const updatedFriendRequests = state.friendRequests;
+                const updatedFriends = state.friends;
+    
+                state.sentRequests = updatedSentRequests.filter(item => item.id !== parseInt(payload.FriendId)) //remove from sentRequests
+                state.friendRequests = updatedFriendRequests.filter(item => item.id !== parseInt(payload.FriendId)) //remove from sentRequests
+                state.friends = [payload.User, ...updatedFriends];
+            } else {
+                if(isRequested) {
+                    state.sentRequests = [payload.User, ...updatedSentRequests] //add to sentRequests
+                } else {  
+                    state.sentRequests = updatedSentRequests.filter(item => item.id !== parseInt(payload.FriendId)) //remove from sentRequests
+                }
+            }
+            state.error = null;
+            state.isLoading = false;
+
+        }
     }, 
     extraReducers: (builder) => {
         builder
@@ -97,7 +119,7 @@ const friendSlice = createSlice({
         .addCase(sendRequest.fulfilled, ( state, { payload }) => {
             const { isRequested } = payload;
             const updatedSentRequests = state.sentRequests;
-
+            
             if(payload.isFriends){
                 const updatedFriendRequests = state.friendRequests;
                 const updatedFriends = state.friends;
