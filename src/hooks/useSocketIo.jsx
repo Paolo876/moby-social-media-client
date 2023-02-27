@@ -2,13 +2,14 @@ import { useState, useRef } from 'react'
 import io from 'socket.io-client';
 import useFriendRedux from './useFriendRedux';
 import useChatRedux from './useChatRedux';
-
+import useSnackbarNotification from './useSnackbarNotification';
 const socket = io(`${process.env.REACT_APP_DOMAIN_URL}/`, { transports: ['websocket'], upgrade: false})
 
 
 const useSocketIo = () => {
+  const { snackbarMessage } = useSnackbarNotification()
   const { setOnlineFriends, setLoggedInFriend, setLoggedOutFriend, setStatusChangedFriend, setFriendRequests } = useFriendRedux();
-  const { receiveMessage } = useChatRedux();
+  const { receiveMessage, currentChatRoomId } = useChatRedux();
   const socketRef = useRef();
   socketRef.current = socket;
   const [isConnected, setIsConnected] = useState(socketRef.current);
@@ -24,6 +25,7 @@ const useSocketIo = () => {
 
   const handleReceiveMessage = (data) => {
     receiveMessage(data)
+    snackbarMessage(data)
   }
   const emitLogin = () => {
     triggerListeners();
@@ -36,8 +38,10 @@ const useSocketIo = () => {
     socket.emit("logout")
     socket.off("online-friends")
     socket.off("logged-in-friend")
+    socket.off("logged-out-friend")
     socket.off("status-changed-friend")
     socket.off("receive-message")
+    socket.off("receive-friend-request")
     socket.disconnect()
   }
 

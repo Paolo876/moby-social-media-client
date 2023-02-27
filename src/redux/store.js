@@ -1,4 +1,4 @@
-import { configureStore, combineReducers } from '@reduxjs/toolkit'; 
+import { configureStore } from '@reduxjs/toolkit'; 
 import authSlice from './reducers/authSlice';
 import postsSlice from './reducers/postsSlice';
 import chatSlice from './reducers/chatSlice';
@@ -13,18 +13,6 @@ const store = configureStore({
         // rootReducer 
     }
 });
-
-const combinedReducer = combineReducers(store);
-
-// const rootReducer = (state, action) => {
-//     if (action.type === 'counter/logout') { // check for action type 
-//       state = undefined;
-//     }
-//     return combinedReducer(state, action);
-//   };
-
-
-
 
 
 export default store;

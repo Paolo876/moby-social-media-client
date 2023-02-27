@@ -18,6 +18,7 @@ import FriendsButton from './FriendsButton';
 import useProfileActions from '../../hooks/useProfileActions';
 
 const ProfileHeaderActions = ({ user }) => {
+
   const { user: myUser } = useAuthRedux();
   const { emitFriendRequest } = useSocketIo();
   const { sendRequest, isLoading, error } = useProfileActions();
