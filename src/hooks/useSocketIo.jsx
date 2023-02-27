@@ -7,7 +7,7 @@ const socket = io(`${process.env.REACT_APP_DOMAIN_URL}/`, { transports: ['websoc
 
 
 const useSocketIo = () => {
-  const { setOnlineFriends, setLoggedInFriend, setLoggedOutFriend, setStatusChangedFriend } = useFriendRedux();
+  const { setOnlineFriends, setLoggedInFriend, setLoggedOutFriend, setStatusChangedFriend, setFriendRequests } = useFriendRedux();
   const { receiveMessage } = useChatRedux();
   const socketRef = useRef();
   socketRef.current = socket;
@@ -19,6 +19,7 @@ const useSocketIo = () => {
     socket.on("logged-out-friend", data => setLoggedOutFriend(data))
     socket.on("status-changed-friend", data => setStatusChangedFriend(data))
     socket.on("receive-message", data => handleReceiveMessage(data))
+    socket.on("receive-friend-request", data => setFriendRequests(data))
   }
 
   const handleReceiveMessage = (data) => {

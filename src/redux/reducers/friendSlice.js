@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { friendsInitialState } from "../initialState";
-import { getFriends, sendRequest, confirmRequest, unfriend } from "./friendReducers"
+import { getFriends, confirmRequest, unfriend } from "./friendReducers"
 
 const friendSlice = createSlice({
     name: "friends",
@@ -30,7 +30,6 @@ const friendSlice = createSlice({
                 if(!isFriendAlreadyLoggedIn) state.onlineFriends = [loggedInFriend, ...updatedOnlineFriends]
                 state.offlineFriends = updatedOfflineFriends.filter(item => item.id !== UserId)     
             }
-       
         },
         setLoggedOutFriend: (state, { payload }) => {    //payload = UserId
             const updatedOnlineFriends = state.onlineFriends
@@ -89,7 +88,30 @@ const friendSlice = createSlice({
             }
             state.error = null;
             state.isLoading = false;
-
+        },
+        setFriendRequests: (state, { payload }) => {
+            const { isRequested } = payload;
+            const updatedFriendRequests = state.friendRequests;
+            console.log(payload)
+            if(payload.isFriends){
+                const updatedSentRequests = state.sentRequests;
+                const updatedFriends = state.friends;
+    
+                state.sentRequests = updatedSentRequests.filter(item => item.id !== parseInt(payload.FriendId)) //remove from sentRequests
+                state.friendRequests = updatedFriendRequests.filter(item => item.id !== parseInt(payload.FriendId)) //remove from sentRequests
+                state.friends = [payload.User, ...updatedFriends];
+            } else {
+                //check if friendrequest is already sent
+                    if(isRequested) {
+                        const isRequestSent = updatedFriendRequests.some(item => parseInt(item.id) === parseInt(payload.FriendId))
+                        if(!isRequestSent) state.friendRequests = [payload.User, ...updatedFriendRequests] //add to friendRequests
+                    } else {  
+                        state.friendRequests = updatedFriendRequests.filter(item => item.id !== parseInt(payload.FriendId)) //remove from friendRequests
+                    }
+                
+            }
+            state.error = null;
+            state.isLoading = false;
         }
     }, 
     extraReducers: (builder) => {
@@ -112,35 +134,35 @@ const friendSlice = createSlice({
             state.error = payload.message;
         })
         // sendRequest
-        .addCase(sendRequest.pending, ( state ) => {
-            state.isLoading = true;
-            state.error = null;
-        })
-        .addCase(sendRequest.fulfilled, ( state, { payload }) => {
-            const { isRequested } = payload;
-            const updatedSentRequests = state.sentRequests;
+        // .addCase(sendRequest.pending, ( state ) => {
+        //     state.isLoading = true;
+        //     state.error = null;
+        // })
+        // .addCase(sendRequest.fulfilled, ( state, { payload }) => {
+        //     const { isRequested } = payload;
+        //     const updatedSentRequests = state.sentRequests;
             
-            if(payload.isFriends){
-                const updatedFriendRequests = state.friendRequests;
-                const updatedFriends = state.friends;
+        //     if(payload.isFriends){
+        //         const updatedFriendRequests = state.friendRequests;
+        //         const updatedFriends = state.friends;
     
-                state.sentRequests = updatedSentRequests.filter(item => item.id !== parseInt(payload.FriendId)) //remove from sentRequests
-                state.friendRequests = updatedFriendRequests.filter(item => item.id !== parseInt(payload.FriendId)) //remove from sentRequests
-                state.friends = [payload.User, ...updatedFriends];
-            } else {
-                if(isRequested) {
-                    state.sentRequests = [payload.User, ...updatedSentRequests] //add to sentRequests
-                } else {  
-                    state.sentRequests = updatedSentRequests.filter(item => item.id !== parseInt(payload.FriendId)) //remove from sentRequests
-                }
-            }
-            state.error = null;
-            state.isLoading = false;
-        })
-        .addCase(sendRequest.rejected, ( state , { payload }) => {
-            state.isLoading = false;
-            state.error = payload.message;
-        })
+        //         state.sentRequests = updatedSentRequests.filter(item => item.id !== parseInt(payload.FriendId)) //remove from sentRequests
+        //         state.friendRequests = updatedFriendRequests.filter(item => item.id !== parseInt(payload.FriendId)) //remove from sentRequests
+        //         state.friends = [payload.User, ...updatedFriends];
+        //     } else {
+        //         if(isRequested) {
+        //             state.sentRequests = [payload.User, ...updatedSentRequests] //add to sentRequests
+        //         } else {  
+        //             state.sentRequests = updatedSentRequests.filter(item => item.id !== parseInt(payload.FriendId)) //remove from sentRequests
+        //         }
+        //     }
+        //     state.error = null;
+        //     state.isLoading = false;
+        // })
+        // .addCase(sendRequest.rejected, ( state , { payload }) => {
+        //     state.isLoading = false;
+        //     state.error = payload.message;
+        // })
         // confirmRequest
         .addCase(confirmRequest.pending, ( state ) => {
             state.isLoading = true;

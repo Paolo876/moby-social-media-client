@@ -9,7 +9,7 @@ const useFriendRedux = () => {
     return {
         ...friendRedux,
         getFriends: () => dispatch(getFriends()),
-        sendRequest: (data) => dispatch(sendRequest(data)),
+        // sendRequest: (data) => dispatch(sendRequest(data)),
         confirmRequest: (data) => dispatch(confirmRequest(data)),
         unfriend: (data) => dispatch(unfriend(data)),
         sendRequestRedux: (data) => dispatch(friendActions.sendRequestRedux(data)),  
@@ -18,6 +18,7 @@ const useFriendRedux = () => {
         setLoggedInFriend: (data) => dispatch(friendActions.setLoggedInFriend(data)),
         setLoggedOutFriend: (data) => dispatch(friendActions.setLoggedOutFriend(data)),
         setStatusChangedFriend: (data) => dispatch(friendActions.setStatusChangedFriend(data)),  
+        setFriendRequests: (data) => dispatch(friendActions.setFriendRequests(data)),  
     };
   } else {
     throw Error('Error accessing friend reducer.');

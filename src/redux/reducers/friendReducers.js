@@ -19,14 +19,14 @@ import axios from "axios";
   *  @access     Private
   *  @return     <Object>  {isRequested: <boolean>, }
   */
- export const sendRequest = createAsyncThunk( 'friends/sendRequest', async ( payload, { rejectWithValue }) => {
-    try {
-        const res = await axios.get(`${process.env.REACT_APP_DOMAIN_URL}/api/friends/send-request/${payload}`, { headers: { 'Content-Type': 'application/json' }, withCredentials: true });
-        return res.data;
-    } catch (err){
-        return rejectWithValue((err.response && err.response.data) ? err.response.data.message : err.message)
-    }
-})
+//  export const sendRequest = createAsyncThunk( 'friends/sendRequest', async ( payload, { rejectWithValue }) => {
+//     try {
+//         const res = await axios.get(`${process.env.REACT_APP_DOMAIN_URL}/api/friends/send-request/${payload}`, { headers: { 'Content-Type': 'application/json' }, withCredentials: true });
+//         return res.data;
+//     } catch (err){
+//         return rejectWithValue((err.response && err.response.data) ? err.response.data.message : err.message)
+//     }
+// })
 
 
  /*  @desc       confirm/decline friend request
