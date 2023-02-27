@@ -2,14 +2,16 @@ import { useState, useRef } from 'react'
 import io from 'socket.io-client';
 import useFriendRedux from './useFriendRedux';
 import useChatRedux from './useChatRedux';
+
 import useSnackbarNotification from './useSnackbarNotification';
 const socket = io(`${process.env.REACT_APP_DOMAIN_URL}/`, { transports: ['websocket'], upgrade: false})
 
 
 const useSocketIo = () => {
   const { snackbarMessage } = useSnackbarNotification()
+
   const { setOnlineFriends, setLoggedInFriend, setLoggedOutFriend, setStatusChangedFriend, setFriendRequests } = useFriendRedux();
-  const { receiveMessage, currentChatRoomId } = useChatRedux();
+  const { receiveMessage } = useChatRedux();
   const socketRef = useRef();
   socketRef.current = socket;
   const [isConnected, setIsConnected] = useState(socketRef.current);
@@ -26,7 +28,13 @@ const useSocketIo = () => {
   const handleReceiveMessage = (data) => {
     receiveMessage(data)
     snackbarMessage(data)
+    // console.log("ASD", currentChatRoomId)
+    // if(parseInt(currentChatRoomId) !== parseInt(data.ChatRoomId)) {
+    //   console.log(currentChatRoomId, parseInt(data.ChatRoomId))
+    //   enqueueSnackbar(data)
+    // };  
   }
+
   const emitLogin = () => {
     triggerListeners();
     socket.connect({ autoConnect: true })

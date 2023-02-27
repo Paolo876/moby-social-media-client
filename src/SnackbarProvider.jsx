@@ -11,7 +11,7 @@ const SnackbarRootProvider = ({ children }) => {
         maxSnack={3} 
         ref={notistackRef}
         hideIconVariant={true}
-        // preventDuplicate={true}
+        preventDuplicate={true}
         content={(key, message) => {
         return <SnackbarComponent snackKey={key} key={key} {...{ message, notistackRef }} />;
       }}

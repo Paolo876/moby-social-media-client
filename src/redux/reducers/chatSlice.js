@@ -29,7 +29,9 @@ const chatSlice = createSlice({
             const chatRoom = updatedChatRooms.find(item => parseInt(item.ChatRoom.id) === parseInt(payload))
             if(chatRoom){
                 chatRoom.ChatRoom.isLastMessageRead = [{isLastMessageRead: true }]
+                state.currentChatRoomId = chatRoom.ChatRoom.id
                 state.chatRooms = updatedChatRooms;
+                
             }
         },
         leaveChatRoom(state) {

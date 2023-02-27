@@ -1,5 +1,5 @@
-import { useEffect, useState, useRef } from 'react'
-import { Routes, Route, useParams } from 'react-router-dom'
+import { useEffect } from 'react'
+import { Routes, Route, useParams, useNavigate } from 'react-router-dom'
 import useMessagesActions from '../../hooks/useMessagesActions'
 import useChatRedux from '../../hooks/useChatRedux'
 import MessageInput from './MessageInput'
@@ -20,6 +20,7 @@ const MessagesFeed = () => {
 
 const MessagesList = () => {
   const params = useParams()["id"];
+  const navigate = useNavigate();
   const { chatRooms, updateOnMessageSent, isMessagesLoading, messagesError, getMessagesById, setLastMessageAsRead, leaveChatRoom } = useChatRedux();
   const { isLoading, error, setError, sendMessage } = useMessagesActions(); 
   const chatRoom = chatRooms.find(item => parseInt(item.ChatRoom.id) === parseInt(params))
@@ -29,7 +30,11 @@ const MessagesList = () => {
 
   useEffect(() => {
     if(params) {
-      if(chatRoom.ChatRoom.ChatMessages.length <= 1) getMessagesById(params)
+      if(chatRoom) {
+        if(chatRoom.ChatRoom.ChatMessages.length <= 1) getMessagesById(params)
+      } else {
+        navigate("/messages")
+      }
       setLastMessageAsRead(params)
     }
     return () => {
