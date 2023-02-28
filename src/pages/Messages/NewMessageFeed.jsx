@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from "react-router-dom"
 import useChatRedux from '../../hooks/useChatRedux'
+import useAuthRedux from '../../hooks/useAuthRedux';
 import MessageInput from './MessageInput';
 import MaterialRoot from "../../components/MaterialRoot"
 import Image from '../../components/Image';
@@ -11,6 +12,7 @@ import useSocketIo from '../../hooks/useSocketIo';
 
 
 const NewMessageFeed = () => {
+  const { user: myUser } = useAuthRedux();
   const userId = useParams()["id"];
   const navigate = useNavigate();
   const { clearNewChatUser, newChatUser, addNewChatRoom } = useChatRedux();
@@ -18,7 +20,6 @@ const NewMessageFeed = () => {
   const [ user, setUser ] = useState(null);
   const [isLoading, setIsLoading ] = useState(false);
   const [error, setError ] = useState(null);
-
 
   useEffect(() => {
     setError(null)
@@ -64,15 +65,8 @@ const NewMessageFeed = () => {
         isNew: true,
         message: input,
         ChatRoomId: data.ChatRoomId,
-        users: [ parseInt(userId), user.id ],
-        messageData: {
-          id: 0,
-          message: input,
-          ChatRoomId: data.ChatRoomId,
-          UserId: user.id,
-          updatedAt: data.updatedAt,
-          createdAt: data.createdAt
-        }
+        users: [ parseInt(userId), myUser.id ],
+        messageData: {ChatRoom: {...result.ChatRoom, ChatMembers: [{ id: myUser.id, User: { username: myUser.username, id: myUser.id, UserDatum: myUser.UserData }}]}}
       })
 
       addNewChatRoom(result)
