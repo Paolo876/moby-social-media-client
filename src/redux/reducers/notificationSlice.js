@@ -7,6 +7,12 @@ const notificationSlice = createSlice({
     initialState: notificationInitialState,
     reducers: {
         reset: () => notificationInitialState,
+        triggerSnackbar: (state, { payload }) => {
+            state.snackbarData = payload;
+        },
+        clearSnackbar: (state) => {
+            state.snackbarData = null;
+        }
     }, 
     // extraReducers: (builder) => {
     //     builder

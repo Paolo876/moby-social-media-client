@@ -2,20 +2,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { notificationActions } from '../redux/reducers/notificationSlice';
 import { } from '../redux/reducers/notificationReducer';
 
-export default function useAuthRedux() {
+export default function useNotificationRedux() {
     const dispatch = useDispatch();
-    const authRedux = useSelector(state => state.auth)
-    if(authRedux) {
+    const notificationRedux = useSelector(state => state.notification)
+    if(notificationRedux) {
       return {
-        ...authRedux,
-        updateUserDataImage: (data) => dispatch(authActions.updateUserDataImage(data)),
-        updateUserData: (data) => dispatch(authActions.updateUserData(data)),
-        login: data => dispatch(login(data)),
-        signup: data => dispatch(signup(data)),
-        profileSetup: data => dispatch(profileSetup(data)),
-        logout: () => dispatch(logout()),
-        authorizeToken: () => dispatch(authorizeToken()),
-        updateStatus: data => dispatch(updateStatus(data)),
+        ...notificationRedux,
+        triggerSnackbar: (data) => dispatch(notificationActions.triggerSnackbar(data)),
+        clearSnackbar: () => dispatch(notificationActions.clearSnackbar()),
       };
     } else {
       throw Error('Error accessing auth reducer.');

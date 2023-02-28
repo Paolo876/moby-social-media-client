@@ -14,8 +14,7 @@ const SnackbarComponent = React.forwardRef((props, ref) => {
     console.log(message)
     return (
       <SnackbarContent ref={ref} {...other}>
-        {/* {message} */}
-        hello
+        {message}
       </SnackbarContent>
     )
   })
