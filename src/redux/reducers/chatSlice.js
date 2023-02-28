@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getChatRooms, receiveMessage, getMessagesById } from "./chatReducers";
+import { getChatRooms, receiveMessage, getMessagesById, receiveNewMessage } from "./chatReducers";
 import { chatInitialState } from "../initialState";
 
 const chatSlice = createSlice({
@@ -76,7 +76,6 @@ const chatSlice = createSlice({
         })
         // receiveMessage
         .addCase(receiveMessage.pending, ( state ) => {
-            // state.isMessagesLoading = true;
             state.error = null;
         })
         .addCase(receiveMessage.fulfilled, ( state, { payload }) => {
@@ -98,6 +97,32 @@ const chatSlice = createSlice({
             state.error = null;
         })
         .addCase(receiveMessage.rejected, ( state , { payload }) => {
+            state.isMessagesLoading = false;
+            state.error = payload.message;
+        })
+        // receiveNewMessage
+        .addCase(receiveNewMessage.pending, ( state ) => {
+            state.error = null;
+        })
+        .addCase(receiveNewMessage.fulfilled, ( state, { payload }) => {
+            if(state.chatRooms){
+                const updatedChatRooms = state.chatRooms;
+                const chatRoom = updatedChatRooms.find(item => parseInt(item.ChatRoom.id) === parseInt(payload.id))
+                if(chatRoom.ChatRoom.ChatMessages.length !== 0 && chatRoom.ChatRoom.ChatMessages[0].id !== payload.ChatMessages[0].id){
+                    chatRoom.ChatRoom.ChatMessages = [...payload.ChatMessages, ...chatRoom.ChatRoom.ChatMessages];
+                    chatRoom.ChatRoom.isLastMessageRead = payload.isLastMessageRead
+
+                    //set isLastMessageRead to true if user is currently in the chatRoom
+                    if(state.currentChatRoomId === parseInt(payload.id)) chatRoom.ChatRoom.isLastMessageRead = [{isLastMessageRead: true}]
+                    updatedChatRooms.unshift(updatedChatRooms.splice(updatedChatRooms.indexOf(chatRoom), 1)[0]) //move to first 
+                    state.chatRooms = updatedChatRooms;    
+                }
+            }
+
+            state.isMessagesLoading = false;
+            state.error = null;
+        })
+        .addCase(receiveNewMessage.rejected, ( state , { payload }) => {
             state.isMessagesLoading = false;
             state.error = payload.message;
         })

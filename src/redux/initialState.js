@@ -47,3 +47,11 @@ export const friendsInitialState = {
     error: null,
 };
 
+
+/**
+ * snackbarInitialState
+ */
+export const snackbarInitialState = {
+    notifications: []
+};
+

@@ -12,12 +12,14 @@ const useSnackbarNotification = () => {
   useEffect(() => {
     setCurrentRoomId(currentChatRoomId)
   }, [currentChatRoomId])
+
+
   const snackbarMessage = (message) => {
-    console.log(currentRoomId, message.ChatRoomId)
+    console.log(currentRoomId, currentChatRoomId, message.ChatRoomId)
     // enqueueSnackbar(message)
   }
 
-  console.log(currentRoomId)
+  // console.log(currentRoomId)
   return { snackbarMessage }
 }
 

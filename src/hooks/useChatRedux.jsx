@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { chatActions } from '../redux/reducers/chatSlice';
-import { getChatRooms, receiveMessage, getMessagesById } from '../redux/reducers/chatReducers';
+import { getChatRooms, receiveMessage, getMessagesById, receiveNewMessage } from '../redux/reducers/chatReducers';
 
 const useChatRedux = () => {
   const dispatch = useDispatch();
@@ -18,6 +18,7 @@ const useChatRedux = () => {
         leaveChatRoom: (data) => dispatch(chatActions.leaveChatRoom(data)),
         clearNewChatUser: () => dispatch(chatActions.clearNewChatUser()),
         receiveMessage: (data) => dispatch(receiveMessage(data)),
+        receiveNewMessage: (data) => dispatch(receiveNewMessage(data)),
     };
   } else {
     throw Error('Error accessing chat reducer.');

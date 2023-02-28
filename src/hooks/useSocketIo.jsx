@@ -11,7 +11,7 @@ const useSocketIo = () => {
   const { snackbarMessage } = useSnackbarNotification()
 
   const { setOnlineFriends, setLoggedInFriend, setLoggedOutFriend, setStatusChangedFriend, setFriendRequests } = useFriendRedux();
-  const { receiveMessage } = useChatRedux();
+  const { receiveMessage, receiveNewMessage } = useChatRedux();
   const socketRef = useRef();
   socketRef.current = socket;
   const [isConnected, setIsConnected] = useState(socketRef.current);
@@ -26,7 +26,12 @@ const useSocketIo = () => {
   }
 
   const handleReceiveMessage = (data) => {
-    receiveMessage(data)
+    if(data.isNew) {
+      receiveNewMessage(data)
+    } else {
+      receiveMessage(data)
+
+    }
     snackbarMessage(data)
     // console.log("ASD", currentChatRoomId)
     // if(parseInt(currentChatRoomId) !== parseInt(data.ChatRoomId)) {

@@ -7,12 +7,14 @@ import Image from '../../components/Image';
 import defaultAvatar from "../../assets/default-profile.png"
 import axios from 'axios';
 import { Paper, Divider, Box, Alert, IconButton, Typography, Tooltip } from '@mui/material';
+import useSocketIo from '../../hooks/useSocketIo';
 
 
 const NewMessageFeed = () => {
   const userId = useParams()["id"];
   const navigate = useNavigate();
   const { clearNewChatUser, newChatUser, addNewChatRoom } = useChatRedux();
+  const { emitMessage } = useSocketIo();
   const [ user, setUser ] = useState(null);
   const [isLoading, setIsLoading ] = useState(false);
   const [error, setError ] = useState(null);
@@ -56,6 +58,22 @@ const NewMessageFeed = () => {
           ChatMessages: [{ id: 0, message: input, createdAt: data.createdAt, updatedAt: data.updatedAt, UserId: user.id, ChatRoomId: data.ChatRoomId}]
         } 
       }
+
+      //emit to socketio
+      emitMessage({
+        isNew: true,
+        message: input,
+        ChatRoomId: data.ChatRoomId,
+        users: [ parseInt(userId), user.id ],
+        messageData: {
+          id: 0,
+          message: input,
+          ChatRoomId: data.ChatRoomId,
+          UserId: user.id,
+          updatedAt: data.updatedAt,
+          createdAt: data.createdAt
+        }
+      })
 
       addNewChatRoom(result)
       setIsLoading(false)
