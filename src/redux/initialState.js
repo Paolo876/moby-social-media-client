@@ -49,9 +49,10 @@ export const friendsInitialState = {
 
 
 /**
- * snackbarInitialState
+ * notificationInitialState
  */
-export const snackbarInitialState = {
-    notifications: []
+export const notificationInitialState = {
+    notifications: [],
+    snackbarData: null,
 };
 

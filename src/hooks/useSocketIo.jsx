@@ -3,12 +3,10 @@ import io from 'socket.io-client';
 import useFriendRedux from './useFriendRedux';
 import useChatRedux from './useChatRedux';
 
-import useSnackbarNotification from './useSnackbarNotification';
 const socket = io(`${process.env.REACT_APP_DOMAIN_URL}/`, { transports: ['websocket'], upgrade: false})
 
 
 const useSocketIo = () => {
-  const { snackbarMessage } = useSnackbarNotification()
 
   const { setOnlineFriends, setLoggedInFriend, setLoggedOutFriend, setStatusChangedFriend, setFriendRequests } = useFriendRedux();
   const { receiveMessage, receiveNewMessage } = useChatRedux();
@@ -32,7 +30,7 @@ const useSocketIo = () => {
       receiveMessage(data)
 
     }
-    snackbarMessage(data)
+    // snackbarMessage(data)
     // console.log("ASD", currentChatRoomId)
     // if(parseInt(currentChatRoomId) !== parseInt(data.ChatRoomId)) {
     //   console.log(currentChatRoomId, parseInt(data.ChatRoomId))
