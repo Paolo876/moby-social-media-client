@@ -7,9 +7,12 @@ const SnackbarListener = () => {
     const { enqueueSnackbar } = useSnackbar();
     const { snackbarData, clearSnackbar } = useNotificationRedux();
     const location = useLocation();
+
+
     useEffect(() => {
         if(snackbarData){
-            if(!location.pathname.includes("/messages")) enqueueSnackbar(snackbarData, { key: snackbarData.id})
+            // don't emit message snackbars if user is in messages page
+            if(!location.pathname.includes("/messages") || !snackbarData.type === "message") enqueueSnackbar(snackbarData, { key: snackbarData.id}) 
             clearSnackbar()
         }
     }, [snackbarData])

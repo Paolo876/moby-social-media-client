@@ -9,7 +9,7 @@ const SnackbarComponent = React.forwardRef((props, ref) => {
       ...other
     } = props
   
-    console.log(ref)
+    console.log(content)
     return (
       <SnackbarContent ref={ref} {...other}>
       </SnackbarContent>
