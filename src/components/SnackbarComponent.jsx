@@ -5,16 +5,13 @@ const SnackbarComponent = React.forwardRef((props, ref) => {
     const {
       // You have access to notistack props and options 👇🏼
       id,
-      message,
-      // as well as your own custom props 👇🏼
-      allowDownload,
+      content,
       ...other
     } = props
   
-    console.log(message)
+    console.log(ref)
     return (
       <SnackbarContent ref={ref} {...other}>
-        {message}
       </SnackbarContent>
     )
   })

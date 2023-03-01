@@ -9,7 +9,7 @@ const SnackbarListener = () => {
     const location = useLocation();
     useEffect(() => {
         if(snackbarData){
-            if(!location.pathname.includes("/messages")) enqueueSnackbar(snackbarData)
+            if(!location.pathname.includes("/messages")) enqueueSnackbar(snackbarData, { key: snackbarData.id})
             clearSnackbar()
         }
     }, [snackbarData])

@@ -13,7 +13,7 @@ const SnackbarRootProvider = ({ children }) => {
       hideIconVariant={true}
       preventDuplicate={true}
       content={(key, message) => {
-        return <SnackbarComponent snackKey={key} key={key} {...{ message, notistackRef }} />;
+        return <SnackbarComponent id={key} content={message} {...{ notistackRef }} />;
       }}
     >
       <SnackbarListener/>
