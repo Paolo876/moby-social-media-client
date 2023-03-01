@@ -1,21 +1,15 @@
 import { useEffect} from 'react'
 import useNotificationRedux from './hooks/useNotificationRedux'
-import useChatRedux from './hooks/useChatRedux';
 import { useSnackbar } from 'notistack';
-
+import { useLocation } from "react-router-dom"
 
 const SnackbarListener = () => {
     const { enqueueSnackbar } = useSnackbar();
     const { snackbarData, clearSnackbar } = useNotificationRedux();
-    const { currentChatRoomId } = useChatRedux();
-
+    const location = useLocation();
     useEffect(() => {
         if(snackbarData){
-            if(snackbarData.type === "message"){
-                if(currentChatRoomId !== parseInt(snackbarData.ChatRoomId)) enqueueSnackbar(snackbarData.messageData.message)
-
-            }
-            // console.log(currentChatRoomId, snackbarData)
+            if(!location.pathname.includes("/messages")) enqueueSnackbar(snackbarData)
             clearSnackbar()
         }
     }, [snackbarData])

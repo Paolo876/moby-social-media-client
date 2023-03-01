@@ -22,16 +22,44 @@ const useSocketIo = () => {
     socket.on("logged-out-friend", data => setLoggedOutFriend(data))
     socket.on("status-changed-friend", data => setStatusChangedFriend(data))
     socket.on("receive-message", data => handleReceiveMessage(data))
-    socket.on("receive-friend-request", data => setFriendRequests(data))
+    socket.on("receive-friend-request", data => handleReceiveFriendRequest(data))
   }
 
+  const handleReceiveFriendRequest = (data) => {
+    setFriendRequests(data)
+    triggerSnackbar({
+      title: `New Friend Request from ${data.User.username}`, 
+      image: data.User.UserDatum.image, 
+      header: data.User.username,
+      subheader: `${data.User.UserDatum.firstName} ${data.User.UserDatum.lastName}`, 
+      id: parseInt(data.FriendId),
+      type: "friendRequest",
+      link: `/profile/${data.FriendId}`,
+    })
+  }
   const handleReceiveMessage = (data) => {
     if(data.isNew) {
       receiveNewMessage(data)
+      triggerSnackbar({
+        title: "New Message from a User", 
+        image: data.sender.User.UserDatum.image, 
+        header: data.sender.User.username,
+        subheader: data.messageData.ChatRoom.ChatMessages[0].message, 
+        id: parseInt(data.ChatRoomId),
+        type: "message",
+        link: `/messages/${data.ChatRoomId}`,
+      })
     } else {
       receiveMessage(data)
+      triggerSnackbar({
+        image: data.sender.User.UserDatum.image, 
+        header: data.sender.User.username,
+        subheader: data.messageData.message, 
+        id: parseInt(data.ChatRoomId),
+        type: "message",
+        link: `/messages/${data.ChatRoomId}`,
+      })
     }
-    triggerSnackbar({...data, type: "message"})
   }
 
   const emitLogin = () => {
