@@ -21,9 +21,9 @@ const SnackbarComponent = forwardRef((props, ref) => {
       navigate(link)
       setShowSnackbar(false)
     }
-    if(showSnackbar) return (
+    return (
       <SnackbarContent ref={ref} {...other}>
-        <ButtonBase  sx={{width:"100%", position: "relative"}} onClick={handleClick}>
+        <ButtonBase  sx={{width:"100%", position: "relative", display: showSnackbar ? "initial" : "none" }} onClick={handleClick}>
           <Paper sx={{width:"100%", background: "rgba(100,100,100, .8)"}} elevation={4}>
             <Box sx={{display: "flex", flexDirection: "row", alignItems: "center", gap: 1.5, py: .75, pl: 1, pr: 2}}>
               <Box>
