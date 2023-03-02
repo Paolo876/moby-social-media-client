@@ -52,6 +52,7 @@ const useSocketIo = () => {
     } else {
       receiveMessage(data)
       triggerSnackbar({
+        title: `Message from ${data.sender.User.username}`, 
         image: data.sender.User.UserDatum.image, 
         header: data.sender.User.username,
         subheader: data.messageData.message, 
