@@ -12,7 +12,7 @@ const SnackbarListener = () => {
     useEffect(() => {
         if(snackbarData){
             // don't emit message snackbars if user is in messages page
-            if(!location.pathname.includes("/messages") || !snackbarData.type === "message") enqueueSnackbar(snackbarData, { persist:true, preventDuplicate: true }) 
+            if(!location.pathname.includes("/messages") || !snackbarData.type === "message") enqueueSnackbar(snackbarData, { key: snackbarData.id, preventDuplicate: true })
             clearSnackbar()
         }
     }, [snackbarData])
