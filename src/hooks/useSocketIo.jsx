@@ -28,7 +28,7 @@ const useSocketIo = () => {
   const handleReceiveFriendRequest = (data) => {
     setFriendRequests(data)
     triggerSnackbar({
-      title: `New Friend Request from ${data.User.username}`, 
+      title: `You have a new Friend Request!`, 
       image: data.User.UserDatum.image, 
       header: data.User.username,
       subheader: `${data.User.UserDatum.firstName} ${data.User.UserDatum.lastName}`, 
@@ -41,7 +41,7 @@ const useSocketIo = () => {
     if(data.isNew) {
       receiveNewMessage(data)
       triggerSnackbar({
-        title: "New Message from a User", 
+        title: "A user sent you a message", 
         image: data.sender.User.UserDatum.image, 
         header: data.sender.User.username,
         subheader: data.messageData.ChatRoom.ChatMessages[0].message, 
@@ -54,7 +54,7 @@ const useSocketIo = () => {
       triggerSnackbar({
         title: `Message from ${data.sender.User.username}`, 
         image: data.sender.User.UserDatum.image, 
-        header: data.sender.User.username,
+        // header: data.sender.User.username,
         subheader: data.messageData.message, 
         id: parseInt(data.ChatRoomId),
         type: "message",
