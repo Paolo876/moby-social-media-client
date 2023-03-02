@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import useAuthRedux from '../hooks/useAuthRedux';
 import useSocketIo from '../hooks/useSocketIo';
 import useChatRedux from '../hooks/useChatRedux';
+import useNotificationRedux from '../hooks/useNotificationRedux';
 import useResetRedux from '../hooks/useResetRedux';
 import { styled, alpha } from '@mui/material/styles';
 import { AppBar, Box, Toolbar, IconButton, Badge, MenuItem, Menu, Container, Tooltip, Divider } from '@mui/material';
@@ -78,6 +79,7 @@ const paperProps = {
 const Navbar = () => {
     const navigate = useNavigate();
     const { logout, user } = useAuthRedux();
+    const { notifications } = useNotificationRedux();
     const { resetAllStates } = useResetRedux();
     const { chatRooms } = useChatRedux();
     const [anchorEl, setAnchorEl] = useState(null);
@@ -87,6 +89,8 @@ const Navbar = () => {
     if(user && user.UserData) image = JSON.parse(user.UserData.image);
 
     const unreadMessages = chatRooms ? chatRooms.filter(item => item.ChatRoom.isLastMessageRead[0].isLastMessageRead === false).length : 0
+    const notificationsLength = notifications ? notifications.length : 0
+
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   
@@ -169,7 +173,7 @@ const Navbar = () => {
             aria-label="show 17 new notifications"
             color="inherit"
           >
-            <Badge badgeContent={5} color="error">
+            <Badge badgeContent={notificationsLength} color="error">
               <NotificationsIcon />
             </Badge>
           </IconButton>
@@ -235,7 +239,7 @@ const Navbar = () => {
                     aria-label="show 17 new notifications"
                     color="inherit"
                   >
-                    <Badge badgeContent={5} color="error">
+                    <Badge badgeContent={notificationsLength} color="error">
                       <NotificationsIcon />
                     </Badge>
                   </IconButton>

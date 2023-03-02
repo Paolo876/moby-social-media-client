@@ -4,7 +4,7 @@ import useAuthRedux from "./hooks/useAuthRedux";
 import useChatRedux from './hooks/useChatRedux';
 import useFriendRedux from './hooks/useFriendRedux';
 import useSocketIo from './hooks/useSocketIo';
-// import { SnackbarProvider } from 'notistack'
+import useNotificationRedux from './hooks/useNotificationRedux';
 
 //components
 import Navbar from './components/Navbar';
@@ -26,6 +26,7 @@ import About from './pages/About';
 function App() {
   const { user, isAuthReady, authorizeToken } = useAuthRedux();
   const { getFriends } = useFriendRedux();
+  const { getNotifications } = useNotificationRedux();
   const { getChatRooms } = useChatRedux();
   const { emitLogin, emitLogout } = useSocketIo();
 
@@ -39,6 +40,7 @@ function App() {
         emitLogin();
         getFriends();
         getChatRooms();
+        getNotifications();
       } 
     } 
     else {
