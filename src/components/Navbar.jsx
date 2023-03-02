@@ -110,6 +110,12 @@ const Navbar = () => {
     const handleMobileMenuOpen = (event) => {
       setMobileMoreAnchorEl(event.currentTarget);
     };
+
+    const handleMobileMenuClick = (link) => {
+      navigate(link)
+      handleMobileMenuClose();
+
+    }
     
     const handleLogout = () => {
       setAnchorEl(null);
@@ -179,8 +185,8 @@ const Navbar = () => {
           </IconButton>
           <p>Notifications</p>
         </MenuItem>
-        <MenuItem>
-          <IconButton size="large" aria-label="show 4 new mails" color="inherit" onClick={() => navigate("/messages")}>
+        <MenuItem onClick={() => handleMobileMenuClick("/messages")}>
+          <IconButton size="large" aria-label="show 4 new mails" color="inherit">
             <Badge badgeContent={unreadMessages} color="error">
               <ChatIcon />
             </Badge>
