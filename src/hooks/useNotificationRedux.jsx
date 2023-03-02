@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { notificationActions } from '../redux/reducers/notificationSlice';
-import { } from '../redux/reducers/notificationReducer';
+import { getNotifications } from '../redux/reducers/notificationReducer';
 
 export default function useNotificationRedux() {
     const dispatch = useDispatch();
@@ -10,6 +10,7 @@ export default function useNotificationRedux() {
         ...notificationRedux,
         triggerSnackbar: (data) => dispatch(notificationActions.triggerSnackbar(data)),
         clearSnackbar: () => dispatch(notificationActions.clearSnackbar()),
+        getNotifications: () => dispatch(getNotifications()),
       };
     } else {
       throw Error('Error accessing auth reducer.');

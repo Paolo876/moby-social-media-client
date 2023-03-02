@@ -37,11 +37,12 @@ const useSocketIo = () => {
       link: `/profile/${data.FriendId}`,
     })
   }
+
   const handleReceiveMessage = (data) => {
     if(data.isNew) {
       receiveNewMessage(data)
       triggerSnackbar({
-        title: "A user sent you a message", 
+        title: "You have a New Message from a User", 
         image: data.sender.User.UserDatum.image, 
         header: data.sender.User.username,
         subheader: data.messageData.ChatRoom.ChatMessages[0].message, 
@@ -92,7 +93,6 @@ const useSocketIo = () => {
       socket.emit("send-friend-request", data)
     }
   }
-
 
   //chat events
 

@@ -21,6 +21,8 @@ const SnackbarComponent = forwardRef((props, ref) => {
       navigate(link)
       setShowSnackbar(false)
     }
+
+
     return (
       <SnackbarContent ref={ref} {...other}>
         <ButtonBase  sx={{width:"100%", position: "relative", display: showSnackbar ? "initial" : "none" }} onClick={handleClick}>
@@ -30,14 +32,14 @@ const SnackbarComponent = forwardRef((props, ref) => {
                 {/* image here */}
                 {userImage ? 
                   <Image 
-                      src={userImage.url} 
-                      transformation={[{
-                          height: 40,
-                          width: 40,
-                      }]} 
-                      style={{borderRadius: "50%"}}
-                      alt="profile-avatar"
-                      /> :
+                    src={userImage.url} 
+                    transformation={[{
+                        height: 40,
+                        width: 40,
+                    }]} 
+                    style={{borderRadius: "50%"}}
+                    alt="profile-avatar"
+                    /> :
                   <img src={defaultAvatar} alt="profile-avatar" style={{height: "40px", width: "40px"}}/>
                 }
               </Box>

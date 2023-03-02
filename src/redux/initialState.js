@@ -54,5 +54,7 @@ export const friendsInitialState = {
 export const notificationInitialState = {
     notifications: [],
     snackbarData: null,
+    isLoading: false,
+    error: null,
 };
 
