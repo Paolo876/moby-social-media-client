@@ -1,5 +1,4 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
 import useSocketIo from '../../hooks/useSocketIo';
 import useResetRedux from '../../hooks/useResetRedux';
 import useAuthRedux from '../../hooks/useAuthRedux';
@@ -11,15 +10,9 @@ import LogoutIcon from '@mui/icons-material/Logout';
 
 
 const AccountMenu = ({ setAnchorEl, handleMobileMenuClose, handleItemClick }) => {
-  const navigate = useNavigate();
   const { emitLogout } = useSocketIo();
   const { resetAllStates } = useResetRedux();
   const { logout } = useAuthRedux();
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-    handleMobileMenuClose();
-  };
 
   const handleLogout = () => {
     setAnchorEl(null);

@@ -1,10 +1,8 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import useAuthRedux from '../hooks/useAuthRedux';
-import useSocketIo from '../hooks/useSocketIo';
 import useChatRedux from '../hooks/useChatRedux';
 import useNotificationRedux from '../hooks/useNotificationRedux';
-import useResetRedux from '../hooks/useResetRedux';
 import { styled, alpha } from '@mui/material/styles';
 import { AppBar, Box, Toolbar, IconButton, Badge, MenuItem, Menu, Container, Tooltip, Divider } from '@mui/material';
 import Image from './Image';
@@ -14,12 +12,9 @@ import SearchInput from './SearchInput';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import ChatIcon from '@mui/icons-material/Chat';
-import LogoutIcon from '@mui/icons-material/Logout';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MenuIcon from '@mui/icons-material/Menu';
 import logo from "../assets/logo_header.png"
-import SettingsIcon from '@mui/icons-material/Settings';
-import InfoIcon from '@mui/icons-material/Info';
 import AccountMenu from './NavbarMenus/AccountMenu';
 
 
@@ -79,14 +74,13 @@ const paperProps = {
 
 const Navbar = () => {
     const navigate = useNavigate();
-    const { logout, user } = useAuthRedux();
+    const { user } = useAuthRedux();
     const { notifications } = useNotificationRedux();
-    const { resetAllStates } = useResetRedux();
     const { chatRooms } = useChatRedux();
     const [anchorEl, setAnchorEl] = useState(null);
     const [notiAnchorEl, setNotiAnchorEl] = useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
-    const { emitLogout } = useSocketIo();
+
     let image;
     if(user && user.UserData) image = JSON.parse(user.UserData.image);
 
@@ -96,7 +90,7 @@ const Navbar = () => {
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
     const isNotificationOpen = Boolean(notiAnchorEl);
-  
+    const isMobileMode = mobileMoreAnchorEl && true
     const handleProfileMenuOpen = (event) => {
       setAnchorEl(event.currentTarget);
       setNotiAnchorEl(null)
@@ -156,13 +150,32 @@ const Navbar = () => {
         <AccountMenu setAnchorEl={setAnchorEl} handleMobileMenuClose={handleMobileMenuClose} handleItemClick={handleItemClick}/>
       </Menu>
     );
+    console.log(isMobileMode)
+    const notificationMenuId = 'notification-menu'
+    const renderNotificationMenu = (
+      <Menu
+        anchorEl={notiAnchorEl}
+        id={notificationMenuId}
+        keepMounted
+        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+        PaperProps={paperProps}
+        open={isNotificationOpen}
+        onClose={handleNotificationMenuClose}
+      >
+      {/* map notifications here */}
+        <MenuItem onClick={() => handleItemClick("profile")} sx={{px: 3, py: .8}}><AccountCircle fontSize="sm" sx={{mr: 2}}/> Profile</MenuItem>
   
+      </Menu>
+    );
+
+
     const mobileMenuId = 'primary-search-account-menu-mobile';
     const renderMobileMenu = (
       <Menu
         anchorEl={mobileMoreAnchorEl}
         anchorOrigin={{
-          vertical: 'top',
+          vertical: 'bottom',
           horizontal: 'right',
         }}
         id={mobileMenuId}
@@ -174,10 +187,12 @@ const Navbar = () => {
         open={isMobileMenuOpen}
         onClose={handleMobileMenuClose}
       >
-        <MenuItem>
+        <MenuItem onClick={handleNotificationMenuOpen}>
           <IconButton
             size="large"
             color="inherit"
+            aria-controls={notificationMenuId}
+            aria-haspopup="true"
           >
             <Badge badgeContent={notificationsLength} color="error">
               <NotificationsIcon />
@@ -196,9 +211,10 @@ const Navbar = () => {
         <MenuItem onClick={handleProfileMenuOpen}>
           <IconButton
             size="large"
-            aria-controls="primary-search-account-menu"
+            aria-controls={menuId}
             aria-haspopup="true"
             color="inherit"
+            
           >
             {image ?  
               <Image 
@@ -211,24 +227,6 @@ const Navbar = () => {
           </IconButton>
           {user && user.UserData && <p>{user.UserData.firstName} {user.UserData.lastName}</p>}
         </MenuItem>
-      </Menu>
-    );
-
-    const notificationMenuId = 'notification-menu'
-    const renderNotificationMenu = (
-      <Menu
-        anchorEl={notiAnchorEl}
-        id={notificationMenuId}
-        keepMounted
-        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-        PaperProps={paperProps}
-        open={isNotificationOpen}
-        onClose={handleNotificationMenuClose}
-      >
-      {/* map notifications here */}
-        <MenuItem onClick={() => handleItemClick("profile")} sx={{px: 3, py: .8}}><AccountCircle fontSize="sm" sx={{mr: 2}}/> Profile</MenuItem>
-  
       </Menu>
     );
   
