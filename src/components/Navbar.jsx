@@ -20,6 +20,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import logo from "../assets/logo_header.png"
 import SettingsIcon from '@mui/icons-material/Settings';
 import InfoIcon from '@mui/icons-material/Info';
+import AccountMenu from './NavbarMenus/AccountMenu';
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -130,14 +131,6 @@ const Navbar = () => {
 
     }
     
-    const handleLogout = () => {
-      setAnchorEl(null);
-      emitLogout();
-      handleMobileMenuClose();
-      handleMenuClose()
-      logout()
-      resetAllStates()
-    }
 
     const handleItemClick = (option) => {
       if(option === "profile") navigate(`/${option}`)
@@ -160,11 +153,7 @@ const Navbar = () => {
         open={isMenuOpen}
         onClose={handleMenuClose}
       >
-        <MenuItem onClick={() => handleItemClick("profile")} sx={{px: 3, py: .8}}><AccountCircle fontSize="sm" sx={{mr: 2}}/> Profile</MenuItem>
-        <MenuItem onClick={() => handleItemClick("settings")} sx={{px: 3, py: .8}}><SettingsIcon fontSize="sm" sx={{mr: 2}}/> Settings</MenuItem>
-        <MenuItem onClick={() => handleItemClick("about")} sx={{px: 3, py: .8}}><InfoIcon fontSize="sm" sx={{mr: 2}}/> About</MenuItem>
-        <Divider/>
-        <MenuItem onClick={handleLogout} sx={{px: 3, py: .8}}><LogoutIcon fontSize="sm" sx={{mr: 2}}/> Logout</MenuItem>
+        <AccountMenu setAnchorEl={setAnchorEl} handleMobileMenuClose={handleMobileMenuClose} handleItemClick={handleItemClick}/>
       </Menu>
     );
   
@@ -188,7 +177,6 @@ const Navbar = () => {
         <MenuItem>
           <IconButton
             size="large"
-            aria-label="show 17 new notifications"
             color="inherit"
           >
             <Badge badgeContent={notificationsLength} color="error">
@@ -198,7 +186,7 @@ const Navbar = () => {
           <p>Notifications</p>
         </MenuItem>
         <MenuItem onClick={() => handleMobileMenuClick("/messages")}>
-          <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+          <IconButton size="large" color="inherit">
             <Badge badgeContent={unreadMessages} color="error">
               <ChatIcon />
             </Badge>
@@ -208,7 +196,6 @@ const Navbar = () => {
         <MenuItem onClick={handleProfileMenuOpen}>
           <IconButton
             size="large"
-            aria-label="account of current user"
             aria-controls="primary-search-account-menu"
             aria-haspopup="true"
             color="inherit"
@@ -239,6 +226,7 @@ const Navbar = () => {
         open={isNotificationOpen}
         onClose={handleNotificationMenuClose}
       >
+      {/* map notifications here */}
         <MenuItem onClick={() => handleItemClick("profile")} sx={{px: 3, py: .8}}><AccountCircle fontSize="sm" sx={{mr: 2}}/> Profile</MenuItem>
   
       </Menu>
@@ -255,12 +243,11 @@ const Navbar = () => {
                   size="large"
                   edge="start"
                   color="inherit"
-                  aria-label="open drawer"
                   sx={{ mr: 2 }}
                   LinkComponent={Link}
                   to="/"
               ><img src={logo} alt="logo" style={{objectFit: "cover", height: 40, filter: "invert(.9)"}}/></IconButton>
-              <Search onSubmit={(e) => console.log(e)}>
+              <Search>
                 <SearchIconWrapper>
                   <SearchIcon />
                 </SearchIconWrapper>
@@ -282,7 +269,7 @@ const Navbar = () => {
                   </IconButton>
                 </Tooltip>
                 <Tooltip title="Messages" arrow>
-                  <IconButton size="large" aria-label="show 4 new mails" color="inherit" onClick={() => navigate("/messages")}>
+                  <IconButton size="large" color="inherit" onClick={() => navigate("/messages")}>
                     <Badge badgeContent={unreadMessages} color="error">
                       <ChatIcon />
                     </Badge>
@@ -292,7 +279,6 @@ const Navbar = () => {
                   <IconButton
                     size="large"
                     edge="end"
-                    aria-label="account of current user"
                     aria-controls={menuId}
                     aria-haspopup="true"
                     onClick={handleProfileMenuOpen}
@@ -315,7 +301,6 @@ const Navbar = () => {
               <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
                 <IconButton
                   size="large"
-                  aria-label="show more"
                   aria-controls={mobileMenuId}
                   aria-haspopup="true"
                   onClick={handleMobileMenuOpen}
@@ -333,6 +318,7 @@ const Navbar = () => {
         {renderNotificationMenu}
         {renderMobileMenu}
         {renderMenu}
+        
       </Box>
     );
   
