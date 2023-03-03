@@ -83,6 +83,7 @@ const Navbar = () => {
     const { resetAllStates } = useResetRedux();
     const { chatRooms } = useChatRedux();
     const [anchorEl, setAnchorEl] = useState(null);
+    const [notiAnchorEl, setNotiAnchorEl] = useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
     const { emitLogout } = useSocketIo();
     let image;
@@ -93,10 +94,17 @@ const Navbar = () => {
 
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+    const isNotificationOpen = Boolean(notiAnchorEl);
   
     const handleProfileMenuOpen = (event) => {
       setAnchorEl(event.currentTarget);
+      setNotiAnchorEl(null)
     };
+
+    const handleNotificationMenuOpen = (event) => {
+      setNotiAnchorEl(event.currentTarget)
+      setAnchorEl(null);
+    }
   
     const handleMobileMenuClose = () => {
       setMobileMoreAnchorEl(null);
@@ -104,6 +112,11 @@ const Navbar = () => {
   
     const handleMenuClose = () => {
       setAnchorEl(null);
+      handleMobileMenuClose();
+    };
+  
+    const handleNotificationMenuClose = () => {
+      setNotiAnchorEl(null);
       handleMobileMenuClose();
     };
   
@@ -134,7 +147,6 @@ const Navbar = () => {
       setAnchorEl(null);
       handleMobileMenuClose();
     }
-
 
     const menuId = 'primary-search-account-menu';
     const renderMenu = (
@@ -214,6 +226,23 @@ const Navbar = () => {
         </MenuItem>
       </Menu>
     );
+
+    const notificationMenuId = 'notification-menu'
+    const renderNotificationMenu = (
+      <Menu
+        anchorEl={notiAnchorEl}
+        id={notificationMenuId}
+        keepMounted
+        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+        PaperProps={paperProps}
+        open={isNotificationOpen}
+        onClose={handleNotificationMenuClose}
+      >
+        <MenuItem onClick={() => handleItemClick("profile")} sx={{px: 3, py: .8}}><AccountCircle fontSize="sm" sx={{mr: 2}}/> Profile</MenuItem>
+  
+      </Menu>
+    );
   
     return (
       <Box sx={{ flexGrow: 1 }}>
@@ -242,8 +271,10 @@ const Navbar = () => {
                 <Tooltip title="Notifications" arrow>
                   <IconButton
                     size="large"
-                    aria-label="show 17 new notifications"
                     color="inherit"
+                    aria-controls={notiAnchorEl}
+                    aria-haspopup="true"
+                    onClick={handleNotificationMenuOpen}
                   >
                     <Badge badgeContent={notificationsLength} color="error">
                       <NotificationsIcon />
@@ -297,7 +328,9 @@ const Navbar = () => {
             : <div style={{display: "flex", padding: ".25em"}}><img src={logo} alt="logo" style={{objectFit: "cover", height: 40, filter: "invert(.9)", margin: "0 auto"}}/></div>}
           </Container>
         </AppBar>
+        
         <Toolbar sx={{py: .5}}>{/* space filler to shift components under the navbar */}</Toolbar> 
+        {renderNotificationMenu}
         {renderMobileMenu}
         {renderMenu}
       </Box>
