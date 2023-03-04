@@ -90,7 +90,14 @@ const Navbar = () => {
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
     const isNotificationOpen = Boolean(notiAnchorEl);
-    const isMobileMode = mobileMoreAnchorEl && true
+    const isMobileMode = mobileMoreAnchorEl && true;
+
+    if(isMobileMode) {
+      // paperProps.sx['&:before'].top = 14
+      // paperProps.sx['&:before'].right = -4
+      paperProps.sx['&:before'] = {}
+    }
+
     const handleProfileMenuOpen = (event) => {
       setAnchorEl(event.currentTarget);
       setNotiAnchorEl(null)
@@ -106,8 +113,8 @@ const Navbar = () => {
     };
   
     const handleMenuClose = () => {
-      setAnchorEl(null);
       handleMobileMenuClose();
+      setAnchorEl(null);
     };
   
     const handleNotificationMenuClose = () => {
@@ -142,15 +149,14 @@ const Navbar = () => {
         id={menuId}
         keepMounted
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-        PaperProps={paperProps}
+        anchorOrigin={{ horizontal: isMobileMode ? 'left' : 'right', vertical: isMobileMode ? 'top' : 'bottom' }}
+        PaperProps={{...paperProps}}
         open={isMenuOpen}
         onClose={handleMenuClose}
       >
         <AccountMenu setAnchorEl={setAnchorEl} handleMobileMenuClose={handleMobileMenuClose} handleItemClick={handleItemClick}/>
       </Menu>
     );
-    console.log(isMobileMode)
     const notificationMenuId = 'notification-menu'
     const renderNotificationMenu = (
       <Menu
