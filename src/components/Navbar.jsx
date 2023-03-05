@@ -15,7 +15,7 @@ import ChatIcon from '@mui/icons-material/Chat';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MenuIcon from '@mui/icons-material/Menu';
 import logo from "../assets/logo_header.png"
-import AccountMenu from './NavbarMenus/AccountMenu';
+import AccountMenu from './NavbarComponents/AccountMenu';
 
 
 const Search = styled('div')(({ theme }) => ({
