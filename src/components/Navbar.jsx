@@ -90,11 +90,10 @@ const Navbar = () => {
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
     const isNotificationOpen = Boolean(notiAnchorEl);
-    const isMobileMode = mobileMoreAnchorEl && true;
 
-    if(isMobileMode) {
-      // paperProps.sx['&:before'].top = 14
-      // paperProps.sx['&:before'].right = -4
+
+    if(isMobileMenuOpen) {
+
       paperProps.sx['&:before'] = {}
     }
 
@@ -149,14 +148,15 @@ const Navbar = () => {
         id={menuId}
         keepMounted
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-        anchorOrigin={{ horizontal: isMobileMode ? 'left' : 'right', vertical: isMobileMode ? 'top' : 'bottom' }}
-        PaperProps={{...paperProps}}
+        anchorOrigin={{ horizontal: isMobileMenuOpen ? 'left' : 'right', vertical: isMobileMenuOpen ? 'top' : 'bottom' }}
+        PaperProps={paperProps}
         open={isMenuOpen}
         onClose={handleMenuClose}
       >
         <AccountMenu setAnchorEl={setAnchorEl} handleMobileMenuClose={handleMobileMenuClose} handleItemClick={handleItemClick}/>
       </Menu>
     );
+    
     const notificationMenuId = 'notification-menu'
     const renderNotificationMenu = (
       <Menu
@@ -164,7 +164,7 @@ const Navbar = () => {
         id={notificationMenuId}
         keepMounted
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+        anchorOrigin={{ horizontal: isMobileMenuOpen ? 'left' : 'right', vertical: isMobileMenuOpen ? 'top' : 'bottom' }}
         PaperProps={paperProps}
         open={isNotificationOpen}
         onClose={handleNotificationMenuClose}
@@ -263,7 +263,7 @@ const Navbar = () => {
                   <IconButton
                     size="large"
                     color="inherit"
-                    aria-controls={notiAnchorEl}
+                    aria-controls={notificationMenuId}
                     aria-haspopup="true"
                     onClick={handleNotificationMenuOpen}
                   >
@@ -319,10 +319,10 @@ const Navbar = () => {
         </AppBar>
         
         <Toolbar sx={{py: .5}}>{/* space filler to shift components under the navbar */}</Toolbar> 
-        {renderNotificationMenu}
         {renderMobileMenu}
         {renderMenu}
-        
+        {renderNotificationMenu}
+
       </Box>
     );
   
