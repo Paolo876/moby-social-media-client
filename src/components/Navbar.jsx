@@ -86,7 +86,7 @@ const Navbar = () => {
     if(user && user.UserData) image = JSON.parse(user.UserData.image);
 
     const unreadMessages = chatRooms ? chatRooms.filter(item => item.ChatRoom.isLastMessageRead[0].isLastMessageRead === false).length : 0
-    const notificationsLength = notifications ? notifications.length : 0
+    const unreadNotifications = notifications ? notifications.filter(item => item.isRead === false).length : 0
 
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -199,7 +199,7 @@ const Navbar = () => {
             aria-controls={notificationMenuId}
             aria-haspopup="true"
           >
-            <Badge badgeContent={notificationsLength} color="error">
+            <Badge badgeContent={unreadNotifications} color="error">
               <NotificationsIcon />
             </Badge>
           </IconButton>
@@ -266,7 +266,7 @@ const Navbar = () => {
                     aria-haspopup="true"
                     onClick={handleNotificationMenuOpen}
                   >
-                    <Badge badgeContent={notificationsLength} color="error">
+                    <Badge badgeContent={unreadNotifications} color="error">
                       <NotificationsIcon />
                     </Badge>
                   </IconButton>

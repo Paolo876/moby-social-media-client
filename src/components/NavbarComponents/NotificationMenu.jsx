@@ -4,6 +4,8 @@ import useNotificationRedux from '../../hooks/useNotificationRedux'
 import { MenuItem, Divider, Box, Stack, Typography } from '@mui/material'
 import Image from '../Image'
 import defaultAvatar from "../../assets/default-profile.png"
+import { formatDistanceToNow } from 'date-fns'
+
 
 const NotificationMenu = ({ handleNotificationMenuClose, setNotiAnchorEl}) => {
   const navigate = useNavigate();
@@ -12,8 +14,10 @@ const NotificationMenu = ({ handleNotificationMenuClose, setNotiAnchorEl}) => {
   
   return (
     <>
+      <Typography align="left" variant="h6" fontSize={16} ml={1}>Recent Notifications</Typography>
+      <Divider/>
       {notifications.map(item => <MenuItem key={item.id} onClick={() => navigate(item.link)}>
-        <Box sx={{display: "flex", flexDirection: "row", alignItems: "center", gap: 1.5, py: .75, pl: 1, pr: 2}}>
+        <Box sx={{display: "flex", flexDirection: "row", alignItems: "center", gap: .5, py: .25}}>
           <Box>
             {/* image here */}
             {item.ReferenceUser.UserDatum.image ? 
@@ -30,12 +34,12 @@ const NotificationMenu = ({ handleNotificationMenuClose, setNotiAnchorEl}) => {
             }
           </Box>
           <Stack alignItems="left" justifyContent="left">
-            <Typography align="left" color="white" variant="h6" fontSize={14} lineHeight={1.4}>{item.title}</Typography>
-            <Typography align="left" color="white" variant="body2" fontSize={13} lineHeight={1.2} sx={{opacity: .75}}>{header}</Typography>
-            <Typography align="left" color="white" variant="body1" fontSize={11} lineHeight={1.2} sx={{opacity: .8}}>{subheader}</Typography>
+            <Typography align="left" variant="body2" fontSize={13} lineHeight={1.2} sx={{opacity: .85}}>{item.ReferenceUser.username} {item.title}</Typography>
+            <Typography align="left" variant="body1" fontSize={10} lineHeight={1} >{formatDistanceToNow(Date.parse(item.createdAt), { addSuffix: true, includeSeconds: true})}</Typography>
           </Stack>
         </Box>
       </MenuItem>)}
+      <MenuItem ><Typography align="center" color="secondary" fontWeight={500}>See All</Typography></MenuItem>
     </>
   )
 }
