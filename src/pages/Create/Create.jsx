@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import usePostsRedux from "../../hooks/usePostsRedux";
 import useAuthRedux from '../../hooks/useAuthRedux';
 import useImagekit from '../../hooks/useImagekit';
+import useSocketIo from '../../hooks/useSocketIo';
+import useCreatePostActions from '../../hooks/useCreatePostActions';
 import AuthorizedPageContainer from '../../components/AuthorizedPageContainer';
 import MyTextField from '../../components/MyTextField';
 import UploadImageForm from '../../components/UploadImageForm';
@@ -15,9 +17,10 @@ import LockIcon from '@mui/icons-material/Lock';
 
 const Create = () => {
     const { user } = useAuthRedux();
-    const { isLoading, error, createPost } = usePostsRedux();
+    const { isLoading, error } = usePostsRedux();
+    const { createPost, isLoading: isCreateLoading, error: createError } = useCreatePostActions();
     const { getAuthenticationEndpoint, uploadImage, isLoading: isImagekitLoading, error: imagekitError } = useImagekit();
-
+    const { emitCreatedPost } = useSocketIo();
     const navigate = useNavigate();
 
     const [ image, setImage ] = useState(null);
@@ -37,7 +40,29 @@ const Create = () => {
         postText: "",
     }
 
+    // const handleSubmit = async (data) => {
+    //     if(image){
+    //         //upload to imagekit
+    //         const res = await uploadImage({
+    //           file: image,
+    //           authenticationEndpoint,
+    //           fileName: `post_${user.id}`,
+    //           folder: "/moby/posts/"
+    //         })
+    //         if(!imagekitError){
+    //             const { fileId, name, url, thumbnailUrl } = res;
+    //             const imageData = JSON.stringify({fileId, name, url, thumbnailUrl})
+    //             createPost({...data, image: imageData, isPublic})
+    //           }
+    //     }else {
+    //         createPost({...data, image, isPublic})
+    //     }
+    //     // emitCreatedPost({sender: {username: user.username, id: user.id, UserDatum: user.UserData}, })
+    //     navigate("/")
+    // }
+
     const handleSubmit = async (data) => {
+        let result
         if(image){
             //upload to imagekit
             const res = await uploadImage({
@@ -49,17 +74,25 @@ const Create = () => {
             if(!imagekitError){
                 const { fileId, name, url, thumbnailUrl } = res;
                 const imageData = JSON.stringify({fileId, name, url, thumbnailUrl})
-                createPost({...data, image: imageData, isPublic})
+                result = await createPost({...data, image: imageData, isPublic})
               }
         }else {
-            createPost({...data, image, isPublic})
+            result = await createPost({...data, image, isPublic})
         }
-        navigate("/")
+        emitCreatedPost({
+            title: `${user.username} Created A New Post!`, 
+            userImage: user.UserData.image, 
+            header: result.title, 
+            subheader: `${result.postText.slice(0,17)}...`, 
+            id: result.id, 
+            type: "post", 
+            link: `/posts/${result.id}` 
+        })
     }
   return (
     <AuthorizedPageContainer>
         {isImagekitLoading && <LoadingSpinner isModal={true} message="Uploading Image..."/>}
-        {isLoading && <LoadingSpinner isModal={true} message="Creating Post..."/>}
+        {isLoading || isCreateLoading && <LoadingSpinner isModal={true} message="Creating Post..."/>}
         <Container>
             <Grid container direction="row" alignItems="flex-start" sx={{justifyContent: {xs: "center"}, height: "75vh"}} >
                 <Grid item xs={12} md={8} py={2}>
@@ -68,6 +101,7 @@ const Create = () => {
                         <Divider mb={2}/>
                         {imagekitError && <Alert severity="error">{imagekitError}</Alert>}
                         {error && <Alert severity="error">{error}</Alert>}
+                        {createError && <Alert severity="createError">{error}</Alert>}
                         <Formik  
                             initialValues={initialValues}
                             onSubmit={handleSubmit} 

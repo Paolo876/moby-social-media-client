@@ -23,8 +23,23 @@ const useSocketIo = () => {
     socket.on("status-changed-friend", data => setStatusChangedFriend(data))
     socket.on("receive-message", data => handleReceiveMessage(data))
     socket.on("receive-friend-request", data => handleReceiveFriendRequest(data))
+    socket.on("receive-created-post", data => handleReceiveCreatedPost(data))
   }
 
+  const handleReceiveCreatedPost = (data) => {
+    // push to notifications redux
+
+    //trigger snackbar
+    // triggerSnackbar({
+    //   title: `You have a new Friend Request!`, 
+    //   image: data.User.UserDatum.image, 
+    //   header: data.User.username,
+    //   subheader: `${data.User.UserDatum.firstName} ${data.User.UserDatum.lastName}`, 
+    //   id: parseInt(data.FriendId),
+    //   type: "friendRequest",
+    //   link: `/profile/${data.FriendId}`,
+    // })
+  }
   const handleReceiveFriendRequest = (data) => {
     setFriendRequests(data)
     triggerSnackbar({
@@ -79,6 +94,7 @@ const useSocketIo = () => {
     socket.off("status-changed-friend")
     socket.off("receive-message")
     socket.off("receive-friend-request")
+    socket.off("receive-created-post")
     socket.disconnect()
   }
 
@@ -97,10 +113,21 @@ const useSocketIo = () => {
   //chat events
 
   const emitMessage = (data) => {
-    socket.emit("send-message", data)   // data = { users, ChatRoomId, message}
+    if(isConnected){
+      socket.emit("send-message", data)   // data = { users, ChatRoomId, message}
+    }
   }
 
-  return { isConnected, emitLogin, emitLogout, emitStatusChange, emitMessage, handleReceiveMessage, emitFriendRequest, socketRef }
+  //post events
+
+  const emitCreatedPost = (data) => {
+    if(isConnected){
+      console.log(data)
+      socket.emit("emit-created-post", data)   // data = { users, ChatRoomId, message}
+    }
+  }
+
+  return { isConnected, emitLogin, emitLogout, emitStatusChange, emitMessage, handleReceiveMessage, emitFriendRequest, socketRef, emitCreatedPost }
 }
 
 export default useSocketIo
