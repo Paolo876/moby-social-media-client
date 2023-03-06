@@ -20,6 +20,7 @@ import Post from './pages/Post/Post';
 import Messages from './pages/Messages/Messages';
 import Settings from './pages/Settings/Settings';
 import Search from './pages/Search/Search';
+import Notifications from './pages/Notifications/Notifications';
 import About from './pages/About';
 
 
@@ -62,6 +63,7 @@ function App() {
           <Route element={ user ? <Settings/> : <Navigate replace to="/login"/>} path="/settings"/>
           <Route element={ user ? <Search/> : <Navigate replace to="/login"/>} path="/search"/>
           <Route element={ user ? <About/> : <Navigate replace to="/login"/>} path="/about"/>
+          <Route element={ user ? <Notifications/> : <Navigate replace to="/login"/>} path="/notifications"/>
           {/* auth routes */}
           <Route element={ user ? <Navigate replace to="/"/> : <Login/>} path="/login" />
           <Route element={ user ? <Navigate replace to="/"/> : <Signup/>} path="/signup" />
