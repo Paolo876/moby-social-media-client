@@ -16,6 +16,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import MenuIcon from '@mui/icons-material/Menu';
 import logo from "../assets/logo_header.png"
 import AccountMenu from './NavbarComponents/AccountMenu';
+import NotificationMenu from './NavbarComponents/NotificationMenu';
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -169,9 +170,7 @@ const Navbar = () => {
         open={isNotificationOpen}
         onClose={handleNotificationMenuClose}
       >
-      {/* map notifications here */}
-        <MenuItem onClick={() => handleItemClick("profile")} sx={{px: 3, py: .8}}><AccountCircle fontSize="sm" sx={{mr: 2}}/> Profile</MenuItem>
-  
+        <NotificationMenu setNotiAnchorEl={setNotiAnchorEl} handleNotificationMenuClose={handleNotificationMenuClose} />
       </Menu>
     );
 
