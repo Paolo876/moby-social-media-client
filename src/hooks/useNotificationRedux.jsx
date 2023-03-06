@@ -10,6 +10,7 @@ export default function useNotificationRedux() {
         ...notificationRedux,
         triggerSnackbar: (data) => dispatch(notificationActions.triggerSnackbar(data)),
         clearSnackbar: () => dispatch(notificationActions.clearSnackbar()),
+        addNotification: (data) => dispatch(notificationActions.addNotification(data)),
         getNotifications: () => dispatch(getNotifications()),
       };
     } else {

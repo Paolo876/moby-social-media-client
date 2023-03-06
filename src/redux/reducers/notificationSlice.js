@@ -12,6 +12,11 @@ const notificationSlice = createSlice({
         },
         clearSnackbar: (state) => {
             state.snackbarData = null;
+        },
+        addNotification: (state, { payload }) => {
+            const updatedNotifications = state.notifications;
+            const isExisting = updatedNotifications.some(item => item.id === payload.id)
+            if(!isExisting) state.notifications = [payload, ...updatedNotifications];
         }
     }, 
     extraReducers: (builder) => {

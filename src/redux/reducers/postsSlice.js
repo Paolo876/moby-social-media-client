@@ -34,21 +34,21 @@ const postsSlice = createSlice({
             state.error = payload.message;
         })
         //createPost
-        .addCase(createPost.pending, (state) => {
-            state.isLoading = true;
-            state.error = null;
-        })
-        .addCase(createPost.fulfilled, ( state, { payload }) => {
-            state.isLoading = false;
-            state.error = null;
-            const updatedPosts = state.posts;
-            updatedPosts.unshift(payload)
-            state.posts = updatedPosts;
-        })
-        .addCase(createPost.rejected, ( state, { payload }) => {
-            state.isLoading = false;
-            state.error = payload.message;
-        })
+        // .addCase(createPost.pending, (state) => {
+        //     state.isLoading = true;
+        //     state.error = null;
+        // })
+        // .addCase(createPost.fulfilled, ( state, { payload }) => {
+        //     state.isLoading = false;
+        //     state.error = null;
+        //     const updatedPosts = state.posts;
+        //     updatedPosts.unshift(payload)
+        //     state.posts = updatedPosts;
+        // })
+        // .addCase(createPost.rejected, ( state, { payload }) => {
+        //     state.isLoading = false;
+        //     state.error = payload.message;
+        // })
         //likePost
         .addCase(likePost.pending, (state) => {
             state.isLoading = true;

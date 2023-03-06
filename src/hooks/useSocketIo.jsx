@@ -10,7 +10,7 @@ const socket = io(`${process.env.REACT_APP_DOMAIN_URL}/`, { transports: ['websoc
 const useSocketIo = () => {
 
   const { setOnlineFriends, setLoggedInFriend, setLoggedOutFriend, setStatusChangedFriend, setFriendRequests } = useFriendRedux();
-  const { triggerSnackbar } = useNotificationRedux();
+  const { triggerSnackbar, addNotification } = useNotificationRedux();
   const { receiveMessage, receiveNewMessage } = useChatRedux();
   const socketRef = useRef();
   socketRef.current = socket;
@@ -27,11 +27,8 @@ const useSocketIo = () => {
   }
 
   const handleReceiveCreatedPost = (data) => {
-    console.log(data)
-    // push to notifications redux
-    // ({...data.notificationData, ...data.snackbarData, title: })
-    //trigger snackbar
-    triggerSnackbar(data.snackbarData)
+    addNotification({...data.snackbarData, ...data.notificationData, title: 'created a new post', isRead: false}) // push to notifications redux
+    triggerSnackbar(data.snackbarData) //trigger snackbar
   }
   const handleReceiveFriendRequest = (data) => {
     setFriendRequests(data)
