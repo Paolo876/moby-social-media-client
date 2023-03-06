@@ -6,6 +6,10 @@ const postsSlice = createSlice({
     name: "posts",
     initialState: postsInitialState,
     reducers: {
+        addPost(state, { payload}){
+            const updatedPosts = state.posts;
+            state.posts = [payload, ...updatedPosts]
+        },
         removeFromPosts(state, { payload }){
             const updatedPosts = state.posts;
             state.posts = updatedPosts.filter(item => item.id !== parseInt(payload))

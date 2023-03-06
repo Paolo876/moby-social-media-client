@@ -27,18 +27,11 @@ const useSocketIo = () => {
   }
 
   const handleReceiveCreatedPost = (data) => {
+    console.log(data)
     // push to notifications redux
-
+    // ({...data.notificationData, ...data.snackbarData, title: })
     //trigger snackbar
-    // triggerSnackbar({
-    //   title: `You have a new Friend Request!`, 
-    //   image: data.User.UserDatum.image, 
-    //   header: data.User.username,
-    //   subheader: `${data.User.UserDatum.firstName} ${data.User.UserDatum.lastName}`, 
-    //   id: parseInt(data.FriendId),
-    //   type: "friendRequest",
-    //   link: `/profile/${data.FriendId}`,
-    // })
+    triggerSnackbar(data.snackbarData)
   }
   const handleReceiveFriendRequest = (data) => {
     setFriendRequests(data)
@@ -70,7 +63,6 @@ const useSocketIo = () => {
       triggerSnackbar({
         title: `Message from ${data.sender.User.username}`, 
         image: data.sender.User.UserDatum.image, 
-        // header: data.sender.User.username,
         subheader: data.messageData.message, 
         id: parseInt(data.ChatRoomId),
         type: "message",

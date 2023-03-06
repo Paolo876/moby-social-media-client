@@ -49,7 +49,7 @@ const NotificationMenu = ({ handleNotificationMenuClose, setNotiAnchorEl}) => {
   
   return (
     <>
-      <Typography align="left" variant="h6" fontSize={16} ml={1} mb={.5}>Recent Notifications</Typography>
+      <Typography align="left" variant="h6" fontSize={16} ml={1} mb={.5} minWidth={220}>Recent Notifications</Typography>
       <Divider/>
       {notifications.map(item => <MenuItem 
         sx={{ background: item.isRead ? "rgba(0,0,0,0)" : "rgba(0,0,0,0.025)", position: "relative" }} 

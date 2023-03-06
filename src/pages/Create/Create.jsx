@@ -17,8 +17,8 @@ import LockIcon from '@mui/icons-material/Lock';
 
 const Create = () => {
     const { user } = useAuthRedux();
-    const { isLoading, error } = usePostsRedux();
-    const { createPost, isLoading: isCreateLoading, error: createError } = useCreatePostActions();
+    const { addPost } = usePostsRedux();
+    const { createPost, isLoading, error } = useCreatePostActions();
     const { getAuthenticationEndpoint, uploadImage, isLoading: isImagekitLoading, error: imagekitError } = useImagekit();
     const { emitCreatedPost } = useSocketIo();
     const navigate = useNavigate();
@@ -40,27 +40,6 @@ const Create = () => {
         postText: "",
     }
 
-    // const handleSubmit = async (data) => {
-    //     if(image){
-    //         //upload to imagekit
-    //         const res = await uploadImage({
-    //           file: image,
-    //           authenticationEndpoint,
-    //           fileName: `post_${user.id}`,
-    //           folder: "/moby/posts/"
-    //         })
-    //         if(!imagekitError){
-    //             const { fileId, name, url, thumbnailUrl } = res;
-    //             const imageData = JSON.stringify({fileId, name, url, thumbnailUrl})
-    //             createPost({...data, image: imageData, isPublic})
-    //           }
-    //     }else {
-    //         createPost({...data, image, isPublic})
-    //     }
-    //     // emitCreatedPost({sender: {username: user.username, id: user.id, UserDatum: user.UserData}, })
-    //     navigate("/")
-    // }
-
     const handleSubmit = async (data) => {
         let result
         if(image){
@@ -79,20 +58,31 @@ const Create = () => {
         }else {
             result = await createPost({...data, image, isPublic})
         }
+
+        addPost(result) //push to redux
+        
+        //emit to friends
         emitCreatedPost({
-            title: `${user.username} Created A New Post!`, 
-            userImage: user.UserData.image, 
-            header: result.title, 
-            subheader: `${result.postText.slice(0,17)}...`, 
-            id: result.id, 
-            type: "post", 
-            link: `/posts/${result.id}` 
+            snackbarData:{
+                title: `New Post from ${user.username}!`, 
+                image: user.UserData.image, 
+                header: result.title, 
+                subheader: `${result.postText.slice(0,17)}...`, 
+                id: result.id, 
+                type: "post", 
+                link: `/posts/${result.id}`,
+            },
+            notificationData: {
+                createdAt: result.createdAt,
+                ReferenceUser: {username: user.username, id: user.id, UserDatum: user.UserData}
+            }
         })
+        navigate("/")
     }
   return (
     <AuthorizedPageContainer>
         {isImagekitLoading && <LoadingSpinner isModal={true} message="Uploading Image..."/>}
-        {isLoading || isCreateLoading && <LoadingSpinner isModal={true} message="Creating Post..."/>}
+        {isLoading && <LoadingSpinner isModal={true} message="Creating Post..."/>}
         <Container>
             <Grid container direction="row" alignItems="flex-start" sx={{justifyContent: {xs: "center"}, height: "75vh"}} >
                 <Grid item xs={12} md={8} py={2}>
@@ -101,7 +91,6 @@ const Create = () => {
                         <Divider mb={2}/>
                         {imagekitError && <Alert severity="error">{imagekitError}</Alert>}
                         {error && <Alert severity="error">{error}</Alert>}
-                        {createError && <Alert severity="createError">{error}</Alert>}
                         <Formik  
                             initialValues={initialValues}
                             onSubmit={handleSubmit} 

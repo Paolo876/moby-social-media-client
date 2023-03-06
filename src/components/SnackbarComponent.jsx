@@ -6,7 +6,7 @@ import defaultAvatar from "../assets/default-profile.png";
 import Image from './Image';
 import MessageIcon from '@mui/icons-material/Message';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
-
+import FeedIcon from '@mui/icons-material/Feed';
 
 const SnackbarComponent = forwardRef((props, ref) => {
     const { content: { title = null, image, header=null, subheader, id, type, link}, ...other } = props
@@ -53,6 +53,7 @@ const SnackbarComponent = forwardRef((props, ref) => {
           <Box sx={{position: "absolute", bottom: 4, right: 4, fontSize: 13, backgroundColor: "rgba(255,255,255, .95)", p: .35, m: 0, display: "flex", borderRadius: "50%"}} >
             {type === "message" && <MessageIcon fontSize='inherit' color="secondary" />}
             {type === "friendRequest" && <PersonAddIcon fontSize='inherit' color="secondary" />}
+            {type === "post" && <FeedIcon fontSize='inherit' color="secondary" />}
           </Box>
         </ButtonBase>
       </SnackbarContent>
