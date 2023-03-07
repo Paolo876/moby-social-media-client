@@ -46,7 +46,7 @@ const NotificationMenu = ({ handleNotificationMenuClose, setNotiAnchorEl}) => {
     navigate(link)
     handleNotificationMenuClose()
   }
-  
+
   return (
     <>
       <Typography align="left" variant="h6" fontSize={16} ml={1} mb={.5} minWidth={220}>Recent Notifications</Typography>
@@ -60,7 +60,7 @@ const NotificationMenu = ({ handleNotificationMenuClose, setNotiAnchorEl}) => {
           <Box>
             {item.ReferenceUser.UserDatum.image ? 
               <Image 
-                src={JSON.parse(item.ReferenceUser.UserDatum.image.url)} 
+                src={JSON.parse(item.ReferenceUser.UserDatum.image).url} 
                 transformation={[{
                     height: 40,
                     width: 40,
@@ -72,8 +72,12 @@ const NotificationMenu = ({ handleNotificationMenuClose, setNotiAnchorEl}) => {
             }
           </Box>
           <Stack alignItems="left" justifyContent="left">
-            <Typography align="left" variant="body2" fontSize={13} sx={{opacity: .85, pr: .5}}>{item.ReferenceUser.username} {item.title}</Typography>
-            <Typography align="left" variant="body1" fontSize={10} mt={.25}>{formatDistanceToNow(Date.parse(item.createdAt), { addSuffix: true, includeSeconds: true })}</Typography>
+            <Typography align="left" variant="body2" fontSize={13} sx={{opacity: .85, pr: .5}}>
+              {item.ReferenceUser.username}
+              {item.type === "comment" && " commented on your post"}
+              {item.type === "like" && " liked your post"}
+              </Typography>
+            <Typography align="left" variant="body1" fontSize={10} mt={.25}>{formatDistanceToNow(Date.parse(item.updatedAt), { addSuffix: true, includeSeconds: true })}</Typography>
           </Stack>
         </Box>
         {!item.isRead &&

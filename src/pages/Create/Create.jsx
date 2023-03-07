@@ -60,22 +60,15 @@ const Create = () => {
         }
 
         addPost(result) //push to redux
-        
         //emit to friends
         emitCreatedPost({
-            snackbarData:{
-                title: `New Post from ${user.username}!`, 
-                image: user.UserData.image, 
-                header: result.title, 
-                subheader: `${result.postText.slice(0,17)}...`, 
-                id: result.id, 
-                type: "post", 
-                link: `/posts/${result.id}`,
-            },
-            notificationData: {
-                createdAt: result.createdAt,
-                ReferenceUser: {username: user.username, id: user.id, UserDatum: user.UserData}
-            }
+            title: `New Post from ${user.username}!`, 
+            image: user.UserData.image, 
+            header: result.title, 
+            subheader: `${result.postText.slice(0,17)}...`, 
+            id: result.id, 
+            type: "post", 
+            link: `/posts/${result.id}`,
         })
         navigate("/")
     }

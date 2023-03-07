@@ -23,13 +23,23 @@ const useSocketIo = () => {
     socket.on("status-changed-friend", data => setStatusChangedFriend(data))
     socket.on("receive-message", data => handleReceiveMessage(data))
     socket.on("receive-friend-request", data => handleReceiveFriendRequest(data))
-    socket.on("receive-created-post", data => handleReceiveCreatedPost(data))
+    socket.on("receive-created-post", data => triggerSnackbar(data))
+    socket.on("receive-comment", data => handleReceiveComment(data))
+    socket.on("receive-like", data => handleReceiveLike(data))
   }
 
-  const handleReceiveCreatedPost = (data) => {
-    addNotification({...data.snackbarData, ...data.notificationData, title: 'created a new post', isRead: false}) // push to notifications redux
-    triggerSnackbar(data.snackbarData) //trigger snackbar
+  const handleReceiveComment = (data) => {
+    //triggersnackbar
+    //update notification
+    //update posts redux
   }
+
+  const handleReceiveLike = (data) => {
+    //triggersnackbar
+    //update notification
+    //update posts redux
+  }
+
   const handleReceiveFriendRequest = (data) => {
     setFriendRequests(data)
     triggerSnackbar({
@@ -111,12 +121,23 @@ const useSocketIo = () => {
 
   const emitCreatedPost = (data) => {
     if(isConnected){
-      console.log(data)
       socket.emit("emit-created-post", data)   // data = { users, ChatRoomId, message}
     }
   }
 
-  return { isConnected, emitLogin, emitLogout, emitStatusChange, emitMessage, handleReceiveMessage, emitFriendRequest, socketRef, emitCreatedPost }
+  const emitComment = (data) => {
+    if(isConnected){
+      socket.emit("emit-comment", data)   // data = { AuthorId, PostId, User, comment<spliced to 20 chars.>}
+    }
+  }
+
+  const emitLike = (data) => {
+    if(isConnected){
+      socket.emit("emit-like", data)   // data = { AuthorId, PostId, User }
+    }
+  }
+
+  return { isConnected, emitLogin, emitLogout, emitStatusChange, emitMessage, handleReceiveMessage, emitFriendRequest, socketRef, emitCreatedPost, emitComment, emitLike }
 }
 
 export default useSocketIo
