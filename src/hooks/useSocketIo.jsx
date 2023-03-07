@@ -29,6 +29,7 @@ const useSocketIo = () => {
   }
 
   const handleReceiveComment = (data) => {
+    console.log(data)
     //triggersnackbar
     //update notification
     //update posts redux
@@ -94,6 +95,8 @@ const useSocketIo = () => {
     socket.off("receive-message")
     socket.off("receive-friend-request")
     socket.off("receive-created-post")
+    socket.off("receive-comment")
+    socket.off("receive-like")
     socket.disconnect()
   }
 
