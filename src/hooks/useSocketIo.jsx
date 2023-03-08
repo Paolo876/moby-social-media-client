@@ -63,7 +63,7 @@ const useSocketIo = () => {
         title: `${data.User.username} liked your post`, 
         image: data.User.UserDatum.image, 
         header: data.User.username,
-        subheader: `${data.User.UserDatum.firstName} ${data.User.UserDatum.lastName}`,       
+        // subheader: `${data.User.UserDatum.firstName} ${data.User.UserDatum.lastName}`,       
         id: parseInt(data.NotificationId),
         type: "like",
         link: `/posts/${data.PostId}`,
