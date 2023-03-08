@@ -7,6 +7,7 @@ import Image from './Image';
 import MessageIcon from '@mui/icons-material/Message';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import FeedIcon from '@mui/icons-material/Feed';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 const SnackbarComponent = forwardRef((props, ref) => {
     const { content: { title = null, image, header=null, subheader, id, type, link}, ...other } = props
@@ -54,6 +55,7 @@ const SnackbarComponent = forwardRef((props, ref) => {
             {type === "message" && <MessageIcon fontSize='inherit' color="secondary" />}
             {type === "friendRequest" && <PersonAddIcon fontSize='inherit' color="secondary" />}
             {type === "post" && <FeedIcon fontSize='inherit' color="secondary" />}
+            {type === "like" && <FavoriteIcon fontSize='inherit' color="secondary" />}
           </Box>
         </ButtonBase>
       </SnackbarContent>
