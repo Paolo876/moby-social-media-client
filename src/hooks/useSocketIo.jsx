@@ -33,7 +33,6 @@ const useSocketIo = () => {
     triggerSnackbar({
       title: `${data.User.username} commented on your post`, 
       image: data.User.UserDatum.image, 
-      header: `${data.User.UserDatum.firstName} ${data.User.UserDatum.lastName}`,
       subheader: data.commentData.comment.length > 20 ? `${data.commentData.comment.slice(0,17)}...`: data.commentData.comment, 
       id: parseInt(data.NotificationId),
       type: "post",
@@ -56,6 +55,7 @@ const useSocketIo = () => {
   }
 
   const handleReceiveLike = (data) => {
+    console.log(data)
     //triggersnackbar
     //update notification
     //update posts redux

@@ -21,7 +21,6 @@ const NewCommentForm = ({ setPost, setShowNewCommentForm, setShowComments, autho
     if(e.key === "Enter") {
         e.preventDefault();
         const result = await newComment({comment, PostId})
-        console.log(result)
         setPost(prevState => {
             const updatedPost = { ...prevState };
             updatedPost.Comments = [result, ...updatedPost.Comments];

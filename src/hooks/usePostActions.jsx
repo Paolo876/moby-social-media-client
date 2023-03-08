@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios'
+import useSocketIo from './useSocketIo';
+import useAuthRedux from './useAuthRedux';
 
 /* @desc       A set of request functions for Posts (No redux)
 *  @access     Private
@@ -9,7 +11,8 @@ const usePostActions = () => {
   const [ isNewCommentLoading, setIsNewCommentLoading ] = useState(false);
   const [ error, setError ] = useState(null);
   const [ newCommentError, setNewCommentError ] = useState(null);
-  
+  const { emitLike } = useSocketIo();
+  const { user } = useAuthRedux();
 
  /*  @desc       like a post
   *  @access     Private
@@ -19,6 +22,7 @@ const usePostActions = () => {
     setIsLoading(true)
     try {
         const res = await axios.get(`${process.env.REACT_APP_DOMAIN_URL}/api/posts/like/${id}`, { headers: { 'Content-Type': 'application/json' }, withCredentials: true });
+        emitLike({PostId: parseInt(id), User: { username: user.username, id: user.id, UserDatum: user.UserData}, isLiked: res.data.isLiked})
         setIsLoading(false)
         return res.data
     } catch(err) {
