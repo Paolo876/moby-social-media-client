@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import usePostActions from '../../hooks/usePostActions'
 import useAuthRedux from '../../hooks/useAuthRedux';
 
-import { Typography, Divider, Paper, Stack, Tooltip, IconButton, AvatarGroup, Avatar } from '@mui/material';
+import { Typography, Divider, Paper, Stack, Tooltip, IconButton, AvatarGroup, Avatar, Alert } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import PostAddIcon from '@mui/icons-material/PostAdd';
@@ -32,8 +32,10 @@ const PostActions = ({ setPost, likes, setShowNewCommentForm }) => {
 
   return (
     <Paper sx={{px:.5}}>
+        {error && <Alert severity='error'>{error}</Alert>}
         {likes.length > 0 && <>
             <Stack flexDirection="row" alignItems="center" py={.5} ml={1}>
+                
                 <Typography variant="body2" color="rgba(0, 0, 0, .6)" sx={{mx:1}}>Liked by: </Typography>
                 <Tooltip title="See users who liked this post." arrow>
                     <AvatarGroup 
