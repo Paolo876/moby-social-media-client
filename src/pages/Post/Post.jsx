@@ -16,9 +16,17 @@ const Post = () => {
   const { snackbarData } = useNotificationRedux();
 
   useEffect(() => {
-    
     if(snackbarData && snackbarData.type === "post" && parseInt(snackbarData.postId) === parseInt(id)){
-        console.log(snackbarData)
+        if(snackbarData.comment){
+            setPost(prevState => {
+                const updatedPost = { ...prevState };
+                updatedPost.Comments = [{...snackbarData.comment, User: snackbarData.User}, ...updatedPost.Comments];
+                return updatedPost
+            })
+        }
+        if(snackbarData.like){
+            //update like
+        }
     }
   }, [snackbarData])
   useEffect(() => {
