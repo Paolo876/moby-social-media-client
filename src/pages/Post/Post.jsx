@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
+import useNotificationRedux from '../../hooks/useNotificationRedux'
 import axios from 'axios'
 import { Alert, Container, Grid, Box } from '@mui/material'
 import AuthorizedPageContainer from '../../components/AuthorizedPageContainer'
@@ -12,6 +13,14 @@ const Post = () => {
   const [ post, setPost ] = useState(null);
   const [ isLoading, setIsLoading ] = useState(true);
   const [ error, setError ] = useState(null);
+  const { snackbarData } = useNotificationRedux();
+
+  useEffect(() => {
+    
+    if(snackbarData && snackbarData.type === "post" && parseInt(snackbarData.postId) === parseInt(id)){
+        console.log(snackbarData)
+    }
+  }, [snackbarData])
   useEffect(() => {
     axios
     .get(`${process.env.REACT_APP_DOMAIN_URL}/api/posts/${id}`, { headers: { 'Content-Type': 'application/json' }, withCredentials: true })

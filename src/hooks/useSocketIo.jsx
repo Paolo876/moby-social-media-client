@@ -29,10 +29,28 @@ const useSocketIo = () => {
   }
 
   const handleReceiveComment = (data) => {
-    console.log(data)
     //triggersnackbar
+    triggerSnackbar({
+      title: `${data.User.username} commented on your post`, 
+      image: data.User.UserDatum.image, 
+      header: `${data.User.UserDatum.firstName} ${data.User.UserDatum.lastName}`,
+      subheader: data.comment.length > 20 ? `${data.comment.slice(0,17)}...`: data.comment, 
+      id: parseInt(data.NotificationId),
+      type: "post",
+      link: `/posts/${data.PostId}`,
+      postId: data.PostId
+    })
+
     //update notification
-    //update posts redux
+    addNotification({
+      id: data.NotificationId, 
+      type: "comment", 
+      link: `/posts/${data.PostId}`, 
+      isRead: false, 
+      createdAt: new Date().toString(), 
+      updatedAt: new Date().toString(),
+      ReferenceUser: data.User
+    }) 
   }
 
   const handleReceiveLike = (data) => {

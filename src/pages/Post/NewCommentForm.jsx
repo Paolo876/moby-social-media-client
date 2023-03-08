@@ -26,12 +26,17 @@ const NewCommentForm = ({ setPost, setShowNewCommentForm, setShowComments, autho
             updatedPost.Comments = [result, ...updatedPost.Comments];
             return updatedPost
         })
-        emitComment({
-            AuthorId : authorId, 
-            PostId: parseInt(PostId), 
-            User: {username: user.username, id: user.id, UserDatum: user.UserData}, 
-            comment: comment.length > 20 ? `${comment.slice(0,17)}...`: comment,
-        })
+
+        if(result.notificationId){      //emit to post author
+            emitComment({
+                AuthorId : authorId, 
+                PostId: parseInt(PostId), 
+                User: {username: user.username, id: user.id, UserDatum: user.UserData}, 
+                comment,
+                NotificationId: result.notificationId,
+            })
+        }
+
         setShowComments(true)
         setShowNewCommentForm(false)
         setComment("")

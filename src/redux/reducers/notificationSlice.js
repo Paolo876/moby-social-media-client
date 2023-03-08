@@ -15,8 +15,15 @@ const notificationSlice = createSlice({
         },
         addNotification: (state, { payload }) => {
             const updatedNotifications = state.notifications;
-            const isExisting = updatedNotifications.some(item => item.id === payload.id)
-            if(!isExisting) state.notifications = [payload, ...updatedNotifications];
+            const existingItem = updatedNotifications.find(item => item.id === payload.id)
+
+            if(existingItem) {
+                existingItem.updatedAt = payload.updatedAt
+                updatedNotifications.unshift(updatedNotifications.splice(updatedNotifications.indexOf(existingItem), 1)[0]) //move to first 
+                state.notifications = updatedNotifications;
+            } else {
+                state.notifications = [payload, ...updatedNotifications]
+            };
         }
     }, 
     extraReducers: (builder) => {
