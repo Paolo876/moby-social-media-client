@@ -18,11 +18,19 @@ const notificationSlice = createSlice({
             const existingItem = updatedNotifications.find(item => item.id === payload.id)
 
             if(existingItem) {
-                existingItem.updatedAt = payload.updatedAt
-                updatedNotifications.unshift(updatedNotifications.splice(updatedNotifications.indexOf(existingItem), 1)[0]) //move to first 
+                if(payload.type === "like" && !payload.isLiked){
+                    updatedNotifications.splice(updatedNotifications.indexOf(updatedNotifications.find(item => parseInt(item.id) === parseInt((payload.id)))), 1)
+                } else {
+                    existingItem.updatedAt = payload.updatedAt
+                    updatedNotifications.unshift(updatedNotifications.splice(updatedNotifications.indexOf(existingItem), 1)[0]) //move to first     
+                }
                 state.notifications = updatedNotifications;
             } else {
-                state.notifications = [payload, ...updatedNotifications]
+                if(payload.type === "like" && !payload.isLiked){ 
+                    
+                } else {
+                    state.notifications = [payload, ...updatedNotifications]
+                }
             };
         }
     }, 
