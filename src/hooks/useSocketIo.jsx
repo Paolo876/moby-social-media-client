@@ -56,14 +56,13 @@ const useSocketIo = () => {
 
   const handleReceiveLike = (data) => {
     // {PostId: 10, User: {…}, isLiked: true}
-    
+    console.log(data)
     //triggersnackbar if liked
     if(data.isLiked){
       triggerSnackbar({
         title: `${data.User.username} liked your post`, 
         image: data.User.UserDatum.image, 
         header: data.User.username,
-        // subheader: `${data.User.UserDatum.firstName} ${data.User.UserDatum.lastName}`,       
         id: parseInt(data.NotificationId),
         type: "like",
         link: `/posts/${data.PostId}`,
@@ -74,6 +73,16 @@ const useSocketIo = () => {
     }
 
     //update notification
+    addNotification({
+      id: data.NotificationId, 
+      type: "like", 
+      link: `/posts/${data.PostId}`, 
+      isRead: false, 
+      createdAt: new Date().toString(), 
+      updatedAt: new Date().toString(),
+      ReferenceUser: data.User,
+      isLiked: data.isLiked
+    }) 
     //update posts redux [if post is on list]
   }
 

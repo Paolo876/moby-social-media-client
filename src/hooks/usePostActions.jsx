@@ -22,9 +22,8 @@ const usePostActions = () => {
     setIsLoading(true)
     try {
         const res = await axios.get(`${process.env.REACT_APP_DOMAIN_URL}/api/posts/like/${id}`, { headers: { 'Content-Type': 'application/json' }, withCredentials: true });
-        emitLike({PostId: parseInt(id), User: { username: user.username, id: user.id, UserDatum: user.UserData}, isLiked: res.data.isLiked})
+        emitLike({PostId: parseInt(id), User: { username: user.username, id: user.id, UserDatum: user.UserData}, isLiked: res.data.isLiked, NotificationId: res.data.NotificationId})
         setIsLoading(false)
-        console.log(res.data)
         return res.data
     } catch(err) {
         setIsLoading(false)
