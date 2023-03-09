@@ -24,9 +24,6 @@ const Post = () => {
                 return updatedPost
             })
         }
-        if(snackbarData.like){
-            //update like
-        }
     }
   }, [snackbarData])
   useEffect(() => {
