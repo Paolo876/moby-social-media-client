@@ -60,12 +60,8 @@ export const receiveMessage = createAsyncThunk( 'chat/receiveMessage', async ( p
 export const receiveNewMessage = createAsyncThunk( 'chat/receiveNewMessage', async ( payload, { getState, rejectWithValue }) => {
     const UserId = getState().auth.user.id;
     try {
-        // console.log(payload)
-        // let result = { id: parseInt(payload.ChatRoomId),isLastMessageRead: [{isLastMessageRead: false}], ChatMessages: [{...payload.messageData}]}
         let result = { ...payload.messageData}
         if(UserId !== payload.sender.UserId) result.ChatRoom.isLastMessageRead[0].isLastMessageRead = false;
-        // if(UserId === payload.sender.UserId) result.isLastMessageRead[0].isLastMessageRead = true;
-
         return result
     } catch (err){
         return rejectWithValue((err.response && err.response.data) ? err.response.data.message : err.message)
