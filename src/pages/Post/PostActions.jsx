@@ -45,7 +45,7 @@ const PostActions = ({ setPost, likes, setShowNewCommentForm }) => {
                         onClick={() => setShowModal(true)}
                         >
                         {likes.map(item => <Avatar 
-                            key={item.id} 
+                            key={item.UserId} 
                             alt={item.User.username} 
                             src={item.User.UserDatum.image ? JSON.parse(item.User.UserDatum.image).url : null}
                             sx={{width: 25, height: 25}} 

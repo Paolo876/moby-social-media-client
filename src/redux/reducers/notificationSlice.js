@@ -26,11 +26,7 @@ const notificationSlice = createSlice({
                 }
                 state.notifications = updatedNotifications;
             } else {
-                if(payload.type === "like" && !payload.isLiked){ 
-                    
-                } else {
-                    state.notifications = [payload, ...updatedNotifications]
-                }
+                if(!(payload.type === "like" && !payload.isLiked)) state.notifications = [payload, ...updatedNotifications]
             };
         }
     }, 

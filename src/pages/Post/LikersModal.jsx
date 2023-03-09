@@ -27,7 +27,7 @@ const LikersModal = ({ showModal, setShowModal, likes }) => {
             <Typography variant="h6" sx={{m:1}}>Liked by: </Typography>
             <Divider/>
             <List component="div" sx={{ maxHeight: "60vh", overflowY: "auto"}}>
-                {likes.map(item => <ListItemButton key={item.id} sx={{mt: .25}} onClick={() => navigate(`/profile/${item.UserId}`)}>
+                {likes.map(item => <ListItemButton key={item.UserId} sx={{mt: .25}} onClick={() => navigate(`/profile/${item.UserId}`)}>
                     {item.User.UserDatum.image ? 
                         <Image 
                             src={JSON.parse(item.User.UserDatum.image).url} 

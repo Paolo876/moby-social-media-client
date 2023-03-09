@@ -12,7 +12,12 @@ const SnackbarListener = () => {
     useEffect(() => {
         if(snackbarData){
             // don't emit message snackbars if user is in messages page
-            if(!location.pathname.includes("/messages") || !snackbarData.type === "message") enqueueSnackbar(snackbarData, { preventDuplicate: true })
+            // don't emit unliked post
+            if(
+                (snackbarData.type === "message" && !location.pathname.includes("/messages")) ||
+                (snackbarData.type === "like" && snackbarData.isLiked && !location.pathname.includes(`/posts/${snackbarData.postId}`)) ||
+                (snackbarData.type === "post" && !location.pathname.includes(`/posts/${snackbarData.postId}`))
+            ) enqueueSnackbar(snackbarData, { preventDuplicate: true })
             clearSnackbar()
         }
     }, [snackbarData])

@@ -16,11 +16,22 @@ const Post = () => {
   const { snackbarData } = useNotificationRedux();
 
   useEffect(() => {
-    if(snackbarData && snackbarData.type === "post" && parseInt(snackbarData.postId) === parseInt(id)){
+    if(snackbarData && (snackbarData.type === "post" || snackbarData.type === "like") && parseInt(snackbarData.postId) === parseInt(id)){
         if(snackbarData.comment){
             setPost(prevState => {
                 const updatedPost = { ...prevState };
                 updatedPost.Comments = [{...snackbarData.comment, User: snackbarData.User}, ...updatedPost.Comments];
+                return updatedPost
+            })
+        }
+        if(snackbarData.type === "like"){
+            setPost(prevState => {
+                const updatedPost = { ...prevState };
+                if(snackbarData.isLiked){
+                    updatedPost.Likes = [{UserId: snackbarData.User.id,  User: snackbarData.User}, ...updatedPost.Likes];
+                } else {
+                    updatedPost.Likes = updatedPost.Likes.filter(item => item.UserId !== snackbarData.User.id)
+                }
                 return updatedPost
             })
         }
