@@ -3,6 +3,7 @@ import io from 'socket.io-client';
 import useFriendRedux from './useFriendRedux';
 import useChatRedux from './useChatRedux';
 import useNotificationRedux from './useNotificationRedux';
+import usePostsRedux from './usePostsRedux';
 
 const socket = io(`${process.env.REACT_APP_DOMAIN_URL}/`, { transports: ['websocket'], upgrade: false})
 
@@ -12,6 +13,7 @@ const useSocketIo = () => {
   const { setOnlineFriends, setLoggedInFriend, setLoggedOutFriend, setStatusChangedFriend, setFriendRequests } = useFriendRedux();
   const { triggerSnackbar, addNotification } = useNotificationRedux();
   const { receiveMessage, receiveNewMessage } = useChatRedux();
+  const { updatePosts } = usePostsRedux();
   const socketRef = useRef();
   socketRef.current = socket;
   const [isConnected, setIsConnected] = useState(socketRef.current);
@@ -81,6 +83,12 @@ const useSocketIo = () => {
       isLiked: data.isLiked
     }) 
     //update posts redux [if post is on list]
+    updatePosts({
+      type: "like",
+      UserId: data.User.id,
+      isLiked: data.isLiked,
+      PostId: data.PostId
+    })
   }
 
   const handleReceiveFriendRequest = (data) => {

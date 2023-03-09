@@ -14,7 +14,9 @@ export default function usePostsRedux() {
         getBookmarkedPosts: data => dispatch(getBookmarkedPosts(data)),
         bookmarkPost: data => dispatch(bookmarkPost(data)),
         removeFromPosts: data => dispatch(postsActions.removeFromPosts(data)),
-        addPost: data => dispatch(postsActions.addPost(data))
+        addPost: data => dispatch(postsActions.addPost(data)),
+        updatePosts: data => dispatch(postsActions.updatePosts(data)),
+
       };
     } else {
       throw Error('Error accessing posts reducer.');

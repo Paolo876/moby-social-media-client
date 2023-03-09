@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { postsInitialState } from "../initialState";
-import { getPosts, createPost, likePost, bookmarkPost, getBookmarkedPosts } from "./postsReducers";
+import { getPosts, likePost, bookmarkPost, getBookmarkedPosts } from "./postsReducers";
 
 const postsSlice = createSlice({
     name: "posts",
@@ -13,6 +13,21 @@ const postsSlice = createSlice({
         removeFromPosts(state, { payload }){
             const updatedPosts = state.posts;
             state.posts = updatedPosts.filter(item => item.id !== parseInt(payload))
+        },
+        updatePosts(state, { payload }){
+            const updatedPosts = state.posts;
+            const existingPost = updatedPosts.find(item => parseInt(item.id) === parseInt(payload.PostId))
+            if(existingPost){
+                if(payload.type === "like"){
+
+                    if(payload.isLiked ){
+                        if(!existingPost.Likes.some(item => parseInt(item.UserId) === (payload.UserId)))existingPost.Likes = [{UserId: parseInt(payload.UserId)}, ...existingPost.Likes]
+                    } else {
+                        existingPost.Likes = existingPost.Likes.filter(item => parseInt(item.UserId) !== parseInt(payload.UserId))
+                    }
+                }
+                state.posts = updatedPosts;
+            }
         },
         reset: () => postsInitialState,
     }, 
@@ -33,22 +48,6 @@ const postsSlice = createSlice({
             state.isLoading = false;
             state.error = payload.message;
         })
-        //createPost
-        // .addCase(createPost.pending, (state) => {
-        //     state.isLoading = true;
-        //     state.error = null;
-        // })
-        // .addCase(createPost.fulfilled, ( state, { payload }) => {
-        //     state.isLoading = false;
-        //     state.error = null;
-        //     const updatedPosts = state.posts;
-        //     updatedPosts.unshift(payload)
-        //     state.posts = updatedPosts;
-        // })
-        // .addCase(createPost.rejected, ( state, { payload }) => {
-        //     state.isLoading = false;
-        //     state.error = payload.message;
-        // })
         //likePost
         .addCase(likePost.pending, (state) => {
             state.isLoading = true;
