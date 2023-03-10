@@ -14,6 +14,26 @@ const usePostActions = () => {
   const { emitLike } = useSocketIo();
   const { user } = useAuthRedux();
 
+
+  
+
+ /*  @desc       get post by id
+  *  @access     Private
+  *  @return     <Object>
+  */
+ const getPostById = async (id) => {
+  setIsLoading(true)
+  try {
+      const res = await axios.get(`${process.env.REACT_APP_DOMAIN_URL}/api/posts/${id}`, { headers: { 'Content-Type': 'application/json' }, withCredentials: true })
+      setIsLoading(false)
+      return res.data
+  } catch(err) {
+      setIsLoading(false)
+      setError((err.response && err.response.data) ? err.response.data.message : err.message)
+  }
+}
+
+
  /*  @desc       like a post
   *  @access     Private
   *  @return     <Object> --{isLiked: <BOOLEAN>, id: <NUMBER>, UserId: <NUMBER>}
@@ -150,7 +170,7 @@ const usePostActions = () => {
     }
   }
 
-  return { isLoading, error, newComment, editComment, deleteComment, isNewCommentLoading, newCommentError, likePost, bookmarkPost, deletePost, authorizePost, editPost }
+  return { isLoading, error, newComment, editComment, deleteComment, isNewCommentLoading, newCommentError, likePost, bookmarkPost, deletePost, authorizePost, editPost, getPostById }
 }
 
 export default usePostActions

@@ -37,6 +37,8 @@ const Post = () => {
         }
     }
   }, [snackbarData])
+
+  
   useEffect(() => {
     axios
     .get(`${process.env.REACT_APP_DOMAIN_URL}/api/posts/${id}`, { headers: { 'Content-Type': 'application/json' }, withCredentials: true })
