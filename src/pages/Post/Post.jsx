@@ -41,21 +41,12 @@ const Post = () => {
 
   useEffect(() => {
     init();
-    // axios
-    // .get(`${process.env.REACT_APP_DOMAIN_URL}/api/posts/${id}`, { headers: { 'Content-Type': 'application/json' }, withCredentials: true })
-    // .then(res => {
-    //     setIsLoading(false)
-    //     setPost({...res.data.post, isBookmarked: res.data.isBookmarked})
-    // })
-    // .catch(err => {
-    //     setIsLoading(false)
-    //     setError(err.response.data.message)
-    // })
   }, [id])
 
   const init = async () => {
     const result = await getPostById(id)
     setPost({...result.post, isBookmarked: result.isBookmarked})
+    //clear notifications
   }
   return (
     <AuthorizedPageContainer>
