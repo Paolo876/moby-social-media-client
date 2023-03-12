@@ -89,26 +89,27 @@ const PostBody = ({ isPublic, title, user, image: coverImage, isHovered, transit
 
 const PostActions = ({ palette, isLiked, isFetchedFromProfile, user, userImage, createdAt, id, likes, comments, setPosts, disableActions}) => {
   const navigate = useNavigate();
-  const { likePost, isLoading } = usePostsRedux();
-  const { likePost: _likePost } = usePostActions();
+  const { updatePosts } = usePostsRedux();
+  const { likePost, isLoading } = usePostActions();
+
   const handleLike = async () => {
     if(!isLoading) {
-      if(isFetchedFromProfile){
-        _likePost(id).then(res => {
-          setPosts(prevState => {
-            const updatedPost = [ ...prevState ]
-            const post = updatedPost.find(item => item.id === parseInt(res.id))
-            if(res.isLiked){
-              post.Likes = [{UserId: res.UserId}, ...post.Likes];
-            } else {
-              post.Likes = post.Likes.filter(item => item.UserId !== res.UserId)
-            }
-            return updatedPost
-        })
-        })
-      } else {
-        likePost(id)
-      }
+      //like post using usePostActions
+      const res = await likePost(id);
+      //update post redux
+      updatePosts({PostId: parseInt(res.id), type: "like", isLiked: res.isLiked, UserId: res.UserId })
+
+      if(isFetchedFromProfile) setPosts(prevState => {
+        const updatedPost = [ ...prevState ]
+        const post = updatedPost.find(item => item.id === parseInt(res.id))
+
+        if(res.isLiked){
+          post.Likes = [{UserId: res.UserId}, ...post.Likes];
+        } else {
+          post.Likes = post.Likes.filter(item => item.UserId !== res.UserId)
+        }
+        return updatedPost
+      })
     };
   };
 

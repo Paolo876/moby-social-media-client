@@ -59,7 +59,6 @@ const useSocketIo = () => {
   const handleReceiveLike = (data) => {
     // {PostId: 10, User: {…}, isLiked: true}
     //triggersnackbar
-    console.log("AS")
       triggerSnackbar({
         title: `${data.User.username} liked your post`, 
         image: data.User.UserDatum.image, 
