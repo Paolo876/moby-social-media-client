@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import useNotificationRedux from '../../hooks/useNotificationRedux'
 import usePostActions from '../../hooks/usePostActions'
-import axios from 'axios'
 import { Alert, Container, Grid, Box } from '@mui/material'
 import AuthorizedPageContainer from '../../components/AuthorizedPageContainer'
 import LoadingSpinner from "../../components/LoadingSpinner"
@@ -13,7 +12,7 @@ const Post = () => {
   const { id } = useParams();
   const { getPostById, isLoading, error } = usePostActions();
   const [ post, setPost ] = useState(null);
-  const { snackbarData } = useNotificationRedux();
+  const { snackbarData, markAsReadByReferenceId } = useNotificationRedux();
 
   useEffect(() => {
     if(snackbarData && (snackbarData.type === "post" || snackbarData.type === "like") && parseInt(snackbarData.postId) === parseInt(id)){
@@ -46,7 +45,7 @@ const Post = () => {
   const init = async () => {
     const result = await getPostById(id)
     setPost({...result.post, isBookmarked: result.isBookmarked})
-    //clear notifications
+    markAsReadByReferenceId(id) //clear notifications from this post(ReferenceId)
   }
   return (
     <AuthorizedPageContainer>
