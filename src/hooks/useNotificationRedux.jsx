@@ -11,6 +11,7 @@ export default function useNotificationRedux() {
         triggerSnackbar: (data) => dispatch(notificationActions.triggerSnackbar(data)),
         clearSnackbar: () => dispatch(notificationActions.clearSnackbar()),
         addNotification: (data) => dispatch(notificationActions.addNotification(data)),
+        markAsReadByReferenceId: (data) => dispatch(notificationActions.markAsReadByReferenceId(data)),
         getNotifications: () => dispatch(getNotifications()),
       };
     } else {

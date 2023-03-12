@@ -29,8 +29,13 @@ const notificationSlice = createSlice({
                 if(!(payload.type === "like" && !payload.isLiked)) state.notifications = [payload, ...updatedNotifications]
             };
         },
-        markAsReadLocal: (state, { payload}) => {
-            
+        markAsReadByReferenceId: (state, { payload }) => {
+            const updatedNotifications = state.notifications;
+            const existingItem = updatedNotifications.find(item => item.ReferenceId === parseInt(payload));
+            if(existingItem){
+                existingItem.isRead = true;
+            }
+            state.notifications = updatedNotifications;
         }
     }, 
     extraReducers: (builder) => {
