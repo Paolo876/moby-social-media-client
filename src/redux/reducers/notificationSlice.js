@@ -31,9 +31,8 @@ const notificationSlice = createSlice({
         },
         markAsReadByReferenceId: (state, { payload }) => {
             const updatedNotifications = state.notifications;
-            const existingItem = updatedNotifications.find(item => item.ReferenceId === parseInt(payload));
-            if(existingItem){
-                existingItem.isRead = true;
+            for (const item of updatedNotifications) {
+                if(item.ReferenceId === parseInt(payload)) item.isRead = true;
             }
             state.notifications = updatedNotifications;
         }
