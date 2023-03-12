@@ -4,12 +4,13 @@ import useFriendRedux from './useFriendRedux';
 import useChatRedux from './useChatRedux';
 import useNotificationRedux from './useNotificationRedux';
 import usePostsRedux from './usePostsRedux';
+import useAuthRedux from "./useAuthRedux";
 
 const socket = io(`${process.env.REACT_APP_DOMAIN_URL}/`, { transports: ['websocket'], upgrade: false})
 
 
 const useSocketIo = () => {
-
+  const { user, updateUserStatus } = useAuthRedux();
   const { setOnlineFriends, setLoggedInFriend, setLoggedOutFriend, setStatusChangedFriend, setFriendRequests } = useFriendRedux();
   const { triggerSnackbar, addNotification } = useNotificationRedux();
   const { receiveMessage, receiveNewMessage } = useChatRedux();
@@ -22,7 +23,7 @@ const useSocketIo = () => {
     socket.on("online-friends", data => setOnlineFriends(data))
     socket.on("logged-in-friend", data => setLoggedInFriend(data))
     socket.on("logged-out-friend", data => setLoggedOutFriend(data))
-    socket.on("status-changed-friend", data => setStatusChangedFriend(data))
+    socket.on("status-changed-friend", data => handleStatusChange(data))
     socket.on("receive-message", data => handleReceiveMessage(data))
     socket.on("receive-friend-request", data => handleReceiveFriendRequest(data))
     socket.on("receive-created-post", data => triggerSnackbar(data))
@@ -30,6 +31,14 @@ const useSocketIo = () => {
     socket.on("receive-like", data => handleReceiveLike(data))
   }
 
+
+  const handleStatusChange = (data) => {
+    if(data.UserId === user.id){
+      updateUserStatus(data.status)
+    } else {
+      setStatusChangedFriend(data)
+    }
+  }
   const handleReceiveComment = (data) => {
     //triggersnackbar
     triggerSnackbar({
