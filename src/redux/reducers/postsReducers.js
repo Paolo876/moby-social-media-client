@@ -5,9 +5,9 @@ import axios from "axios";
 /** getPosts
  *  @desc Get posts --paginated to 15 posts per request
  */
-export const getPosts = createAsyncThunk( 'posts/getPosts', async ( payload, { rejectWithValue }) => {
+export const getPosts = createAsyncThunk( 'posts/getPosts', async ( pageNumber, { rejectWithValue }) => {
     try {
-        const res = await axios.get(`${process.env.REACT_APP_DOMAIN_URL}/api/posts`, {
+        const res = await axios.get(`${process.env.REACT_APP_DOMAIN_URL}/api/posts?pageNumber=${pageNumber}`, {
             headers: { 'Content-Type': 'application/json' },
             withCredentials: true,
         });

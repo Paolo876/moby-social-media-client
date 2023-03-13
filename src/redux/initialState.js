@@ -17,6 +17,8 @@ export const postsInitialState = {
     bookmarks: [],
     isLoading: false,
     error: null,
+    pageNumber: null,
+    hasMore: true,
 };
 
 

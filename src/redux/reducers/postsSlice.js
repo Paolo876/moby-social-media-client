@@ -39,8 +39,13 @@ const postsSlice = createSlice({
             state.error = null;
         })
         .addCase(getPosts.fulfilled, ( state, { payload }) => {
+            const updatedPosts = state.posts;
+            const updatedPostsIds = updatedPosts.map(item => item.id)
             state.isLoading = false;
             state.posts = payload.posts;
+            state.posts = [...updatedPosts, ...payload.posts.filter(item => !updatedPostsIds.includes(item.id))];
+            state.pageNumber = payload.pageNumber;
+            state.hasMore = payload.hasMore;
             state.bookmarks = payload.bookmarks;
             state.error = null;
         })

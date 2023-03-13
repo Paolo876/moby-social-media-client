@@ -11,6 +11,7 @@ import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
 import TurnedInNotIcon from '@mui/icons-material/TurnedInNot';
 import usePostsRedux from '../../hooks/usePostsRedux';
 import usePostActions from '../../hooks/usePostActions';
+import InfinitePaginator from './InfinitePaginator';
 
 const PostBody = ({ isPublic, title, user, image: coverImage, isHovered, transitions, postText, isBookmarked, id, disableActions }) => {
   const { bookmarkPost, isLoading } = usePostsRedux();
@@ -164,14 +165,15 @@ const PostActions = ({ palette, isLiked, isFetchedFromProfile, user, userImage, 
   )
 }
 
-const PostItem = ({ title, image, isPublic, postText, isLiked=false, isBookmarked=false, user, createdAt, updatedAt, id, likes, comments, isFetchedFromProfile=false, setPosts=null, disableActions=false}) => {
+const PostItem = ({ isObserver, title, image, isPublic, postText, isLiked=false, isBookmarked=false, user, createdAt, id, likes, comments, isFetchedFromProfile=false, setPosts=null, disableActions=false}) => {
   const [ isHovered, setIsHovered ] = useState(false)
   const { palette, transitions } = useTheme();
   let userImage;
   if(user && user.UserDatum) userImage = JSON.parse(user.UserDatum.image);
   return (
+    <>
+    {isObserver && <InfinitePaginator/>}
     <Grid 
-      // align="center"
       item 
       sx={{m:.5, mt: 2, p: 0, boxShadow: 3, mb: 3, borderRadius: "10px", position: "relative", transition: transitions.create('all', {duration: 800, delay: 0}), "&:hover": { boxShadow: 5 }}} 
       xs={12}
@@ -181,6 +183,8 @@ const PostItem = ({ title, image, isPublic, postText, isLiked=false, isBookmarke
       <PostBody isPublic={isPublic} isBookmarked={isBookmarked} createdAt={createdAt} title={title} user={user} image={image} isHovered={isHovered} transitions={transitions} postText={postText} id={id} disableActions={disableActions}/>
       <PostActions palette={palette} isLiked={isLiked} user={user} userImage={userImage} createdAt={createdAt} id={id} likes={likes} comments={comments} isFetchedFromProfile={isFetchedFromProfile} setPosts={setPosts} disableActions={disableActions}/>
     </Grid>
+    </>
+
   )
 }
 
