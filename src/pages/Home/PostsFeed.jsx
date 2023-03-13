@@ -6,10 +6,12 @@ import PostItem from './PostItem';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import MaterialRoot from '../../components/MaterialRoot';
 import CreatePostButton from '../../components/CreatePostButton';
+import useFriendRedux from '../../hooks/useFriendRedux';
 
 const PostsFeed = () => {
   const { isLoading, error, posts, getPosts, bookmarks, hasMore } = usePostsRedux();
   const { user: { id } } = useAuthRedux();
+  const { friends } = useFriendRedux();
   useEffect(() => {
     getPosts()
   }, [])
@@ -34,6 +36,7 @@ const PostsFeed = () => {
         isBookmarked={bookmarks.some(_item => _item.PostId === item.id)}
         user={item.User}
         createdAt={item.createdAt}
+        disableActions={!item.isPublic && !friends.some(_item => _item.id === item.UserId)}
       />)}
       {isLoading && <Grid item xs={12}>
         <LoadingSpinner 

@@ -44,15 +44,28 @@ const Post = () => {
 
   const init = async () => {
     const result = await getPostById(id)
-    setPost({...result.post, isBookmarked: result.isBookmarked})
+    if(result.isNotFriends) {
+        setPost(result)
+    } else {
+        setPost({...result.post, isBookmarked: result.isBookmarked})
+    }
     markAsReadByReferenceId(id) //clear notifications from this post(ReferenceId)
   }
+
   return (
     <AuthorizedPageContainer>
         <Container>
             {error && <Box my={2}><Alert severity='error'>{error}</Alert></Box>}
             <Grid container>
-                {post && <>
+                {post && (post.isNotFriends ? 
+                <>
+                <Grid item xs={12} md={6.75} sx={{position: "relative"}}>
+                    hello
+                </Grid>
+
+                </>
+                    :
+                <>
                     <Grid item xs={12} md={6.75} sx={{position: "relative"}}>
                         <PostPreview 
                             title={post.title} 
@@ -75,7 +88,7 @@ const Post = () => {
                             postId={post.id}
                         />
                     </Grid>
-                </>}
+                </>)}
                 {isLoading && <Grid item xs={12}>
                     <LoadingSpinner 
                         style={{minHeight: "8em", backgroundColor: "initial", opacity: .7, transform: "scale(.8)"}} 

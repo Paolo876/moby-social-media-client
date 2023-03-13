@@ -13,7 +13,7 @@ import usePostsRedux from '../../hooks/usePostsRedux';
 import usePostActions from '../../hooks/usePostActions';
 import InfinitePaginator from './InfinitePaginator';
 
-const PostBody = ({ isPublic, title, user, image: coverImage, isHovered, transitions, postText, isBookmarked, id, disableActions }) => {
+const PostBody = ({ isPublic, title, user, image: coverImage, isHovered, transitions, isBookmarked, id, disableActions }) => {
   const { bookmarkPost, isLoading } = usePostsRedux();
   const navigate = useNavigate();
   let image;
@@ -50,7 +50,7 @@ const PostBody = ({ isPublic, title, user, image: coverImage, isHovered, transit
           variant="outlined"
           >
           {!isPublic && <Tooltip title="Private posts are only visible to friends of the author." arrow >
-            <LockIcon fontSize="small" sx={{position: "absolute", top: 10, left: 10, opacity: .9, zIndex: 5}} color="info"/>
+            <LockIcon fontSize="medium" sx={{position: "absolute", top: 10, left: 10, zIndex: 5}} color="error"/>
           </Tooltip>}
           <Stack  
             sx={{
@@ -63,9 +63,8 @@ const PostBody = ({ isPublic, title, user, image: coverImage, isHovered, transit
               }}
             >
             <Typography variant="h5" align='center' fontWeight={600} pb={isHovered ? .75 :.5} color="primary.dark">{title}</Typography>
-            {isHovered && isPublic && <Typography variant="subtitle1" align='center' sx={{width: "100%", opacity: .9}} mb={2} px={2}>{postText.length > 150 ? postText.substr(0,150) : postText}...</Typography>}
             {isHovered && !isPublic && <Typography variant="subtitle1" align='center' sx={{width: "100%", opacity: .9}} mb={2} px={2} fontStyle={isPublic ? "" : "italic"}>This post is private.</Typography>}
-            {user && <Typography variant="body2" align={isHovered ? 'right' : 'center'} fontWeight={400} sx={{opacity: .6}} px={4}>-{user.UserDatum.firstName} {user.UserDatum.lastName}</Typography>}
+            {!isHovered && user && <Typography variant="body2" align='center' fontWeight={400} sx={{opacity: .6}} px={4}>-{user.UserDatum.firstName} {user.UserDatum.lastName}</Typography>}
           </Stack>
           {image && 
             <Image 
@@ -165,7 +164,7 @@ const PostActions = ({ palette, isLiked, isFetchedFromProfile, user, userImage, 
   )
 }
 
-const PostItem = ({ isObserver, title, image, isPublic, postText, isLiked=false, isBookmarked=false, user, createdAt, id, likes, comments, isFetchedFromProfile=false, setPosts=null, disableActions=false}) => {
+const PostItem = ({ isObserver, title, image, isPublic, isLiked=false, isBookmarked=false, user, createdAt, id, likes, comments, isFetchedFromProfile=false, setPosts=null, disableActions=false}) => {
   const [ isHovered, setIsHovered ] = useState(false)
   const { palette, transitions } = useTheme();
   let userImage;
@@ -180,7 +179,7 @@ const PostItem = ({ isObserver, title, image, isPublic, postText, isLiked=false,
       onMouseOver={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       >
-      <PostBody isPublic={isPublic} isBookmarked={isBookmarked} createdAt={createdAt} title={title} user={user} image={image} isHovered={isHovered} transitions={transitions} postText={postText} id={id} disableActions={disableActions}/>
+      <PostBody isPublic={isPublic} isBookmarked={isBookmarked} createdAt={createdAt} title={title} user={user} image={image} isHovered={isHovered} transitions={transitions} id={id} disableActions={disableActions}/>
       <PostActions palette={palette} isLiked={isLiked} user={user} userImage={userImage} createdAt={createdAt} id={id} likes={likes} comments={comments} isFetchedFromProfile={isFetchedFromProfile} setPosts={setPosts} disableActions={disableActions}/>
     </Grid>
     </>
