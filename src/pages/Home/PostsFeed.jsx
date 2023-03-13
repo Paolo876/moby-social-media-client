@@ -10,14 +10,13 @@ import CreatePostButton from '../../components/CreatePostButton';
 const PostsFeed = () => {
   const { isLoading, error, posts, getPosts, bookmarks, hasMore } = usePostsRedux();
   const { user: { id } } = useAuthRedux();
-
   useEffect(() => {
     getPosts()
   }, [])
   return (
     <Grid container>
       {error && <Grid item xs={12} my={1}><Alert severity='error'>{error}</Alert></Grid>}
-      <Grid item sx={{m:.5, mt: 1, mb: 2.5, py: 1}} xs={12}><CreatePostButton/></Grid>
+      <Grid item sx={{m:.5, mt: 1, mb: 2.5, py: 1}} xs={12} id="create-button"><CreatePostButton/></Grid>
       <MaterialRoot>
         <Divider><Typography variant="body1">{new Date().toLocaleDateString()}</Typography></Divider>
       </MaterialRoot>
@@ -40,9 +39,15 @@ const PostsFeed = () => {
         <LoadingSpinner 
           style={{minHeight: "7em", backgroundColor: "initial", transform: "scale(.6)", opacity: .75}} message="Loading posts..." messageStyle={{color: "black", fontSize: 20}} />
         </Grid>}
-      <MaterialRoot>
-        <Divider><Typography variant="body1" mb={1}>End of Posts</Typography></Divider>
-      </MaterialRoot>
+      {!hasMore && <MaterialRoot>
+        <Divider>
+          <Typography 
+            variant="body1" 
+            sx={{cursor: "pointer"}}
+            onClick={() => { window['scrollTo']({top: 0, behavior: 'smooth'})}}
+          >Back To Top</Typography>
+        </Divider>
+      </MaterialRoot>}
     </Grid>
 
   )
