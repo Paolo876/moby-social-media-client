@@ -6,7 +6,7 @@ import useNotificationRedux from './useNotificationRedux';
 import usePostsRedux from './usePostsRedux';
 import useAuthRedux from "./useAuthRedux";
 
-const socket = io(`${process.env.REACT_APP_DOMAIN_URL}/`, { transports: ['websocket'], upgrade: false})
+const socket = io(`${process.env.REACT_APP_DOMAIN_URL}/`, { transports: ['websocket'], upgrade: false, withCredentials: true})
 
 
 const useSocketIo = () => {
