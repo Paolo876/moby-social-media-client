@@ -24,10 +24,10 @@ export default function Signup() {
     const handleSubmit = (data) => signup({username: data.username, password: data.password});
     
   return (
-        <Container sx={{display: 'flex', justifyContent:'center', alignItems: "center", height: "75vh"}}>
-            <WelcomeMessage/>
-            <Paper sx={{py: 5, px: {xs: 2, md:8}, width: "fit-content", mx: "auto"}} elevation={4}>
-                <Typography variant="h4" fontWeight={700} mb={4} letterSpacing={.5}>Create an Account</Typography>
+    <Container sx={{display: 'flex', justifyContent:{xs:"space-between", md: "center"}, alignItems: {xs: "flex-start", md: "center"}, height: {xs: "100%", md: "75vh"}, flexDirection:{xs: "column-reverse", md: "row"}}}>
+        <WelcomeMessage/>
+        <Paper sx={{py: {xs:2, sm:5}, px: {xs: 2, md:8}, width: "fit-content", mx: "auto" }} elevation={4}>
+                <Typography variant="h4" fontWeight={700} fontSize={{xs: 22, md: 25}} mb={{xs:1, md :4}} letterSpacing={.5}>Create an Account</Typography>
                 <Formik  
                     initialValues={initialValues}
                     onSubmit={handleSubmit} 
@@ -61,8 +61,8 @@ export default function Signup() {
                             autoComplete="off"
                         />
                         {error && <Alert severity="error">{error}</Alert>}
-                        {!isLoading && <Button variant="contained" type="submit" size="large" sx={{ mt: 5 }}>Sign up</Button>}
-                        {isLoading && <Button variant="contained" type="submit" size="large" sx={{ mt: 5 }} disabled>
+                        {!isLoading && <Button variant="contained" type="submit" size="large" sx={{ mt: {xs: 2.5, md: 5}}}>Sign up</Button>}
+                        {isLoading && <Button variant="contained" type="submit" size="large" sx={{ mt: {xs: 2.5, md: 5}}} disabled>
                             Signing up <CircularProgress color="secondary" size={16} thickness={6} sx={{ml: 2}}/>
                         </Button>}
                     </Form>
