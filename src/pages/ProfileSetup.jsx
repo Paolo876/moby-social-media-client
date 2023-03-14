@@ -62,11 +62,11 @@ const ProfileSetup = () => {
       {isImagekitLoading && <LoadingSpinner isModal={true} message="Uploading Image..."/>}
       {isLoading && <LoadingSpinner isModal={true} message="Updating Profile..."/>}
       <Container sx={{pt: 1.5}}>
-        <Paper sx={{py: 5, px: {xs: 2, md:8}, width: "fit-content", mx: "auto"}} elevation={4}>
+      <Paper sx={{py: {xs:2, sm:5}, px: {xs: 2, md:8}, width: "fit-content", mx: "auto" }} elevation={4}>
           {imagekitError && <Alert severity="error">{imagekitError}</Alert>}
           {error && <Alert severity="error">{error}</Alert>}
-          <Typography variant="h5" fontWeight={700} mb={2} align="center">Welcome to Moby, {user.username}!</Typography>
-          <Typography variant="body1" mb={5} fontWeight={400} letterSpacing={1} align="center" lineHeight={1.4}>Before we get started, let's setup your profile.</Typography>
+          <Typography variant="h5" fontWeight={700} mb={{xs:1, md :2}} align="center" fontSize={{xs: 18, md: 23}}>Welcome to Moby, {user.username}!</Typography>
+          <Typography variant="body1" mb={{xs:1, md :4}} fontWeight={400} letterSpacing={1} align="center" lineHeight={1.4} fontSize={{xs: 12.5, md: 16}}>Before we get started, let's setup your profile.</Typography>
           <Formik  
             initialValues={initialValues}
             onSubmit={handleSubmit} 
@@ -80,7 +80,7 @@ const ProfileSetup = () => {
                 type="text" 
                 label={<p>First Name</p>} 
                 variant="standard" 
-                sx={{my:1, minWidth: "320px"}}
+                sx={{my:{xs:.5, md :1}, minWidth: "320px"}}
                 error={errors.firstName}
               />
               <MyTextField 
@@ -89,7 +89,7 @@ const ProfileSetup = () => {
                 type="text" 
                 label={<p>Last Name</p>} 
                 variant="standard" 
-                sx={{my:1, minWidth: "320px"}}
+                sx={{my:{xs:.5, md :1}, minWidth: "320px"}}
                 error={errors.lastName}
               />
               <MyTextField 
@@ -102,7 +102,7 @@ const ProfileSetup = () => {
                 }}
                 label={<p>Birthday</p>} 
                 variant="standard" 
-                sx={{my:1, minWidth: "320px"}}
+                sx={{my:{xs:.5, md :1}, minWidth: "320px"}}
                 error={errors.birthday}
               />
               <UploadImageForm
