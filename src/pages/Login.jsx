@@ -20,7 +20,7 @@ export default function Login() {
         login({ username, password });
     }
   return (
-    <Container sx={{display: 'flex', justifyContent:'center', alignItems: {xs: "flex-start", md: "center"}, height: {xs: "100%", md: "75vh"}, flexDirection:{xs: "column-reverse", md: "row"}}}>
+    <Container sx={{display: 'flex', justifyContent:{xs:"space-between", md: "center"}, alignItems: {xs: "flex-start", md: "center"}, height: {xs: "100%", md: "75vh"}, flexDirection:{xs: "column-reverse", md: "row"}}}>
         <WelcomeMessage/>
         <Paper sx={{py: {xs:2, sm:5}, px: {xs: 2, md:8}, width: "fit-content", mx: "auto" }} elevation={4}>
             <Typography variant="h4" fontWeight={700} mb={{xs:1, md :4}} letterSpacing={1} fontSize={{xs: 20, md: 25}}><LoginIcon style={{verticalAlign:"middle"}} sx={{mr: 1}} fontSize="inherit"/>LOGIN</Typography>
