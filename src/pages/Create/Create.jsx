@@ -93,6 +93,7 @@ const Create = () => {
                                 <MyTextField 
                                     id="title" 
                                     name="title"
+                                    required
                                     type="text" 
                                     label="Title"
                                     variant="standard" 
@@ -104,6 +105,7 @@ const Create = () => {
                                     name="postText"
                                     type="text" 
                                     label="Body"
+                                    required
                                     variant="outlined" 
                                     rows={12}
                                     multiline

@@ -5,7 +5,6 @@ import PostsFeed from "./PostsFeed";
 import { Grid, Container, Modal, IconButton, Slide ,Paper, Box } from "@mui/material"
 
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
-import PersonIcon from '@mui/icons-material/Person';
 
 const Home = () => {
   const [ showModal, setShowModal ] = useState(false);
@@ -13,11 +12,11 @@ const Home = () => {
   return (
     <AuthorizedPageContainer>
       <Container maxWidth="xl" sx={{position: "relative"}}>
-      <Slide direction="right" in={!showModal} mountOnEnter unmountOnExit>
-        <Paper elevation={3} sx={{background: "rgba(46, 119, 157, .5)", position: "fixed", left: -7, top: "12%", zIndex: 5, display: {md: "none", xs: "initial"}}}>
-          <IconButton  color="secondary" onClick={() => setShowModal(true)}><KeyboardDoubleArrowRightIcon /></IconButton>
-        </Paper>
-      </Slide>
+        <Slide direction="right" in={!showModal} mountOnEnter unmountOnExit>
+          <Paper elevation={3} sx={{background: "rgba(46, 119, 157, .5)", position: "fixed", left: -7, top: "12%", zIndex: 5, display: {md: "none", xs: "initial"}}}>
+            <IconButton  color="secondary" onClick={() => setShowModal(true)}><KeyboardDoubleArrowRightIcon /></IconButton>
+          </Paper>
+        </Slide>
 
         <Grid container direction="row" alignItems="flex-start" sx={{justifyContent: {md: "initial", xs: "center"}}}>
           <Grid item xs={12} md={4} lg={3} sx={{zIndex: 5, display: {md: "none", xs: "initial"}}}>

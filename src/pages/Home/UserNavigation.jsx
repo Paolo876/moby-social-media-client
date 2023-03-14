@@ -17,7 +17,7 @@ const UserNavigation = () => {
   if(user && user.UserData) image = JSON.parse(user.UserData.image);
 
   return (
-    <Paper variant="outlined" sx={{m:.5, mt: 2, px: 1, py: 3, position: "fixed", width: "18.5em"}}>
+    <Paper variant="outlined" sx={{m:.5, mt: 2, px: 1, py: {xs: 1, md:3}, position: "fixed", width: {md:"18.5em"}}}>
         <List>
             <ListItem sx={{pl: 3}} >
                 <Button  
