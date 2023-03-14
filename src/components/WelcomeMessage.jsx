@@ -6,17 +6,17 @@ import PublicIcon from '@mui/icons-material/Public';
 
 const WelcomeMessage = () => {
   return (
-    <Paper sx={{p:2, background: "none", display: {xs: "none", md: "initial"}, maxWidth: "40%"}} elevation={0}>
-        <Typography variant="h4" mb={3} sx={{alignSelf: "flex-start"}}>Welcome to Moby!</Typography>
-        <Typography variant="subtitle1" mb={2} sx={{alignSelf: "flex-start"}} lineHeight={1.45}>
+    <Paper sx={{p:{xs: .25, md: 2}, pt:{xs: 1, md: 2}, background: "none", maxWidth: {xs: "100%", md: "40%"}}} elevation={0}>
+        <Typography variant="h4" sx={{alignSelf: "flex-start", display: {xs: "none", md: "initial"}}}>Welcome to Moby!</Typography>
+        <Typography variant="subtitle1" mt={{xs: .5, md: 2}} sx={{alignSelf: "flex-start", opacity: {xs : .95, md: 1}}} lineHeight={1.45} fontSize={{xs: 13, md: 16}}>
             Moby is a social media web app that incorporates the essential features of a modern social media application. 
             <br/>This includes the implementation of CRUD operations and a realtime database management system (chat system, friend updates, notification system) using socket.io.
             <br/>Data encryption is implemented on passwords using <strong>bcryptjs</strong> to ensure privacy and security.
         </Typography>
-        <Typography variant="subtitle2" mb={8} sx={{alignSelf: "flex-start"}}>
+        <Typography variant="subtitle2" sx={{alignSelf: "flex-start", display: {xs: "none", md: "initial"}}}>
             This app is created using ReactJS, ReduxJSToolkit, ExpressJS, NodeJS, MySQL, Socket.io, and other related libraries.
         </Typography>
-        <Typography variant="subtitle2" sx={{alignSelf: "flex-start"}}>
+        <Typography variant="subtitle2" sx={{alignSelf: "flex-start"}} fontSize={{xs: 12, md: 15}}  mt={{xs: 2.5, md: 3.5}} >
             Designed and developed by <strong>Paolo Bugarin</strong>.
         </Typography>
         <Box>
