@@ -100,7 +100,7 @@ const NewMessageFeed = () => {
           <Typography variant="body2">{user.username}</Typography>
           <Typography variant="body1" mb={3}>{user.UserDatum.firstName} {user.UserDatum.lastName}</Typography>
           <MaterialRoot><Divider/></MaterialRoot>
-          <Typography variant="body1" my={2} sx={{opacity: .75}}>Start a conversation with {user.UserDatum.firstName}. Type your message on the input field below.</Typography>
+          <Typography variant="body1" my={2} sx={{opacity: .75}} align="center">Start a conversation with {user.UserDatum.firstName}. Type your message on the input field below.</Typography>
         </>}
       </Box>
       <Divider/>

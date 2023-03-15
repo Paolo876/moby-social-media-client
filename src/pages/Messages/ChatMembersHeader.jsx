@@ -25,9 +25,9 @@ const ChatMembersHeader = ({ chatMembers }) => {
 
 
   return (
-    <Stack width="100%" pt={.5}>
-      <Stack flexDirection="row" alignItems="center" px={1} py={1}>
-        <Typography variant="h6" fontSize={17} mx={1}>Chat Members: </Typography>
+    <Stack width="100%" pt={{xs: 0, md:.5}}>
+      <Stack flexDirection="row" alignItems="center" px={1} py={{xs: .5, md:1}}>
+        <Typography variant="h6" fontSize={{xs: 15, md: 17}} mx={1}>Chat Members: </Typography>
         <Tooltip title="Show Chat Members" arrow>
           <AvatarGroup
             total={chatMembers.length + 1}

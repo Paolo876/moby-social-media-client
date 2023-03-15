@@ -65,12 +65,12 @@ const MessagesNavigation = () => {
                 <Image 
                   src={JSON.parse(ChatRoom.ChatMembers[0].User.UserDatum.image).url} 
                   transformation={[{
-                      height: 50,
-                      width: 50,
+                      height: 40,
+                      width: 40,
                   }]} 
                   style={{borderRadius: "50%"}}
                   alt="profile-avatar"
-                /> : <img src={defaultAvatar} style={{height: "50px", width: "50px"}} alt="profile-avatar"/>
+                /> : <img src={defaultAvatar} style={{height: "40px", width: "40px"}} alt="profile-avatar"/>
               }
               <Stack ml={1} width="100%">
                 <Stack flexDirection="row" justifyContent="space-between">
