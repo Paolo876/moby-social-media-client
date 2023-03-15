@@ -32,7 +32,7 @@ const UploadImageForm = ({ image, setImage, title, defaultImage, previewStyle , 
             <Typography variant="body1">{title}</Typography>
 
             <Stack direction={{xs: isStackOnMobile ? "column" : "row", md: "row"}} alignItems="center" justifyContent="center" spacing={{xs: 2, md:6}} my={{xs: 1.5, md:3}}>
-                <ButtonBase sx={{borderRadius: "50%", display: {xs: (isStackOnMobile && image) ? "initial" : "none", md: "initial"}}} disableRipple disableTouchRipple>
+                <ButtonBase sx={{borderRadius: "50%", opacity: image ? 1 : .25 }} disableRipple disableTouchRipple>
                     <img src={image ? image : defaultImage} style={previewStyle}/>
                 </ButtonBase>
                 <Stack spacing={1}>
