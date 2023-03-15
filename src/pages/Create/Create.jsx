@@ -80,7 +80,7 @@ const Create = () => {
             <Grid container direction="row" alignItems="flex-start" sx={{justifyContent: {xs: "center"}, height: "75vh"}} >
                 <Grid item xs={12} md={8} py={2} pb={{xs: 5.5, md: 0}}>
                     <Paper sx={{py: {xs: 3, md:5}, px: {xs: 1.5, md:8}, width: "100%", mx: "auto" }} elevation={4}>
-                    <Typography variant="h4" fontWeight={700} mb={{xs:.5, md :4}} fontSize={{xs: 20, md: 25}}>Create a New Post</Typography>
+                    <Typography variant="h4" fontWeight={700} fontSize={{xs: 20, md: 25}}>Create a New Post</Typography>
                         <Divider mb={2}/>
                         {imagekitError && <Alert severity="error">{imagekitError}</Alert>}
                         {error && <Alert severity="error">{error}</Alert>}
