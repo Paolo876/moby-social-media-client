@@ -19,7 +19,7 @@ const Messages = () => {
         <Box sx={{position: "fixed", top: 0, left: 0, height: "100vh", width: "100%"}}>
             <Grid container my={1} sx={{height: "100%"}} maxWidth="xl" mx="auto">
               <Grid item xs={12} md={3} sx={{width: "100%", display: {xs: isInChatRoom ? "none" : "flex", md:"flex"}, flexDirection: "column", height: "100%", mt: "4em", pb: "5em", px: 1}} ><MessagesNavigation/></Grid>
-              <Grid item xs={12} md={9} sx={{width: "100%", display: {xs: isInChatRoom ? "flex" : "none", md:"flex"}, flexDirection: "column", height: "100%", mt: "4em", pb: "5em", px: {xs: .75, md: 0}}} >
+              <Grid item xs={12} md={9} sx={{width: "100%", display: {xs: isInChatRoom ? "flex" : "none", md:"flex"}, flexDirection: "column", height: {xs: "94%", md:"100%"}, mt: "4em", pb: "5em", px: {xs: .75, md: 0}}} >
                 <Box sx={{display: {xs: "initial", md: "none"}, opacity: ".9", pb: .75}}>
                   <Button 
                     onClick={() => navigate("/messages")}
