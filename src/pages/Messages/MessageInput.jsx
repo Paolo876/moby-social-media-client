@@ -25,7 +25,8 @@ const MessageInput = ({ disabled, handleSubmit}) => {
         onChange={e => setInput(e.target.value)}
         onKeyDown={handleKeyDown}
         disabled={disabled}
-        sx={{m: 2}} autoFocus size="small"
+        sx={{m: 2}} 
+        size="small"
         />
     </Stack>
   )
