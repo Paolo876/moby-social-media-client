@@ -90,9 +90,9 @@ const EditModal = ({ open, handleClose, post, setPost }) => {
       <Container>
       <Grid container direction="row" alignItems="flex-start" sx={{justifyContent: {xs: "center"}, height: "75vh"}} >
           <Grid item xs={12} md={8} py={2}>
-            <Paper sx={{py: 5, px: {xs: 2, md:8}, width: "100%", mx: "auto" }} elevation={4}>
+            <Paper sx={{py: {xs: 3, md:5}, px: {xs: 1.5, md:8}, width: "100%", mx: "auto" }} elevation={4}>
               {error && <Alert severity='error'>{error}</Alert>}
-              <Typography variant="h5" mx={1} p={.5} align="left">Edit Post</Typography>
+              <Typography variant="h5" mx={1} p={.5} align="left" fontSize={{xs: 20, md: 23}}>Edit Post</Typography>
               <Divider/>
               {imagekitError && <Alert severity="error">{imagekitError}</Alert>}
               {error && <Alert severity="error">{error}</Alert>}
@@ -108,7 +108,7 @@ const EditModal = ({ open, handleClose, post, setPost }) => {
                     type="text" 
                     label="Title"
                     variant="standard" 
-                    sx={{my:3, width: "100%"}}
+                    sx={{my:{xs:1.5, md:3}, width: "100%"}}
                     inputProps={{ maxLength: 30 }}
                   />
                   <MyTextField 
@@ -119,7 +119,7 @@ const EditModal = ({ open, handleClose, post, setPost }) => {
                     variant="outlined" 
                     rows={12}
                     multiline
-                    sx={{my:1, width: "100%"}}
+                    sx={{my:{xs:.5, md:1}, width: "100%"}}
                     inputProps={{ maxLength: 800 }}
                   />
                   <UploadImageForm
@@ -133,10 +133,11 @@ const EditModal = ({ open, handleClose, post, setPost }) => {
                     height={400}
                     border={20}
                     borderRadius={0}
+                    isStackOnMobile
                   />
                   <FormGroup>
                     <Typography variant="body1" fontSize={17}>Post Privacy</Typography>
-                    <Typography variant="subtitle2" fontWeight={400} pl={2} mt={.75} sx={{opacity: .7}} color="secondary">
+                    <Typography variant="subtitle2" fontWeight={400} pl={{xs: 1, md:2}} mt={.75} sx={{opacity: .7}} color="secondary" fontSize={{xs: 12, md:14}}>
                         {isPublic ? 
                             "Public: Any user can access, view, and write a comment on the post." : 
                             "Private: Only the author's friends can access, view, and write a comment on the post."}
