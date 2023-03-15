@@ -92,7 +92,8 @@ const NotificationMenu = ({ handleNotificationMenuClose, setNotiAnchorEl}) => {
           }
         </MenuItem>)}
       </Box>
-      <MenuItem onClick={() => handleClick("/notifications")}><Typography align="center" color="secondary" fontWeight={500} fontSize={15}>See All</Typography></MenuItem>
+      {notifications.length > 0 && <MenuItem onClick={() => handleClick("/notifications")}><Typography align="center" color="secondary" fontWeight={500} fontSize={15}>See All</Typography></MenuItem>}
+      {notifications.length === 0 && <Box><Typography align="left" fontWeight={300} fontSize={15} p={1} fontStyle="italic">You have no notifications.</Typography></Box>}
     </>
   )
 }
