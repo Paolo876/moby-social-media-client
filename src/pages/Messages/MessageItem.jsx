@@ -15,12 +15,12 @@ const MessageItem = ({ message, chatUser=null, createdAt }) => {
             <Image 
                 src={JSON.parse(chatUser.UserDatum.image).url} 
                 transformation={[{
-                    height: 40,
-                    width: 40,
+                    height: 35,
+                    width: 35,
                 }]} 
                 style={{borderRadius: "50%"}}
                 alt="profile-avatar"
-            /> : <img src={defaultAvatar} style={{height: "40px", width: "40px"}} alt="profile-avatar"/>
+            /> : <img src={defaultAvatar} style={{height: "35px", width: "35px"}} alt="profile-avatar"/>
         }
         <Stack mx={1} width="100%" alignItems={chatUser.isSelf ? "flex-end": "flex-start"} justifyContent="space-between" height="100%" py={.25}>
           <Box sx={{display: "flex", flexDirection: chatUser.isSelf ? "row-reverse": "row", alignItems: "center"}}>
