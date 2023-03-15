@@ -24,7 +24,7 @@ const PostPreview = ({ title, postText, user, image: coverImage, isPublic, creat
   } 
 
   return (
-    <Paper sx={{my: 2, py: 5, px: {xs: 2, md:8}, mx: "auto", height: "fit-content", position: "relative"}} elevation={4}>
+    <Paper sx={{my: 2, py: {xs: 2.5, md:5}, px: {xs: 2, md:8}, mx: "auto", height: "fit-content", position: "relative"}} elevation={4}>
       <Tooltip title={isBookmarked ? "You bookmarked this post." : "Bookmark Post"} arrow leaveDelay={50}>
         <IconButton sx={{ borderRadius: 1, position: "absolute", zIndex: 20, right: 0, top: 0}} onClick={handleBookmarkClick} disabled={isLoading}>
           {isBookmarked ? 
@@ -34,7 +34,7 @@ const PostPreview = ({ title, postText, user, image: coverImage, isPublic, creat
         </IconButton>
       </Tooltip>
       {image && 
-        <Box mb={3}>
+        <Box mb={{xs: 1, md:3}}>
           <Image 
             src={image.url}
             alt={image.name}
@@ -48,15 +48,15 @@ const PostPreview = ({ title, postText, user, image: coverImage, isPublic, creat
             />
         </Box>
         }
-      <Typography variant="h5" align="left" fontSize="1.8em">{title}</Typography>
-      <Stack alignItems="center" flexDirection="row" justifyContent="space-between">
-        <Typography variant="subtitle2" fontWeight="300" align="left">by {user.UserDatum.firstName} {user.UserDatum.lastName}</Typography>
-        <Typography variant="body1" align='right' fontWeight={300} fontSize={13}>{new Date(createdAt).toLocaleDateString()}</Typography>
-      </Stack>
+      <Typography variant="h5" align="left" fontSize={{xs: 20, md:26}}>{title}</Typography>
       <MaterialRoot><Divider/></MaterialRoot>
-      <Typography variant="body2" mt={3}>{postText}</Typography>
+      <Stack alignItems="center" flexDirection="row" justifyContent="space-between">
+        <Typography variant="subtitle2" fontWeight="300" align="left" fontSize={{xs: 12, md:14}}>by {user.UserDatum.firstName} {user.UserDatum.lastName}</Typography>
+        <Typography variant="body1" align='right' fontWeight={300} fontSize={{xs: 11, md:13}}>{new Date(createdAt).toLocaleDateString()}</Typography>
+      </Stack>
+      <Typography variant="body2" mt={{xs: 1.5, md:3}}>{postText}</Typography>
 
-      <Stack width="fit-content" mt={8}>
+      <Stack width="fit-content" mt={{xs: 4, md:8}}>
           <Button color="secondary" sx={{ textTransform: "initial", color: "initial", py: 0 }} onClick={() => navigate(`/profile/${user.id}`)} >
             {userImage ? 
                 <Image 
@@ -68,7 +68,7 @@ const PostPreview = ({ title, postText, user, image: coverImage, isPublic, creat
               }
             <Stack ml={1} py={.5} alignItems="flex-start" sx={{opacity: .85}}>
               <Typography variant="body1" align='center' fontSize={13} fontWeight={500}>@{user.username}</Typography>
-              <Typography variant="body1" align='center' fontSize={10.5} fontWeight={300} mt={.25}>{new Date(createdAt).toLocaleDateString()}</Typography>
+              <Typography variant="body1" align='center' fontSize={10.5} fontWeight={300} mt={.25}>{user.UserDatum.firstName} {user.UserDatum.lastName}</Typography>
             </Stack>
           </Button>
         </Stack>

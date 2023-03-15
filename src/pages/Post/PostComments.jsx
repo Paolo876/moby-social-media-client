@@ -17,7 +17,7 @@ const PostComments = ({ comments, likes, setPost, authorId, postId }) => {
 
 
   return (
-    <Grid container my={2}>
+    <Grid container my={{xs: 1, md:2}}>
       {user.id === authorId && <Grid item xs={12} px={.5} my={1}><UserPostActions postId={postId} setPost={setPost}/></Grid>}
       <Grid item xs={12} px={.5} my={1}><PostActions likes={likes} setPost={setPost} setShowNewCommentForm={setShowNewCommentForm}/></Grid>
       {showNewCommentForm && <Grid item xs={12} px={.5}><NewCommentForm setPost={setPost} setShowNewCommentForm={setShowNewCommentForm} setShowComments={setShowComments} authorId={authorId}/></Grid>}

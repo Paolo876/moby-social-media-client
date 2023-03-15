@@ -63,11 +63,11 @@ const PostActions = ({ setPost, likes, setShowNewCommentForm }) => {
               <FavoriteIcon fontSize="medium" sx={{color: "rgba(229, 85, 85, 1)"}}/> : 
               <FavoriteBorderIcon fontSize="medium" sx={{color: "rgba(229, 85, 85, .85)"}}/>
             }
-            <Typography variant="body2" color="rgba(0, 0, 0, .6)" sx={{ml:1}}>{isLiked ? "You liked this post." : "Like Post"}</Typography>
+            <Typography variant="body2" color="rgba(0, 0, 0, .6)" sx={{ml:1}} fontSize={{xs: 12, md: 14}}>{isLiked ? "You liked this post." : "Like Post"}</Typography>
           </IconButton>
           <IconButton sx={{my: .5, borderRadius: 5, width: "50%", opacity: isLoading ? .5: 1}} onClick={() => setShowNewCommentForm(prevState => !prevState)}>
             <PostAddIcon fontSize="medium" color="info" />
-            <Typography variant="body2" color="rgba(0, 0, 0, .6)" sx={{ml:1}}>Write a comment</Typography>
+            <Typography variant="body2" color="rgba(0, 0, 0, .6)" sx={{ml:1}} fontSize={{xs: 12, md: 14}}>Write a comment</Typography>
           </IconButton>
         </Stack>
     </Paper>

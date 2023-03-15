@@ -22,14 +22,14 @@ const UserPostActions = ({postId, setPost}) => {
   }, [showEditModal])
 
   if(authorizedPost) return (
-    <Paper sx={{px:1, py:1.25, borderColor: palette.secondary.light }} variant="outlined">
+    <Paper sx={{px:1, py:{xs: .75, md:1.25}, borderColor: palette.secondary.light }} variant="outlined">
       {error && <Alert severity="error">{error}</Alert>}
       <Tooltip title="These actions are only available for the post's author." arrow  placement="left-start">
         <Box display="flex" alignItems="flex-start" justifyContent="space-between">
-          <Typography variant="h6" fontSize={16}>Post Settings:</Typography>
+          <Typography variant="h6" fontSize={16} >Post Settings:</Typography>
           <Box justifyContent="right" display="flex" gap={2}>
-            <Button variant="contained" disableElevation color="secondary" size="small" startIcon={<EditIcon/>} onClick={() => setShowEditModal(true)} disabled={isLoading}>Edit Post</Button>
-            <Button variant="outlined" color="error" size="small" startIcon={<DeleteIcon/>} onClick={() => setShowDeleteModal(true)} disabled={isLoading}>Delete Post</Button>
+            <Button variant="contained" disableElevation color="secondary" size="small" startIcon={<EditIcon/>} onClick={() => setShowEditModal(true)} disabled={isLoading}>Edit</Button>
+            <Button variant="outlined" color="error" size="small" startIcon={<DeleteIcon/>} onClick={() => setShowDeleteModal(true)} disabled={isLoading}>Delete</Button>
           </Box>
         </Box>
       </Tooltip>
