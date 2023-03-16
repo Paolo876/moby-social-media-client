@@ -70,7 +70,7 @@ const NotificationItem = ({ item }) => {
 
   return <>
     <ListItem 
-      sx={{ background: item.isRead ? "rgba(0,0,0,0)" : "rgba(0,0,0,0.025)", position: "relative" }} 
+      sx={{ background: item.isRead ? "rgba(0,0,0,0)" : "rgba(0,0,0,0.025)", position: "relative", cursor: "pointer" }} 
       key={item.id} 
       onClick={e => handleClick(e, item.link)}
       divider
