@@ -86,6 +86,24 @@ const notificationSlice = createSlice({
             state.isLoading = false;
             state.error = payload.message;
         })
+        //readAllNotifications
+        .addCase(readAllNotifications.pending, ( state ) => {
+            state.isLoading = true;
+            state.error = null;
+        })
+        .addCase(readAllNotifications.fulfilled, ( state, { payload }) => {
+            const { isAllRead } = payload;
+            const updatedNotifications = state.notifications;
+
+            if(isAllRead) updatedNotifications.forEach(item => item.isRead = true)
+            state.notifications = updatedNotifications;
+            state.isLoading = false;
+            state.error = null;
+        })
+        .addCase(readAllNotifications.rejected, ( state , { payload }) => {
+            state.isLoading = false;
+            state.error = payload.message;
+        })
     }
 });
 
