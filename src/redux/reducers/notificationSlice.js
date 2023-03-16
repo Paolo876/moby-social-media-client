@@ -71,6 +71,21 @@ const notificationSlice = createSlice({
             state.isLoading = false;
             state.error = payload.message;
         })
+        //deleteAllNotifications
+        .addCase(deleteAllNotifications.pending, ( state ) => {
+            state.isLoading = true;
+            state.error = null;
+        })
+        .addCase(deleteAllNotifications.fulfilled, ( state, { payload }) => {
+            const { isCleared } = payload;
+            if(isCleared) state.notifications = []
+            state.isLoading = false;
+            state.error = null;
+        })
+        .addCase(deleteAllNotifications.rejected, ( state , { payload }) => {
+            state.isLoading = false;
+            state.error = payload.message;
+        })
     }
 });
 

@@ -5,7 +5,7 @@ import NotificationActions from './NotificationActions'
 import NotificationsList from './NotificationsList'
 
 const Notifications = () => {
-  const { isLoading, error } = useNotificationRedux();
+  const { isLoading, error, notifications } = useNotificationRedux();
 
   return (
     <AuthorizedPageContainer>
@@ -17,7 +17,7 @@ const Notifications = () => {
                 <Typography variant="h4" align="left">Notifications </Typography>
                 <Divider/>
                 <Typography variant="body2" align="left" mt={1} fontWeight={300}>Note: All notifications are automatically deleted after 30 days.</Typography>
-                <NotificationActions/>
+                {notifications.length !== 0 && <NotificationActions/>}
                 <NotificationsList/>
               </Paper>
             </Grid>

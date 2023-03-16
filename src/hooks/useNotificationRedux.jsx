@@ -14,6 +14,9 @@ export default function useNotificationRedux() {
         markAsReadByReferenceId: (data) => dispatch(notificationActions.markAsReadByReferenceId(data)),
         getNotifications: () => dispatch(getNotifications()),
         markAsRead: (data) => dispatch(markAsRead(data)),
+        deleteAllNotifications: (data) => dispatch(deleteAllNotifications(data)),
+        readAllNotifications: (data) => dispatch(readAllNotifications(data)),
+        deleteById: (data) => dispatch(deleteById(data)),
       };
     } else {
       throw Error('Error accessing auth reducer.');
