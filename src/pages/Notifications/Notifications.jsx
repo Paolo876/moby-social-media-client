@@ -1,6 +1,6 @@
 import useNotificationRedux from "../../hooks/useNotificationRedux"
 import AuthorizedPageContainer from '../../components/AuthorizedPageContainer'
-import { Alert, Container, Grid, Box, Paper, Typography, Divider, Button, ButtonBase, Stack, List } from '@mui/material'
+import { Alert, Container, Grid, Box, Paper, Typography, Divider } from '@mui/material'
 import NotificationActions from './NotificationActions'
 import NotificationsList from './NotificationsList'
 

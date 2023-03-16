@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { notificationActions } from '../redux/reducers/notificationSlice';
-import { getNotifications } from '../redux/reducers/notificationReducer';
+import { getNotifications, markAsRead } from '../redux/reducers/notificationReducer';
 
 export default function useNotificationRedux() {
     const dispatch = useDispatch();
@@ -13,6 +13,7 @@ export default function useNotificationRedux() {
         addNotification: (data) => dispatch(notificationActions.addNotification(data)),
         markAsReadByReferenceId: (data) => dispatch(notificationActions.markAsReadByReferenceId(data)),
         getNotifications: () => dispatch(getNotifications()),
+        markAsRead: (data) => dispatch(markAsRead(data)),
       };
     } else {
       throw Error('Error accessing auth reducer.');
