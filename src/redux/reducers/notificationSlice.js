@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { notificationInitialState } from "../initialState";
-import { getNotifications } from "./notificationReducer";
+import { getNotifications, markAsRead, deleteAllNotifications, readAllNotifications, deleteById  } from "./notificationReducer";
 
 const notificationSlice = createSlice({
     name: "notification",
@@ -39,6 +39,7 @@ const notificationSlice = createSlice({
     }, 
     extraReducers: (builder) => {
         builder
+        //getNotifications
         .addCase(getNotifications.pending, ( state ) => {
             state.isLoading = true;
             state.error = null;
@@ -49,6 +50,24 @@ const notificationSlice = createSlice({
             state.error = null;
         })
         .addCase(getNotifications.rejected, ( state , { payload }) => {
+            state.isLoading = false;
+            state.error = payload.message;
+        })
+        //markAsRead
+        .addCase(markAsRead.pending, ( state ) => {
+            state.isLoading = true;
+            state.error = null;
+        })
+        .addCase(markAsRead.fulfilled, ( state, { payload }) => {
+            const { id } = payload;
+            const updatedNotifications = state.notifications;
+            const existingItem = updatedNotifications.find(item => parseInt(item.id) === parseInt(id))
+            if(existingItem) existingItem.isRead = true;
+            state.notifications = updatedNotifications;
+            state.isLoading = false;
+            state.error = null;
+        })
+        .addCase(markAsRead.rejected, ( state , { payload }) => {
             state.isLoading = false;
             state.error = payload.message;
         })

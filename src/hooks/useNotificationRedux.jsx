@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { notificationActions } from '../redux/reducers/notificationSlice';
-import { getNotifications, markAsRead } from '../redux/reducers/notificationReducer';
+import { getNotifications, markAsRead, deleteAllNotifications, readAllNotifications, deleteById } from '../redux/reducers/notificationReducer';
 
 export default function useNotificationRedux() {
     const dispatch = useDispatch();
