@@ -45,7 +45,7 @@ const NotificationItem = ({ item }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const navigate = useNavigate();
-  const { markAsRead } = useNotificationRedux();
+  const { markAsRead, deleteById } = useNotificationRedux();
 
   const handleClick = (e, link) => {
     e.stopPropagation();
@@ -63,12 +63,8 @@ const NotificationItem = ({ item }) => {
 
   const handleItemClick = (e, action) => {
     e.stopPropagation();
-    if(action === "read"){
-      markAsRead(item.id)
-    }
-    if(action === "delete"){
-
-    }
+    if(action === "read") markAsRead(item.id)
+    if(action === "delete") deleteById(item.id)
     handleClose()
   }
 

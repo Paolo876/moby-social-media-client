@@ -59,10 +59,10 @@ const notificationSlice = createSlice({
             state.error = null;
         })
         .addCase(markAsRead.fulfilled, ( state, { payload }) => {
-            const { id } = payload;
+            const { id, isRead } = payload;
             const updatedNotifications = state.notifications;
             const existingItem = updatedNotifications.find(item => parseInt(item.id) === parseInt(id))
-            if(existingItem) existingItem.isRead = true;
+            if(isRead && existingItem) existingItem.isRead = true;
             state.notifications = updatedNotifications;
             state.isLoading = false;
             state.error = null;
@@ -101,6 +101,27 @@ const notificationSlice = createSlice({
             state.error = null;
         })
         .addCase(readAllNotifications.rejected, ( state , { payload }) => {
+            state.isLoading = false;
+            state.error = payload.message;
+        })
+        //deleteById
+        .addCase(deleteById.pending, ( state ) => {
+            state.isLoading = true;
+            state.error = null;
+        })
+        .addCase(deleteById.fulfilled, ( state, { payload }) => {
+            const { isDeleted, id } = payload;
+            const updatedNotifications = state.notifications;
+            const existingItem = updatedNotifications.find(item => parseInt(item.id) === parseInt(id))
+            if(isDeleted && existingItem) {
+                state.notifications = updatedNotifications.filter(item => parseInt(item.id) !== parseInt(id))
+            } else {
+                state.notifications = updatedNotifications;
+            }
+            state.isLoading = false;
+            state.error = null;
+        })
+        .addCase(deleteById.rejected, ( state , { payload }) => {
             state.isLoading = false;
             state.error = payload.message;
         })
