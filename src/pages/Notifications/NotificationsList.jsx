@@ -12,6 +12,7 @@ const NotificationsList = () => {
   const filteredNotifications = notifications.filter(item => {
     if(filter === "unread" && !item.isRead) return item
     if(filter === "all") return item
+    return
   })
 
 
