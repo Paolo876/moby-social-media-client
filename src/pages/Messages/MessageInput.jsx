@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Box, IconButton, Stack, TextField  } from '@mui/material'
+import { Box, IconButton, Stack, TextField, Input, FormLabel  } from '@mui/material'
 import ImageIcon from '@mui/icons-material/Image';
 import SendIcon from '@mui/icons-material/Send';
 
@@ -22,10 +22,11 @@ const MessageInput = ({ disabled, handleSubmit}) => {
   }
 
   return (
-    <Stack width="100%" flexDirection="row" alignItems="center" pt={1}>
-      <Box p={1}>
-        <IconButton color="secondary" size="small"><ImageIcon/></IconButton>
-      </Box>
+    <Stack width="100%" flexDirection="row" alignItems="center" pt={1} px={{xs: 0, md: 2}}>
+      <FormLabel htmlFor="contained-button-file" sx={{cursor: "pointer", my:2, mx:1}}>
+        <ImageIcon color="secondary"/>
+        <Input accept="image/*" id="contained-button-file" type="file" sx={{display: "none"}}/>
+      </FormLabel>
       <TextField 
         fullWidth 
         variant="outlined" 
@@ -37,14 +38,7 @@ const MessageInput = ({ disabled, handleSubmit}) => {
         sx={{my:2, mx:1}} 
         size="small"
         />
-      <IconButton 
-        sx={{my:2, mr:1}} 
-        color="secondary"
-        size="small"
-        onClick={handleSubmitClick}
-      >
-        <SendIcon/>
-      </IconButton>
+      <IconButton color="secondary" size="small" onClick={handleSubmitClick}><SendIcon/></IconButton>
     </Stack>
   )
 }

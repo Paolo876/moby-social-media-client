@@ -11,10 +11,10 @@ import { Alert, Box, Divider, List, Paper } from '@mui/material'
 
 const MessagesFeed = () => {
   return (
-      <Routes>
-        <Route path="/:id" element={<MessagesList/>}/>
-        <Route path="/new/:id" element={<><NewMessageFeed/></>}/>
-      </Routes>
+    <Routes>
+      <Route path="/:id" element={<MessagesList/>}/>
+      <Route path="/new/:id" element={<><NewMessageFeed/></>}/>
+    </Routes>
   )
 }
 
@@ -24,9 +24,10 @@ const MessagesList = () => {
   const { chatRooms, updateOnMessageSent, isMessagesLoading, messagesError, getMessagesById, setLastMessageAsRead, leaveChatRoom } = useChatRedux();
   const { isLoading, error, setError, sendMessage } = useMessagesActions(); 
   const chatRoom = chatRooms.find(item => parseInt(item.ChatRoom.id) === parseInt(params))
+  const [ image, setImage ] = useState(null);
 
   let chatMembers = []
-  if(chatRoom) chatMembers = chatRoom.ChatRoom.ChatMembers
+  if(chatRoom) chatMembers = chatRoom.ChatRoom.ChatMembers;
 
   useEffect(() => {
     if(params) {
