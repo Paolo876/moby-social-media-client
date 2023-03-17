@@ -9,8 +9,7 @@ import ChatMembersHeader from './ChatMembersHeader'
 import MessageItem from './MessageItem'
 import NewMessageFeed from './NewMessageFeed'
 import LoadingSpinner from "../../components/LoadingSpinner"
-import { Alert, Box, Divider, List, Paper } from '@mui/material'
-
+import { Alert, Box, Divider, List, Paper, ListItem, Typography } from '@mui/material'
 const MessagesFeed = () => {
   return (
     <Routes>
@@ -80,13 +79,19 @@ const MessagesList = ({}) => {
             {(isLoading  || isMessagesLoading) && <LoadingSpinner style={{minHeight: "0em", backgroundColor: "initial", transform: "scale(.5)", opacity: .75}}/>}
             {(error || messagesError) && <Alert severity='error'>{error || messagesError}</Alert>}
             <List sx={{width: "100%", overflowY: "auto", display: "flex", flexDirection: "column-reverse", flex: 1, justifyContent: "end"}}>
-                {chatMembers.length > 0 && chatRoom.ChatRoom.ChatMessages.map(item => <MessageItem 
-                  key={item.id} 
-                  message={item.message} 
-                  media={item.media}
-                  createdAt={item.createdAt}
-                  chatUser={chatMembers.find(_item => _item.User.id === item.UserId) && chatMembers.find(_item => _item.User.id === item.UserId).User}
-                />)}
+              {isImagekitLoading && <ListItem >
+                <Box mx="auto">
+                  <LoadingSpinner style={{minHeight: "0em", backgroundColor: "initial", transform: "scale(.35)", opacity: .75}}/>
+                  <Typography varint="body1">Uploading Image...</Typography>
+                </Box>
+                </ListItem>}
+              {chatMembers.length > 0 && chatRoom.ChatRoom.ChatMessages.map(item => <MessageItem 
+                key={item.id} 
+                message={item.message} 
+                media={item.media}
+                createdAt={item.createdAt}
+                chatUser={chatMembers.find(_item => _item.User.id === item.UserId) && chatMembers.find(_item => _item.User.id === item.UserId).User}
+              />)}
             </List>
             <Divider/>
           <Box sx={{width: "100%"}}>
