@@ -1,7 +1,9 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Routes, Route, useParams, useNavigate } from 'react-router-dom'
 import useMessagesActions from '../../hooks/useMessagesActions'
+import useAuthRedux from '../../hooks/useAuthRedux'
 import useChatRedux from '../../hooks/useChatRedux'
+import useImagekit from '../../hooks/useImagekit'
 import MessageInput from './MessageInput'
 import ChatMembersHeader from './ChatMembersHeader'
 import MessageItem from './MessageItem'
@@ -9,22 +11,24 @@ import NewMessageFeed from './NewMessageFeed'
 import LoadingSpinner from "../../components/LoadingSpinner"
 import { Alert, Box, Divider, List, Paper } from '@mui/material'
 
-const MessagesFeed = () => {
+const MessagesFeed = ({authenticationEndpoint}) => {
   return (
     <Routes>
-      <Route path="/:id" element={<MessagesList/>}/>
+      <Route path="/:id" element={<MessagesList authenticationEndpoint={authenticationEndpoint}/>}/>
       <Route path="/new/:id" element={<><NewMessageFeed/></>}/>
     </Routes>
   )
 }
 
-const MessagesList = () => {
+const MessagesList = ({authenticationEndpoint}) => {
   const params = useParams()["id"];
   const navigate = useNavigate();
+  const { user } = useAuthRedux();
   const { chatRooms, updateOnMessageSent, isMessagesLoading, messagesError, getMessagesById, setLastMessageAsRead, leaveChatRoom } = useChatRedux();
   const { isLoading, error, setError, sendMessage } = useMessagesActions(); 
   const chatRoom = chatRooms.find(item => parseInt(item.ChatRoom.id) === parseInt(params))
   const [ image, setImage ] = useState(null);
+  const { uploadImage, isLoading: isImagekitLoading, error: imagekitError } = useImagekit();
 
   let chatMembers = []
   if(chatRoom) chatMembers = chatRoom.ChatRoom.ChatMembers;
@@ -45,8 +49,26 @@ const MessagesList = () => {
   }, [params])
 
   const handleSubmit = async (input) => {
-    const message = await sendMessage({ message: input, ChatRoomId: params}, chatMembers.map(item => item.UserId || item.id)); //send message [post request]
-    updateOnMessageSent({id: parseInt(params), ChatMessages: [message]}) //update chat redux
+    let result
+    //upload to imagekit
+    if(image){
+      const res = await uploadImage({
+        file: image,
+        authenticationEndpoint,
+        fileName: `post_${user.id}`,
+        folder: "/moby/posts/"
+      })
+      if(!imagekitError){
+          const { fileId, name, url, thumbnailUrl } = res;
+          const media = JSON.stringify({fileId, name, url, thumbnailUrl})
+          result = await sendMessage({ message: input, ChatRoomId: params, media}, chatMembers.map(item => item.UserId || item.id)); //send message [post request]
+        }
+    } else {
+      result = await sendMessage({ message: input, ChatRoomId: params}, chatMembers.map(item => item.UserId || item.id)); //send message [post request]
+    }
+
+    updateOnMessageSent({id: parseInt(params), ChatMessages: [result]}) //update chat redux
+    setImage(null);
   }
 
   return (
@@ -64,7 +86,14 @@ const MessagesList = () => {
                 />)}
             </List>
             <Divider/>
-          <Box sx={{width: "100%"}}><MessageInput handleSubmit={handleSubmit} disabled={(error && true) || isLoading}/></Box>
+          <Box sx={{width: "100%"}}>
+            <MessageInput 
+              handleSubmit={handleSubmit}
+              image={image}
+              setImage={setImage}
+              disabled={(error && true) || isLoading || isImagekitLoading}
+            />
+          </Box>
       </>}
     </Paper>
   )
