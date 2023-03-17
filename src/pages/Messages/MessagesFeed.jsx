@@ -55,12 +55,12 @@ const MessagesList = ({authenticationEndpoint}) => {
       const res = await uploadImage({
         file: image,
         authenticationEndpoint,
-        fileName: `post_${user.id}`,
+        fileName: `chatroom_${params}_user_${user.id}`,
         folder: "/moby/chat/"
       })
       if(!imagekitError){
-          const { fileId, name, url, thumbnailUrl } = res;
-          const media = JSON.stringify({fileId, name, url, thumbnailUrl})
+          const { fileId, name, url } = res;
+          const media = JSON.stringify({fileId, name, url})
           result = await sendMessage({ message: input, ChatRoomId: params, media}, chatMembers.map(item => item.UserId || item.id)); //send message [post request]
         }
     } else {

@@ -16,7 +16,7 @@ const MessageInput = ({ disabled, handleSubmit, image, setImage}) => {
   }
 
   const handleSubmitClick = () => {
-    if(input.trim().length !== 0) {
+    if(input.trim().length !== 0 || image) {
       handleSubmit(input)
       setInput("")
     }
