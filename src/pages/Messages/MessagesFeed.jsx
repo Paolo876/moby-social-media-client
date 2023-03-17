@@ -11,16 +11,16 @@ import NewMessageFeed from './NewMessageFeed'
 import LoadingSpinner from "../../components/LoadingSpinner"
 import { Alert, Box, Divider, List, Paper } from '@mui/material'
 
-const MessagesFeed = ({authenticationEndpoint}) => {
+const MessagesFeed = () => {
   return (
     <Routes>
-      <Route path="/:id" element={<MessagesList authenticationEndpoint={authenticationEndpoint}/>}/>
+      <Route path="/:id" element={<MessagesList/>}/>
       <Route path="/new/:id" element={<><NewMessageFeed/></>}/>
     </Routes>
   )
 }
 
-const MessagesList = ({authenticationEndpoint}) => {
+const MessagesList = ({}) => {
   const params = useParams()["id"];
   const navigate = useNavigate();
   const { user } = useAuthRedux();
@@ -28,7 +28,8 @@ const MessagesList = ({authenticationEndpoint}) => {
   const { isLoading, error, setError, sendMessage } = useMessagesActions(); 
   const chatRoom = chatRooms.find(item => parseInt(item.ChatRoom.id) === parseInt(params))
   const [ image, setImage ] = useState(null);
-  const { uploadImage, isLoading: isImagekitLoading, error: imagekitError } = useImagekit();
+  const { getAuthenticationEndpoint, uploadImage, isLoading: isImagekitLoading, error: imagekitError } = useImagekit();
+  // const [ authenticationEndpoint, setAuthenticationEndpoint ] = useState(null);
 
   let chatMembers = []
   if(chatRoom) chatMembers = chatRoom.ChatRoom.ChatMembers;
@@ -52,6 +53,7 @@ const MessagesList = ({authenticationEndpoint}) => {
     let result
     //upload to imagekit
     if(image){
+      const authenticationEndpoint = await getAuthenticationEndpoint()
       const res = await uploadImage({
         file: image,
         authenticationEndpoint,

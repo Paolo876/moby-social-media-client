@@ -1,7 +1,5 @@
-import { useState, useEffect } from "react"
 import { useParams, useNavigate } from 'react-router-dom'
 import useChatRedux from '../../hooks/useChatRedux'
-import useImagekit from '../../hooks/useImagekit';
 import LoadingSpinner from '../../components/LoadingSpinner'
 import AuthorizedPageContainer from '../../components/AuthorizedPageContainer'
 import { Grid, Box, Button } from "@mui/material";
@@ -13,12 +11,6 @@ const Messages = () => {
   const params = useParams()["*"];
   const navigate = useNavigate();
   const isInChatRoom = Boolean(params)
-  const { getAuthenticationEndpoint } = useImagekit();
-
-  const [ authenticationEndpoint, setAuthenticationEndpoint ] = useState(null);
-  useEffect(() => {
-    getAuthenticationEndpoint().then(res => setAuthenticationEndpoint(res))
-  }, [])
 
   return (
     <AuthorizedPageContainer>
@@ -38,7 +30,7 @@ const Messages = () => {
                     sx={{textTransform: "none"}}
                     >Back to Messages</Button>
                 </Box>
-                <MessagesFeed authenticationEndpoint={authenticationEndpoint}/>
+                <MessagesFeed />
               </Grid>
             </Grid>
         </Box>

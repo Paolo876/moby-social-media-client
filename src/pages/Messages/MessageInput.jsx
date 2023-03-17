@@ -40,7 +40,7 @@ const MessageInput = ({ disabled, handleSubmit, image, setImage}) => {
     <Stack width="100%" flexDirection="row" alignItems="center" pt={1} px={{xs: 0, md: 2}}>
       {!image && <FormLabel htmlFor="contained-button-file" sx={{cursor: "pointer", my:2, mx:1}}>
         <ImageIcon color="secondary"/>
-        <Input accept="image/*" id="contained-button-file" type="file" sx={{display: "none"}} onChange={e => onChangePicture(e)}/>
+        <Input accept="image/*" id="contained-button-file" type="file" sx={{display: "none"}} onChange={e => onChangePicture(e)} disabled={disabled}/>
       </FormLabel>}
       {image && <Box sx={{border: "2px solid black", p: .2, my:.5, mx:1, position: "relative"}}>
         <img src={image} style={{maxHeight: "200px", maxWidth: "150px"}}/>
@@ -63,7 +63,7 @@ const MessageInput = ({ disabled, handleSubmit, image, setImage}) => {
         sx={{my:2, mx:1}} 
         size="small"
         />
-      <IconButton color="secondary" size="small" onClick={handleSubmitClick}><SendIcon/></IconButton>
+      <IconButton color="secondary" size="small" onClick={handleSubmitClick} disabled={disabled}><SendIcon/></IconButton>
     </Stack>
   )
 }
