@@ -56,7 +56,7 @@ const MessagesList = ({authenticationEndpoint}) => {
         file: image,
         authenticationEndpoint,
         fileName: `post_${user.id}`,
-        folder: "/moby/posts/"
+        folder: "/moby/chat/"
       })
       if(!imagekitError){
           const { fileId, name, url, thumbnailUrl } = res;
@@ -81,6 +81,7 @@ const MessagesList = ({authenticationEndpoint}) => {
                 {chatMembers.length > 0 && chatRoom.ChatRoom.ChatMessages.map(item => <MessageItem 
                   key={item.id} 
                   message={item.message} 
+                  media={item.media}
                   createdAt={item.createdAt}
                   chatUser={chatMembers.find(_item => _item.User.id === item.UserId) && chatMembers.find(_item => _item.User.id === item.UserId).User}
                 />)}
