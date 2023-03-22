@@ -57,6 +57,9 @@ const MessageInput = ({ disabled, handleSubmit, image, setImage}) => {
         variant="outlined" 
         placeholder='Message' 
         value={input}
+        multiline
+        maxRows={3}
+        inputProps={{ maxLength: 200 }}
         onChange={e => setInput(e.target.value)}
         onKeyDown={handleKeyDown}
         disabled={disabled}

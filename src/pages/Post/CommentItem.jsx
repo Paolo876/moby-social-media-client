@@ -77,7 +77,7 @@ const CommentItem = ({ comment, setPost }) => {
 
             <Stack ml={1} alignItems="flex-start" sx={{width: "100%"}}>
               <Typography variant="body2" >{comment.User.username} <small style={{opacity: .75, marginLeft: "1em"}}>{formatDistanceToNow(Date.parse(comment.createdAt), { addSuffix: true, includeSeconds: true})}</small></Typography>
-              {!isEditMode && <Typography variant="body1" sx={{width: "88%", mt:.5, overflowWrap: "break-word"}}>{comment.comment}</Typography>}
+              {!isEditMode && <Typography variant="body1" sx={{maxWidth: "88%", mt:.5, overflowWrap: "break-word"}}>{comment.comment}</Typography>}
               {isEditMode && <TextField 
                     id="comment" 
                     name="comment"
@@ -86,7 +86,10 @@ const CommentItem = ({ comment, setPost }) => {
                     onKeyDown={handleKeyDown}
                     type="text" 
                     variant="outlined" 
-                    sx={{width: "100%"}}
+                    sx={{width: "100%", overflowWrap: "break-word"}}
+                    maxRows={3}
+                    multiline
+                    inputProps={{ maxLength: 200 }}
                     size="small"
                     disabled={isLoading}
                     inputRef={inputRef}
