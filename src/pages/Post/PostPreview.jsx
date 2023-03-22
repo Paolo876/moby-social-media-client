@@ -54,7 +54,7 @@ const PostPreview = ({ title, postText, user, image: coverImage, isPublic, creat
         <Typography variant="subtitle2" fontWeight="300" align="left" fontSize={{xs: 12, md:14}}>by {user.UserDatum.firstName} {user.UserDatum.lastName}</Typography>
         <Typography variant="body1" align='right' fontWeight={300} fontSize={{xs: 11, md:13}}>{new Date(createdAt).toLocaleDateString()}</Typography>
       </Stack>
-      <Typography variant="body2" mt={{xs: 1.5, md:3}}>{postText}</Typography>
+      <Typography variant="body2" mt={{xs: 1.5, md:3}} sx={{overflowWrap: "break-word"}}>{postText}</Typography>
 
       <Stack width="fit-content" mt={{xs: 4, md:8}}>
           <Button color="secondary" sx={{ textTransform: "initial", color: "initial", py: 0 }} onClick={() => navigate(`/profile/${user.id}`)} >
