@@ -29,7 +29,7 @@ const MessageItem = ({ message, chatUser=null, createdAt, media }) => {
             <Typography variant="body2" fontSize={15} lineHeight={1}>{chatUser.username}</Typography>
             <Typography variant="body1" fontSize={10} lineHeight={1} mx={1}>{formatDistanceToNow(Date.parse(createdAt), { addSuffix: true, includeSeconds: true})}</Typography>
           </Box>
-          <Typography variant="body1">{message}</Typography>
+          <Typography variant="body1" sx={{overflowWrap: "break-word", maxWidth: "88%"}} lineHeight={1.25}>{message}</Typography>
           {media && <ButtonBase onClick={() => setShowModal(true)}>
             <Image 
               src={JSON.parse(media).url} 
