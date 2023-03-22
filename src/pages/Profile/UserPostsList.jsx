@@ -5,8 +5,9 @@ import usePostsRedux from '../../hooks/usePostsRedux';
 import CreatePostButton from "../../components/CreatePostButton"
 import MaterialRoot from "../../components/MaterialRoot"
 import BookmarksIcon from '@mui/icons-material/Bookmarks';
-
+import useAuthRedux from '../../hooks/useAuthRedux';
 const UserPostsList = ({ posts: _posts, user, isOwnProfile }) => {
+  const { user: { id: myId }} = useAuthRedux();
   const { bookmarks, getBookmarkedPosts } = usePostsRedux();
   const [ posts, setPosts ] = useState(_posts)
   const [ showPosts, setShowPosts ] = useState(true)
@@ -18,7 +19,6 @@ const UserPostsList = ({ posts: _posts, user, isOwnProfile }) => {
     setPosts(_posts)
   }, [_posts])
 
-  
   return (
     <Grid container maxWidth={680} mx="auto">
       {isOwnProfile && <Grid item xs={12} my={2}><CreatePostButton/></Grid>}
@@ -45,7 +45,7 @@ const UserPostsList = ({ posts: _posts, user, isOwnProfile }) => {
         postText={item.postText}
         likes={item.Likes.length}
         comments={item.Comments.length}
-        isLiked={item.Likes.some(_item => _item.UserId === user.id)}
+        isLiked={item.Likes.some(_item => _item.UserId === myId)}
         isBookmarked={bookmarks.some(_item => _item.PostId === item.id)}
         user={user}
         createdAt={item.createdAt}
@@ -61,7 +61,7 @@ const UserPostsList = ({ posts: _posts, user, isOwnProfile }) => {
         postText={item.postText}
         likes={item.Likes.length}
         comments={item.Comments.length}
-        isLiked={item.Likes.some(_item => _item.UserId === user.id)}
+        isLiked={item.Likes.some(_item => _item.UserId === myId)}
         isBookmarked={bookmarks.some(_item => _item.PostId === item.id)}
         disableActions={true}
         user={item.User}

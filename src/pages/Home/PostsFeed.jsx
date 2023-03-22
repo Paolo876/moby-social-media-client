@@ -15,6 +15,7 @@ const PostsFeed = () => {
   useEffect(() => {
     getPosts()
   }, [])
+
   return (
     <Grid container>
       {error && <Grid item xs={12} my={1}><Alert severity='error'>{error}</Alert></Grid>}
