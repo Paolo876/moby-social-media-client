@@ -12,8 +12,8 @@ const WelcomeMessage = () => {
   return (
     <Paper sx={{p:{xs: .25, md: 2}, pt:{xs: 1, md: 2}, background: "none", maxWidth: {xs: "320px", md: "40%"}, mx:"auto"}} elevation={0}>
         <Box sx={{display: {xs: isSignupPage ? "none" : "initial", md: "initial"}}}>
-          <Typography variant="h4" sx={{alignSelf: "flex-start", display: {xs: "none", md: "initial"}}}>Welcome to Moby!</Typography>
-          <Typography variant="subtitle1" mt={2} sx={{alignSelf: "flex-start", opacity: {xs : .95, md: 1}}} lineHeight={1.45} fontSize={{xs: 13, md: 16}}>
+          <Typography variant="h4" sx={{alignSelf: "flex-start", display: {xs: "none", md: "initial"}, fontSize: {lg: 35}, letterSpacing: -.05}}>Welcome to Moby!</Typography>
+          <Typography variant="subtitle1" mt={3} sx={{alignSelf: "flex-start", opacity: {xs : .95, md: 1}}} lineHeight={1.45} fontSize={{xs: 13, md: 16}}>
               Moby is a social media web app that incorporates the essential features of a modern social media application. 
               <br/>This includes the implementation of CRUD operations and a realtime database management system (chat system, friend updates, notification system) using socket.io.
               <br/>Data encryption is implemented on passwords using <strong>bcryptjs</strong> to ensure privacy and security.
