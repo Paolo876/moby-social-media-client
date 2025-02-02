@@ -13,9 +13,9 @@ const WelcomeMessage = () => {
       sx={{
         p:{xs: .25, md: 2}, 
         pt:{xs: 1, md: 1}, 
-        background: "none", 
         maxWidth: {xs: "320px", md: "40%"}, 
-        mx:"auto"
+        background: "none",
+        mx:"auto",
       }} 
       elevation={0}
     >
@@ -37,7 +37,7 @@ const WelcomeMessage = () => {
           Designed and developed by <strong>Paolo Bugarin</strong>.
       </Typography>
       <Box mt={.75}>
-        <Tooltip title="My Website" arrow><IconButton size="medium" color="secondary" target="_blank" href="https://paolobugarin.com/"><PublicIcon fontSize="inherit"/></IconButton></Tooltip>
+        <Tooltip title="My Website" arrow><IconButton size="medium" color="secondary" target="_blank" href="https://paolobugarin.dev/"><PublicIcon fontSize="inherit"/></IconButton></Tooltip>
         <Tooltip title="Github" arrow><IconButton size="medium" color="secondary" target="_blank" href="https://github.com/Paolo876"><GitHubIcon fontSize="inherit"/></IconButton></Tooltip>
         <Tooltip title="LinkedIn" arrow><IconButton size="medium" color="secondary" target="_blank" href="https://www.linkedin.com/in/paolo-bugarin/"><LinkedInIcon fontSize="inherit"/></IconButton></Tooltip>
       </Box>
