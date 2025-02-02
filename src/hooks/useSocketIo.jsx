@@ -9,6 +9,7 @@ import useAuthRedux from "./useAuthRedux";
 const socket = io(`${process.env.REACT_APP_DOMAIN_URL}/`, { transports: ['websocket'], upgrade: false, withCredentials: true})
 
 
+
 const useSocketIo = () => {
   const { user, updateUserStatus } = useAuthRedux();
   const { setOnlineFriends, setLoggedInFriend, setLoggedOutFriend, setStatusChangedFriend, setFriendRequests } = useFriendRedux();
